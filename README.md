@@ -48,6 +48,8 @@ XMLSERVICE/iPLUGRxx(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(xx))
 
 DB2 stored procedure multiple input (CNT=0 input complete) with fetch result set
 XMLSERVICE/iPLUGRC32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI VARCHAR(32700), IN CNT INTEGER)
+
+Where xx sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M, 15M
 ```
 
 ### Contribution guidelines ###

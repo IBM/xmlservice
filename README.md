@@ -11,15 +11,12 @@ XMLSERVICE is a single library of RPG source providing an XML-based protocol to 
 
 ### How do I get set up? ###
 
-Download the zip file and follow IBM i steps:
+Download zip file, transfer SAVF and RSTLIB(XMLSERVICE), then compile:
 
 ```
-First, add XMLSERVICE to library list:
  > ADDLIBLE XMLSERVICE
-
-XMLSERVICE: test library XMLSERVICE, good for trying new versions
  > CRTCLPGM PGM(XMLSERVICE/CRTXML) SRCFILE(XMLSERVICE/QCLSRC)
- > call crtxml -- XMLSERVICE library only
+ > call crtxml
 ```
 
 
@@ -64,22 +61,13 @@ XMLSERVICE/iPLUGRC32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI VARCHAR(32700)
 ### Git (manually) ###
 
 ```
+$ mkdir xmlservice
+$ cd xmlservice
 $ git init
-Reinitialized existing Git repository ...
 $ git remote add origin https://rangercairns@bitbucket.org/inext/xmlservice-rpg.git
 $ echo "Tony Cairns" >> contributors.txt
 $ git add .
 $ git commit -m 'Initial commit with contributors'
-[master (root-commit) 602b7c0] Initial commit with contributors
- 1 files changed, 1 insertions(+), 0 deletions(-)
- create mode 100644 contributors.txt
-$ git push -u origin master
-Counting objects: 3, done.
-Writing objects: 100% (3/3), 239 bytes, done.
-Total 3 (delta 0), reused 0 (delta 0)
-To https://rangercairns@bitbucket.org/inext/xmlservice-rpg.git
- * [new branch]      master -> master
-Branch master set up to track remote branch master from origin.
-$ 
+$ git push -u origin master [--force]
 ```
 

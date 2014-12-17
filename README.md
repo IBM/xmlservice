@@ -20,10 +20,14 @@ Download zip file, transfer SAVF and RSTLIB(XMLSERVICE), then compile:
 ```
 
 
-### XMLSERVICE default connection configurations (included) ###
+### How do I configure? ###
 
-### REST interface (xmlcgi.rpgle)
+You may choose either REST or DB2 XMLSERVICE interfaces.
+
+### REST interface via Apache (xmlcgi.rpgle)
 ```
+/www/apachedft/conf/httpd.conf:
+
 ScriptAlias /cgi-bin/ /QSYS.LIB/XMLSERVICE.LIB/
 <Directory /QSYS.LIB/XMLSERVICE.LIB/>
   AllowOverride None

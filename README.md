@@ -38,18 +38,15 @@ ScriptAlias /cgi-bin/ /QSYS.LIB/XMLSERVICE.LIB/
 </Directory>
 ```
 
-### DB2 stored procedure with I/O param (crtsql.cmd)
+### DB2 stored procedure (crtsql.cmd)
 ```
+DB2 stored procedure with I/O param
 XMLSERVICE/iPLUGxx(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(xx), OUT C0 CLOB(xx))
-```
 
-### DB2 stored procedure with fetch result set (crtsql.cmd)
-```
+DB2 stored procedure with fetch result set
 XMLSERVICE/iPLUGRxx(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(xx))
-```
 
-### DB2 stored procedure multiple input (CNT=0 input complete) with fetch result set (crtsql.cmd)
-```
+DB2 stored procedure multiple input (CNT=0 input complete) with fetch result set
 XMLSERVICE/iPLUGRC32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI VARCHAR(32700), IN CNT INTEGER)
 ```
 

@@ -4,16 +4,28 @@ XMLSERVICE is a single library of RPG source providing an XML-based protocol to 
 
 ### What is this repository for? ###
 
-* RPG 1.9.2-SG testing
+* RPG code repository (1.9.2-SG testing)
 * Original home Yips: http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICE
 * New home bitbucket: https://bitbucket.org/inext/xmlservice-rpg
 
 
 ### How do I get set up? ###
 
-XMLSERVICE download includes default connections:
+Download the zip file and follow IBM i steps:
 
-* REST interface (xmlcgi.rpgle)
+```
+First, add XMLSERVICE to library list:
+ > ADDLIBLE XMLSERVICE
+
+XMLSERVICE: test library XMLSERVICE, good for trying new versions
+ > CRTCLPGM PGM(XMLSERVICE/CRTXML) SRCFILE(XMLSERVICE/QCLSRC)
+ > call crtxml -- XMLSERVICE library only
+```
+
+
+### XMLSERVICE default connection configurations (included) ###
+
+### REST interface (xmlcgi.rpgle)
 ```
 ScriptAlias /cgi-bin/ /QSYS.LIB/XMLSERVICE.LIB/
 <Directory /QSYS.LIB/XMLSERVICE.LIB/>
@@ -25,17 +37,17 @@ ScriptAlias /cgi-bin/ /QSYS.LIB/XMLSERVICE.LIB/
 </Directory>
 ```
 
-* DB2 stored procedure with I/O param (crtsql.cmd)
+### DB2 stored procedure with I/O param (crtsql.cmd)
 ```
 XMLSERVICE/iPLUGxx(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(xx), OUT C0 CLOB(xx))
 ```
 
-* DB2 stored procedure with fetch result set (crtsql.cmd)
+### DB2 stored procedure with fetch result set (crtsql.cmd)
 ```
 XMLSERVICE/iPLUGRxx(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(xx))
 ```
 
-* DB2 stored procedure multiple input (CNT=0 input complete) with fetch result set (crtsql.cmd)
+### DB2 stored procedure multiple input (CNT=0 input complete) with fetch result set (crtsql.cmd)
 ```
 XMLSERVICE/iPLUGRC32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI VARCHAR(32700), IN CNT INTEGER)
 ```

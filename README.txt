@@ -1,10 +1,15 @@
 Overview
 ==================
-XMLSERVICE is a single library of RPG source providing an XML-based protocol to access IBM i PGM, CMD, SRVPGM, DB2, PASE utilities and interactive commands. XMLSERVICE runs over any 'string' transport, but download includes REST and DB2 stored procedure call connections. Many production IBM i sites successfully use XMLSERVICE including, PHP Toolkit, Ruby Toolkit, node.js toolkit, python, .net, Java, RPG and many others.
+XMLSERVICE is a single library of RPG source providing an XML-based protocol to access 
+IBM i PGM, CMD, SRVPGM, DB2, PASE utilities and interactive commands. 
+XMLSERVICE runs over any 'string' transport, but download includes 
+REST and DB2 stored procedure call connections. 
+Many production IBM i sites successfully use XMLSERVICE including, 
+PHP Toolkit, Ruby Toolkit, node.js toolkit, python, .net, Java, RPG and many others.
 
 Original home Yips: http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICE
 
-XMLSERVICE development moving to bitbucket: https://bitbucket.org/inext/xmlservice-rpg
+XMLSERVICE development bitbucket: https://bitbucket.org/inext/xmlservice-rpg
 
 
 Git (manually)
@@ -12,7 +17,7 @@ Git (manually)
 ###Set up
 ```
 $ git init
-Reinitialized existing Git repository in /home/adc/src/zmaster/zmaster_tool_git/xmlservice/.git/
+Reinitialized existing Git repository ...
 $ git remote add origin https://rangercairns@bitbucket.org/inext/xmlservice-rpg.git
 $ echo "Tony Cairns" >> contributors.txt
 $ git add .

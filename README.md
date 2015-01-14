@@ -4,7 +4,6 @@ XMLSERVICE is a single library of RPG source providing an XML-based protocol to 
 
 ### What is this repository for? ###
 
-* RPG code repository (1.9.2-SG testing)
 * Original home Yips: http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICE
 * New home bitbucket: https://bitbucket.org/inext/xmlservice-rpg
 
@@ -51,6 +50,7 @@ XMLSERVICE/iPLUGRC32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI VARCHAR(32700)
 
 Where xx sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M, 15M
 ```
+
 
 ### Contribution guidelines ###
 

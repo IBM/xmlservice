@@ -420,11 +420,12 @@
      D   port                        10i 0 value
 
 
-
      D sJVMFakeOk      S              1N   inz(*OFF)
      D sJVMFakeSy      S               *   inz(*NULL)
 
      D jvmFake         PR            10I 0
+
+     D sJVMStrgOk      S              1N   inz(*OFF)
 
       *****************************************************
       * Pase job log - force job log information

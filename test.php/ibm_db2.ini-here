@@ -1,0 +1,4 @@
+; pear test only
+extension=ibm_db2.so
+ibm_db2.i5_ignore_userid=1
+

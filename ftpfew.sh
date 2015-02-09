@@ -7,13 +7,13 @@ quote namefmt 1
 ascii
 cd /qsys.lib/xmlservice.lib/QRPGLESRC.FILE
 put plugconf_h.rpgle plugconf_h.mbr
+put plugpase_h.rpgle plugpase_h.mbr
 put plugpase.rpgle plugpase.mbr
-put plugdb2.rpgle plugdb2.mbr
-put plugipc.rpgle plugipc.mbr
 put plugipc_h.rpgle plugipc_h.mbr
-put plugsql_h.rpgle plugsql_h.mbr
-put plugconv_h.rpgle plugconv_h.mbr
-put plugconv.rpgle plugconv.mbr
+put plugipc.rpgle plugipc.mbr
+put plugxml.rpgle plugxml.mbr
+put plugrun.rpgle plugrun.mbr
+put plugile.rpgle plugile.mbr
 
 quit
 

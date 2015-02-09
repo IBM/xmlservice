@@ -219,6 +219,7 @@
       *          [dim='n' varying='on|off|2|4' enddo='label' setlen='label' offset='label'
       *           hex='on|off' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1' (1.6.8)
       *           trim='on|off'                                                 (1.7.1)
+      *           next='nextoff'                                                (1.9.2)
       *           ]>
       *       </data>
       *       (len/setlen 1.5.4)
@@ -373,9 +374,13 @@
       *            not in your complex records (see above)
       *         c) works with any <parm> or <return>
       *         d) dou/enddo works, but tricky script to design (be careful)
+      *     12) setnext='nextoff' / next='nextoff' - see overlay  (1.9.2)
       *************************************************************************
       *   pgm parameters/return overlay (custom offset='bytes', input/output):
-      *     <overlay [io='in|out|both' offset='n|label' top='on|off|n']>
+      *     <overlay 
+      *       [io='in|out|both' offset='n|label' top='on|off|n'
+      *        setnext='nextoff'                             (1.9.2)
+      *       ]>
       *      (below)
       *     </overlay>
       *      data structure:
@@ -457,6 +462,38 @@
       *         - 'label' is NOT a position location for <overlay>, it only holds
       *           a offset value in this <data> memory location for things like
       *           system APIs with offset-2-next. 
+      *     3) setnext='nextoff' / next='nextoff'  (1.9.2)
+      *          <pgm name='QSZRTVPR'>
+      *           <parm io='both'>
+      *            <ds comment='PRDR0200' len='rec1'>
+      *             :
+      *             <data type='10i0' offset='myOffset'></data>
+      *             :
+      *           </ds>   
+      *          </parm>
+      *           : 
+      *           <overlay io='out' top='1' offset='myOffset'>  
+      *           <ds>
+      *            <data type='10A'></data>
+      *            <data type='2A'></data>
+      *            <data type='10i0' enddo='prim'></data>
+      *            <data type='10i0' offset='myOffset2'></data>
+      *           </ds>
+      *           </overlay>  
+      *           <overlay io='out' top='1' offset='myOffset2' 
+      *                    dim='10' dou='prim' setnext='nextoff'>
+      *           <ds>
+      *            <data type='10i0' next='nextoff'></data>
+      *            <data type='10A'></data>
+      *            <data type='10A'></data>
+      *            <data type='10A'></data>
+      *            <data type='10A'></data>
+      *            <data type='10A'></data>
+      *            <data type='10A'></data>
+      *            <data type='10i0'></data>
+      *            <data type='10A'></data>
+      *           </ds>
+      *           </overlay> 
       *************************************************************************
 
       *****************************************************

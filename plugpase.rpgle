@@ -410,22 +410,19 @@
      D   AnyProc                       *   Procptr
      D anyProc         s               *   inz(*NULL)
 
-     D sJVMPortOk      S              1N   inz(*OFF)
+      *****************************************************
+      * dynamic JVM start (1.9.2)
      D sJVMPortSy      S               *   inz(*NULL)
      D sJVMPortRs      s               *   inz(*NULL)
      D sJVMPortDS      ds                  likeds(AnyDS) based(sJVMPortRs)
-
      D jvmPort         PR            10I 0
      D   type                        10i 0 value
      D   port                        10i 0 value
 
+     D sJVMSQLSy       S               *   inz(*NULL)
+     D jvmSQL          PR            10I 0
 
-     D sJVMFakeOk      S              1N   inz(*OFF)
-     D sJVMFakeSy      S               *   inz(*NULL)
-
-     D jvmFake         PR            10I 0
-
-     D sJVMStrgOk      S              1N   inz(*OFF)
+     D jvmRPG          PR            10I 0
 
       *****************************************************
       * Pase job log - force job log information
@@ -542,6 +539,33 @@
 
 
       *****************************************************
+      * JVM the RPG way
+      *****************************************************
+     P jvmRPG          B
+     D jvmRPG          PI            10I 0
+      *
+     d rc              s             10i 0 inz(-1)
+     D myfunc          S             10A   inz(*BLANKS)
+     D propstr         S               O   CLASS(*JAVA:'java.lang.String')
+     D makeString      PR              O   EXTPROC(*JAVA:'java.lang.String':
+     D                                      *CONSTRUCTOR)
+     D    bytes                    4096A   CONST VARYING
+      /free
+       Monitor;
+
+       myfunc = 'jvmRPG';
+       propstr = makeString('java.class.path');
+       rc = 0;
+
+       On-error;
+         errsSevere(QP2_ERROR_ILECALL_FAIL:myfunc);
+       Endmon;
+
+       return rc;
+      /end-free
+     P                 E
+
+      *****************************************************
       * dynamic call QSYS/QSQLEJEXT
       * JVM in debug mode (start JVM)
       *   type = 1
@@ -564,20 +588,16 @@
      D  pargv2                         *   value
       /free
        Monitor;
-       if sJVMPortOk = *OFF;
-         mypgm = 'QSQLEJEXT';
-         mylib = 'QSYS';
-         myfunc = 'getJVMtypeAndPort';
+       mypgm = 'QSQLEJEXT';
+       mylib = 'QSYS';
+       myfunc = 'getJVMtypeAndPort';
 
-         rcb = ileRslv(mypgm:mylib:sJVMPortSy:myfunc);
-         if rcb = *OFF;
-           return rc;
-         endif;
-
-         sJVMPortRs = %addr(sJVMPortSy);
-
-         sJVMPortOk = *ON;
+       rcb = ileRslv(mypgm:mylib:sJVMPortSy:myfunc);
+       if rcb = *OFF;
+         return rc;
        endif;
+
+       sJVMPortRs = %addr(sJVMPortSy);
 
        procPtr = sJVMPortDS.AnyProc;
        rc = jvmPort2(%addr(type):%addr(port));
@@ -592,7 +612,7 @@
 
       *****************************************************
       * dynamic call  QSYS/QSQSTPC
-      * JVMfake stored proc call (start JVM)
+      * jvmSQL stored proc call (start JVM)
       *   int            callType
       *   char         * externalName
       *   struct sqlda * sqldaInOut
@@ -602,8 +622,8 @@
       *   char         * procedureName
       *   char         * specificName
       *****************************************************
-     P jvmFake         B
-     D jvmFake         PI            10I 0
+     P jvmSQL          B
+     D jvmSQL          PI            10I 0
       * vars
      d rc              s             10i 0 inz(-1)
      d rcb             s              1N   inz(*OFF)
@@ -626,16 +646,12 @@
       /free
        Monitor;
 
-       if sJVMFakeOk = *OFF;
-         mypgm = 'QSQSTPJC';
-         mylib = 'QSYS';
+       mypgm = 'QSQSTPJC';
+       mylib = 'QSYS';
 
-         rcb = ileRslv(mypgm:mylib:sJVMFakeSy);
-         if rcb = *OFF;
-           return rc;
-         endif;
-
-         sJVMFakeOk = *ON;
+       rcb = ileRslv(mypgm:mylib:sJVMSQLSy);
+       if rcb = *OFF;
+         return rc;
        endif;
 
        //   00000     000000F0 00000170 00000000 E6E2D8C7
@@ -807,7 +823,7 @@
        argv(6) = %addr(mschm);
        argv(7) = %addr(mproc);
        argv(8) = %addr(mspec);
-       callpgmv(sJVMFakeSy:argv:argc);
+       callpgmv(sJVMSQLSy:argv:argc);
 
        On-error;
          errsSevere(QP2_ERROR_ILECALL_FAIL:mypgm);
@@ -842,6 +858,8 @@
      D oneByte         s              1A   inz(*BLANKS)
      D paseCCSID       S             10i 0 inz(0)
      D jvm             S              1N   inz(*OFF)
+     D jvmSQLa         S              1N   inz(*OFF)
+     D jvmDbga         S              1N   inz(*OFF)
       /free
        perfAdd(PERF_ANY_WATCH_PASESTART:*ON);
 
@@ -911,8 +929,21 @@
              else;
                // JVM in my QSQ process 
                // (peanut butter on my chocolate)
-               // rc = jvmPort(1:30000);
-               rc = jvmFake();
+               jvmSQLa = ipcDoSQLJVM();
+               // JVM SQL stored proc start
+               if jvmSQLa = *ON;
+                 rc = jvmSQL();
+               // alternate JVM start
+               else;
+                 jvmDbga = ipcDoDbgJVM();
+                 // debug JVM SQL mode
+                 if jvmDbga = *ON;
+                   rc = jvmPort(1:30000);
+                 // normal classpath RPG JVM
+                 else;
+                   rc = jvmRPG();
+                 endif;
+               endif;
              endif;
            On-error;
              rc = -1;
@@ -1659,5 +1690,4 @@
        return *ON;
       /end-free
      P                 E
-
 

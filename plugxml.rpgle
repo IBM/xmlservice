@@ -9887,7 +9887,7 @@
        pLst = sInOrgP + sInSize - 1;
        // loop elements
        elem(1) = 'sbmjob';
-       // anything interesting ???
+       // anything interesting (change 'to n' below) ???
        pBeg = *NULL;
        for i = 1 to 1;
          label = '<' + %trim(elem(i)) + '>';
@@ -10094,6 +10094,9 @@
        Monitor;
 
        sHint = 'xml run';
+
+       // check on server side (maybe someday)
+       // rc = xmlPreSbm();
 
        // all elements
        xmlCTOR(myNode);       

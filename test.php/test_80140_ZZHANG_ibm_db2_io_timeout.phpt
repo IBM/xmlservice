@@ -56,6 +56,7 @@ if (strpos($clobOut,'busy')<1) die("busy error message missing\n");
 // -------------------
 // how doing?
 // -------------------
+$assume = "Failure\n";
 for ($i = 1; $i < 10; $i++) {
  echo driverTime()." $job2 looking $job1 ...\n";
  $clobOut = `/QOpenSys/usr/bin/system wrkactjob`;
@@ -65,7 +66,8 @@ for ($i = 1; $i < 10; $i++) {
  }
  else {
   echo driverTime()." $job2 wrkactjob no longer see $job1 ...\n";
-  die("Success\n");
+  $assume = "Success\n";
+  break;
  }
  echo driverTime()." $job2 sleeping 20 seconds ...\n";
  set_time_limit(0); // Remove the time limit for command-line usage;
@@ -75,7 +77,22 @@ for ($i = 1; $i < 10; $i++) {
   usleep(100000); // Sleep for 100 miliseconds;
  }
 } // end loop
-die("Failure\n");
+
+
+// -------------------
+// kill current xmlservice
+// -------------------
+echo driverTime()." $job1 kill any XMLSERVICE on $ipc ... \n";
+$ctlkill = "*immed"; // kill XMLSERVICE NOW
+$clobIn = "";
+$sql = "call $procLib.iPLUGR4K('$ipc','$ctlkill','$clobIn')";
+$stmt=db2_exec($conn,$sql);
+if (!$stmt) die("Bad execute ($database,$user): ".db2_stmt_errormsg());
+$ret=db2_free_stmt($stmt);
+if (!$ret) die("Bad free stmt ($database,$user): ".db2_stmt_errormsg());
+
+// test result
+echo $assume;
 
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

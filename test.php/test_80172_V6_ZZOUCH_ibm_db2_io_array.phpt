@@ -32,39 +32,51 @@ var_dump($clobOut);
 $xmlobj = simplexml_load_string($clobOut);
 if (!$xmlobj) die("Fail XML returned\n");
 if (strpos($clobOut,'<error>')<1) die("Fail XML find <error>\n");
-if (strpos($clobOut,'wsops')<1) die("Fail XML find wsops\n");
+// -- may not work too specific -- if (strpos($clobOut,'wsops')<1) die("Fail XML find wsops\n");
 if (strpos($clobOut,'Decimal data error')<1) die("Fail XML find Decimal data error\n");
 // good
 echo "Success\n";
+/*
 
-//     D ARRAYMAX        c                   const(999)
-//     D dcRec_t         ds                  qualified based(Template)
-//     D  dcMyName                     10A
-//     D  dcMyJob                    4096A
-//     D  dcMyRank                     10i 0
-//     D  dcMyPay                      12p 2
-//
-//     D dcRec3_t        ds                  qualified based(Template)
-//     D  dcMyName3                    10A
-//     D  dcRec3                             likeds(dcRec_t) dim(ARRAYMAX)
-//
-//     D dcRec2_t        ds                  qualified based(Template)
-//     D  dcMyName2                    10A
-//     D  dcRec2                             likeds(dcRec3_t)
-//
-//     D dcRec1_t        ds                  qualified based(Template)
-//     D  dcMyName1                    10A
-//     D  dcRec1                             likeds(dcRec2_t)
-//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzarray2: check parameter array aggregate 
-//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     D zzarray3        PR
-//     D  myName                       10A
-//     D  myMax                         3s 0
-//     D  myCount                       3s 0
-//     D  findMe1                            likeds(dcRec1_t)
-//     D  findMe2                            likeds(dcRec2_t)
-//     D  findMe3                            likeds(dcRec3_t)
+     D dcRec_t         ds                  qualified based(Template)
+     D  dcMyName                     10A
+     D  dcMyJob                    4096A
+     D  dcMyRank                     10i 0
+     D  dcMyPay                      12p 2
+
+     D dcRec3_t        ds                  qualified based(Template)
+     D  dcMyName3                    10A
+     D  dcRec3                             likeds(dcRec_t) dim(ARRAYMAX)
+
+     D dcRec2_t        ds                  qualified based(Template)
+     D  dcMyName2                    10A
+     D  dcRec2                             likeds(dcRec3_t)
+
+     D dcRec1_t        ds                  qualified based(Template)
+     D  dcMyName1                    10A
+     D  dcRec1                             likeds(dcRec2_t)
+
+     D zzouch          PR
+     D  myName                       10A
+     D  myMax                         3s 0
+     D  wskdist                       3a
+     D  wskyear                       4a
+     D  wskytyp                       1a
+     D  wskschl                       4a
+     D  wskusr                       20a
+     D  wsksdate                      8a
+     D  wskscrse                      8a
+     D  wskssect                      4a
+     D  wsksmod                       2a
+     D  wsoptai                       1a
+     D  wsopatdt                      1a
+     D  wsoplslot                     2a
+     D  myCount                       3s 0
+     D  wsoperrtbl                48000a
+     D  findMe1                            likeds(dcRec1_t)
+     D  findMe2                            likeds(dcRec2_t)
+     D  findMe3                            likeds(dcRec3_t)
+*/
 function getxml() {
 $clob = <<<ENDPROC
 <?xml version='1.0'?>

@@ -267,6 +267,7 @@
      D status          S             10i 0 inz(RUN_CLIENT_NADA)
  
      D rcb             S              1N   inz(*OFF)
+     D rcb2            S              1N   inz(*OFF)
      D rc              S             10i 0 inz(0)
      D myErrno         S             10i 0 inz(0)
 
@@ -448,6 +449,9 @@
            elseif ipcCtl.ipcFlags.doSes = *ON;
              status = RUN_CLIENT_SESSION;
            else;
+             if ipcCtl.ipcFlags.doSbmJob = *ON;
+               rcb2 = xmlPreSbm();
+             endif;
              if rcb = *OFF;
                status = RUN_CLIENT_START;
              else;
@@ -462,7 +466,6 @@
            status = RUN_CLIENT_ERROR;
            if ipcCtl.ipcFlags.doNoStart = *OFF;
              if ipcCtl.ipcFlags.doSbmJob = *ON;
-               rcb = xmlPreSbm();
                rcb = sbmJob();
              else;
                rcb = spawnJob();

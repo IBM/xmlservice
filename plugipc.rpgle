@@ -263,6 +263,8 @@
        ipcDoFlags.doPase     = *OFF;
        ipcDoFlags.doCDATA    = *OFF;
        ipcDoFlags.doJVM      = *OFF;
+       ipcDoFlags.doSQLJVM   = *OFF;
+       ipcDoFlags.doDbgJVM   = *OFF;
        ipcDoFlags.doIdleAct  = *BLANKS;
        ipcDoFlags.doWaitAct  = *BLANKS;
        ipcDoFlags.doCallAct1 = *BLANKS;
@@ -342,11 +344,31 @@
         endif;
        endif;
 
-       // run jvm
+       // run jvm normal
        if count > 0;
         pBeg = bigScan(pTop:xJVM:pLst);
         if pBeg <> *NULL;
           ipcDoFlags.doJVM = *ON; // see it means on
+          count -= 1;
+        endif;
+       endif;
+
+       // run jvm SQL (stored procedures)
+       if count > 0;
+        pBeg = bigScan(pTop:xSQLJVM:pLst);
+        if pBeg <> *NULL;
+          ipcDoFlags.doJVM = *ON; // see it means on
+          ipcDoFlags.doSQLJVM = *ON; // see it means on
+          count -= 1;
+        endif;
+       endif;
+
+       // run jvm (debug)
+       if count > 0;
+        pBeg = bigScan(pTop:xDBGJVM:pLst);
+        if pBeg <> *NULL;
+          ipcDoFlags.doJVM = *ON; // see it means on
+          ipcDoFlags.doDbgJVM = *ON; // see it means on
           count -= 1;
         endif;
        endif;
@@ -928,6 +950,26 @@
        return ipcDoFlags.doJVM;
       /end-free
      P                 E
+
+     P ipcDoSQLJVM     B                   export
+     D ipcDoSQLJVM     PI             1N
+      /free
+       if ipcDoFlagP = *NULL;
+         return *OFF;
+       endif;
+       return ipcDoFlags.doSQLJVM;
+      /end-free
+     P                 E
+
+     P ipcDoDbgJVM     B                   export
+     D ipcDoDbgJVM     PI             1N
+      /free
+       if ipcDoFlagP = *NULL;
+         return *OFF;
+       endif;
+       return ipcDoFlags.doDbgJVM;
+      /end-free
+     P                 E
      
      P ipcDoLogKey     B                   export
      D ipcDoLogKey     PI            64A
@@ -1287,7 +1329,7 @@
      P                 E
 
       *****************************************************
-      * rc = sbmJob()
+      * rc = ipcOwnSbm(sbmjob)
       * return (*ON=good; *OFF=bad)
       *****************************************************
      P ipcOwnSbm       B                   export

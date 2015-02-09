@@ -8,7 +8,7 @@
      D Main            PI 
      D  ms                           10i 0
       /free
-        Exec Sql call hats/sleeper(:ms);
+        Exec Sql call xmlservice/sleeper(:ms);
         return;
       /end-free
 

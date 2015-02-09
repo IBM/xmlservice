@@ -116,6 +116,15 @@
       *        PARM('/tmp/db2ipc042')) USER(DB2)
       *      - consider using a custom plugconf to disable
       *        issues with timeout defaults (*idle/*wait)
+      * *java               
+      *    - start JVM allowing user classpath
+      *      <cmd>ADDENVVAR ENVVAR(CLASSPATH) VALUE('$ours') 
+      *           REPLACE(*YES)</cmd>
+      *      <pgm>... calling my RPG w/JAVA ... </pgm>
+      * *sqljava or *dbgjava (port 30000)            
+      *    - start JVM allowing DB2 classpath (no user control)
+      *       SQLJ.INSTALL_JAR into schema
+      *       /QIBM/UserData/OS400/SQLLib/Function/jar/(schema) 
       *----------------------------------------------------
       * -- CDATA xml output
       * *cdata(on|off)
@@ -411,6 +420,8 @@
      D xPASE                         10    inz('*pase')
      D xCDATA                        10    inz('*cdata')
      D xJVM                          10    inz('*java')
+     D xSQLJVM                       10    inz('*sqljava')
+     D xDBGJVM                       10    inz('*dbgjava')
      D XFLAGMAX        c                   %div(%size(XFLAGS):%size(xNONE)) 
      D pXFLAGS         s               *   inz(%addr(XFLAGS))
      D XFLAGARRAY      s             10    dim(XFLAGMAX) based(pXFLAGS)
@@ -422,6 +433,8 @@
      D ipcDoCDATA      PR             1N
      D ipcDoLogKey     PR            64A
      D ipcDoJVM        PR             1N
+     D ipcDoSQLJVM     PR             1N
+     D ipcDoDbgJVM     PR             1N
 
       *****************************************************
       * IPC locking

@@ -41,7 +41,7 @@
       *****************************************************
       * ---change if new version---
       *****************************************************
-     D PLUGVER         c                   const('XML Toolkit 1.9.2-sg5')
+     D PLUGVER         c                   const('XML Toolkit 1.9.2')
 
       *****************************************************
       * ---change plugconf1/2 alternate library---
@@ -395,6 +395,8 @@
      D doCDATA                        1N
      D doOwnEnd                       1N
      D doJVM                          1N
+     D doSQLJVM                       1N
+     D doDbgJVM                       1N
      D doIdleAct                      1A
      D doWaitAct                      1A
      D doCallAct1                     1A

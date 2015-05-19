@@ -1,5 +1,6 @@
      H AlwNull(*UsrCtl)
      D i               s             10i 0 inz(0)
+     D j               s             10i 0 inz(0)
      d MyErrorDs       ds                  qualified based(Template)
      d  ErrorId                       8a
      d  Severity                      3u 0
@@ -12,7 +13,8 @@
      C                   PARM                    ErrorParm
      C                   PARM                    NumOfErrors       2 0
       /free
-        for i = 1 to NumOfErrors;
+        j = NumOfErrors;
+        for i = 1 to j;
           // data values
           select;
           when i = 1;

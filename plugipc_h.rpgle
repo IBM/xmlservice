@@ -116,12 +116,12 @@
       *        PARM('/tmp/db2ipc042')) USER(DB2)
       *      - consider using a custom plugconf to disable
       *        issues with timeout defaults (*idle/*wait)
-      * *java               
+      * *java (1.9.2)               
       *    - start JVM allowing user classpath
       *      <cmd>ADDENVVAR ENVVAR(CLASSPATH) VALUE('$ours') 
       *           REPLACE(*YES)</cmd>
       *      <pgm>... calling my RPG w/JAVA ... </pgm>
-      * *sqljava or *dbgjava (port 30000)            
+      * *sqljava or *dbgjava (port 30000) (1.9.2)            
       *    - start JVM allowing DB2 classpath (no user control)
       *       SQLJ.INSTALL_JAR into schema
       *       /QIBM/UserData/OS400/SQLLib/Function/jar/(schema) 

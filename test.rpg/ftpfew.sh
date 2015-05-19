@@ -10,8 +10,8 @@ cd /qsys.lib/xmlservice.lib/QCLSRC.FILE
 put crttest6.clp crttest6.mbr
 
 cd /qsys.lib/xmlservice.lib/QRPGLESRC.FILE
-put zzjava.rpgle zzjava.mbr
-put zzjava2.rpgle zzjava2.mbr
+put zzvlad2.rpgle zzvlad2.mbr
+put zzsrv6.rpgle zzsrv6.mbr
 
 quit
 

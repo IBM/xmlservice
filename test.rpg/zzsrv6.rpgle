@@ -86,6 +86,26 @@
      d zznullme        pr              N
      D  fdate1                         D   datfmt(*USA) options(*nullind)
 
+     
+     D zzptr1          PR
+     D  myPtr1                         *
+     D  myPtr2                         *
+     D  myMax                         3s 0
+     D  wskdist                       3a
+
+     
+     D zzbool1         PR
+     D  myBool1                       1N
+     D  myBool2                       1N
+     D  myMax                         3s 0
+     D  wskdist                       3a
+
+     D zzold1          PR
+     D  Len                           2  0
+     D  Wid                           2  0
+     D  Area                          4  0
+     D  Frog                         10
+
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       * zznullid: check indicator 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -310,5 +330,73 @@
        return;
       /end-free
      P                 E
+
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      * zzptr1: check skip ptr 
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     P zzptr1          B                   export
+     D zzptr1          PI
+     D  myPtr1                         *
+     D  myPtr2                         *
+     D  myMax                         3s 0
+     D  wskdist                       3a
+      * vars
+     D i               S             10i 0 inz(0)
+     D max             S             10i 0 inz(ARRAYMAX)
+      /free
+       if myMax <= max;
+         max = myMax;
+       endif;
+       wskdist  = '123';
+       myPtr1 = %addr(myMax);
+       myPtr2 = %addr(wskdist);
+       return;
+      /end-free
+     P                 E
+
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      * zzbool1: check boolean 
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     P zzbool1         B                   export
+     D zzbool1         PI
+     D  myBool1                       1N
+     D  myBool2                       1N
+     D  myMax                         3s 0
+     D  wskdist                       3a
+      * vars
+     D i               S             10i 0 inz(0)
+     D max             S             10i 0 inz(ARRAYMAX)
+      /free
+       if myMax <= max;
+         max = myMax;
+       endif;
+       wskdist  = '123';
+       myBool1 = *ON;
+       myBool2 = *OFF;
+       return;
+      /end-free
+     P                 E
+
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      * zzold1: default type
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     P zzold1          B                   export
+     D zzold1          PI
+     D  Len                           2  0
+     D  Wid                           2  0
+     D  Area                          4  0
+     D  Frog                         10
+      * vars
+     D i               S             10i 0 inz(0)
+     D max             S             10i 0 inz(ARRAYMAX)
+      /free
+       Len  = 1;
+       Wid  = 2;
+       Area = 3;
+       Frog = 'Green';
+       return;
+      /end-free
+     P                 E
+
      
 

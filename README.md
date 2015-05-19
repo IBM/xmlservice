@@ -61,16 +61,4 @@ Where xx sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M, 15M
 * adc@us.ibm.com
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### Git (manually) ###
-
-```
-$ mkdir xmlservice
-$ cd xmlservice
-$ git init
-$ git remote add origin https://rangercairns@bitbucket.org/inext/xmlservice-rpg.git
-$ echo "Tony Cairns" >> contributors.txt
-$ git add .
-$ git commit -m 'Initial commit with contributors'
-$ git push -u origin master [--force]
-```
 

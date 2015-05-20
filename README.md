@@ -54,7 +54,7 @@ Where xx sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M, 15M
 
 ### Contribution guidelines ###
 
-* not available (yet)
+* not available (future)
 
 ### Who do I talk to? ###
 

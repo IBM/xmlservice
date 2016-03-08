@@ -1447,6 +1447,7 @@
        inhp = %addr(inherit);
        inherit.flags = SPAWN_SETTHREAD_NP
                + SPAWN_SETJOBNAMEPARENT_NP;
+       inherit.flags = SPAWN_SETJOBNAMEARGV_NP;
        inherit.pgroup = 0;
        inherit.sigmask = 0;
        inherit.sigdefault = 0;

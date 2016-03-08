@@ -41,7 +41,7 @@
       *****************************************************
       * ---change if new version---
       *****************************************************
-     D PLUGVER         c                   const('XML Toolkit 1.9.2')
+     D PLUGVER         c                   const('XML Toolkit 1.9.3')
 
       *****************************************************
       * ---change plugconf1/2 alternate library---
@@ -763,6 +763,9 @@
      D                 c                   const(16)
      D SPAWN_SETJOBNAMEPARENT_NP...
      D                 c                   const(128)
+     D SPAWN_SETJOBNAMEARGV_NP...
+     D                 c                   const(256)
+
 
      D inheritance_t...
      D                 ds                  qualified

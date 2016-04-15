@@ -319,6 +319,7 @@
          pTmp = newBlockOut(pTmpSz);
 
          // actual XML input location and size
+         // (xmlin= must be last chunk chopped)
          pIClob = markBlock(uXMLIN);
          if pIClob <> *NULL;
            szIClob = strlen(pIClob);
@@ -845,14 +846,24 @@
      D size            S             10i 0 inz(0)
      D pos1            S             10i 0 inz(0)
      D pos2            S             10i 0 inz(0)
+     D pos3            S             10i 0 inz(0)
      D pIOver1         S               *   inz(*NULL)
      D uROver1         ds                  likeds(uRec_t) based(piOver1)
      D pIOver2         S               *   inz(*NULL)
      D uROver2         ds                  likeds(uRec_t) based(piOver2)
+     D pIOver3         S               *   inz(*NULL)
       /free
        pos1 = scanBlock(search:0:pIOver1);
        if pos1 > 0;
-          pos2 = scanBlock('&':pos1:pIOver2);
+          // @ADC 1.9.4 - echo '&fred&'
+          size = strlen(pIOver1);
+          pos3 = pos1;
+          dou pos3 < pos1 or pos3 > pos1 + size;
+            pos2 = pos3;
+            pIOver2 = pIOver3;
+            pos3 = scanBlock('&':pos2 + 1:pIOver3);
+          enddo;
+          // @ADC 1.9.4 - echo '&fred&'
           if pos2 > pos1 + 1;
             pIOver2 -= 1;
             uROver2.cIChar = NULLTERM;

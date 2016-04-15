@@ -22,6 +22,9 @@ put zzcust.rpgle zzcust.mbr
 put zzbigboy.rpgle zzbigboy.mbr
 put zzjava.rpgle zzjava.mbr
 put zzjava2.rpgle zzjava2.mbr
+put zzchina.rpgle zzchina.mbr
+put zzchinao.rpgle zzchinao.mbr
+put zzchinap.rpgle zzchinap.mbr
 
 cd /qsys.lib/xmlservice.lib/QCLSRC.FILE
 put crttest.clp crttest.mbr

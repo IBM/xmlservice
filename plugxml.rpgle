@@ -76,13 +76,14 @@
       * '<![CDATA[' and ends with ']]>'
      D wCDATA1         S              9C   Inz(%UCS2('<![CDATA[')) 
      D wCDATA2         S              3C   Inz(%UCS2(']]>')) 
+     D s1CDATA37       S              9A   inz('<![CDATA[') 
+     D s2CDATA37       S              3A   inz(']]>') 
 
      D sAllCDATA       s              1N   inz(*ON)
      D sOneCDATA       s              1N   inz(*ON)
 
      D sUCDATA1        S              9A   inz(*BLANKS) 
      D sUCDATA2        S              3A   inz(*BLANKS) 
-
 
       *****************************************************
       * xml misc
@@ -940,6 +941,45 @@
          sUCDATA2 = %char(wCDATA2); // USC2 convert job ccsid (1.6.7)
        endif;
        return sUCDATA2;
+      /end-free
+     P                 E
+
+     P xmlSidCDATA     B                   export
+     D xmlSidCDATA     PI
+     D  toCCSID                      10i 0 value
+      * vars
+     D rc              s             10i 0 inz(0)
+     D m1CDATA37       s              9A   inz(*BLANKS)
+     D m2CDATA37       s             10A   inz(*BLANKS)
+     D buffPtr         s               *   inz(*NULL)
+     D buffLen         s             10i 0 inz(0)
+     D outPtr          s               *   inz(*NULL)
+     D outLen          s             10i 0 inz(0)
+      /free
+       sUCDATA1 = *BLANKS;
+       m1CDATA37 = s1CDATA37;
+       buffPtr = %addr(m1CDATA37);
+       buffLen = %size(m1CDATA37);
+       outPtr = %addr(sUCDATA1);
+       outLen = %size(sUCDATA1);
+       rc = convCCSID(37:toCCSID:buffPtr:buffLen:outPtr:outLen);
+       sUCDATA2 = *BLANKS;
+       m2CDATA37 = s2CDATA37;
+       buffPtr = %addr(m2CDATA37);
+       buffLen = %size(m2CDATA37);
+       outPtr = %addr(sUCDATA2);
+       outLen = %size(sUCDATA2);
+       rc = convCCSID(37:toCCSID:buffPtr:buffLen:outPtr:outLen);
+      /end-free
+     P                 E
+
+     P xmlResetCDATA...
+     P                 B                   export
+     D xmlResetCDATA...
+     D                 PI
+      /free
+       sUCDATA1 = *BLANKS;
+       sUCDATA2 = *BLANKS;
       /end-free
      P                 E
 
@@ -4371,8 +4411,7 @@
        endif;
        if rc = *ON;
          // may have changed job CCSID (1.6.8)
-         sUCDATA1 = *BLANKS;
-         sUCDATA2 = *BLANKS;
+         xmlResetCDATA();
        else;
          perfAdd(PERF_XML_SERVER_RUN_ERROR);
          ooHint = %str(string:stringLen);

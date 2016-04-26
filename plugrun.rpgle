@@ -424,6 +424,7 @@
                     :pOClob:szOClob);
                status = RUN_CLIENT_CONVERT_AFTER;
              else;
+               xmlSidCDATA(ipcCtl.ipcFlags.doBefTo);
                rc = convCCSID2(ipcCtl.ipcFlags.doBefFrom:ipcCtl.ipcFlags.doBefTo
                     :pIClob:szIClob);
              endif;
@@ -698,6 +699,7 @@
            if ipcCtl.ipcFlags.doAft = *ON and runConv = *OFF;
              rc = convCCSID2(ipcCtl.ipcFlags.doAftFrom:ipcCtl.ipcFlags.doAftTo
                   :pOClob:szOClob);
+             xmlResetCDATA();
            endif;
            // --------------
            // hex requested

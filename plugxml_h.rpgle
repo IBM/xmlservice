@@ -802,6 +802,12 @@
      D xmlcCDATA1      PR             9A
      D xmlcCDATA2      PR             3A
 
+     D xmlSidCDATA     PR
+     D  toCCSID                      10i 0 value
+  
+     D xmlResetCDATA...
+     D                 PR
+
      D xmlCTOR         PR
      D   node                              likeds(xmlNode_t) 
 

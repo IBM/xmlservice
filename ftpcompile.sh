@@ -36,6 +36,7 @@ put plugconf2.rpgle plugconf2.mbr
 put plugconf3.rpgle plugconf3.mbr
 put plugconfq.rpgle plugconfq.mbr
 put plugconf6.rpgle plugconf6.mbr
+put plugconf7.rpgle plugconf7.mbr
 put plugconfr.rpgle plugconfr.mbr
 put plugbug.rpgle plugbug.mbr
 put plugpase.rpgle plugpase.mbr
@@ -67,6 +68,7 @@ put crtxml2V6.clp crtxml2V6.mbr
 put crtxml3.clp crtxml3.mbr
 put crtxmlq.clp crtxmlq.mbr
 put crtxml6.clp crtxml6.mbr
+put crtxml7.clp crtxml7.mbr
 put crtxml6V5.clp crtxml6V5.mbr
 put crtxml6V6.clp crtxml6V6.mbr
 put crtnone.clp crtnone.mbr
@@ -77,11 +79,13 @@ put crtsql.cmd crtsql.mbr
 put crtsql2.cmd crtsql2.mbr
 put crtsqlq.cmd crtsqlq.mbr
 put crtsql6.cmd crtsql6.mbr
+put crtsql7.cmd crtsql7.mbr
 put crtsqlr.cmd crtsqlr.mbr
 put dltsql.cmd dltsql.mbr
 put dltsql2.cmd dltsql2.mbr
 put dltsqlq.cmd dltsqlq.mbr
 put dltsql6.cmd dltsql6.mbr
+put dltsql7.cmd dltsql7.mbr
 put dltsqlr.cmd dltsqlr.mbr
 
 quit

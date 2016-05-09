@@ -41,7 +41,7 @@
       *****************************************************
       * ---change if new version---
       *****************************************************
-     D PLUGVER         c                   const('XML Toolkit 1.9.5')
+     D PLUGVER         c                   const('XML Toolkit 1.9.6')
 
       *****************************************************
       * ---change plugconf1/2 alternate library---
@@ -49,6 +49,7 @@
       *   plugconf2.rpgle - assumes ZENDSVR    library
       *   plugconf3.rpgle - assumes XMLSERVICE library (yips)
       *   plugconf6.rpgle - assumes ZENDSVR6   library
+      *   plugconf7.rpgle - assumes ZNDSVRPHP7 library
       *   plugconfq.rpgle - assumes QXMLSERV   library (IBM)
       * Pick the correct one to compile ...
       *   crtxml  - XMLSERVICE testing library (plugconf1.rpgle)

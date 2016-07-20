@@ -59,15 +59,15 @@
       * ---change if alternate library---
       *****************************************************
       * RPG CLI call stored procedures (xmlcgi) 
-     D PLUGCALLSP      c                   const('CALL ZNDSVRPHP7.')
+     D PLUGCALLSP      c                   const('CALL ZENDPHP7.')
       * spawn config PLUGSPNLIB/PLUGSPNPGM (plugipc) 
      D PLUGSPNPGM      c                   const('XMLSERVICE.PGM')
-     D PLUGSPNDIR      c                   const('/QSYS.LIB/ZNDSVRPHP7.LIB/')
+     D PLUGSPNDIR      c                   const('/QSYS.LIB/ZENDPHP7.LIB/')
       * sbmjob config (plugipc)
-     D PLUGSBMLIB      c                   const('ZNDSVRPHP7')
+     D PLUGSBMLIB      c                   const('ZENDPHP7')
      D PLUGSBMPGM      c                   const('XMLSERVICE')
       * was QGPL/QDFTJOBD
-     D PLUGJOBLIB      c                   const('ZNDSVRPHP7')
+     D PLUGJOBLIB      c                   const('ZENDPHP7')
      D PLUGJOBD        c                   const('ZSVR_JOBD')
      D PLUGJOBNAM      c                   const('XTOOLKIT')
      D PLUGJOBASP      c                   const(*BLANKS)
@@ -210,7 +210,7 @@
       *****************************************************
       * sbmjob config (plugipc)
       * SBMJOB CMD(CALL PGM(XMLSERVICE/XMLSERVICE) 
-      *   PARM('/tmp/ranger')) JOBD(ZNDSVRPHP7/ZSVR_JOBD)
+      *   PARM('/tmp/ranger')) JOBD(ZENDPHP7/ZSVR_JOBD)
       *****************************************************
      P confSBMLIB      B                   export
      D confSBMLIB      PI            10A

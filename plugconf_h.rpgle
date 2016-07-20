@@ -49,7 +49,7 @@
       *   plugconf2.rpgle - assumes ZENDSVR    library
       *   plugconf3.rpgle - assumes XMLSERVICE library (yips)
       *   plugconf6.rpgle - assumes ZENDSVR6   library
-      *   plugconf7.rpgle - assumes ZNDSVRPHP7 library
+      *   plugconf7.rpgle - assumes ZENDPHP7   library
       *   plugconfq.rpgle - assumes QXMLSERV   library (IBM)
       * Pick the correct one to compile ...
       *   crtxml  - XMLSERVICE testing library (plugconf1.rpgle)

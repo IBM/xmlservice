@@ -181,6 +181,55 @@
       *       off - script continues, job error log (default)
       *       fast - script continues, brief error log
       *************************************************************************
+      * 2.5) call QSH utility (1.9.8+)
+      * XMLSERVICE allows calls of QSH utilities on IBM i. Typically, you cut/paste 
+      * from a QSH command line. STRQSH is used for execution of your utilities.
+      * ---
+      * <qsh [rows='on|off' 
+      *      hex='on'
+      *      before='cc1/cc2/cc3/cc4'
+      *      after='cc4/cc3/cc2/cc1' 
+      *      error='on|off|fast'                                       
+      *      ]>values (see QSH utility)</qsh>
+      * ---
+      * qsh         - shell tag
+      *  values     - (see QSH utility - qsh cut/paste)
+      * options
+      *  rows
+      *     on      - return rows lines
+      *     off     - return one string (default)  
+      *  hex (1.7.4)
+      *     on      - input character hex (5147504C20202020)
+      *  before
+      *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
+      *  after
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      * ---
+      *  error (1.7.6)
+      *     on      - script stops, full error report
+      *     off     - script continues, job error log (default)
+      *     fast    - script continues, brief error log
+      * ---
+      * example run QSH shell
+      *  <?xml version="1.0"?> 
+      *  <xmlservice>
+      *  <qsh rows='on'>/usr/bin/system 'wrkactjob' | /usr/bin/grep -i fr</qsh>
+      *  </xmlservice>
+      * ---
+      * Note:
+      *   - Recommend qualify qsh utilities with /usr/bin.
+      *     This will avoid ccsid conversion between PASE/QSH utilities.
+      *   - syntax looks as if typed on console (qsh)
+      *     <qsh>QSH utility</qsh> runs "slower" because a child job
+      *     is created to run each QSH utility (normal Unix behavior).
+      *   - Using nested shells within this qsh shell may 
+      *     produce unpredictable results.
+      *   - hex='on' before='' after='' -- same as <cmd> (1.7.0)
+      *   - error='on,off,fast' (1.7.6)
+      *       on  - script stops, full error report
+      *       off - script continues, job error log (default)
+      *       fast - script continues, brief error log
+      *************************************************************************
       * 3) call PGM/SRVPGM
       * XMLSERVICE allows calls of *PGM and *SRVPGM on IBM i. Typically, you match 
       * call parameters, including data structures, and/or simple data elements.

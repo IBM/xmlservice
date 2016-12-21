@@ -521,6 +521,13 @@
      D cacAddCnv       PR
      D  conv                               likeds(ciconv_t)
 
+     D cacCpyCnv       PR
+     D  ptrTgt                         *   value
+     D  ptrSrc                         *   value
+
+     D cacNulCnv       PR
+     D  convTgt                            likeds(ciconv_t)
+
       *****************************************************
       * db2 options cache (sql)
       *****************************************************

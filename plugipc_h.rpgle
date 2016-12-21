@@ -558,7 +558,7 @@
      D   pSize                       10i 0 value
      D   pTmpFile                  1024A   value
 
-     D ipcBotXMLf      PR             1N
+     D ipcBotXMLf      PR            10i 0
      D   pData                         *   value
      D   pSize                       10i 0 value
      D   pTmpFile                  1024A   value

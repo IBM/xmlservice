@@ -873,6 +873,7 @@
      D out                             *   value
      D outLen                        10i 0 value
      D retLen                        10i 0
+     D useQsh                         1N   value
 
 
       *****************************************************

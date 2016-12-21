@@ -4973,4 +4973,80 @@
      P                 E
 
 
+      *****************************************************
+      * rc = ileExec()
+      * return (*ON=good; *OFF=bad)
+      *****************************************************
+     P ileExec         B                   export
+     D ileExec         PI             1N
+     D cmd                             *   value
+     D cmdLen                        10i 0 value
+     D myMem                           *
+     D myLen                         10i 0
+     D noGet                          1N   value options(*nopass)
+      * vars
+     D cmdstr          s           4096A   inz(*BLANKS)
+     D mymax           s             10i 0 inz(0)
+     D len             s             10i 0 inz(0)
+     D rcb             s              1N   inz(*ON)
+     D rc1             s              1N   inz(*ON)
+     D flen            s             10i 0 inz(0)
+     D pCopy           s               *   inz(*NULL)
+     D myCopy          ds                  likeds(over_t) based(pCopy)
+     D memI            s             10i 0 inz(0)
+     D ptrMemP         s               *   inz(*NULL)
+     D memCtl          ds                  likeds(paseRec_t) based(ptrMemP)
+     D mytmp           s           1024A   inz(*BLANKS)
+     D jobName         s             10A   inz(*BLANKS)
+     D jobUserID       s             10A   inz(*BLANKS)
+     D jobNbr          s              6A   inz(*BLANKS)
+     D jobInfo         ds                  likeds(myJob_t)
+      /free
+       Monitor;
+
+       // tmp file: /tmp/xmlservice-qsh-name-user-nbr.log
+       rcb = ileJob(jobName:jobUserID:jobNbr:jobInfo);
+       mytmp = '/tmp/xmlservice-qsh-'
+              + %trim(jobName) + '-'
+              + %trim(jobUserID) + '-'
+              + %trim(jobNbr)
+              +'.log';
+
+       // reusable ILE memory buffer 
+       memI = cacAddBig(SZOPM:CAC_HEAP_PGM_OPM);
+       ptrMemP = cacScanBig(memI);
+       myMem = memCtl.paseOrigP;
+       mymax = myLen;
+       myLen = 0;
+
+       ileEZero();
+
+       // -------------
+       // execute command
+       putenv('QIBM_QSH_CMD_OUTPUT=FILE=' + %trim(mytmp));
+       putenv('QIBM_QSH_CMD_ESCAPE_MSG=Y');
+       cmdstr = 'STRQSH CMD('''
+           + '/usr/bin/qsh -c '''''
+           + %str(cmd:cmdLen)
+           + ''''''')';
+       len = %len(%trim(cmdstr));
+       cmdexec(cmdstr:len);
+
+       flen = ipcBotXMLf(myMem:mymax:mytmp);
+       pCopy = myMem + flen;
+       myCopy.bytex = x'00';
+       myLen = strlen(myMem);
+       rc1 = ipcRmvXMLf();
+
+       // -------------
+       // error
+       On-error;
+         ileSetSts();
+         rcb = *OFF;
+       Endmon;
+
+       return rcb;
+      /end-free
+     P                 E
+
 

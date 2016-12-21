@@ -149,4 +149,10 @@
      D  pdupbeg                        *   value
      D  pdupend                        *   value
 
+     D ileExec         PR             1N
+     D cmd                             *   value
+     D cmdLen                        10i 0 value
+     D myMem                           *
+     D myLen                         10i 0
+     D noGet                          1N   value options(*nopass)
 

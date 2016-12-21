@@ -3369,6 +3369,12 @@
      D ptrCnvP         s               *   inz(*NULL)
      D anyCnv          ds                  likeds(ciconv_t)
      D                                     dim(CNVOPNMAX) based(ptrCnvP)
+     D ptrTo           s               *   inz(*NULL)
+     D ptrFrom         s               *   inz(*NULL)
+     D convTgt         ds                  likeds(ciconv_t)
+     D                                     based(ptrTo)
+     D convSrc         ds                  likeds(ciconv_t)
+     D                                     based(ptrFrom)
       /free
        ptrCnvP = %addr(sCnvCache);
 
@@ -3390,7 +3396,10 @@
 
        // copyout
        if where > 0;
-         cpybytes(%addr(conv):%addr(anyCnv(where)):%size(conv));
+         anyCnv(where).conviok = CNVOPNOK;
+         ptrTo = %addr(conv);
+         ptrFrom = %addr(anyCnv(where));
+         cacCpyCnv(ptrTo:ptrFrom);
          return *ON;
        endif;
 
@@ -3409,6 +3418,12 @@
      D ptrCnvP         s               *   inz(*NULL)
      D anyCnv          ds                  likeds(ciconv_t)
      D                                     dim(CNVOPNMAX) based(ptrCnvP)
+     D ptrTo           s               *   inz(*NULL)
+     D ptrFrom         s               *   inz(*NULL)
+     D convTgt         ds                  likeds(ciconv_t)
+     D                                     based(ptrTo)
+     D convSrc         ds                  likeds(ciconv_t)
+     D                                     based(ptrFrom)
       /free
        ptrCnvP = %addr(sCnvCache);
 
@@ -3430,13 +3445,88 @@
          where = cacRandom(CNVOPNMAX);
          rc = convClose(anyCnv(where));
          anyCnv(where).conviok = 0;
-         memset(%addr(anyCnv(where)):0:%size(conv));
        endif;
 
        // copy in
+       ptrTo = %addr(anyCnv(where));
+       ptrFrom = %addr(conv);
+       cacCpyCnv(ptrTo:ptrFrom);
        anyCnv(where).conviok = CNVOPNOK;
-       cpybytes(%addr(anyCnv(where)):%addr(conv):%size(conv));
 
+      /end-free
+     P                 E
+
+
+     P cacCpyCnv       B                   export
+     D cacCpyCnv       PI
+     D  ptrTgt                         *   value
+     D  ptrSrc                         *   value
+      * vars
+     D i               S             10i 0 inz(0)
+     D ptrTo           s               *   inz(*NULL)
+     D ptrFrom         s               *   inz(*NULL)
+     D convTgt         ds                  likeds(ciconv_t)
+     D                                     based(ptrTo)
+     D convSrc         ds                  likeds(ciconv_t)
+     D                                     based(ptrFrom)
+      /free
+       ptrTo = ptrTgt;
+       ptrFrom = ptrSrc;
+
+       convTgt.conviok = convSrc.conviok;
+
+       convTgt.conv.rtn = convSrc.conv.rtn;
+       for i = 1 to 12;
+         convTgt.conv.cd(i) = convSrc.conv.cd(i);
+       endfor;
+
+       convTgt.tocode.qtqCCSID = convSrc.tocode.qtqCCSID;
+       convTgt.tocode.qtqAltCnv = convSrc.tocode.qtqAltCnv;
+       convTgt.tocode.qtqAltSub = convSrc.tocode.qtqAltSub;
+       convTgt.tocode.qtqAltSft = convSrc.tocode.qtqAltSft;
+       convTgt.tocode.qtqOptLen = convSrc.tocode.qtqOptLen;
+       convTgt.tocode.qtqMixErr = convSrc.tocode.qtqMixErr;
+       convTgt.tocode.qtqRsv = convSrc.tocode.qtqRsv;
+
+       convTgt.fromcode.qtqCCSID = convSrc.fromcode.qtqCCSID;
+       convTgt.fromcode.qtqAltCnv = convSrc.fromcode.qtqAltCnv;
+       convTgt.fromcode.qtqAltSub = convSrc.fromcode.qtqAltSub;
+       convTgt.fromcode.qtqAltSft = convSrc.fromcode.qtqAltSft;
+       convTgt.fromcode.qtqOptLen = convSrc.fromcode.qtqOptLen;
+       convTgt.fromcode.qtqMixErr = convSrc.fromcode.qtqMixErr;
+       convTgt.fromcode.qtqRsv = convSrc.fromcode.qtqRsv;
+      /end-free
+     P                 E
+
+
+     P cacNulCnv       B                   export
+     D cacNulCnv       PI
+     D  convTgt                            likeds(ciconv_t)
+      * vars
+     D i               S             10i 0 inz(0)
+      /free
+       convTgt.conviok = 0;
+
+       convTgt.conv.rtn = 0;
+       for i = 1 to 12;
+         convTgt.conv.cd(i) = 0;
+       endfor;
+
+       convTgt.tocode.qtqCCSID = 0;
+       convTgt.tocode.qtqAltCnv = 0;
+       convTgt.tocode.qtqAltSub = 0;
+       convTgt.tocode.qtqAltSft = 0;
+       convTgt.tocode.qtqOptLen = 0;
+       convTgt.tocode.qtqMixErr = 0;
+       convTgt.tocode.qtqRsv = 0;
+
+       convTgt.fromcode.qtqCCSID = 0;
+       convTgt.fromcode.qtqAltCnv = 0;
+       convTgt.fromcode.qtqAltSub = 0;
+       convTgt.fromcode.qtqAltSft = 0;
+       convTgt.fromcode.qtqOptLen = 0;
+       convTgt.fromcode.qtqMixErr = 0;
+       convTgt.fromcode.qtqRsv = 0;
       /end-free
      P                 E
 

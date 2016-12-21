@@ -205,9 +205,7 @@
        // qtqOptLen   0 - na     0 - inbytesleft parameter must be specified
        // qtqMixErr   0 - na     0 - no error dbcs
        // qtqRsv      0 - na     0 - na
-       memset(%addr(conv.tocode):0:%size(conv.tocode));
-       memset(%addr(conv.fromcode):0:%size(conv.fromcode));
-       memset(%addr(conv.conv):0:%size(conv.conv));
+       cacNulCnv(conv);
 
        // If unsuccessful, QtqIconvOpen() returns -1 
        // and in the return value of the conversion 
@@ -398,6 +396,7 @@
          return 0;
        endif;
        
+       cacNulCnv(conv);
        rcb = cacScanCnv(fromCCSID:toCCSID:conv);
        if rcb = *OFF;
          rc = convOpen(fromCCSID:toCCSID:conv);

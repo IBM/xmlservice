@@ -320,6 +320,20 @@
      D  aElemNext                      *   value
 
       *****************************************************
+      * xml qsh node parsing
+      *****************************************************
+     D xmlDoQsh        PR             1N
+     D  isNada                        1N   value
+     D  isCDATA                       1N   value
+     D  aElemTop1                      *   value
+     D  aElemTop2                      *   value
+     D  aDataVal1                      *   value
+     D  aDataVal2                      *   value
+     D  aElemEnd1                      *   value
+     D  aElemEnd2                      *   value
+     D  aElemNext                      *   value
+
+      *****************************************************
       * xml diag node parsing
       *****************************************************
      D XML_DIAG_JOBLOG...
@@ -4248,7 +4262,7 @@
        pBeg = sOutPtr;
        rc = xmlExec32(string:stringLen
                      :isRows:keepBottom:isCDATA
-                     :sOutPtr:maxSz:retSz);
+                     :sOutPtr:maxSz:retSz:*OFF);
        sOutPtr += retSz;
        // failed
        if rc = *OFF and retSz < 1;
@@ -4285,6 +4299,175 @@
        // </sh>...
        // ooooo
        xmlOutput(%addr(ooEndSh):5:*ON);
+
+       // ignore errors
+       if myStopOn = *OFF;
+         return *ON;
+       endif;
+
+       return rc;
+      /end-free
+     P                 E
+
+      *****************************************************
+      * xml shell
+      * return (*ON-good, *OFF-bad)
+      *****************************************************
+     P xmlDoQsh        B
+     D xmlDoQsh        PI             1N
+     D  isNada                        1N   value
+     D  isCDATA                       1N   value
+     D  aElemTop1                      *   value
+     D  aElemTop2                      *   value
+     D  aDataVal1                      *   value
+     D  aDataVal2                      *   value
+     D  aElemEnd1                      *   value
+     D  aElemEnd2                      *   value
+     D  aElemNext                      *   value
+      * vars
+     D ooEndQsh        s             10A   inz('</qsh>')
+     d rc              s              1N   inz(*OFF)
+     d rc1             s              1N   inz(*OFF)
+     d string          s               *   inz(*NULL)
+     d stringLen       s             10i 0 inz(0)
+     d isRows          s              1N   inz(*OFF)
+     D keepBottom      s              1N   inz(*OFF)
+     D result          s             64A   inz(*BLANKS)
+     d maxSz           s             10i 0 inz(0)
+     d retSz           s             10i 0 inz(0)
+     D ooHint          s            512A   inz(*BLANKS)
+     D myStopOn        s              1N   inz(*OFF)
+     D myJobLog        s              1N   inz(*OFF)
+     d pBeg            s               *   inz(*NULL)
+     d pEnd            s               *   inz(*NULL)
+     D myCmd           S          65000A   inz(*BLANKS)
+     D myData          S          65000A   inz(*BLANKS)
+     d myDataLen       s             10i 0 inz(0)
+     D modeHexFnd      s              1N   inz(*OFF)
+     D ccsidFndB       s              1N   inz(*OFF)
+     D ccsidFndA       s              1N   inz(*OFF)
+     d srcLen          s             10i 0 inz(0)
+     d outLen          s             10i 0 inz(0)
+     D hex1st          s              1N   inz(*OFF)
+     D outHackI        S             10i 0 inz(0)
+     D outHackP        S               *   inz(*NULL)
+      * attribute search
+     D search          s             20A   dim(XMLMAXATTR) inz(*BLANKS)
+     D pName           s               *   dim(XMLMAXATTR) inz(*NULL)
+     D pValue          s               *   dim(XMLMAXATTR) inz(*NULL)
+     D valueLen        s             10i 0 dim(XMLMAXATTR) inz(0)
+      /free
+       Monitor;
+
+       // hint
+       xmlSetHint(aElemTop1:aElemEnd2);
+       // <qsh [rows='on|off']  error='on|off|fast'>
+       //       hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1']>
+       //       ---- handled by xmlWrkVal ----
+       // -- or --
+       // <qsh [rows="on|off"]  error="on|off|fast">
+       //      1               2
+       //       hex="on" before="cc1/cc2/cc3/cc4" after="cc4/cc3/cc2/cc1"]>
+       //       ---- handled by xmlWrkVal ----
+       search(1) = 'rows';
+       search(2) = 'error';
+       rc = bigDimAttr(aElemTop1:aElemTop2:search:pName:pValue:valueLen);
+       if rc = *ON;
+         if valueLen(1) <> 0; // rows="on|off"
+           if 'on' = %str(pValue(1):2);
+             isRows=*ON;
+           endif;
+         endif;
+         if valueLen(2) <> 0; // error="on|off|fast"
+           if 'on' = %str(pValue(2):2);
+             myStopOn = *ON;
+             myJobLog = *OFF;
+           elseif 'of' = %str(pValue(2):2);
+             myStopOn = *OFF;
+             myJobLog = *ON;
+           elseif 'fa' = %str(pValue(2):2);
+             myStopOn = *OFF;
+             myJobLog = *OFF;
+           endif;
+         endif;
+       endif;
+
+       // --------------
+       // set ILE parm builder
+       rc = ileStatic(XML_PGM_OPM_TRUE);
+       if rc = *OFF;
+         return *OFF;
+       endif;
+
+
+       // <qsh [rows='on|off']>...</sh>
+       // oooooooooooooooooooo
+       string = aElemTop1;
+       stringLen = aElemTop2 - aElemTop1 + 1;
+       xmlOutput(string:stringLen:*ON:isNada);
+
+       // --------------
+       // make the call
+       // <qsh [rows='on|off']>...</sh>
+       //                     ooo
+       // string = aDataVal1;
+       // stringLen = aDataVal2 - aDataVal1 + 1;
+       outLen = %size(myCmd);
+       rc1 = xmlWrkVal('I':isNada:isCDATA:*NULL
+              :aElemTop1:aElemTop2:aDataVal1:aDataVal2
+              :aElemEnd1:aElemEnd2:aElemNext:*OFF:*ON
+              :%addr(myCmd):modeHexFnd:ccsidFndB:ccsidFndA
+              :srcLen:outLen);
+       string = %addr(myCmd);
+       stringLen = outLen;
+
+       // --------------
+       // log if enabled (1.7.1)
+       perfLogAdd(PERF_LOG_L_SH + ' ' + %trim(myCmd));
+
+       // <qsh [rows='on|off']>... good output ...</sh>
+       //                     ooooooooooooooooooo
+       maxSz = xmlOutRoom();
+       pBeg = sOutPtr;
+       rc = xmlExec32(string:stringLen
+                     :isRows:keepBottom:isCDATA
+                     :sOutPtr:maxSz:retSz:*ON);
+       sOutPtr += retSz;
+       // failed
+       if rc = *OFF and retSz < 1;
+         perfAdd(PERF_XML_SERVER_RUN_ERROR);
+         errsWarning(XML_ERROR_RUNSH_FAIL:sHint);
+         // <qsh [rows='on|off']>... bad output ...</sh>
+         //                     oooooooooooooooooo
+         if retSz < 1;
+           xmlOutRet(myStopOn:rc:isCDATA:string:stringLen:myJobLog);
+         endif;
+       // hex convert or ccsid after will require buffer
+       elseif modeHexFnd = *ON or ccsidFndA = *ON;
+         sOutPtr = pBeg;
+         outHackI = cacAddBig(retSz + 1:CAC_HEAP_ILE_TMP);
+         outHackP = cacScanBig(outHackI);
+         cpybytes(outHackP:sOutPtr:retSz);
+         aDataVal1 = outHackP;
+         aDataVal2 = outHackP + retSz;
+         outLen = retSz * 2 + 64;
+         rc1 = xmlWrkVal('O':isNada:isCDATA:*NULL
+              :aElemTop1:aElemTop2:aDataVal1:aDataVal2
+              :aElemEnd1:aElemEnd2:aElemNext:modeHexFnd:*OFF
+              :sOutPtr:modeHexFnd:ccsidFndB:ccsidFndA
+              :srcLen:outLen);
+         sOutPtr += outLen;
+       endif;
+
+       On-error;
+         perfAdd(PERF_XML_SERVER_RUN_ERROR);
+         errsWarning(XML_ERROR_RUNSH_EXCEPTION:sHint);
+         rc = *OFF;
+       Endmon;
+
+       // </qsh>...
+       // ooooo
+       xmlOutput(%addr(ooEndQsh):6:*ON);
 
        // ignore errors
        if myStopOn = *OFF;
@@ -8861,6 +9044,7 @@
      D out                             *   value
      D outLen                        10i 0 value
      D retLen                        10i 0
+     D useQsh                         1N   value
       * vars
      D fstRow          S              1N   inz(*ON)
      D rc              S              1N   inz(*OFF)
@@ -8887,7 +9071,12 @@
        sHint = 'xml pase exec';
 
        // make the call
-       rc = PaseExec32(cmd:cmdLen:paseMem:paseLen);
+       if useQsh = *ON;
+         paseLen = outLen;
+         rc = ileExec(cmd:cmdLen:paseMem:paseLen);
+       else;
+         rc = PaseExec32(cmd:cmdLen:paseMem:paseLen);
+       endif;
 
        // copy out
        if isCDATA = *OFF;
@@ -8914,8 +9103,15 @@
            pOut += %size(cCDATA1);
          endif;
          // ----------
+         // no convert (already ebcdic)
+         if useQsh = *ON;
+           retLen = paseLen;
+           cpybytes(pOut:paseMem:retLen+1);
+         // ----------
          // convert to ebcdic
-         retLen = convPASE(pCur:paseLen:*ON:pOut:outLen);
+         else;
+           retLen = convPASE(pCur:paseLen:*ON:pOut:outLen);
+         endif;
          if retLen > 0 
          and isRows = *OFF and isCDATA = *ON;
            // <![CDATA[data]]>
@@ -9084,6 +9280,7 @@
      D savHint         s            128A   inz(*BLANKS)
      D ooLen           s             10i 0 inz(0)
      D pTmpFile        s           1024A   inz(*BLANKS)
+     D flen            s             10i 0 inz(0)
       /free
        cntCPF = 0;
 
@@ -9104,7 +9301,7 @@
        // read /tmp/xxx data into myData
        myData1 = *BLANKS;
        myData = *BLANKS;
-       rc = ipcBotXMLf(%addr(myData):%size(myData):pTmpFile);
+       flen = ipcBotXMLf(%addr(myData):%size(myData):pTmpFile);
        rc1 = ipcRmvXMLf();
 
        // have a joblog entries ???
@@ -10149,6 +10346,7 @@
        elem(3) = 'sh';
        elem(4) = 'sql';
        elem(5) = 'diag';
+       elem(6) = 'qsh';
        dou pNxt = *NULL or rc = *OFF;
          pTop = pNxt;
          findElem = bigElem(pTop:pLst:elem:doNest:
@@ -10199,6 +10397,13 @@
            rc = xmlDoDiag(doNada:doCDATA
                   :pB1:pB2:pD1:pD2:pE1:pE2:pNxt);
            perfAdd(PERF_XML_SERVER_DIAG_RUN2);
+         // <qsh ...> ... </qsh>
+         // B       1   2    E
+         when findElem = 6;
+           perfAdd(PERF_XML_SERVER_SH_RUN1);
+           rc = xmlDoQsh(doNada:doCDATA
+                  :pB1:pB2:pD1:pD2:pE1:pE2:pNxt);
+           perfAdd(PERF_XML_SERVER_SH_RUN2);
          when findElem = -1;
            rc = *OFF;
          other;

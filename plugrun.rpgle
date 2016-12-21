@@ -282,6 +282,10 @@
 
      D lo              C                   x'00'
      D up              C                   x'40'
+
+     D quote1          s             10A   inz(*BLANKS)
+     D quote2          s             10A   inz(*BLANKS)
+     D pFind           s               *   inz(*NULL)
       /free
 
        // DebugMe('frog went courtin');
@@ -343,6 +347,19 @@
        // debug qsysopr message - ZZZZZZ
        if ipcCtl.ipcFlags.doDebugProc = *ON;
          DebugMe(DEBUG_ME_PROC);
+       endif;
+
+       // -------------
+       // ascii interface (And now ... stupid stuff)
+       if %parms >= 16;
+         // python changed '"' to '&quot;'
+         quote1 = '&quot;' + x'00';
+         quote2 = '     "';
+         pFind = strstr(pIClob:%addr(quote1));
+         dow pFind <> *NULL;
+           cpybytes(pFind:%addr(quote2):6);
+           pFind = strstr(pIClob:%addr(quote1));
+         enddo;
        endif;
 
        // --------------

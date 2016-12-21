@@ -2438,7 +2438,7 @@
       * return (NA)
       *****************************************************
      P ipcBotXMLf      B                   export
-     D ipcBotXMLf      PI             1N
+     D ipcBotXMLf      PI            10i 0
      D   pData                         *   value
      D   pSize                       10i 0 value
      D   pTmpFile                  1024A   value
@@ -2454,6 +2454,7 @@
      d myLen           s             10i 0 inz(1)
      D pTop            s               *   inz(*NULL)
      D pBot            s               *   inz(*NULL)
+     d totlen          s             10i 0 inz(0)
       /free
        ipcFileTmp = %trim(pTmpFile) + x'00';
        fd = openIFS(ipcFileTmp:O_RDONLY);
@@ -2483,6 +2484,7 @@
              endif;
              cpybytes(pTop:pTmp:len);
              pTop += len;
+             totlen = pTop - pData;
            endif;
          enddo;
          // read complete
@@ -2493,9 +2495,9 @@
          rc = -1;
        endif;
        if rc > -1;
-         return *ON;
+         return totlen;
        endif;
-       return *OFF;
+       return 0;
       /end-free
      P                 E
 

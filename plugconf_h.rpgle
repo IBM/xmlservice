@@ -41,7 +41,7 @@
       *****************************************************
       * ---change if new version---
       *****************************************************
-     D PLUGVER         c                   const('XML Toolkit 1.9.7')
+     D PLUGVER         c                   const('XML Toolkit 1.9.8')
 
       *****************************************************
       * ---change plugconf1/2 alternate library---
@@ -767,6 +767,9 @@
      D SPAWN_SETJOBNAMEARGV_NP...
      D                 c                   const(256)
 
+     D QIBM_USE_DESCRIPTOR_STDIO...
+     D                 c                   const('QIBM_USE_DESCRIPTOR_STDIO=Y')
+
 
      D inheritance_t...
      D                 ds                  qualified
@@ -783,6 +786,12 @@
      D  inherit                        *   Value 
      D  argv                           *   Value 
      D  envp                           *   Value 
+
+      * pid_t waitpid(pid_t pid, int *stat_loc, int options);
+     D waitpid         PR            10i 0 ExtProc('waitpid')
+     D  pid                          10i 0 value
+     D  stat_loc                     10i 0
+     D  options                      10i 0 value
 
       *****************************************************
       * convert string to numeric

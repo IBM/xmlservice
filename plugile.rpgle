@@ -5023,11 +5023,14 @@
 
        // -------------
        // execute command
+       // BTW -- Thanks Nathanael BONNET
+       // "How many quotes to screw in a lightblub?"
+       // "More than i had. Thanks for scanrpl add."
        putenv('QIBM_QSH_CMD_OUTPUT=FILE=' + %trim(mytmp));
        putenv('QIBM_QSH_CMD_ESCAPE_MSG=Y');
        cmdstr = 'STRQSH CMD('''
            + '/usr/bin/qsh -c '''''
-           + %str(cmd:cmdLen)
+           + %scanrpl( '''' : '''''' : %str(cmd:cmdLen))
            + ''''''')';
        len = %len(%trim(cmdstr));
        cmdexec(cmdstr:len);

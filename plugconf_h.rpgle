@@ -41,7 +41,7 @@
       *****************************************************
       * ---change if new version---
       *****************************************************
-     D PLUGVER         c                   const('XML Toolkit 1.9.9')
+     D PLUGVER         c                   const('XML Toolkit 1.9.9.1')
 
       *****************************************************
       * ---change plugconf1/2 alternate library---

@@ -308,6 +308,10 @@
      D  nn60a                        60a
      D  nn35a                        35a
 
+     D zzconst         PR           100A
+     D  byRefSpill                   17A   const
+     D  byRef                        10A
+
       *****************************************************
       * DebugMe
       * Send message to qsysopr and wait for response
@@ -1164,6 +1168,30 @@
        endfor;
        // error injected (deep)
        memset(%ADDR(nnDS(TONMAX).so7a):194:%size(dcTon_t)); // 'B'
+      /end-free
+     P                 E
+
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      * zzzconst: try explain 'const'/'value' (uf da)
+      * data <= 16 -- fits in 1/2 regs, so 'true' value pass
+      * data > 16 -- spills copy memory, so effectively by ref
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     P zzconst         B                   export
+     D zzconst         PI           100A
+     D  byRefSpill                   17A   const
+     D  byRef                        10A
+      * vars
+      /free
+
+       // not 'by val', actually compiler temp copy 'by ref'
+       // <parm by='ref'><data type='17A'>suprise<data></parm>
+       // byRefSpill = 'suprise';
+
+       // <parm by='ref'><data type='10A'>expect<data></parm>
+       // byRef = 'expect';
+
+       // <return><data type='17A'>expect suprise<data></return>
+       return byRef + ' ' + byRefSpill;
       /end-free
      P                 E
 

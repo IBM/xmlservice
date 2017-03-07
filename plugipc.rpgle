@@ -1392,7 +1392,8 @@
               + ' JOBD('
               + %trim(ipcDoFlags.doSbmLib) 
               + '/' 
-              + %trim(ipcDoFlags.doSbmJobd);
+              + %trim(ipcDoFlags.doSbmJobd)         
+              + ')';          
          // INLASPGRP(ASP1) (1.6.5)
          if ipcDoFlags.doSbmAsp <> *BLANKS;
            cmdstr = %trim(cmdstr)
@@ -1400,7 +1401,6 @@
               + %trim(ipcDoFlags.doSbmAsp) 
               + ')';
          endif;
-         cmdstr = %trim(cmdstr) + ')';
          // add options for SBMJOB
          for i = 1 to SBMNBR;
            cmdstr = %trim(cmdstr) + ' ' + %trim(SBMARRAY(i));

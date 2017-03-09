@@ -2596,6 +2596,96 @@
      P                 E
 
       *****************************************************
+      * offset round to align
+      * return addr
+      *****************************************************
+     P uintAlign       B                   export
+     D uintAlign       PI            20U 0
+     D   start                       20U 0 value
+     D   align                       20u 0 value
+      * vars
+     D loop            s              1N    inz(*ON)
+     D addr            s             20U 0  inz(0)
+     D bitm            s             20U 0  inz(0)
+     D pCopy           s               *   inz(*NULL)
+     D myCopy          ds                  likeds(over_t) based(pCopy)
+      /free
+       // 1 byte align is no align
+       if align < 2;
+         return start;
+       endif;
+       // align 2, 4, 8, 16, etc.
+       addr = start;
+       dow loop = *on;
+         bitm = %bitand(addr:X'000000000000000F');
+         if bitm = 0;
+           leave;
+         endif;
+         select;
+         when align = 8;
+           select;
+           when bitm = x'08';
+             leave;
+           other;
+           endsl;
+         when align = 4;
+           select;
+           when bitm = x'04';
+             leave;
+           when bitm = x'08';
+             leave;
+           when bitm = x'0C';
+             leave;
+           other;
+           endsl;
+         when align = 2;
+           select;
+           when bitm = x'02';
+             leave;
+           when bitm = x'04';
+             leave;
+           when bitm = x'06';
+             leave;
+           when bitm = x'08';
+             leave;
+           when bitm = x'0A';
+             leave;
+           when bitm = x'0C';
+             leave;
+           when bitm = x'0E';
+             leave;
+           other;
+           endsl;
+         other;
+         endsl;
+         addr += 1;
+       enddo;
+       return addr;
+      /end-free
+     P                 E
+
+      *****************************************************
+      * ILE round to
+      * return addr
+      * note: start is assumed quad align
+      *****************************************************
+     P ileAlign        B                   export
+     D ileAlign        PI              *
+     D   start                         *   value
+     D   offset                        *   value
+     D   align                       20u 0 value
+      * vars
+     D orig            s             20U 0  inz(0)
+     D addr            s             20U 0  inz(0)
+      /free
+       orig = offset - start;
+       addr = uintAlign(orig:align);
+       return offset + (addr-orig);
+      /end-free
+     P                 E
+
+
+      *****************************************************
       * ILE dec size 
       * return (*ON=good, *OFF=error)
       *****************************************************
@@ -2964,10 +3054,16 @@
              when node.xmlDigits <= 3;
                mySig.shortx = ARG_INT8;
              when node.xmlDigits>3 and node.xmlDigits <= 5;
+               // req 2-byte aligned for _ILECALL
+               pArgv = ileAlign(sArgvBegP:pArgv:2);
                mySig.shortx = ARG_INT16;
              when node.xmlDigits > 5 and node.xmlDigits <= 10;
+               // req 4-byte aligned for _ILECALL
+               pArgv = ileAlign(sArgvBegP:pArgv:4);
                mySig.shortx = ARG_INT32;
              when node.xmlDigits > 10;
+               // req 8-byte aligned for _ILECALL
+               pArgv = ileAlign(sArgvBegP:pArgv:8);
                mySig.shortx = ARG_INT64;
              other;
              endsl;
@@ -2977,18 +3073,29 @@
              when node.xmlDigits <= 3;
                mySig.shortx = ARG_UINT8;
              when node.xmlDigits>3 and node.xmlDigits <= 5;
+               // req 2-byte aligned for _ILECALL
+               pArgv = ileAlign(sArgvBegP:pArgv:2);
                mySig.shortx = ARG_UINT16;
              when node.xmlDigits > 5 and node.xmlDigits <= 10;
+               // req 4-byte aligned for _ILECALL
+               pArgv = ileAlign(sArgvBegP:pArgv:4);
                mySig.shortx = ARG_UINT32;
              when node.xmlDigits > 10;
+               // req 8-byte aligned for _ILECALL
+               pArgv = ileAlign(sArgvBegP:pArgv:8);
                mySig.shortx = ARG_UINT64;
              other;
              endsl;
            // float or double
            when node.xmlAttr = XML_ATTR_VAL_F;
+             // req 4-byte aligned for _ILECALL
+             pArgv = ileAlign(sArgvBegP:pArgv:4);
              mySig.shortx = ARG_FLOAT32;
            when node.xmlAttr = XML_ATTR_VAL_D;
+             // req 8-byte aligned for _ILECALL
              mySig.shortx = ARG_FLOAT64;
+             pArgv = ileAlign(sArgvBegP:pArgv:8);
+           // aggregates any align
            // binary (hex char)
            // character
            // packed or zoned decimal

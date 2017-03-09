@@ -121,6 +121,15 @@
      D   start                         *   value
      D   offset                        *   value
 
+     D uintAlign       PR            20U 0
+     D   start                       20U 0 value
+     D   align                       20u 0 value
+
+     D ileAlign        PR              *
+     D   start                         *   value
+     D   offset                        *   value
+     D   align                       20u 0 value
+
      D ileIsV5         PR             1N
 
      D ileRslv         PR             1N

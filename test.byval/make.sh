@@ -1,7 +1,7 @@
 #!/bin/sh
 # -------
 #
-# > ./make.sh library [testpgm jkit ...]
+# > ./make.sh [testsrvx ...]
 #
 # examples:
 #   full build
@@ -11,7 +11,7 @@
 #   > ./make.sh
 #
 #   individual module compiles
-#   > ./make.sh testpgmx
+#   > ./make.sh testsrvx
 #
 ### RPG PTF required ###
 # TGTCCSID(37)

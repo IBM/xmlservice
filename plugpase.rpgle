@@ -1482,7 +1482,6 @@
      D myCopy          ds                  likeds(over_t) based(pCopy)
      D myBuf           S          65000A   inz(*BLANKS)
      D myPtr           S               *   inz(*NULL)
-     D myCopy2         ds                  likeds(over_t) based(pCopy)
       * debug
      D tBenArgSz       s             10i 0 inz(0)
      D tBenArgP        S               *   inz(*NULL)
@@ -1490,6 +1489,8 @@
      D tBenPrmP        S               *   inz(*NULL)
      D tBenRetSz       s             10i 0 inz(0)
      D tBenRetP        S               *   inz(*NULL)
+     D tBenBaseP       S               *   inz(*NULL)
+     D tBenSigP        S               *   inz(*NULL)
       /free
 
        Monitor;
@@ -1497,6 +1498,8 @@
        tBenArgSz = ileSzArgv(tBenArgP);
        tBenPrmSz = ileSzParm(tBenPrmP);
        tBenRetSz = ileSzRet(tBenRetP);
+       tBenBaseP = piBase;
+       tBenSigP = piSig;
 
        rcb = ileRslv(pgm1:lib1:pILESym:sym1);
        if rcb = *OFF;
@@ -1505,6 +1508,14 @@
 
        // rc = _ILECALL(pILESym, &arguments->base, 
        //               signature, RESULT_VOID );
+       pCopy = piBase;
+       myCopy.ulonglongx = 0;
+       pCopy += 8;
+       myCopy.ulonglongx = 0;
+       pCopy += 8;
+       myCopy.ulonglongx = 0;
+       pCopy += 8;
+       myCopy.ulonglongx = 0;
        ieArgs.ieMe = paAlloc+(piILECALLParms-piAlloc);
        ieArgs.ieTarget = paAlloc+(%addr(ieArgs.ieTarget1)-piAlloc);
        ieArgs.ieBase = paAlloc+(piBase-piAlloc);

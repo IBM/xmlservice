@@ -2740,6 +2740,7 @@
       * vars
      D inRegister      S              1N   inz(*OFF)
      D argvType        S              1A   inz(XML_BY_MBR)
+     D pCopy           s               *   inz(*NULL)
       /free
        // ------------
        // where is return placed?
@@ -2909,6 +2910,7 @@
          node.pgmValErr = XML_PGM_ERROR_TRUE;
        endsl;
 
+       // -----------
        // may return register, 
        // not memory aggregate
        if inRegister = *ON;
@@ -2927,22 +2929,113 @@
        endif;
 
        // -----------
-       // parm is by reference
-       node.pgmPtrTyp = XML_PTR_NADA;       // no ptr
+       // data assumed not ptr
+       node.pgmPtrTyp = XML_PTR_NADA;
+
+       // -----------
+       // parm is by reference (pointer)
        if argvType = XML_BY_REF;
          if node.xmlCallAs = XML_FUNC_SRVPGM 
-         or sOPM = XML_PGM_OPM_TRUE;                            // ADC (1.6.8)
-           node.pgmArgPo = ileQuad(sOrigP:sArgvP) - sArgvBegP;  // ADC (1.6.8)
+         or sOPM = XML_PGM_OPM_TRUE;
+           // req 16-byte aligned for _ILECALL
+           pCopy = ileAlign(sOrigP:sArgvP:16);
+           node.pgmArgPo = pCopy - sArgvBegP;
            node.pgmArgSz = %size(sArgvP);   // ILE ptr (SRVPGM)
            node.pgmPtrTyp = XML_PTR_ILE;    // write ILE ptr
          else;
+           // req 4-byte aligned for _ILECALL
+           pCopy = ileAlign(sOrigP:sArgvP:4);
+           node.pgmArgPo = pCopy - sArgvBegP;
            node.pgmArgSz = 4;               // PASE ptr32 (PGM)
            node.pgmPtrTyp = XML_PTR_PASE;   // write PASE ptr
          endif;
        // -----------
        // parm is by value
        elseif argvType = XML_BY_VAL;
-           node.pgmArgSz = node.pgmValSz;
+         node.pgmArgSz = node.pgmValSz;
+         // signature _ILECALL only (SRVPGM)
+         // only parms (not return value)
+         // only top value is "signature"
+         if  node.xmlCallAs = XML_FUNC_SRVPGM
+         and node.xmlPrmRet = XML_IS_PARM
+         and node.pgmArgTop = XML_PGM_TOP_TRUE;
+           // -----------
+           // data type value alignment
+           // must match _ILECALL expected
+           select;
+           // -----------
+           // signed int / unsigned int
+           when node.xmlAttr = XML_ATTR_VAL_I
+           or   node.xmlAttr = XML_ATTR_VAL_U;
+             select;
+             when node.xmlDigits <= 3;
+               // req 1-byte align (none)
+             when node.xmlDigits>3 and node.xmlDigits <= 5;
+               // req 2-byte aligned for _ILECALL
+               pCopy = ileAlign(sOrigP:sArgvP:2);
+               node.pgmArgPo = pCopy - sArgvBegP;
+             when node.xmlDigits > 5 and node.xmlDigits <= 10;
+               // req 4-byte aligned for _ILECALL
+               pCopy = ileAlign(sOrigP:sArgvP:4);
+               node.pgmArgPo = pCopy - sArgvBegP;
+             when node.xmlDigits > 10;
+               // req 8-byte aligned for _ILECALL
+               pCopy = ileAlign(sOrigP:sArgvP:8);
+               node.pgmArgPo = pCopy - sArgvBegP;
+             other;
+             endsl;
+           // -----------
+           // float
+           when node.xmlAttr = XML_ATTR_VAL_F;
+             // req 4-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:4);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           // -----------
+           // double
+           when node.xmlAttr = XML_ATTR_VAL_D;
+             // req 8-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:8);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           // -----------
+           // aggregates alignment < 9
+           when node.pgmArgSz = 1;
+             // req 1-byte aligned for _ILECALL
+           when node.pgmArgSz = 2;
+             // req 2-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:2);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           when node.pgmArgSz = 3;
+             // req 4-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:4);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           when node.pgmArgSz = 4;
+             // req 4-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:4);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           when node.pgmArgSz = 5;
+             // req 8-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:8);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           when node.pgmArgSz = 6;
+             // req 8-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:8);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           when node.pgmArgSz = 7;
+             // req 8-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:8);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           when node.pgmArgSz = 8;
+             // req 8-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:8);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           // -----------
+           // aggregates alignment > 8
+           other;
+             // req 16-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:16);
+             node.pgmArgPo = pCopy - sArgvBegP;
+           endsl;
+         endif;
        endif;
 
        return *ON;
@@ -2956,11 +3049,25 @@
      P ileNext         B
      D ileNext         PI             1N
      D   node                              likeds(xmlNode_t)
+      * vars
+     D pCopy           s               *   inz(*NULL)
       /free
        sSigP += node.pgmSigSz;        // new signature location
        sSigSz += node.pgmSigSz;       // size signature location
        sArgvP += node.pgmArgSz;       // new argv location
-       sArgvSz += node.pgmArgSz;      // size argv location
+       // SRVPGM support by value mixed with by ref
+       // if this entry was ptr we need quad align
+       // next to avoid ileCurrent possible overlay
+       // of this ptr with next by value argument
+       if  node.xmlCallAs = XML_FUNC_SRVPGM
+       and node.xmlPrmRet = XML_IS_PARM
+       and node.pgmArgTop = XML_PGM_TOP_TRUE
+       and node.pgmPtrTyp = XML_PTR_ILE;
+         pCopy = sArgvP;
+         sArgvP = ileQuad(sOrigP:sArgvP);
+         sArgvSz += (sArgvP - pCopy);
+       endif;
+       sArgvSz = sArgvP - sArgvBegP;  // size argv location
        if node.xmlPrmRet = XML_IS_PARM;
          sParmP += node.pgmValSz;     // new parm location
          sParmSz += node.pgmValSz;    // size parm location
@@ -3018,6 +3125,7 @@
 
        // --------------
        // where are we?
+       // (alignment calulated)
        rc = ileCurrent(node);
 
        // original string
@@ -3026,6 +3134,7 @@
 
        // calculated in/out area
        pArgv = sArgvBegP + node.pgmArgPo;
+       sArgvP = pArgv; // may move based align (value)
        pSig = sSigBegP + node.pgmSigPo;
        if node.xmlPrmRet = XML_IS_PARM;
          pCopy = sParmP;
@@ -3046,6 +3155,11 @@
            mySig.shortx = ARG_SPCPTR;
          // by value
          else;
+           // opm mode not support by value
+           if sOPM = XML_PGM_OPM_TRUE;
+             node.pgmValErr = XML_PGM_ERROR_TRUE;
+             return *OFF;
+           endif;
            // data type value
            select;
            // signed int
@@ -3053,18 +3167,16 @@
              select;
              when node.xmlDigits <= 3;
                mySig.shortx = ARG_INT8;
+               //mySig.shortx = 1;
              when node.xmlDigits>3 and node.xmlDigits <= 5;
-               // req 2-byte aligned for _ILECALL
-               pArgv = ileAlign(sArgvBegP:pArgv:2);
                mySig.shortx = ARG_INT16;
+               //mySig.shortx = 2;
              when node.xmlDigits > 5 and node.xmlDigits <= 10;
-               // req 4-byte aligned for _ILECALL
-               pArgv = ileAlign(sArgvBegP:pArgv:4);
                mySig.shortx = ARG_INT32;
+               //mySig.shortx = 4;
              when node.xmlDigits > 10;
-               // req 8-byte aligned for _ILECALL
-               pArgv = ileAlign(sArgvBegP:pArgv:8);
                mySig.shortx = ARG_INT64;
+               //mySig.shortx = 8;
              other;
              endsl;
            // unsigned int (mmm)
@@ -3072,30 +3184,25 @@
              select;
              when node.xmlDigits <= 3;
                mySig.shortx = ARG_UINT8;
+               //mySig.shortx = 1;
              when node.xmlDigits>3 and node.xmlDigits <= 5;
-               // req 2-byte aligned for _ILECALL
-               pArgv = ileAlign(sArgvBegP:pArgv:2);
                mySig.shortx = ARG_UINT16;
+               //mySig.shortx = 2;
              when node.xmlDigits > 5 and node.xmlDigits <= 10;
-               // req 4-byte aligned for _ILECALL
-               pArgv = ileAlign(sArgvBegP:pArgv:4);
                mySig.shortx = ARG_UINT32;
+               //mySig.shortx = 4;
              when node.xmlDigits > 10;
-               // req 8-byte aligned for _ILECALL
-               pArgv = ileAlign(sArgvBegP:pArgv:8);
                mySig.shortx = ARG_UINT64;
+               //mySig.shortx = 8;
              other;
              endsl;
            // float or double
            when node.xmlAttr = XML_ATTR_VAL_F;
-             // req 4-byte aligned for _ILECALL
-             pArgv = ileAlign(sArgvBegP:pArgv:4);
              mySig.shortx = ARG_FLOAT32;
+             //mySig.shortx = 4;
            when node.xmlAttr = XML_ATTR_VAL_D;
-             // req 8-byte aligned for _ILECALL
              mySig.shortx = ARG_FLOAT64;
-             pArgv = ileAlign(sArgvBegP:pArgv:8);
-           // aggregates any align
+             //mySig.shortx = 8;
            // binary (hex char)
            // character
            // packed or zoned decimal
@@ -3117,6 +3224,14 @@
        and node.xmlBy = XML_BY_VAL
        and node.xmlCallAs = XML_FUNC_SRVPGM;
          pCopy = pArgv;
+         myCopy.ulonglongx = 0;
+         pCopy += 8;
+         myCopy.ulonglongx = 0;
+         pCopy += 8;
+         myCopy.ulonglongx = 0;
+         pCopy += 8;
+         myCopy.ulonglongx = 0;
+         pCopy = pArgv;
        endif;
 
        // pointer to value?
@@ -3130,7 +3245,7 @@
            myArgv.ptrx = *NULL;              // null terminate
          endif;
        elseif node.pgmPtrTyp = XML_PTR_PASE; // write PASE ptr
-         if sOPM = XML_PGM_OPM_TRUE;        // (1.6.8)
+         if sOPM = XML_PGM_OPM_TRUE;         // (1.6.8)
            myArgv.ptrx = sParmP;             // by ref (ile addr)
            pArgv += %size(sParmBegP);
            myArgv.ptrx = *NULL;              // null terminate

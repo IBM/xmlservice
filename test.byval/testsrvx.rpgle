@@ -39,6 +39,10 @@
        testval5();
        testval6();
        getsmart();
+       getmixed();
+       getremixed();
+       getpacked();
+       getzoned();
 
        return;
 
@@ -287,15 +291,15 @@
          '<?xml version="1.0"?>'
        + '<xmlservice>'
        + '<cmd error="fast" exec="cmd" var="chglibl">'
-       + 'CHGLIBL LIBL(XMLSERVICE)'
+       + 'CHGLIBL LIBL('+TEST_LIB+')'
        + '</cmd>'
        + '<pgm error="fast" func="GETSMART" name="TESTZSRV" var="getsmart">'
-       + '<parm io="both" var="p1">'
-       + '<data by="val" type="10a" var="p0Format"/></parm>'
-       + '<parm io="both" var="p2">'
-       + '<data by="val" type="1a" var="p0Type"/></parm>'
-       + '<parm io="both" var="p3">'
-       + '<data by="val" type="15a" var="p0Value"/></parm>'
+       + '<parm io="both" by="val" var="p1">'
+       + '<data type="10a" var="p0Format"/></parm>'
+       + '<parm io="both" by="val" var="p2">'
+       + '<data type="1a" var="p0Type"/></parm>'
+       + '<parm io="both" by="val" var="p3">'
+       + '<data type="15a" var="p0Value"/></parm>'
        + '<parm io="both" var="p4">'
        + '<data type="5a" var="p0Channel"/></parm>'
        + '<parm io="both" var="p5">'
@@ -316,6 +320,415 @@
        + '<data type="15a" var="p0Part"/></parm>'
        + '<parm io="both" var="p13">'
        + '<data type="30a" var="p0PartDesc"/></parm>'
+       + '</pgm>'
+       + '</xmlservice>'
+       + x'00';
+
+       xjRun(xjIn:xjOut:4096:4096);
+
+       end-proc;
+
+
+       // ****************************************************          
+       // test: TESTZSRV.GETMIXED
+       // dcl-proc GetMixed export;
+       // dcl-pi  *N;
+       //   pp packed(12:2) Value;
+       //   ppd char(30);
+       //   zz zoned(12:2) Value;
+       //   zzd char(30);
+       //   i1 int(3) value;
+       //   i1d char(30);
+       //   i2 int(5) value;
+       //   i2d char(30);
+       //   i4 int(10) value;
+       //   i4d char(30);
+       //   i8 int(20) value;
+       //   i8d char(30);
+       //   f4 float(4) value;
+       //   f4d char(30);
+       //   f8 float(8) value;
+       //   f8d char(30);
+       // end-pi;
+       // ****************************************************          
+       dcl-proc getmixed;
+       dcl-pi *N;
+       end-pi;
+       dcl-s xjInData char(4096) inz(*BLANKS);
+       dcl-s xjOutData char(4096) inz(*BLANKS);
+       dcl-s xjIn pointer inz(%addr(xjInData));
+       dcl-s xjOut pointer inz(%addr(xjOutData));
+
+       xjInData = 
+         '<?xml version="1.0"?>'
+       + '<xmlservice>'
+       + '<cmd error="fast" exec="cmd" var="chglibl">'
+       + 'CHGLIBL LIBL('+TEST_LIB+')'
+       + '</cmd>'
+       + '<pgm error="fast" func="GETMIXED" name="TESTZSRV" var="mixed0">'
+
+       + '<parm io="both" by="val" var="p1">'
+       + '<data type="12p2" var="pp">1</data></parm>'
+       + '<parm io="both" var="p2">'
+       + '<data type="30a" var="ppd">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p3">'
+       + '<data type="12s2" var="zz">1</data></parm>'
+       + '<parm io="both" var="p4">'
+       + '<data type="30a" var="zzd">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p5">'
+       + '<data type="3i0" var="i1">1</data></parm>'
+       + '<parm io="both" var="p6">'
+       + '<data type="30a" var="i1d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p7">'
+       + '<data type="5i0" var="i2">1</data></parm>'
+       + '<parm io="both" var="p8">'
+       + '<data type="30a" var="i2d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p9">'
+       + '<data type="10i0" var="i4">1</data></parm>'
+       + '<parm io="both" var="p10">'
+       + '<data type="30a" var="i4d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p11">'
+       + '<data type="20i0" var="i8">1</data></parm>'
+       + '<parm io="both" var="p12">'
+       + '<data type="30a" var="i8d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p13">'
+       + '<data type="4f" var="f4">1</data></parm>'
+       + '<parm io="both" var="p14">'
+       + '<data type="30a" var="f4d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p15">'
+       + '<data type="8f" var="f8">1</data></parm>'
+       + '<parm io="both" var="p16">'
+       + '<data type="30a" var="f8d">1</data></parm>'
+
+       + '</pgm>'
+       + '</xmlservice>'
+       + x'00';
+
+       xjRun(xjIn:xjOut:4096:4096);
+
+       end-proc;
+
+
+       // ****************************************************          
+       // test: TESTZSRV.GETREMIXED
+       // dcl-pi  *N;
+       //   i2d char(30);
+       //   pp packed(12:2) Value;
+       //   zz zoned(12:2) Value;
+       //   ppd char(30);
+       //   zzd char(30);
+       //   i1 int(3) value;
+       //   i1d char(30);
+       //   i4 int(10) value;
+       //   i8 int(20) value;
+       //   f4 float(4) value;
+       //   f4d char(30);
+       //   f8 float(8) value;
+       //   i4d char(30);
+       //   i8d char(30);
+       //   f8d char(30);
+       //   i2 int(5) value;
+       // end-pi;
+       // ****************************************************          
+       dcl-proc getremixed;
+       dcl-pi *N;
+       end-pi;
+       dcl-s xjInData char(4096) inz(*BLANKS);
+       dcl-s xjOutData char(4096) inz(*BLANKS);
+       dcl-s xjIn pointer inz(%addr(xjInData));
+       dcl-s xjOut pointer inz(%addr(xjOutData));
+
+       xjInData = 
+         '<?xml version="1.0"?>'
+       + '<xmlservice>'
+       + '<cmd error="fast" exec="cmd" var="chglibl">'
+       + 'CHGLIBL LIBL('+TEST_LIB+')'
+       + '</cmd>'
+       + '<pgm error="fast" func="GETREMIXED" name="TESTZSRV" var="mixed1">'
+
+       + '<parm io="both" var="p8">'
+       + '<data type="30a" var="i2d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p1">'
+       + '<data type="12p2" var="pp">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p3">'
+       + '<data type="12s2" var="zz">1</data></parm>'
+
+       + '<parm io="both" var="p2">'
+       + '<data type="30a" var="ppd">1</data></parm>'
+
+       + '<parm io="both" var="p4">'
+       + '<data type="30a" var="zzd">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p5">'
+       + '<data type="3i0" var="i1">1</data></parm>'
+
+       + '<parm io="both" var="p6">'
+       + '<data type="30a" var="i1d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p9">'
+       + '<data type="10i0" var="i4">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p11">'
+       + '<data type="20i0" var="i8">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p13">'
+       + '<data type="4f" var="f4">1</data></parm>'
+
+       + '<parm io="both" var="p14">'
+       + '<data type="30a" var="f4d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p15">'
+       + '<data type="8f" var="f8">1</data></parm>'
+
+       + '<parm io="both" var="p10">'
+       + '<data type="30a" var="i4d">1</data></parm>'
+
+       + '<parm io="both" var="p12">'
+       + '<data type="30a" var="i8d">1</data></parm>'
+
+       + '<parm io="both" var="p16">'
+       + '<data type="30a" var="f8d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p7">'
+       + '<data type="5i0" var="i2">1</data></parm>'
+
+       + '</pgm>'
+       + '</xmlservice>'
+       + x'00';
+
+       xjRun(xjIn:xjOut:4096:4096);
+
+       end-proc;
+
+
+       // ****************************************************          
+       // test: TESTZSRV.GETPACKED
+       // dcl-pi  *N;
+       // i2d char(30);
+       // p1 packed(4:2) Value;
+       // p2 packed(3:2) Value;
+       // p3 packed(12:2) Value;
+       // p4 packed(6:2) Value;
+       // p5 packed(8:2) Value;
+       // p6 packed(24:4) Value;
+       // p7 packed(48:8) Value;
+       // ppd char(30);
+       // zzd char(30);
+       // i2 int(5) value;
+       // i1d char(30);
+       // i4 int(10) value;
+       // i8 int(20) value;
+       // f4 float(4) value;
+       // f4d char(30);
+       // f8 float(8) value;
+       // i4d char(30);
+       // i8d char(30);
+       // f8d char(30);
+       // i1 int(3) value;
+       // end-pi;
+       // ****************************************************          
+       dcl-proc getpacked;
+       dcl-pi *N;
+       end-pi;
+       dcl-s xjInData char(4096) inz(*BLANKS);
+       dcl-s xjOutData char(4096) inz(*BLANKS);
+       dcl-s xjIn pointer inz(%addr(xjInData));
+       dcl-s xjOut pointer inz(%addr(xjOutData));
+
+       xjInData = 
+         '<?xml version="1.0"?>'
+       + '<xmlservice>'
+       + '<cmd error="fast" exec="cmd" var="chglibl">'
+       + 'CHGLIBL LIBL('+TEST_LIB+')'
+       + '</cmd>'
+       + '<pgm error="fast" func="GETPACKED" name="TESTZSRV" var="mixed2">'
+
+       + '<parm io="both" by="val" var="p8">'
+       + '<data type="8a" var="i2d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="pp1">'
+       + '<data type="4p2" var="pp">1</data></parm>'
+
+       + '<parm io="both" by="val" var="pp2">'
+       + '<data type="3p2" var="zz">1</data></parm>'
+
+       + '<parm io="both" by="val" var="pp3">'
+       + '<data type="12p2" var="zz">1</data></parm>'
+
+       + '<parm io="both" by="val" var="pp4">'
+       + '<data type="6p2" var="zz">1</data></parm>'
+
+       + '<parm io="both" by="val" var="pp5">'
+       + '<data type="8p2" var="zz">1</data></parm>'
+
+       + '<parm io="both" by="val" var="pp6">'
+       + '<data type="24p4" var="zz">1</data></parm>'
+
+       + '<parm io="both" by="val" var="pp7">'
+       + '<data type="48p8" var="zz">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p2">'
+       + '<data type="15a" var="ppd">1</data></parm>'
+
+       + '<parm io="both" var="p4">'
+       + '<data type="30a" var="zzd">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p7">'
+       + '<data type="5i0" var="i2">1</data></parm>'
+
+       + '<parm io="both" var="p6">'
+       + '<data type="30a" var="i1d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p9">'
+       + '<data type="10i0" var="i4">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p11">'
+       + '<data type="20i0" var="i8">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p13">'
+       + '<data type="4f" var="f4">1</data></parm>'
+
+       + '<parm io="both" var="p14">'
+       + '<data type="30a" var="f4d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p15">'
+       + '<data type="8f" var="f8">1</data></parm>'
+
+       + '<parm io="both" var="p10">'
+       + '<data type="30a" var="i4d">1</data></parm>'
+
+       + '<parm io="both" var="p12">'
+       + '<data type="30a" var="i8d">1</data></parm>'
+
+       + '<parm io="both" var="p16">'
+       + '<data type="30a" var="f8d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p5">'
+       + '<data type="3i0" var="i1">1</data></parm>'
+
+       + '</pgm>'
+       + '</xmlservice>'
+       + x'00';
+
+       xjRun(xjIn:xjOut:4096:4096);
+
+       end-proc;
+
+
+       // ****************************************************          
+       // test: TESTZSRV.ZONED
+       // dcl-pi  *N;
+       // i2d char(30);
+       // z1 zoned(4:2) Value;
+       // z2 zoned(3:2) Value;
+       // z3 zoned(12:2) Value;
+       // z4 zoned(6:2) Value;
+       // z5 zoned(8:2) Value;
+       // z6 zoned(24:4) Value;
+       // z7 zoned(48:8) Value;
+       // ppd char(30);
+       // zzd char(30);
+       // i2 int(5) value;
+       // i1d char(30);
+       // i4 int(10) value;
+       // i8 int(20) value;
+       // f4 float(4) value;
+       // f4d char(30);
+       // f8 float(8) value;
+       // i4d char(30);
+       // i8d char(30);
+       // f8d char(30);
+       // i1 int(3) value;
+       // end-pi;
+       // ****************************************************          
+       dcl-proc getzoned;
+       dcl-pi *N;
+       end-pi;
+       dcl-s xjInData char(4096) inz(*BLANKS);
+       dcl-s xjOutData char(4096) inz(*BLANKS);
+       dcl-s xjIn pointer inz(%addr(xjInData));
+       dcl-s xjOut pointer inz(%addr(xjOutData));
+
+       xjInData = 
+         '<?xml version="1.0"?>'
+       + '<xmlservice>'
+       + '<cmd error="fast" exec="cmd" var="chglibl">'
+       + 'CHGLIBL LIBL('+TEST_LIB+')'
+       + '</cmd>'
+       + '<pgm error="fast" func="GETZONED" name="TESTZSRV" var="mixed2">'
+
+       + '<parm io="both" var="p8">'
+       + '<data type="30a" var="i2d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="zz1">'
+       + '<data type="4s2" var="pp">11.11</data></parm>'
+
+       + '<parm io="both" by="val" var="zz2">'
+       + '<data type="3s2" var="zz">2.22</data></parm>'
+
+       + '<parm io="both" by="val" var="zz3">'
+       + '<data type="12s2" var="zz">3333333333.33</data></parm>'
+
+       + '<parm io="both" by="val" var="zz4">'
+       + '<data type="6s2" var="zz">4444.44</data></parm>'
+
+       + '<parm io="both" by="val" var="zz5">'
+       + '<data type="8s2" var="zz">555555.55</data></parm>'
+
+       + '<parm io="both" by="val" var="zz6">'
+       + '<data type="24s4" var="zz">6666666666.66</data></parm>'
+
+       + '<parm io="both" by="val" var="zz7">'
+       + '<data type="48s8" var="zz">7777777777.77777777</data></parm>'
+
+       + '<parm io="both" var="p2">'
+       + '<data type="30a" var="ppd">1</data></parm>'
+
+       + '<parm io="both" var="p4">'
+       + '<data type="30a" var="zzd">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p7">'
+       + '<data type="5i0" var="i2">1</data></parm>'
+
+       + '<parm io="both" var="p6">'
+       + '<data type="30a" var="i1d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p9">'
+       + '<data type="10i0" var="i4">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p11">'
+       + '<data type="20i0" var="i8">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p13">'
+       + '<data type="4f" var="f4">1</data></parm>'
+
+       + '<parm io="both" var="p14">'
+       + '<data type="30a" var="f4d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p15">'
+       + '<data type="8f" var="f8">1</data></parm>'
+
+       + '<parm io="both" var="p10">'
+       + '<data type="30a" var="i4d">1</data></parm>'
+
+       + '<parm io="both" var="p12">'
+       + '<data type="30a" var="i8d">1</data></parm>'
+
+       + '<parm io="both" var="p16">'
+       + '<data type="30a" var="f8d">1</data></parm>'
+
+       + '<parm io="both" by="val" var="p5">'
+       + '<data type="3i0" var="i1">1</data></parm>'
+
        + '</pgm>'
        + '</xmlservice>'
        + x'00';

@@ -9648,9 +9648,13 @@
        curLen = %len(%trim(report));
        if curLen + 1024 < maxLen;
          report = %trim(report) + '<jobinfo>'+x'25';
-         report = %trim(report) + '<jobipc>' 
+         if ipcIPC() = *BLANKS;
+           report = %trim(report) + '<jobipc/>'+x'25';
+         else;
+           report = %trim(report) + '<jobipc>' 
                                + %trim(ipcIPC())
                                +'</jobipc>'+x'25';
+         endif;
          report = %trim(report) + '<jobipcskey>' 
                                + %trim(ipcFtok())
                                +'</jobipcskey>'+x'25';
@@ -9920,9 +9924,13 @@
          report = %trim(report) + ' jobuser=''' + %trim(jobUserID) + '''';
          report = %trim(report) + ' jobnbr='''  + %trim(jobNbr)    + '''';
        endif;
-       report = %trim(report) + '>';
-       report = %trim(report) + %trim(ipcIPC());
-       report = %trim(report) + '</session>'+x'25';
+       if ipcIPC() = *BLANKS;
+         report = %trim(report) + '/>'+x'25';
+       else;
+         report = %trim(report) + '>';
+         report = %trim(report) + %trim(ipcIPC());
+         report = %trim(report) + '</session>'+x'25';
+       endif;
        // <session ...>...</session>
        // oooooooooooooooooooooooooo
        string = %addr(report);

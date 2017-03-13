@@ -19,8 +19,7 @@ $procLib = 'XMLSERVICE';     // XMLSERVICE - new release testing library
 $procPlug   = "iPLUG5M";        // iPLUGxxx various sizes
 $procPlugR  = "iPLUGR5M";       // iPLUGRxxx various sizes (result set)
 // REST interface (xmlcgi.pgm) ***
-# $i5resturl  = "http://lp0264d/cgi-bin/xmlcgi.pgm";
-$i5resturl  = "http://lp0364d:10022/cgi-bin/xmlcgi.pgm";
+$i5resturl  = "http://ut28p63/cgi-bin/xmlcgi.pgm";
 $i5restdb   = "*LOCAL";         // only *LOCAL tested
 if ($user == '') {
   $i5restuser = '*NONE';        // *NONE not allowed by default compile

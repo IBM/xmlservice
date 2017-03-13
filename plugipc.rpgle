@@ -155,6 +155,7 @@
      D j               s             10i 0 inz(0)
      D search          s              1A   inz('/')
      D pos             S             10i 0 inz(0)
+     D szIPC           s             10i 0 inz(0)
       * vars
      D doCtl2          s           1024A   inz(*BLANKS)
      D pTop            s               *   inz(*NULL)
@@ -204,8 +205,14 @@
        endif;
 
        // ipc
-       ipcPathBlk          = pIPCSP;
        ipcPathNull         = %trim(pIPCSP) + x'00';
+       szIPC               = strlen(%addr(ipcPathNull));
+       if szIPC < 1;
+         ipcPathBlk        = *BLANKS;
+       else;
+         ipcPathBlk        = pIPCSP;
+         ipcPathNull       = %trim(pIPCSP) + x'00';
+       endif;
        ipcCtl.ipcPathBlk   = ipcPathBlk;
        ipcCtl.ipcPathNull  = ipcPathNull;
        ipcCtl.ipcIClobP    = pIClob;
@@ -234,7 +241,11 @@
          ipcDoFlags.doNoStart  = *OFF;
        endif;
        ipcDoFlags.doImmed    = *OFF;
-       ipcDoFlags.doHere     = *OFF;
+       if szIPC < 1;
+         ipcDoFlags.doHere     = *ON;
+       else;
+         ipcDoFlags.doHere     = *OFF;
+       endif;
        ipcDoFlags.doHack     = *OFF;
        ipcDoFlags.doBatch    = *OFF;
        ipcDoFlags.doGet      = *OFF;
@@ -404,6 +415,9 @@
          endif;
          if ipcDoFlags.doSbmAsp = *BLANKS;
            ipcDoFlags.doSbmAsp = confJOBASP();
+         endif;
+         if szIPC < 1;
+           ipcDoFlags.doSbmJob  = *OFF;
          endif;
          count -= 1;
         endif;

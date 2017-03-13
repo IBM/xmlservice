@@ -262,7 +262,7 @@
        // **************************************************** 
        // try mix by value and by ref exotic types
        // ****************************************************
-       dcl-proc GetZoned export;
+       dcl-proc GetZoned_Not_Work_MMM export;
        dcl-pi  *N;
          i2d char(30);
          z1 zoned(4:2) Value;
@@ -307,5 +307,32 @@
          f4d = 'float man';
          f8 += 2.22;
          f8d = 'double man';
+       end-proc;
+
+
+       // **************************************************** 
+       // try mix by value and by ref exotic types
+       // ****************************************************
+       dcl-proc GetChared export;
+       dcl-pi  *N;
+         c1 char(8) value;
+         c2 char(3) value;
+         c3 char(3) value;
+         c4 char(30) value;
+         c5 char(30);
+         c6 char(1) value;
+         c7 char(3) value;
+         c8 char(8) value;
+         c9 char(80);
+       end-pi;
+         c1 = 'i am 8';
+         c2 = 'mex';
+         c3 = 'mey';
+         c4 = 'i am 30 val';
+         c5 = 'i am 30 ref';
+         c6 = '1';
+         c7 = 'mez';
+         c8 = 'i 8 too';
+         c9 = 'i am 80';
        end-proc;
 

@@ -51,6 +51,16 @@ XMLSERVICE/iPLUGRC32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI VARCHAR(32700)
 Where xx sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M, 15M
 ```
 
+### iToolkits
+XMLSERVICE is commonly via a language-specific toolkit.  The following are the known iToolkits.
+
+- [PHP iToolkit](https://github.com/zendtech/IbmiToolkit)
+- [Ruby iToolkit](https://bitbucket.org/litmis/ruby-itoolkit)
+- [Node.js iToolkit](https://bitbucket.org/litmis/nodejs-itoolkit)
+- [Python iToolkit](https://bitbucket.org/litmis/python-itoolkit)
+- [Swift iToolkit](https://bitbucket.org/litmis/swift-itoolkit)
+- [.NET](http://xmlservicei.codeplex.com/)
+
 
 ### Contribution guidelines ###
 
@@ -60,5 +70,3 @@ Where xx sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M, 15M
 
 * adc@us.ibm.com
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-

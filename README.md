@@ -60,7 +60,33 @@ In the event you need to do a more raw/direct test of XMLSERVICE (instead of goi
 CALL XMLSERVICE.iPLUG512K(
 '*NA', 
 '*here', 
-'<?xml version=''1.0''?><myscript><pgm name=''QWCRSVAL'' lib=''QSYS'' error=''fast''><parm io=''out''><ds len=''rec1''><data type=''10i0''>0</data><data type=''10i0''>0</data><data type=''10A''></data><data type=''1A''></data><data type=''1A''></data><data type=''10i0''>0</data><data type=''10i0''>0</data></ds></parm><parm><data type=''10i0'' setlen=''rec1''>0</data></parm><parm><data type=''10i0''>1</data></parm><parm><data type=''10A''>QCCSID</data></parm><parm io=''both''><ds len=''rec2''><data type=''10i0''>0</data><data type=''10i0'' setlen=''rec2''>0</data><data type=''7A''></data><data type=''1A''></data></ds></parm></pgm></myscript>', 
+'<?xml version=''1.0''?>
+<myscript>
+  <pgm name=''QWCRSVAL'' lib=''QSYS'' error=''fast''>
+    <parm io=''out''>
+      <ds len=''rec1''>
+        <data type=''10i0''>0</data>
+        <data type=''10i0''>0</data>
+        <data type=''10A''></data>
+        <data type=''1A''></data>
+        <data type=''1A''></data>
+        <data type=''10i0''>0</data>
+        <data type=''10i0''>0</data>
+      </ds>
+    </parm>
+    <parm><data type=''10i0'' setlen=''rec1''>0</data></parm>
+    <parm><data type=''10i0''>1</data></parm>
+    <parm><data type=''10A''>QCCSID</data></parm>
+    <parm io=''both''>
+      <ds len=''rec2''>
+        <data type=''10i0''>0</data>
+        <data type=''10i0'' setlen=''rec2''>0</data>
+        <data type=''7A''></data>
+        <data type=''1A''></data>
+      </ds>
+    </parm>
+  </pgm>
+</myscript>', 
 ?)
 ```
 

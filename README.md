@@ -54,7 +54,7 @@ Where xx sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M, 15M
 ### Debug
 In the event you need to do a more raw/direct test of XMLSERVICE (instead of going through an iToolkit) you can invoke it directly from the ACS "Run SQL Scripts" interface.  Below is an example of calling the `QWCRSVAL` *(Retrieve System Values)* API.  
 
-**NOTE:** You must escape the single quotes by doubling them up.
+**NOTE:** You must escape the single quotes by doubling them up. You may also use double qoutes for XML.
 
 ```
 CALL XMLSERVICE.iPLUG512K(

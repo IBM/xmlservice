@@ -51,7 +51,7 @@ put plugsql.rpgle plugsql.mbr
 put plugdb2.rpgle plugdb2.mbr
 put plugsig.rpgle plugsig.mbr
 put plugconv.rpgle plugconv.mbr
-put xmlstoredp.rpgle xmlstoredp.mbr
+put xmlstoredp.rpglesql xmlstoredp.mbr
 put xmlservice.rpgle xmlservice.mbr
 put xmlmain.rpgle xmlmain.mbr
 put xmlver.rpgle xmlver.mbr

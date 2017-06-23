@@ -1,18 +1,13 @@
-### gmake TGT=YIPS
-### gmake TGT=ZS5
-### gmake TGT=ZS6
-### gmake TGT=ZS7
-### gmake TGT=IBM
-### gmake TGT=RUBY
+### /QOpenSys/usr/bin/make xmlservice
+### /QOpenSys/usr/bin/make yips
+### /QOpenSys/usr/bin/make zs5
+### /QOpenSys/usr/bin/make zs6
+### /QOpenSys/usr/bin/make zs7
+### /QOpenSys/usr/bin/make ibm
+### /QOpenSys/usr/bin/make ruby
 ###
-### Dependencies:
-### Assumes minimum bash (perzl?)
-###
-### Assumes system400 command and utilities
-### https://bitbucket.org/litmis/system400
-###
-### Assumes updated yips gmake (4.2)
-### http://www.youngiprofessionals.com/wiki/index.php/PASE/OpenSourceBinaries
+### Assumes borgi command and utilities
+### https://bitbucket.org/litmis/borgi
 ###
 
 ### ILE compile scripts
@@ -24,38 +19,15 @@ CCSQL		= db2script
 
 ### *PGM - $(INILIB)/xmlmain.pgm
 ### xmlmain.rpgle xmlthis.rpgle xmlthat.rpgle ...
-XMLLIB		= XMLSERVICE
-XMLCONF		= plugconf1.mod
+XMLLIB		= NULL
+XMLCONF		= NULL
 XMLSQLTPL	= crtsql.cmd
-ifeq ($(TGT), YIPS)
-XMLLIB		= XMLSERVICE
-XMLCONF		= plugconf3.mod
-endif
-ifeq ($(TGT), ZS5)
-XMLLIB		= ZENDSVR
-XMLCONF		= plugconf2.mod
-endif
-ifeq ($(TGT), ZS6)
-XMLLIB		= ZENDSVR6
-XMLCONF		= plugconf6.mod
-endif
-ifeq ($(TGT), ZS7)
-XMLLIB		= ZENDPHP7
-XMLCONF		= plugconf7.mod
-endif
-ifeq ($(TGT), IBM)
-XMLLIB		= QXMLSERV
-XMLCONF		= plugconfq.mod
-endif
-ifeq ($(TGT), RUBY)
-XMLLIB		= POWER_RUBY
-XMLCONF		= plugconfr.mod
-endif
 XMLSQLRPL	= XMLSERVICE $(XMLLIB)
 XMLMAIN		= xmlmain.pgm
 XMLSERVICE	= xmlservice.pgm
 XMLSTOREDP	= xmlstoredp.srvpgm
 XMLCGI		= xmlcgi.pgm
+
 XMLCOMMOBJS = $(XMLCONF) plugbug.mod plugipc.mod plugrun.mod plugperf.mod \
 				plugcach.mod plugerr.mod plugsql.mod plugdb2.mod \
 				plugpase.mod pluglic.mod plugsig.mod plugconv.mod plugxml.mod \
@@ -66,7 +38,29 @@ XMLCGIOBJS	= xmlcgi.mod $(XMLCOMMOBJS)
 XMLSTOROBJS = xmlstoredp.modsql $(XMLCOMMOBJS)
 
 ### tells make all things to do (order)
-all: $(XMLMAIN) $(XMLSERVICE) $(XMLSTOREDP) $(XMLCGI) crtsqlproc
+# do this if given an invalid target
+.DEFAULT:
+	@$(MAKE) help
+help:
+	@echo "------------------------------------------------------------"
+	@echo "do '$(MAKE) xxx' where xxx=xmlservice,yips,zs5,zs6,zs7,ibm,ruby"
+	@echo "------------------------------------------------------------"
+xmlservice:
+	@$(MAKE) XMLLIB="XMLSERVICE" XMLCONF="plugconf1.mod" go
+yips:
+	@$(MAKE) XMLLIB="XMLSERVICE" XMLCONF="plugconf3.mod" go
+zs5:
+	@$(MAKE) XMLLIB="ZENDSVR" XMLCONF="plugconf2.mod" go
+zs6:
+	@$(MAKE) XMLLIB="ZENDSVR6" XMLCONF="plugconf6.mod" go
+zs7:
+	@$(MAKE) XMLLIB="ZENDPHP7" XMLCONF="plugconf7.mod" go
+ibm:
+	@$(MAKE) XMLLIB="QXMLSERV" XMLCONF="plugconfq.mod" go
+ruby:
+	@$(MAKE) XMLLIB="POWER_RUBY" XMLCONF="plugconfr.mod" go
+
+go: $(XMLMAIN) $(XMLSERVICE) $(XMLSTOREDP) $(XMLCGI) crtsqlproc
 
 .SUFFIXES: .mod .rpgle .modsql .rpglesql
 ### CRTRPGMOD
@@ -86,7 +80,6 @@ $(XMLCGI): $(XMLCGIOBJS)
 ### -- CRTSRVPGM
 $(XMLSTOREDP): $(XMLSTOROBJS)
 	$(CCSRVPGM) --root $(CHROOT) --pgm $(XMLSTOREDP) --lib $(XMLLIB) --mod $(XMLSTOROBJS) --option "EXPORT(*ALL) ACTGRP(*CALLER)"
-
 ### -- create stored procedures (iPLUG512K, etc.)
 crtsqlproc:
 	$(CCSQL) -f $(XMLSQLTPL) -r $(XMLSQLRPL)

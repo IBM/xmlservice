@@ -111,19 +111,6 @@ ENDPROC;
 return test_lib_replace($clob);
 }
 
-// 5250:
-// call qp2term
-// /QOpenSys/usr/bin/system -i 'wrkactjob'
-function getxmlwatchme() {
-$clob = <<<ENDPROC
-<?xml version='1.0'?>
-<script>
-<sh rows='on'>/QOpenSys/usr/bin/system -i 'wrkactjob'</sh>
-</script>
-ENDPROC;
-return $clob;
-}
-
 ?>
 --EXPECTF--
 %s

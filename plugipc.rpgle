@@ -835,6 +835,12 @@
             ipcDoFlags.doDebugProc = *ON;
             ipcDoFlags.doDebug = *OFF;
          endif;
+         // kill either way @ADC -- 2.0.0
+         if ipcDoFlags.doCallAct1 = SIG_ACTION_KILL;
+           ipcDoFlags.doCallPerm2 = ipcDoFlags.doCallPerm1;
+           ipcDoFlags.doCallSec2 = ipcDoFlags.doCallSec1;
+           ipcDoFlags.doCallAct2 = ipcDoFlags.doCallAct1;
+         endif;
          ipcIsHere = *ON;
        else;
          ipcIsHere = *OFF;
@@ -1333,7 +1339,8 @@
 
        // end my job immediate
        // i am the server
-       if serverPid > 0 and serverPid = getpid();
+       if (serverPid > 0 and serverPid = getpid())
+       or ipcIsHere = *ON; // @ADC -- 2.0.0
          CMD = 'ENDJOB JOB(*) OPTION(*IMMED)';
          stringLen = %LEN(CMD);
          rc = ileCmdExc(string:stringLen);

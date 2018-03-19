@@ -1,5 +1,5 @@
 --TEST--
-XML i Toolkit: IBM_DB2 inout SH - system 'wrkactjob'
+XML i Toolkit: IBM_DB2 inout QSH - /usr/bin/system -i 'wrkactjob'
 --SKIPIF--
 <?php require_once('skipifdb2.inc'); ?>
 --FILE--
@@ -29,32 +29,32 @@ var_dump($clobOut);
 $xmlobj = simplexml_load_string($clobOut);
 if (!$xmlobj) die("Bad XML returned");
 // -----------------
-// output sh call
+// output qsh call
 // -----------------
-$sh = $xmlobj->xpath('/script/sh');
-if (!$sh) die("Missing XML sh info");
+$qsh = $xmlobj->xpath('/script/qsh');
+if (!$qsh) die("Missing XML qsh info");
 $expect = 'E N D  O F  L I S T I N G'; // should be in the list
 $missing = true;
-foreach ($sh[0]->row as $row) {
+foreach ($qsh[0]->row as $row) {
   $data = (string)$row;
   if (strpos($data,$expect)>0) {
     $missing = false;
     break;
   } 
 }
-if ($missing) die("XML sh data missing ($expect)");
+if ($missing) die("XML qsh data missing ($expect)");
 
 // good
-echo "Success (PASE sh)\n";
+echo "Success (ILE qsh)\n";
 
 // 5250:
 // call qp2term
-// /QOpenSys/usr/bin/system -i 'wrkactjob SBS(QUSRWRK)'
+// /usr/bin/system -i 'wrkactjob'
 function getxml() {
 $clob = <<<ENDPROC
 <?xml version='1.0'?>
 <script>
-<sh rows='on'>/QOpenSys/usr/bin/system -i 'wrkactjob SBS(QUSRWRK)'</sh>
+<qsh rows='on'>/usr/bin/system -i 'wrkactjob SBS(QUSRWRK)'</qsh>
 </script>
 ENDPROC;
 return $clob;

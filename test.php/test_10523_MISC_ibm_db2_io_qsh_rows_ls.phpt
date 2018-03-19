@@ -1,5 +1,5 @@
 --TEST--
-XML i Toolkit: IBM_DB2 inout SH - system 'wrkactjob'
+XML i Toolkit: IBM_DB2 inout QSH - /usr/bin/ls -l /tmp
 --SKIPIF--
 <?php require_once('skipifdb2.inc'); ?>
 --FILE--
@@ -10,7 +10,7 @@ require_once('connection.inc');
 if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
 else $conn = db2_connect($database,$user,$password);
 if (!$conn) die("Bad connect: $database,$user");
-$stmt = db2_prepare($conn, "call $procLib.iPLUG5M(?,?,?,?)");
+$stmt = db2_prepare($conn, "call $procLib.iPLUG10M(?,?,?,?)");
 if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
 $clobIn = getxml();
 $clobOut = "";
@@ -29,32 +29,22 @@ var_dump($clobOut);
 $xmlobj = simplexml_load_string($clobOut);
 if (!$xmlobj) die("Bad XML returned");
 // -----------------
-// output sh call
+// output qsh call
 // -----------------
-$sh = $xmlobj->xpath('/script/sh');
-if (!$sh) die("Missing XML sh info");
-$expect = 'E N D  O F  L I S T I N G'; // should be in the list
-$missing = true;
-foreach ($sh[0]->row as $row) {
-  $data = (string)$row;
-  if (strpos($data,$expect)>0) {
-    $missing = false;
-    break;
-  } 
-}
-if ($missing) die("XML sh data missing ($expect)");
+$qsh = $xmlobj->xpath('/script/qsh');
+if (!$qsh) die("Missing XML qsh info");
 
 // good
-echo "Success (PASE sh)\n";
+echo "Success (ILE qsh)\n";
 
 // 5250:
 // call qp2term
-// /QOpenSys/usr/bin/system -i 'wrkactjob SBS(QUSRWRK)'
+// /QOpenSys/usr/bin/ls /tmp
 function getxml() {
 $clob = <<<ENDPROC
 <?xml version='1.0'?>
 <script>
-<sh rows='on'>/QOpenSys/usr/bin/system -i 'wrkactjob SBS(QUSRWRK)'</sh>
+<qsh rows='on'>/usr/bin/ls -l /tmp</qsh>
 </script>
 ENDPROC;
 return $clob;

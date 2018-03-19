@@ -5223,6 +5223,11 @@
      D jobUserID       s             10A   inz(*BLANKS)
      D jobNbr          s              6A   inz(*BLANKS)
      D jobInfo         ds                  likeds(myJob_t)
+     D i               s             10i 0 inz(0)
+     D p1              s               *   inz(*NULL)
+     D m1              ds                  likeds(over_t) based(p1)
+     D p2              s               *   inz(*NULL)
+     D m2              ds                  likeds(over_t) based(p2)
       /free
        Monitor;
 
@@ -5250,10 +5255,47 @@
        // "More than i had. Thanks for scanrpl add."
        putenv('QIBM_QSH_CMD_OUTPUT=FILE=' + %trim(mytmp));
        putenv('QIBM_QSH_CMD_ESCAPE_MSG=Y');
+       // build escaped STRQSH
        cmdstr = 'STRQSH CMD('''
-           + '/usr/bin/qsh -c '''''
-           + %scanrpl( '''' : '''''' : %str(cmd:cmdLen))
-           + ''''''')';
+           + '/usr/bin/qsh -c ''''';
+       // V6R1 not support scanrpl (inconceivable)
+       //  + %scanrpl( '''' : '''''' : %str(cmd:cmdLen))
+       p1 = cmd;
+       p2 = %addr(cmdstr) + %len(%trim(cmdstr));
+       for i = 1 to cmdLen;
+         // null term string (done)
+         if m1.char1 = x'00';
+           leave;
+         // escaped single quotes
+         elseif m1.char1 = x'7D';
+           m2.char1 = x'7D';
+           p2 += 1;
+           m2.char1 = x'7D';
+           p2 += 1;
+           p1 += 1;
+         // escaped open
+         elseif m1.char1 = '(';
+           m2.char1 = '\';
+           p2 += 1;
+           m2.char1 = '(';
+           p2 += 1;
+           p1 += 1;
+         // escaped close
+         elseif m1.char1 = ')';
+           m2.char1 = '\';
+           p2 += 1;
+           m2.char1 = ')';
+           p2 += 1;
+           p1 += 1;
+         // just another byte (copy)
+         else;
+           m2.bytex = m1.bytex;
+           p2 += 1;
+           p1 += 1;
+         endif;
+       endfor;
+       //  + ''''''')';
+       cmdstr = %trim(cmdstr) + ''''''')';
        len = %len(%trim(cmdstr));
        cmdexec(cmdstr:len);
 

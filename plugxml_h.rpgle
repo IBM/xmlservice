@@ -851,6 +851,7 @@
      D xmlcCDATA1      PR             9A
      D xmlcCDATA2      PR             3A
 
+     D xmlGetESCP      PR             1N                                        
      D xmlSidCDATA     PR
      D  toCCSID                      10i 0 value
   

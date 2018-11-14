@@ -424,6 +424,7 @@
      D doSbmNam                      10A
      D doSbmAsp                      10A
      D doLogKey                      64A
+     D doESCP                         1N                                        
 
       *****************************************************
       * ipc control area

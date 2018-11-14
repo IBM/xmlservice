@@ -295,6 +295,7 @@
        ipcDoFlags.doPaseILE  = -42;
        ipcDoFlags.doPasePASE = -42;
        ipcDoFlags.doTest = -42;
+       ipcDoFlags.doESCP = *OFF; 
 
        // parse elements (input)
        len  = %len(%trim(pCtlSP));
@@ -850,6 +851,22 @@
        if ipcDoFlags.doPase = *ON;
          ccsidPASE(ipcDoFlags.doPasePASE);
          ccsidILE(ipcDoFlags.doPaseILE);
+       endif;
+
+       // run escape   
+       if count > 0;
+        pBeg = bigScan(pTop:xESCP:pLst);
+        if pBeg <> *NULL;
+          ipcDoFlags.doESCP = *ON; // see it means on
+          for j = 1 to 1;
+            if doChar(j) = 'on';
+              ipcDoFlags.doESCP = *ON;
+            elseif doChar(j) = 'off';
+              ipcDoFlags.doESCP = *OFF;
+            endif;
+          endfor;
+          count -= 1;
+        endif;
        endif;
 
        perfAdd(PERF_ANY_WATCH_IPCSTATIC:*OFF);

@@ -85,6 +85,8 @@
      D sUCDATA1        S              9A   inz(*BLANKS) 
      D sUCDATA2        S              3A   inz(*BLANKS) 
 
+     D sESCP           S              1N   inz(*OFF)                            
+
       *****************************************************
       * xml misc
       *****************************************************
@@ -688,6 +690,7 @@
        sAllCDATA = bCtl.ipcFlags.doCDATA;
        sOneCDATA = *OFF;
 
+       sESCP     = bCtl.ipcFlags.doESCP;   
        // --------------
        // start output
        sOutPtr = sOutOrgP;
@@ -958,6 +961,12 @@
       /end-free
      P                 E
 
+     P xmlGetESCP      B                   export
+     D xmlGetESCP      PI             1N
+      /free
+       return sESCP;
+      /end-free
+     P                 E
      P xmlSidCDATA     B                   export
      D xmlSidCDATA     PI
      D  toCCSID                      10i 0 value

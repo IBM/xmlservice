@@ -90,6 +90,33 @@
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
 
+      * reserved unicode chars 
+     D wlt             S              1C   inz(%UCS2('<'))                      &lt;
+     D wgt             S              1C   inz(%UCS2('>'))                      &gt;
+     D wamp            S              1C   inz(%UCS2('&'))                      &amp;
+     D wquot           S              1C   inz(%UCS2('"'))                      &quot;
+     D wapos           S              1C   inz(%UCS2(''''))                     &apos;
+      * reserved job ccsid chars 
+     D clt             S              1C   inz(*blank)                          &lt;
+     D cgt             S              1C   inz(*blank)                          &gt;
+     D camp            S              1C   inz(*blank)                          &amp;
+     D cquot           S              1C   inz(*blank)                          &quot;
+     D capos           S              1C   inz(*blank)                          &apos;
+      * reserved unicode  
+     D welt            S              4C   inz(%UCS2('&lt;'))                   &lt;
+     D wegt            S              4C   inz(%UCS2('&gt;'))                   &gt;
+     D weamp           S              5C   inz(%UCS2('&amp;'))                  &amp;
+     D wequot          S              6C   inz(%UCS2('&quot;'))                 &quot;
+     D weapos          S              6C   inz(%UCS2('&apos;'))                 &apos
+      * reserved job ccsid chars 
+     D celt            S              4A                                        &lt;
+     D cegt            S              4A   inz(*blank)                          &gt;
+     D ceamp           S              5A   inz(*blank)                          &amp;
+     D cequot          S              6A   inz(*blank)                          &quot;
+     D ceapos          S              6A   inz(*blank)                          &apos;
+      * flag to inidcate coverting to job ccsid is done
+     D escpCvtd        S              1N   inz(*OFF)
+
       *****************************************************
       * padAlloc
       * return (*ON-good,*OFF-error)
@@ -1356,7 +1383,11 @@
            endif;
            trimSz = cpyB2Hex(pTgt:aPadPtrP:nLength);
          else;
-           cpybytes(pTgt:aPadPtrP:nLength);
+           IF xmlGetESCP() = *ON;//escape xml reserved chars
+             escape(pTgt:aPadPtrP:nLength);
+           ELSE;
+             cpybytes(pTgt:aPadPtrP:nLength);
+           ENDIF;
            trimSz = nLength;
          endif;
        endif;
@@ -1517,7 +1548,11 @@
            endif;
            trimSz = cpyB2Hex(pTgt:aPadPtrP:nLength);
          else;
-           cpybytes(pTgt:aPadPtrP:nLength);
+           IF xmlGetESCP() = *ON; 
+             escape(pTgt:aPadPtrP:nLength);
+           ELSE;
+             cpybytes(pTgt:aPadPtrP:nLength);
+           ENDIF;
            trimSz = nLength;
          endif;
        endif;
@@ -1725,5 +1760,66 @@
        Endmon;
       /end-free
      P                 E
+      *****************************************************
+      * escape xml reserved chars
+      * return none
+      *****************************************************
+     P escape          B
+     D escape          PI
+     D  pTgt                           *   value
+     D  pSrc                           *   value
+     D  srcLen                       10i 0
+      * vars
+     D i               s             10i 0 inz(0)
+     D ch              s              1A   inz(*blank)
+     D len             s             10i 0 inz(0)
+      /FREE
+       // translate xml reserved chars to job ccsid if not have this done yet
+       IF escpCvtd = *OFF;
+         clt = %char(wlt);
+         cgt = %char(wgt);
+         camp = %char(wamp);
+         cquot = %char(wquot);
+         capos = %char(wapos);
 
+         celt = %char(welt);
+         cegt = %char(wegt);
+         ceamp = %char(weamp);
+         cequot = %char(wequot);
+         ceapos = %char(weapos);
 
+         escpCvtd = *ON;
+       ENDIF;
+       // scan xml reserved chars and escape
+       FOR i = 0 to (srcLen-1);
+         ch = %STR(pSrc+i:1);
+         SELECT;
+           WHEN ch = clt;
+             cpybytes(pTgt:%ADDR(celt):%size(celt));
+             len += %size(celt);
+             pTgt +=  %size(celt);
+           WHEN ch = cgt;
+             cpybytes(pTgt:%ADDR(cegt):%size(cegt));
+             len += %size(cegt);
+             pTgt += %size(cegt);
+           WHEN ch = camp;
+             cpybytes(pTgt:%ADDR(ceamp):%size(ceamp));
+             len += %size(ceamp);
+             pTgt += %size(ceamp);
+           WHEN ch = cquot;
+             cpybytes(pTgt:%ADDR(cequot):%size(cequot));
+             len += %size(cequot);
+             pTgt += %size(cequot);
+           WHEN ch = capos;
+             cpybytes(pTgt:%ADDR(ceapos):%size(ceapos));
+             len += %size(ceapos);
+             pTgt += %size(ceapos);
+           OTHER;
+             cpybytes(pTgt:pSrc+i:1);
+             len += 1;
+             pTgt += 1;
+         ENDSL;
+       ENDFOR;
+       srcLen = len;
+      /END-FREE
+     P                 E

@@ -422,6 +422,8 @@
      D xJVM                          10    inz('*java')
      D xSQLJVM                       10    inz('*sqljava')
      D xDBGJVM                       10    inz('*dbgjava')
+     D xESCP                         10    inz('*escp')                         
+      *
      D XFLAGMAX        c                   %div(%size(XFLAGS):%size(xNONE)) 
      D pXFLAGS         s               *   inz(%addr(XFLAGS))
      D XFLAGARRAY      s             10    dim(XFLAGMAX) based(pXFLAGS)

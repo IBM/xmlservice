@@ -18,12 +18,15 @@ COMMON=\
 	plugxml.module \
 	plugile.module
 
-all: xmlmain.pgm xmlservice.pgm xmlcgi.pgm xmlstoredp.srvpgm xmlstoredp.sqlinst
+all: xmlmain.pgm xmlservice.pgm xmlcgi.pgm xmlver.pgm xmlstoredp.srvpgm xmlstoredp.sqlinst
 
 xmlmain.pgm: xmlmain.module $(COMMON)
 	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
 
 xmlservice.pgm: xmlservice.module $(COMMON)
+	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
+
+xmlver.pgm: xmlver.module
 	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
 
 xmlcgi.pgm: xmlcgi.module $(COMMON)

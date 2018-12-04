@@ -3,3 +3,7 @@
 *.pgm
 *.sqlinst
 *.lib
+# add generated files here:
+Makefile
+src/plugconf.rpgle
+src/xmlstoredp.sql

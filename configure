@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+from argparse import ArgumentParser, Action
+
+class UppercaseAction(Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, values.upper())
+
+parser = ArgumentParser(description='Configure script')
+parser.add_argument('--library', default='XMLSERVICE', action=UppercaseAction, help='Output library')
+parser.add_argument('--debug', default='*ALL', help='Debug option (DBGVIEW)')
+args = parser.parse_args()
+
+# Map command line arguments to replacement variables
+# ie. --foo -> '@FOO@': args.foo
+mappings = { '@' + k.upper() + '@': v for k,v in vars(args).items() }
+
+files_to_map = (
+    'src/plugconf.rpgle',
+    'src/xmlstoredp.sql',
+    'Makefile',
+)
+
+for f in files_to_map:
+    with open(f + ".in", "r") as _in, open(f, "w") as _out:
+        for line in _in:
+            for k,v in mappings.items():
+                line = line.replace(k, v)
+            
+            print(line, end='', file=_out)

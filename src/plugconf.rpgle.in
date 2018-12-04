@@ -59,12 +59,12 @@
       * ---change if alternate library---
       *****************************************************
       * RPG CLI call stored procedures (xmlcgi) 
-     D PLUGCALLSP      c                   const('CALL XMLSERVICE.')
+     D PLUGCALLSP      c                   const('CALL @LIBRARY@.')
       * spawn config PLUGSPNLIB/PLUGSPNPGM (plugipc) 
      D PLUGSPNPGM      c                   const('XMLSERVICE.PGM')
-     D PLUGSPNDIR      c                   const('/QSYS.LIB/XMLSERVICE.LIB/')
+     D PLUGSPNDIR      c                   const('/QSYS.LIB/@LIBRARY@.LIB/')
       * sbmjob config (plugipc)
-     D PLUGSBMLIB      c                   const('XMLSERVICE')
+     D PLUGSBMLIB      c                   const('@LIBRARY@')
      D PLUGSBMPGM      c                   const('XMLSERVICE')
       * was QGPL/QDFTJOBD
      D PLUGJOBLIB      c                   const('QSYS')
@@ -209,8 +209,8 @@
 
       *****************************************************
       * sbmjob config (plugipc)
-      * SBMJOB CMD(CALL PGM(XMLSERVICE/XMLSERVICE) 
-      *   PARM('/tmp/ranger')) JOBD(ZENDSVR/ZSVR_JOBD)
+      * SBMJOB CMD(CALL PGM(@LIBRARY@/XMLSERVICE) 
+      *   PARM('/tmp/ranger')) JOBD(QSYS/QSRVJOB)
       *****************************************************
      P confSBMLIB      B                   export
      D confSBMLIB      PI            10A

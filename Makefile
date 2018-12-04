@@ -35,11 +35,11 @@ xmlcgi.pgm: xmlcgi.module $(COMMON)
 xmlstoredp.srvpgm: xmlstoredp.module $(COMMON)
 	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) EXPORT(*ALL) ACTGRP(*CALLER)" && touch $@
 
-%.sqlinst: %.sql
+%.sqlinst: src/%.sql
 	system -q "RUNSQLSTM SRCSTMF('$<')" && touch $@
 
-%.module: %.rpgle
+%.module: src/%.rpgle
 	system -q "CRTRPGMOD MODULE($(LIBRARY)/$*) SRCSTMF('$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES)" && touch $@
 	
-%.module: %.rpglesql
-	system -q "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES)" && touch $@
+%.module: src/%.rpglesql
+	system -q "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES) COMPILEOPT('INCDIR(''src/'')')" && touch $@

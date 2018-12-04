@@ -18,7 +18,7 @@ COMMON=\
 	plugxml.module \
 	plugile.module
 
-all: xmlmain.pgm xmlservice.pgm xmlcgi.pgm xmlver.pgm xmlstoredp.srvpgm xmlstoredp.sqlinst
+all: $(LIBRARY).lib xmlmain.pgm xmlservice.pgm xmlcgi.pgm xmlver.pgm xmlstoredp.srvpgm xmlstoredp.sqlinst
 
 xmlmain.pgm: xmlmain.module $(COMMON)
 	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
@@ -43,3 +43,6 @@ xmlstoredp.srvpgm: xmlstoredp.module $(COMMON)
 	
 %.module: src/%.rpglesql
 	system -q "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES) COMPILEOPT('INCDIR(''src/'')')" && touch $@
+
+%.lib:
+	(system -q 'CHKOBJ $* *LIB' || system -q 'CRTLIB $*') && touch $@

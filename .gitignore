@@ -3,6 +3,7 @@
 *.pgm
 *.sqlinst
 *.lib
+docs/_build
 # add generated files here:
 Makefile
 src/plugconf.rpgle

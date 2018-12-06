@@ -1,0 +1,321 @@
+http://yips.idevcloud.com/wiki/index.php/XMLService/XMLSERVICEFAQ
+
+Tip
+
+Some webserver products take issue with <script> in XML documents. If you find chunks missing in your XML, try <myscript> …
+
+<script>   change  <myscript>
+:           to     :
+</script>  this    </myscript>
+
+XMLSERVICE is hanging right out of box (because CCSID 65535)
+
+Q: XMLSERVICE is returning junk, how can i fix?
+Q: XMLSERVICE is not working at all and IPC /tmp/xxx dir not created, how can i fix?
+Q: XMLSERVICE is hanging?
+A: You need to change Apache settings.
+The following steps lead to a successful test:
+
+end current running jobs:
+ENDTCPSVR SERVER(*HTTP) HTTPSVR(ZENDSVR)
+ENDPJ SBS(QSYSWRK) PGM(QSQSRVR) OPTION(*IMMED)
+
+check the system CCSID value is 65535:
+DSPSYSVAL SYSVAL(QCCSID)
+ Coded character set
+   identifier . . . . . :   65535      1-65535
+
+edit configuration:
+/www/zendsvr/conf/fastcgi.conf (optional from editor): 
+SetEnv="LANG=C"
+
+/www/zendsvr/conf/httpd.conf (web admin GUI port 2001 - ZENDSVR):
+DefaultFsCCSID 37  ... or 208 (Italian) ... or so on ... 
+CGIJobCCSID 37     ... or 208 (Italian) ... or so on ...
+
+restart jobs:
+STRPJ SBS(QSYSWRK) PGM(QSQSRVR)
+STRTCPSVR SERVER(*HTTP) HTTPSVR(ZENDSVR)
+
+
+wrkactjob
+If you see ANY XMLSERVICE jobs, kill them before retry.
+
+This will allow XMLSERVICE to work (IPC was junk not /tmp/whatever).
+This should fix "junk" from ibm_db2 on i (odbc, pdo_ibm, etc.).
+
+php-cli command line issues (CCSID 65535) …
+
+The easy way to fix this is to simply CHGUSRPRF and specify a valid CCSID like 37, then as you sign-on (ssh, call qp2term) you will not be stuck with nasty 65535 problems.
+
+And now i can run my test cases (ssh→tcsh) …
+
+>setenv PATH /usr/local/zendsvr/bin:$PATH
+>setenv LIBPATH /usr/local/zendsvr/lib
+>cd /mytests
+>pear run-tests *.phpt
+>php test.php
+
+XMLSERVICE DBCS (CCSID 5035)
+
+Q: Did anyone try DBCS with XMLSERVICE?
+A: Yes. Japanese 5035 appears to work.
+The following steps lead to a successful test:
+
+end current running jobs:
+ENDTCPSVR SERVER(*HTTP) HTTPSVR(ZENDSVR)
+ENDPJ SBS(QSYSWRK) PGM(QSQSRVR) OPTION(*IMMED)
+
+change the system CCSID value:
+CHGSYSVAL SYSVAL(QCCSID) VALUE(5035)
+
+edit configuration:
+/www/zendsvr/conf/fastcgi.conf (editor): 
+SetEnv="CCSID=1208" SetEnv="LANG=C"
+
+/www/zendsvr/conf/httpd.conf (web admin GUI port 2001 - ZENDSVR):
+DefaultFsCCSID 5035
+CGIJobCCSID 5035
+
+restart jobs:
+STRPJ SBS(QSYSWRK) PGM(QSQSRVR)
+STRTCPSVR SERVER(*HTTP) HTTPSVR(ZENDSVR)
+
+Note: If using ODBC will likely have to start/stop prestart jobs as well.
+
+XMLSERVICE multi-CCSID or problems?
+
+Using default PHP toolkit DB2 clob interface (iPLUGxxx/iPLUGRxxx), ccsid conversion occurs naturally as DB2 client/server and you will not have to code before/after, but method is available if you have a specific concern or you have scripts returning many different languages.
+
+Example:
+  <data type='200A' before='819/424' after='424/819'>bin2hex('Hebrew_ascii_raw_chars')</data>
+  <data type='200A' before='819/1098' after='1098/819'>bin2hex('Farsi_ascii_raw_chars')</data>
+  <data type='200A' before='819/880' after='880/819'>bin2hex('Russia_ascii_raw_chars')</data>
+  <data type='200A' before='819/280' after='280/819'>bin2hex('Italy_ascii_raw_chars')</data>
+  <data type='200A' before='819/273' after='273/819'>bin2hex('Germany_ascii_raw_chars')</data>
+  <data type='200A' before='819/1088' after='1088/819'>bin2hex('Korea_ascii_raw_chars')</data>
+  <data type='200A' before='1208/13488' after='13488/1208'>bin2hex('Japan_ascii_raw_chars')</data>
+  <data type='200A' before='1208/13488' after='13488/1208'>bin2hex('China_ascii_raw_chars')</data>
+where:
+  before    - XMLSERVICE convert CCSID before ILE program call
+  after     - XMLSERVICE convert CCSID after ILE program call for client return
+  bin2hex() - script hex string unaltered ascii image (also returned hex string avoid any conversion)
+  pack()    - script uses pack('H*',"xml_hex_back") function in PHP program for ascii characters 
+Note:
+  Up to four conversions can take place for the truly diabolical ccsid issues
+  <data type='A' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>bin2hex('wild_ascii_raw_chars')</data>
+  flow: 
+  -> PHP client bin2hex('wild_ascii_raw_chars')
+  -> xmlservice hex2bin back to 'wild_ascii_raw_chars'
+  -> xmlservice convert cc1->cc2->cc3->cc4 (before)
+  -> xmlservice make ILE call
+  -> xmlservice convert cc4->cc3->cc2->cc1 (after)
+  -> xmlservice tohex "xml_hex_back"
+  -> PHP client $chars = pack('H*',"xml_hex_back")
+
+Can i use CDATA for XML special characters?
+
+Many common XMLSERVICE tags already support a form of CDATA …
+
+    <data><![CDATA[<i am tony>]]></data>
+    <query><![CDATA[select * from animal where ID < 5 and weight > 10.0]]></query>
+    <prepare><![CDATA[select * from animal where ID < ? and weight > ?]]></prepare>
+
+BUT there are restrictions for speed of parsing (i think reasonable) …
+
+    not allowed to put reserved words in cdata - NO <query><![CDATA[</query>]]></query>
+    no binary data (character data only) - <query><![CDATA[binary stuff]]></query> 
+
+… there may be other restrictions because i don’t know everything about CDATA “abuse” in XML.
+LIBL, LIBL, LIBL
+
+Information moved to performance page ** {XMLSERVICE Libl}.
+prestart XMLSERVICE jobs dramatically improve first-call performance?
+
+Information moved to performance page ** {XMLSERVICE Performance}.
+Where do i find <xmlerrno> messages?
+
+Information moved to error page ** {XMLSERVICE Errors}.
+Run with *NONE from XMLCGI?
+
+XMLSERVICE via XMLCGI may be too powerful using only HTML/XML with no user/password (*NONE), so it is turned OFF by default always. However, if your machine is behind a firewall and you trust your team you can enable *NONE …
+
+    change plugconf1 or plugconf2 or plugconf3 or make your own plugconf
+    D PLUGNONEOK S 1N inz(*ON)
+    recompile and your machine will be wide open … 
+
+How do i kill/end XMLSERVICE jobs?
+
+XMLSERVICE jobs stay active until killed with CTL option *immed. You need only know the ipc name (/tmp/fred01, /tmp/sally43, etc.), and have appropriate profile abilities to issue the XML/CTL kill to a running XMLSERVICE job.
+
+Example kill XMLSERVICE for '/tmp/rangerusr':
+  $ipc='/tmp/rangerusr';
+  $ctlKill="*immed";
+  $clobInKill = '<?xml version="1.0"?>';
+  $sql = "call $libxmlservice.iPLUGR4K('$ipc','$ctlKill','$clobInKill')";
+  $ret=db2_exec($conn,$sql);
+
+Can i run “stateless” XMLSERVICE jobs (*here)?
+
+XMLSERVICE can also run in the stored procedure (or web) job by using the ctl=‘*here’ option. When you run in *here mode you do NOT need an IPC (ipc is ignored). XMLSERVICE is just another program in the job in *here mode, so when the job ends so does XMLSERVICE.
+
+Example XMLSERVICE running in stored procedure job:
+  $ipc='not need ipc it is ignored';
+  $ctl="*here";
+  $clobIn = '<?xml version="1.0"?>
+             <script>do stuff</script>';
+  $sql = "call $libxmlservice.iPLUGR512K('$ipc','$ctl','$clobIn')";
+  $ret=db2_exec($conn,$sql);
+
+Note: Performance is generally slower when running in this mode, because XMLSERVICE has to start from scratch each time. There are varying degrees of overall XMLSERVICE performance using *here (“stateless”) depending on application interface supporting persistent/non-persistent/private connections (ie., db2_connect vs. db2_pconnect).
+
+Warning: It should be noted XMLSERVICE “private” connection with ipc (ipc=/tmp/fred01, ipc=/tmp/fred02, ipc=/tmp/sally43) is most often the best high performance fit for calling “real” RPG programs because most RPG programs actually do something other than “hello world” with multiple files open and lot’s of state you do not want to restart each time called (much better to dedicate a XMLSERVICE job to the task). So, while *here is an easy answer for operator style process management (older toolkit options), and works ok for small “calculate this” SRVPGMs, you will likely find *here does not work in a practical world where business tasks are much more complex (ie. exactly why XMLSERVICE is optimized for using a IPC connection).
+What is IPC??
+
+IPC is traditional computer science abbreviation for InterProcess Communication (IPC), which in the case of XMLSERVICE is simply a unique directory name /tmp/mydir01 used for machine-wide unique ‘key/token’ to route XML script documents between various clients calling XMLSERVICE job(s)(/tmp/fred01, /tmp/sally02, etc.).
+
+Behind the scenes of XMLSERVICE the unique IPC provided by any client interface (/tmp/fred01, /tmp/sally02, etc.), establishes a shared memory area for XML information/control passing and a semaphore to provide one-at-time processing in XMLSERVICE job(s). All XMLSERVICE InterProcess Communication activities are keyed and routed to appropriate XMLSERVICE jobs by the IPC name in the /tmp directory (/tmp/fred01, /tmp/sally02, etc.).
+
+As far as security is concerned, all normal IBM i IFS authority rules apply to the IPC access (/tmp/fred01, /tmp/sally02, etc.), therefore assuming no group profile override precedence, only profile fred will be able to access IPC /tmp/fred01 XMLSERVICE job, and only sally profile will be able to access /tmp/sally XMLSERVICE job, and so on for all profiles used. Of course, high authority profiles like *SECOFR have more abilities over *USER profiles, but general rule is the profile you see in wrkactjob “owns/uses” the XMLSERVICE job.
+deployment centric, not development centric (caches used XMLSERVICE)
+
+XMLSERVICE is a deployment/production centric service, not development centric, therefore XMLSERVICE internal caches are used to speed up next call processing. XMLSERVICE job(s) caching allows production sites to simply ignore costly operations like XMLSERVICE find/load called modules (your RPG programs), under the assumption that production machine is stable (no recompiles going on).
+
+However, if you are doing development work on your machine (recompiles CL/RPG), you will have to end active/running XMLSERVICE job(s) and restart to call your new program.
+
+Example (actual email): My coworker has told me on more than one occasion that I’m calling his “old” CL or RPG programs even though he recompiled them. I resolve this by restarting the correct XMLSERVICE jobs, allowing me to call the current versions of CL/RPG programs.
+Why not use pcml?
+
+pcml falls short in terms of supported RPG types and common attribute conventions (varying) and simply cannot do what this XMLSERVICE custom XML interface is capable of doing. pcml falls even shorter when trying to return complex structures as <return> elements, which is very popular for modern RPG SRVPGMs (XMLSERVICE supports of course). Last, pcml is especially short of the “complete scripting” mark when calling PASE shells, or CMDs (XMLSERVICE supports).
+
+I leave it to the entrepreneurial user to XSLT map PCML to XMLSERVICE (hint).
+DB2 XML SQL not work ctl=‘*here’?
+
+DB2 SQL XML does not work in-line stateless ($ctl=‘*here’), but works fine with normal private connections (ipc=‘/tmp/fred’, $ctl=‘*sbmjob’).
+DB2 Connect (2 tier)
+
+See this wiki link for details DB2 Connect
+ODBC (2 tier)
+
+See this link ODBC IAccess
+Workaround for “bad” drivers leaving junk back of output clob
+
+The world is not perfect 1–2 tier DB2 drivers IBM i, Windows, Linux, etc., so occasionally a “hack” is handy.
+
+I always “scope” my XML input requests with <script>…</script>, so anything past tailing </script> is ‘junk’ (errors return as <report>…</report>).
+
+The new XMLSERVICE keyword *hack adds </hack> back of every record return result set can be very useful for drivers that do not support stored procedure in/out parameters like PHP odbc (Goto Reserved Words).
+
+function driverJunkAway($xml)
+{
+  $clobOut = $xml;
+  if (! trim($clobOut)) return $clobOut;
+
+  // result set has extra data (junk)
+  $fixme = '</hack>';
+  $pos = strpos($clobOut,$fixme);
+  if ($pos > -1) {
+    $clobOut = substr($clobOut,0,$pos);
+  }
+  else {
+    $fixme = '</script>';
+    $pos = strpos($clobOut,$fixme);
+    if ($pos > -1) {
+      $clobOut = substr($clobOut,0,$pos+strlen($fixme));
+    }
+    // maybe error/performance report
+    else {
+      $fixme = '</report>';
+      $pos = strpos($clobOut,$fixme);
+      if ($pos > -1) {
+        $clobOut = substr($clobOut,0,$pos+strlen($fixme));
+      }
+    }
+  }
+  return $clobOut;
+}
+
+Can i use curl to test XMLSERVICE?
+
+This works from my Linux machine to IBM i.
+
+ 
+curl http://myibmi/cgi-bin/xmlcgi.pgm --data-urlencode db2=*LOCAL --data-urlencode uid=*NONE --data-urlencode pwd=*NONE --data-urlencode ipc=/tmp/rangerhtmlonly --data-urlencode ctl=*sbmjob --data-urlencode xmlin="<?xml version='1.0'?><script><pgm name='ZZCALL' lib='XMLSERVICE'><parm><data type='1A'>a</data></parm><parm><data type='1A'>b</data></parm><parm><data type='7p4'>11.1111</data></parm><parm><data type='12p2'>222.22</data></parm><parm><ds><data type='1A'>x</data><data type='1A'>y</data><data type='7p4'>66.6666</data><data type='12p2'>77777.77</data></ds></parm><return><data type='10i0'>0</data></return></pgm></script>" --data-urlencode xmlout=32768
+
+Can i customize XMLSERVICE security?
+
+Yes. XMLSERVICE allows for you to customize a few key security and output decisions in the RPG modules plugconf(n) or provide your own plugconf(x) version. Today there are three versions of plugconf(n) that are used to compile XMLSERVICE (and other programs):
+
+    plugconf1 - XMLSERVICE library for testing
+    plugconf2 - ZENDSVR library update Zend production product
+    plugconf3 - XMLSERVICE library for YiPs demo site 
+
+Just build your own RPG plugconfx and a matching crtxmlx and your site will be secured by your own hand.
+I need to start over kill everything
+
+… doing a lot of machine “updating” test cw/xmlservice versions … many install errors … state unknown … i recommend following actions assuming only Zend Server running this system (be kind to others) …
+
+1) end zendsrvr http 
+ENDTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)
+... wrkactjob wait all php-cgi to go down, kill php-cgi *immed by hand if won't die ...
+2) clear left over IPC attributes for cw/xmlservice test profiles ...
+call qp2term
+> ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}' | sh  
+> ipcs | grep -i myid1 | awk '{print "ipcrm -" tolower($1) " "$2}' | sh  
+> ipcs | grep -i myid1 | awk '{print "ipcrm -" tolower($1) " "$2}' | sh  
+Where:
+> qtm - clear IPCs for QTMHHTTP
+> myid1 - clear IPCs for profile MYID1
+> myid2 - clear IPCs for profile MYID2
+3) carefully reset /tmp
+call qp2term
+> cd /tmp
+> pwd
+/tmp --- if you do not see /tmp, stop now rm -R may kill whole system
+> rm -R *
+4) recycle DB2 connections (optional) 
+ENDPJ SBS(QSYSWRK) PGM(QSQSRVR) OPTION(*IMMED)
+STRPJ SBS(QSYSWRK) PGM(QSQSRVR)
+5) re-check configuration 
+Change these files and restart everything (web, db2, xmlservice, tec.) ...
+I. Apache:  /www/zendsvr/conf/httpd.conf <-- (ILE Apache side)
+   DefaultFsCCSID 37   ... or 280 (Italian) ... or so on ...
+   CGIJobCCSID 37      ... or 280 (Italian) ... or so on ...
+6) restart http
+STRTCPSVR SERVER(*HTTP) HTTPSVR(ZENDSVR)
+
+PASE php-cgi out of memory (SetEnv=“LDR_CNTRL=MAXDATA=0×80000000″)
+
+This is a very rare condition, but if you find your huge size PHP script runs out of PASE memory …
+
+You can force most any 32-bit PASE program to leave more heap space (including php-cgi), just specify environment variable up to LDR_CNTRL=MAXDATA=0×80000000 (8 * 256MB). However, please be aware while you are increasing the heap, you are also limiting the number of 256MB segments available for shared memory (not commonly used by PHP programs anyway).
+
+    http://www.ibm.com/developerworks/aix/library/j-nativememory-aix/index.html - Thanks for the memory article applies to PASE as well (therefore also PHP) 
+
+In FastCGI php-cgi just add directive to fastcgi.config.
+
+/www/zendsvr/conf/fastcgi.conf
+Server type="application/x-httpd-php" ... normal stuff ... SetEnv="LDR_CNTRL=MAXDATA=0x80000000"
+
+Graphically memory of PASE 32 bit LDR_CNTRL=MAXDATA=0×80000000. Variations of LDR_CNTRL allow you to rearrange even reserved segments and shared libraries, but these uses of LDR_CNTRL are infrequently deployed (except for the most gruesome memory hog Java programs MAXDATA=0xD0000000@DSA).
+
+>export LDR_CNTRL=MAXDATA=0x80000000
+>php -v
+memory of PASE program PHP
+00000000 - 0FFFFFFF - PASE kernel heap (mostly read or no access to user programs)
+10000000 - 1FFFFFFF - PASE main program text/code (php)
+20000000 - 2FFFFFFF - PASE stack (programs usually share stack/heap in this one segment 256MB)
+30000000 - 3FFFFFFF ------
+40000000 - 4FFFFFFF      |
+50000000 - 5FFFFFFF      |
+60000000 - 6FFFFFFF      |--- PASE heap (LDR_CNTRL=MAXDATA=0x80000000)
+70000000 - 7FFFFFFF      |    used for new/delete/malloc/free allocations PHP to run scripts
+80000000 - 8FFFFFFF      |
+90000000 - 9FFFFFFF      |    *Note: no more segments avail for shared memory
+A0000000 - AFFFFFFF ------
+B0000000 - BFFFFFFF - reserved
+C0000000 - CFFFFFFF - reserved
+D0000000 - DFFFFFFF - machine wide shared library text/code (libc.a, etc.)
+E0000000 - EFFFFFFF - shared memory
+F0000000 - FFFFFFFF - machine wide shared library data
+

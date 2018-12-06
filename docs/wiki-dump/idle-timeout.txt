@@ -1,0 +1,147 @@
+http://yips.idevcloud.com/wiki/index.php/XMLService/XMLSERVICETIMEOUT
+
+Who is this page for?
+
+Instructions designed for IBM i developer learning PHP and XMLSERVICE …
+How to make your toolkit jobs time out
+
+XMLSERVICE from 1.6.2 onward contains flexible timeout features, including the ability to have a program (RPG, COBOL, CL, whatever) time out if it runs too long. This is useful to end jobs that get hung with a MSGWAIT condition.
+
+The PHP toolkit wrappers currently enable only one of these timeout features: the “idle timeout.” When using a private connection job, also known as jobs that have an IPC or InternalKey, the job can be made to time out when a certain number of seconds of inactivity have elapsed.
+
+Cleanliness vs. performance Causing jobs to time out quickly will give you a nice, empty, clean-looking ZENDSVR subsystem, but will drag down performance the next time the job is started up. Try to find a balance between cleanliness and performance. If you plan to use the same jobs over and over, you may wish to NOT time out the jobs, either never ending them or ending them *IMMED at night, or some other scheme.
+
+How to choose a timeout value If you have many transient users who will briefly use the site and then not return, you may want a quick timeout (30 seconds?). For users who will return over and over again, you may want a long or nonexistent timeout.
+
+    Idle timeout with the new toolkit API 
+
+The “idle timeout” can be set or changed any time in this way:
+
+// let's assume the toolkit connection has been established using getInstance() and is present in the variable $conn:
+$idleTimeoutSeconds = 1800; // time out job after 1800 seconds (30 minutes) of inactivity
+                            // a value of 0 means no timeout (infinite wait)
+$conn->setOptions(array('idleTimeout' => $idleTimeoutSeconds));
+
+    Idle timeout with the Compatibility Wrapper (CW) 
+
+Just as with the old toolkit, when you connect with i5_pconnect(), you can set the timeout interval and the number of seconds to wait. As with the old toolkit, idle timeouts only work with private connections. Use the constant I5_OPTIONS_IDLE_TIMEOUT to provide the number of seconds. Use zero (0) seconds to never time out (the default).
+
+$privateNum = 0; // private conn number of zero causes the CW to generate a number for next time.
+$idleTimeoutSeconds = 1800; // time out job after 1800 seconds (30 minutes) of inactivity
+                            // a value of 0 means no timeout (infinite wait)
+$options = array(I5_OPTIONS_PRIVATE_CONNECTION => $privateNum,
+                 I5_OPTIONS_IDLE_TIMEOUT       => $idleTimeoutSeconds
+                 );
+
+// connect (note: the "p" for persistent is required for CW private connections) 
+// and specify a private connection and timeout
+$conn = i5_pconnect('localhost', 'user', 'pw', $options);
+
+Note: The CW also supports the new API’s “setToolkitServiceParams” technique described above, because the CW uses the new toolkit underneath.
+Full support RAW XMLSERVICE Samples
+
+Programs with qsysopr message idle timeout may help.
+
+<?php
+// see connection.inc param details ...
+require_once('connection.inc');
+// call IBM i
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG32K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$ctl .= " *idle(10)";
+$clobIn = getxml();
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
+// -----------------
+// output processing
+// -----------------
+// dump raw XML (easy test debug)
+var_dump($clobOut);
+// xml check via simplexml vs. expected results
+$xmlobj = simplexml_load_string($clobOut);
+if (!$xmlobj) die("Bad XML returned");
+// good
+if (strpos($clobOut,"Pointer not set")<=0) echo "Failure\n"; 
+echo "Success\n";
+
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzboom: bad function blow up
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzboom          B                   export
+//     D zzboom          PI
+function getxml() {
+$clob = <<<ENDPROC
+<?xml version='1.0'?>
+<script>
+<pgm name='ZZSRV' lib='xyzlibxmlservicexyz' func='ZZBOOM'>
+</pgm>
+</script>
+ENDPROC;
+return test_lib_replace($clob);
+}
+?>
+
+Timeout is a setting control setting with various properties allowed.
+
+      *----------------------------------------------------
+      * -- server time out jobs XMLSERVICE (1.6.2)
+      * *wait[(seconds[/action])]            
+      *    - client side wait for XMLSERVICE call (client side)
+      *      example: $ctl="*wait(10)";
+      *      - default action *wait(60/busy) (see plugconfx)
+      * *call[(seconds[/action[/duration[/job]]])] 
+      *    - client/server side XMLSERVICE call wait (PGM, SRVPGM, PASE, etc)
+      *      example: $ctl="*wait(10) *call(5/busy/client)";
+      *      - default for both client/server is *call(0) 
+      *        means wait on call forever (user code flawless),
+      *        but can be overriden client/server/both
+      * *idle[(seconds[/action[/duration]])] 
+      *    - server side XMLSERVICE idle no activity
+      *      example: $ctl="*wait(10/kill) *call(30/kill) *idle(30/perm)";
+      *      - default action *idle(1800/kill) (see plugconfx)
+      *    -- time out parameters
+      *      seconds:
+      *        -1 - current default timer
+      *         0 - no timer, no timeout, wait forever
+      *         n - idle timer "pop" seconds
+      *      action:
+      *        kill - end job immed
+      *        user - user override signal behaviour (see plugconfx)
+      *        busy - return busy XML (client side)
+      *               busy response (1301050):
+      *               <error>
+      *               <errnoxml>1301050</errnoxml>
+      *               <xmlerrmsg>IPC timeout busy</xmlerrmsg>
+      *               </error>
+      *      duration:
+      *        perm - set and use new defaults all requests
+      *        orig - reset and use original compile defaults (see plugconfx)
+      *      job:
+      *        client - *call action applies client side
+      *        server - *call action applies server side
+      *    -- Notes:
+      *      - default timeout/action provided plugconf1-3.rpgle,
+      *        but each request may override/reset to fit task(s)
+      *      - signal SIGALRM used with this function
+      *        can affect user program calls,
+      *        *call(0) may be used to turn off timer
+      *        during user program calls
+      *      - action 'user' allows for custom signal
+      *        processing in the RPG code (see plugconfx)
+      *      - if duration not specified, attributes
+      *        *wait(),*call(),*idle() are temporary
+      *        for this call only and return to last defaults.
+      *      - if 'job' not specified on *call(),
+      *        attribute settings apply to both sides
+      *      - end job immed kills XMLSERVICE job (server)
+      *        and destroys IPC, so any waiting client is
+      *        released with an IPC missing error.
+      *----------------------------------------------------

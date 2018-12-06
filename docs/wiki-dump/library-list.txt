@@ -1,0 +1,204 @@
+http://yips.idevcloud.com/wiki/index.php/XMLService/XMLSERVICELibl
+
+You may want to refer to the DB2 connection link before reading this page PHP DB2 Connection topics.
+change XMLSERVICE 1.7.3+
+
+The default setting for SBMJOB of all XMLSERVICE jobs was changed to INLLIBL(*CURRENT) better follow the user profile of QSQSRVR job. If you are having difficulty with private connections libl you may want to try this version.
+setting *LIBL - what do i do?
+
+Few other topics dealing with web programs cause more frustrations then setting IBM i library list (*LIBL), but if you follow a few rules it all works.
+*LIBL conflict between web scripts and IBM i PGMs
+
+Any good conflict needs a basic difference in philosophy causing all the trouble.
+
+    Stateless - web scripts typically wish to run stateless (PHP), with no environmental settings (such as *LIBL) set on the server
+    State Full - IBM PGMs generally run state full (RPG/Cobol/CLP), meaning need *LIBL to run at all 
+
+Rule of toolkit web *LIBL …
+
+The following rules apply to all toolkit DB2 connections persistent (db2_pconnect, odbc_pconnect) and non-persistent (db2_connect, odbc_connect).
+
+    Stateless - PHP scripts using Toolkit without internalKey (IPC) MUST set *LIBL on every request before calling PGMs (see specific examples)
+    State Full - PHP scripts using Toolkit with internalKey (IPC) set *LIBL only once for life of job before calling PGMs (see specific examples) 
+
+1) Specific examples for New PHP Toolkit
+
+    Stateless - set *LIBL every single request
+
+    // *** stateless occurs when no internalKey (e.g. '/tmp/packers') was specified ***
+    // *** also when ->setToolkitServiceParams('stateless'=>true)) is called
+    try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+    catch (Exception $e) { die($e->getMessage()); }
+    $ToolkitServiceObj->setToolkitServiceParams(array(
+    'plug'=>"iPLUG32K"));         // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+
+    // stateless - MUST do this every single script after connect/getInstance()
+    //             even if using persistent connections (db2_pconnect, odbc_pconnect)
+    $ToolkitServiceObj->CLCommand("CHGLIBL LIBL(FREDFLIN WILMAFLIN) CURLIB(FREDFLIN)");
+
+    // another option might be to call a setup program that sets *LIBL for you.
+
+    State Full - set *LIBL once and forget it
+
+    $internalKey = '/tmp/packers';
+    try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+    catch (Exception $e) { die($e->getMessage()); }
+    $ToolkitServiceObj->setToolkitServiceParams(array(
+    'InternalKey'=>$internalKey,  // *** RIGHT HERE internalKey/IPC
+                                  // *** run state full ...
+                                  //     use SBMJOB command run in new job
+                                  //     PHP can call again, again, again
+                                  //     with /tmp/packers and get ...
+                                  //     same job every time
+                                  //     same library list (*LIBL)
+                                  //     same PGMs with open files, etc.
+                                  //     ... exactly like 5250 sign-on screen
+    'plug'=>"iPLUG32K"));         // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+
+
+    // state full - MUST do this ONCE ONLY after start/sbmjob of XMLSERVICE job
+    //              then forget about it (unless you choose to change libl) ...
+    $ToolkitServiceObj->CLCommand("CHGLIBL LIBL(FREDFLIN WILMAFLIN) CURLIB(FREDFLIN)");
+
+    persistent connections - later releases PHP Toolkit allow reused/shared connections with other work, including persistent connections, but internalKey (IPC) rules remain the same
+
+    if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+    else $conn = db2_connect($database,$user,$password);
+
+    try { $ToolkitServiceObj = ToolkitService::getInstance($conn); }
+    catch (Exception $e) { die($e->getMessage()); }
+
+    $internalKey = '/tmp/packers';
+    $ToolkitServiceObj->setToolkitServiceParams(array(
+    'InternalKey'=>$internalKey,  // *** RIGHT HERE internalKey/IPC
+                                  // *** run state full ...
+                                  //     use SBMJOB command run in new job
+                                  //     PHP can call again, again, again
+                                  //     with /tmp/packers and get ...
+                                  //     same job every time
+                                  //     same library list (*LIBL)
+                                  //     same PGMs with open files, etc.
+                                  //     ... exactly like 5250 sign-on screen
+    'plug'=>"iPLUG32K"));         // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+
+    plug size - later releases PHP Toolkit 1.2.4+ calculates the correct plug name via ‘plugSize’, taking db type (ODBC or DB2) into account.
+
+        if ($userPickFast) $conn = db2_pconnect($database,$user,$password);
+        else $conn = odbc_pconnect($database,$user,$password);
+
+        try { $ToolkitServiceObj = ToolkitService::getInstance($conn); }
+        catch (Exception $e) { die($e->getMessage()); }
+
+        $internalKey = '/tmp/packers';
+        $ToolkitServiceObj->setToolkitServiceParams(array(
+        'InternalKey'=>$internalKey,  // *** RIGHT HERE internalKey/IPC
+                                      // *** run state full ...
+        'plugSize'=>"32K"));          // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+
+2) Specific examples for XMLSERVICE
+
+    Stateless - set *LIBL every single request
+
+    if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+    else $conn = db2_connect($database,$user,$password);
+    if (!$conn) die("Bad connect: $database,$user");
+    $stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+    if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+    $ipc = "";       // *** RIGHT HERE MISSING internalKey/IPC
+    $ctl = "*here";  // *** run stateless ...
+                     //     here in any available database job
+                     //     must set *LIBL evey time
+    // stateless - MUST do this every single script after connect/getInstance()
+    //             even if using persistent connections (db2_pconnect, odbc_pconnect)
+    $clobIn =
+    "<?xml version='1.0'?>
+    <script>
+    <cmd>CHGLIBL LIBL(FREDFLIN WILMAFLIN) CURLIB(FREDFLIN)</cmd>
+    </script>";
+    $clobOut = "";
+    $ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+    $ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+    $ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+    $ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+    $ret=db2_execute($stmt);
+
+    State Full - set *LIBL once and forget it
+
+    if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+    else $conn = db2_connect($database,$user,$password);
+    if (!$conn) die("Bad connect: $database,$user");
+    $stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+    if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+    $ipc = "/tmp/packers"; // *** RIGHT HERE internalKey/IPC
+    $ctl = "*sbmjob";      // *** run state full ...
+                           //     use SBMJOB command run in new job
+                           //     PHP can call again, again, again
+                           //     with /tmp/packers and get ...
+                           //     same job every time
+                           //     same library list (*LIBL)
+                           //     same PGMs with open files, etc.
+                           //     ... exactly like 5250 sign-on screen
+    // state full - MUST do this ONCE ONLY after start/sbmjob of XMLSERVICE job
+    //              then forget about it (unless you choose to change libl) ...
+    $clobIn =
+    "<?xml version='1.0'?>
+    <script>
+    <cmd>CHGLIBL LIBL(FREDFLIN WILMAFLIN) CURLIB(FREDFLIN)</cmd>
+    </script>";
+    $clobOut = "";
+    $ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+    $ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+    $ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+    $ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+    $ret=db2_execute($stmt);
+
+3) Specific examples for New PHP Toolkit CW layer
+
+    Stateless - set *LIBL every single request, but for CW, specify libraries in reverse order (via ADDLIBLE)
+
+    $options = array(I5_OPTIONS_INITLIBL => 'WILMAFLIN FREDFLIN' ); 
+    $conn = i5_connect($host, $user, $password, $options);
+    // or persistent (which is also stateless): still must specify library each time
+    $conn = i5_pconnect($host, $user, $password, $options);
+
+    State Full - set *LIBL once and forget it
+
+    session_start();
+
+    // if we previously saved a connection number in PHP session, use it. 
+    // otherwise, use 0 (which means create a new connection)
+    $conNum = (isset($_SESSION['conectionNum']) ? $_SESSION['conectionNum'] : 0;
+
+    // I5_OPTIONS_PRIVATE_CONNECTION:  connection is private for the session
+    // I5_OPTIONS_IDLE_TIMEOUT: After a delay of the specified number of seconds with no activity, the job will end.
+    $options = array(I5_OPTIONS_PRIVATE_CONNECTION => $conNum,
+                     I5_OPTIONS_IDLE_TIMEOUT       => "60");
+
+    // connect as a private connection, starting with a persistent conn
+    $conn = i5_pconnect ($host, $user, $password, $options);
+
+    if (!$conn) {
+        echo "Something went wrong: <PRE>" . print_r(i5_error(), true) . "</PRE>";
+        $_SESSION['conectionNum'] = 0; // reset number
+    } else {
+        // connected successfully
+
+        // if original conNum was 0, let's retrieve the new number.
+        if ($conNum == 0) {
+
+            // Session variable was 0: Get connection ID and store it in session variable.
+            $ret = i5_get_property(I5_PRIVATE_CONNECTION, $conn);
+
+            if (!$ret) {
+                echo "Something went wrong: <PRE>" . print_r(i5_error(), true) . "</PRE>";
+            } else {
+
+                // We have a good new private connection. Store connection ID in session variable
+                $_SESSION['conectionNum'] = $ret;
+
+                // and set library list, too.
+                i5_command("CHGLIBL LIBL(FREDFLIN WILMAFLIN) CURLIB(FREDFLIN)");
+            }
+        }
+    }
+

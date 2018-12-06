@@ -18,10 +18,44 @@ COMMON=\
 	plugxml.module \
 	plugile.module
 
-all: $(LIBRARY).lib xmlmain.pgm xmlservice.pgm xmlcgi.pgm xmlver.pgm xmlstoredp.srvpgm xmlstoredp.sqlinst
+TEST_PGMS=\
+	zzbigboy.pgm \
+	zzcall.pgm \
+	zzcust.pgm \
+	zzdeep.pgm \
+	zzerich.pgm \
+	zzjava.pgm \
+	zzjava2.pgm \
+	zzmore.pgm \
+	zznone.pgm \
+	zzshlomo.pgm \
+	zzsimp.pgm \
+	zzvlad.pgm \
+	zzvlad2.pgm \
+	zzvlad3.pgm
+
+TEST_SRVPGMS=\
+	zzsrv.srvpgm \
+	zzsrv6.srvpgm
+
+# Ensure that intermediate files created by rules chains don't get
+# automatically deleted
+.PRECIOUS: %.module %.srcpf %.lib
+
+all: build
+
+build: build-main build-procedure build-cgi build-test
+
+build-main: $(LIBRARY).lib xmlmain.pgm xmlservice.pgm xmlver.pgm
+
+build-procedure: $(LIBRARY).lib xmlstoredp.srvpgm xmlstoredp.sqlinst
+
+build-cgi: $(LIBRARY).lib xmlcgi.pgm
+
+build-test: $(TEST_PGMS) $(TEST_SRVPGMS)
 
 clean:
-	rm -f *.lib *.pgm *.srvpgm *.module *.sqlinst
+	rm -f *.lib *.pgm *.srvpgm *.module *.sqlinst *.srcpf
 	system -q 'DLTLIB $(LIBRARY)' || :
 
 xmlmain.pgm: xmlmain.module $(COMMON)
@@ -39,6 +73,17 @@ xmlcgi.pgm: xmlcgi.module $(COMMON)
 xmlstoredp.srvpgm: xmlstoredp.module $(COMMON)
 	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) EXPORT(*ALL) ACTGRP(*CALLER)" && touch $@
 
+%.pgm: src/%.clp qclsrc.srcpf
+	system -q "CPYFRMSTMF FROMSTMF('$<') TOMBR('/qsys.lib/$(LIBRARY).lib/qclsrc.file/$*.mbr') MBROPT(*REPLACE)"
+	system -q "CRTCLPGM PGM($(LIBRARY)/$*) SRCFILE($(LIBRARY)/QCLSRC)"
+	touch $@
+
+%.pgm: %.module
+	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
+
+%.srvpgm: %.module
+	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) EXPORT(*ALL) ACTGRP(*CALLER)" && touch $@
+
 %.sqlinst: src/%.sql
 	system -q "RUNSQLSTM SRCSTMF('$<')" && touch $@
 
@@ -54,3 +99,7 @@ xmlstoredp.srvpgm: xmlstoredp.module $(COMMON)
 
 %.lib:
 	(system -q 'CHKOBJ $* *LIB' || system -q 'CRTLIB $*') && touch $@
+
+%.srcpf: $(LIBRARY).lib
+	(system -q 'CHKOBJ $(LIBRARY)/$* *FILE' || system -q 'CRTSRCPF $(LIBRARY)/$*') && touch $@
+

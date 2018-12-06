@@ -1,0 +1,68 @@
+[[XMLService/XMLService | Goto Main Page]]
+\\
+[[XMLSERVICEDocument | Goto Documents]]
+
+
+!!! Toolkit internalKey, IPC, toolkit persistent connection ...
+With exception of old CW layer, DB2 connection persistent/full makes NO difference, internalKey (IPC) applies ONLY to XMLSERVICE layer to route back to same xmlservice job every time. This routing technique is referred to as a "state full" XMLSERVICE connection. 
+
+The naming of the internalKey (IPC) varies across layers PHP Toolkit, but it means the same thing. 
+* New PHP Toolkit - refers to internalKey ('InternalKey'=>"/tmp/packers")
+** Note: works with both persistent and non-persistent connections (db2_pconnect or db2_connect, odbc_pconnect or odbc_connect)
+* XMLSERVICE RAW - refers to IPC ($ipc="/tmp/packers")
+** Note: works with both persistent and non-persistent connections (db2_pconnect or db2_connect, odbc_pconnect or odbc_connect)
+* New PHP Toolkit CW Layer - refers to "private connection" and provides APIs to get/set private "key/nbr"
+** Note: CW Layer requires "persistent connection" to achieve "private connection", this old technology is just for compatibly with old toolkit concepts
+
+!!! How IPC/internalKey works?
+The internalKey (IPC) provided by the user (or PHP wrapper) is simply a unique place in the IFS file system. That is to say that one and only one /tmp/packers lives on the machine (LPAR IBM i instance), therefore it is very handy to hash this location into a key (google ftok), that can be used to create unique purpose semaphores (locks) and shared memory (shared data) on the IBM i.
+
+IFS /tmp/path only provides a unique key (hash key), therefore all manner of IPC-2-xmlservice workload/user balancing could be imagined, in fact you could restrict your site to only the IFS paths pre-created in some lower level directory to avoid any unwanted user ability to start an xmlservice job assuming toolkit wrapper plays along beyond using just /tmp.
+
+When an active xmlservice session is running on /tmp/packers you can see the semaphores and shared memory using the utility ipcs. Please note authorizations ipcs displays are exactly like any other IFS file, including owner access (RW, read/write) and *PUBLIC access (--, none), etc. This is how xmlservice controls authorization front door to a state full XMLSERVICE job allowing only correct/matching profiles to call any specific xmlservice service job (one request at a time).
+
+[@
+call qp2term
+> ipcs
+   SHARED MEMORY:
+   T        ID     KEY       MODE          OWNER      GROUP
+   M      2306 0X010404F7 T-RW-------        DB2      *NONE   <---- /tmp/packers (shared data)
+   SEMAPHORES:
+   T        ID     KEY       MODE          OWNER      GROUP
+   S       377 0X010404F7 --RW-------        DB2      *NONE   <---- /tmp/packers (lock one use at time)
+@]
+
+!!! PHP program decode hex IPC key
+Unfortunately ipcs "KEY" column is displayed in hex, so if you want to see what goes with /tmp/packers you will need to run a little program using $ctl="*session".
+[@
+zzftok2.php:
+<?php
+require_once('connection.inc');
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$ctl = "*session";
+$ipc = "/tmp/packers";
+$clobIn = "<?xml version='1.0'?>";
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
+var_dump($clobOut);
+?>
+
+> http://myibmi/zzftok2.php
+string(70) "<?xml version='1.0'?>
+<session key='010404F7'>/tmp/packers</session>
+@]
+
+
+----
+!!! [--Author([[http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICEIPC?action=expirediff | s ]])--]
+[--Tony "Ranger" Cairns - IBM i PHP / PASE--]
+

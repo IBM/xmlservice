@@ -1,0 +1,185 @@
+(:quicktoc:)
+>>round frame bgcolor=#ffffdd<<
+!!! XMLSERVICE Performance
+>><<
+
+[[XMLService/XMLService | Goto Main Page]]
+\\
+[[XMLSERVICEDocument | Goto Documents]]
+[[<<]]
+
+You may want to refer to the DB2 connection link before reading this page [[ PHP/DB2Connection | PHP DB2 Connection topics ]].
+
+You may also want to refer to general "run slow" link before reading this page [[PHP/RunSlow | running slow?]]
+
+!!! Performance at a glance 
+
+The following tests are full browser simulations (Apache ab tool), not PHP loop tests
+* [[Apache/ab | Apache ab tool]] -- Apache ab web site stress tests are performed from the 5250 command line (call qp2term) or ssh myibmi using PASE (see Apache ab link install instructions)
+** [@ > ab -t 15 -c 10 http://lp0264d/level/xxtoolkit_new.php @]
+*** You can run stress tests from 2-tier Linux/Windows using Apache ab tool, but i am using Apchae ab from PASE.
+*** Apache ab tool is not perfect, but if you use relatively "sane" number of browsers like -c 10 it will work.
+*** Apache ab test is designed to drive CPU to 100% (a good thing), so don't panic about CPU
+
+(:table border=1 width=80%:)
+(:cellnr:)'''Connection'''
+(:cell:)'''Sample (ab tool)'''
+(:cellnr:) Apache
+(:cell:) [@ <H1>Hello world</H1>  ...................................... Requests per second:    767.87 [#/sec] (mean) @]
+(:cellnr:) PHP
+(:cell:) [@ <?php echo "Hello world"; ?>  .............................. Requests per second:    560.05 [#/sec] (mean) @]
+(:cellnr:) (1) ibm_db2
+(:cell:)
+[@ $conn = db2_connect($database,$user,$password); ........... Requests per second:    64.54 [#/sec] (mean) @]
+[@ $conn = db2_pconnect($database,$user,$password);........... Requests per second:    504.04 [#/sec] (mean)@]
+[@
+$ipc     = "";
+$ctl     = "*justproc";          // *justproc (no progam call)
+$clobIn  = "<?xml version='1.0'?>";
+$clobOut = "";
+$stmt = db2_prepare($conn, "call XMLSERVICE.iPLUG4K(?,?,?,?)");
+$ret  = db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret  = db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret  = db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret  = db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret  = db2_execute($stmt);
+echo "success";
+@]
+(:cellnr:) (2) XMLSERVICE
+(:cell:)
+[@ $ipc = ''; $ctl  = '*here';  ................................ Requests per second:    69.58 [#/sec] (mean) @]
+[@ $ipc = '/tmp/packers'; $ctl  = '*sbmjob';  .................. Requests per second:    320.72 [#/sec] (mean) @]
+[@
+<?php
+require_once('connection2.inc');
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) echo "Bad connect: $conn,$database,$user,perm=$i5persistentconnect";
+$ipc  = '/tmp/packers';    // *here no need ipc
+$ctl  = "*sbmjob";         // *here for no additional private job 
+// $ipc  = '';
+// $ctl  = '*here';
+$clobIn = "<?xml version='1.0'?>
+<pgm name='ZZCALL' lib='$libxmlservice'>
+ <parm  io='both'>
+   <data type='1A'>a</data>
+ </parm>
+ <parm  io='both'>
+   <data type='1A'>b</data>
+ </parm>
+ <parm  io='both'>
+   <data type='7p4'>11.1111</data>
+ </parm>
+ <parm  io='both'>
+   <data type='12p2'>222.22</data>
+ </parm>
+ <parm  io='both'>
+  <ds>
+   <data type='1A'>x</data>
+   <data type='1A'>y</data>
+   <data type='7p4'>66.6666</data>
+   <data type='12p2'>77777.77</data>
+  </ds>
+ </parm>
+ <return>
+  <data type='10i0'>0</data>
+ </return>
+</pgm>";
+$clobOut = "";
+$stmt = db2_prepare($conn, "call XMLSERVICE.iPLUG4K(?,?,?,?)");
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+// var_dump($clobOut);
+if (strpos($clobOut,"4444444444.44")>0) echo "success";
+else echo "fail";
+?>
+@]
+(:cellnr:) (3) Toolkit
+(:cell:)
+[@ setToolkitServiceParams(array('stateless'=>true));  ................. Requests per second:    62.97 [#/sec] (mean) @]
+[@ setToolkitServiceParams(array('InternalKey'=>'/tmp/packers'));  ..... Requests per second:    162.75 [#/sec] (mean) @]
+[@
+<?php
+require_once('connection2.inc');
+require_once("ToolkitService.php");
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) echo "Bad connect: $conn,$database,$user,perm=$i5persistentconnect";
+try { $ToolkitServiceObj = ToolkitService::getInstance($conn); }
+catch (Exception $e) { die($e->getMessage()); }
+// $ToolkitServiceObj->setToolkitServiceParams(array('stateless'=>true,'plug'=>'iPLUG32K'));
+$ToolkitServiceObj->setToolkitServiceParams(array('InternalKey'=>'/tmp/packers','plug'=>'iPLUG32K'));
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both',  1,  'INCHARA', 'var1', 'Y');
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both',  1,  'INCHARB', 'var2', 'Z');
+$param[] = $ToolkitServiceObj->AddParameterPackDec('both',  7,4,'INDEC1',  'var3', '001.0001');
+$param[] = $ToolkitServiceObj->AddParameterPackDec('both', 12,2,'INDEC2',  'var4', '0000000003.04');
+   $ds[] = $ToolkitServiceObj->AddParameterChar   ('both',  1,  'DSCHARA', 'ds1',  'A');
+   $ds[] = $ToolkitServiceObj->AddParameterChar   ('both',  1,  'DSCHARB', 'ds2',  'B');
+   $ds[] = $ToolkitServiceObj->AddParameterPackDec('both',  7,4,'DSDEC1',  'ds3',  '005.0007');
+   $ds[] = $ToolkitServiceObj->AddParameterPackDec('both', 12,2,'DSDEC1',  'ds4',  '0000000006.08');
+$param[] = $ToolkitServiceObj->AddDataStruct($ds);
+$clobOut  = $ToolkitServiceObj->PgmCall('ZZCALL', $libxmlservice, $param, null, null);
+// var_dump($clobOut);
+$value = "what is ...".$clobOut["io_param"]["ds4"];
+if (strpos($value,"4444444444.44")>-1) echo "success";
+else echo "fail";
+?>
+@]
+(:tableend:)
+
+
+!!! How many users?
+Apache ab tool is designed to "exercise" CPU/Apache engine as fast as possible, therefore 'ab tool' requests/second multiply by a factor of 5-10x to estimate 'user capacity' assuming humans actually read/scan each browser page (~ 5-10 seconds per page). So, on this machine using just ibm_db2 without toolkit, the following is about as fast as any given connection can run using only ONE job.
+[@
+Drive the CPU to 100% capacity, then estimate actual users supported to drive the same CPU 100%.
+>> ab -t 15 -c 15 http://lp0264d/ibm_db2_fetch.php?pool
+       483 requests/second..............483 users/second (varies widely per application base line)
+    28,980 requests/minute..............600 users/minute (relatively constant user capacity ibm_db2 scripts persistent connections)
+ 1,738,800 requests/hour.............36,000 users/hour   (relatively constant user capacity ibm_db2 scripts persistent connections)
+41,731,200 requests/day (24 hours)..864,000 users/day    (relatively constant user capacity ibm_db2 scripts persistent connections)
+@]
+Things to consider:
+* Who am i testing with ab tool? 
+*** lighting fast ab tool "no delay" push CPU 100% (superman users faster than a speeding bullet ... a machine)
+*** normal thinking users "10 second delay user actions" to push CPU 100% (average Joe ... a human)
+*** your application complexity may go far beyond simple ibm_db2_fetch.php above, but most any
+    web 'load runner' tool (like 'ab tool') or worse php script 'loop call test'
+    requires human action calculation to understand user capacity, so don't believe 
+    blog people until you actually run your application specific performance test. 
+
+If you want to run Apache ab tool on PASE (IBM i) ...
+*** [[Apache/ab]] -- Apache ab tool from old Zend Core (simulate browsers) 
+
+!!! XMLSERVICE still evolving 
+Toolkit/XMLSERVICE performance will evolve over time, we understand performance is important and we intend push data through faster (perhaps much faster).
+
+* What runs fast?
+** calling PGMs/SRVPGMs (RPG, CLP, Cobol, System API, etc.)
+*** loading your program is relatively slow so keep process alive (see below)
+*** use persistent connections (db2_pconnect/i5_pconnect)
+*** use IPC state full XMLSERVICE ('InternalKey'=>'/tmp/packers')
+*** turn off PHP debug, logs, traces toolkit all ini files
+
+* What runs slower?
+** CMDs, especially CMDS that return data (RTVJOBA, etc.)
+*** CMDs return data use REXX, which is slow first time
+*** CMDs that do NOT return data, will run fairly quickly
+*** call CLP using the program interface (not command interface)
+*** use IPC state full XMLSERVICE ('InternalKey'=>'/tmp/packers')
+*** turn off PHP debug, logs, traces toolkit all ini files
+
+* What runs slowest?
+** PASE sh utilities (system wrkactjob, ls, ps, etc.)
+*** not much can be done because most time due to fork of another job (Unix/PASE style)
+*** what little can be done is mostly same all call types
+*** use IPC state full XMLSERVICE ('InternalKey'=>'/tmp/packers')
+*** turn off PHP debug, logs, traces toolkit all ini files
+
+
+
+----
+!!! [--Author([[http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICEConfig?action=expirediff | s ]])--]
+[--Tony "Ranger" Cairns - IBM i PHP / PASE--]

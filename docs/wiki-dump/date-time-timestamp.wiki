@@ -1,0 +1,658 @@
+(:quicktoc:)
+>>round frame bgcolor=#ffffdd<<
+!!! XMLSERVICE/Toolkit Date, Time, Timestamp
+>><<
+
+[[XMLService/XMLService | Goto Main Page]]
+\\
+[[XMLSERVICEDocument | Goto Documents]]
+
+!!! Date, Time, Timestamp - what do?
+Time and date are easy, correct size character buffer and pass any format you want. Essentially xmlservice/toolkit works without formal knowledge of date, time, timestamp formats, simply passing another set of characters in memory for a parameter (pass-by-reference mostly), called program most likely throws exception when format incompatible (see with any MI debugger).
+
+
+
+!! 1) New PHP Toolkit Samples
+
+!!! ZZDATE (D   datfmt(*iso))
+[@
+<?php
+require_once('connection.inc');
+// assume /usr/local/zendsvr/share/ToolkitAPI
+require_once("ToolkitService.php");
+// new toolkit
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(
+array('InternalKey'=>$internalKey, // route to same XMLSERVICE job /tmp/myjob1
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'plug'=>"iPLUG32K"));              // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzdate: check date parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzdate          B                   export
+//     D zzdate          PI              D
+//     D  myDate                         D   datfmt(*iso)
+//      * vars
+//     D  retDate        s               D   datfmt(*iso)
+//      /free
+//       retDate=myDate;
+//       myDate=d'2007-09-30';
+//       return retDate;
+//     /end-free
+//     P                 E
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both',  10,  'ZZDATE', 'myDate', '2009-05-11');
+$retrn[] = $ToolkitServiceObj->AddParameterChar   ('both',  10,  'ZZDATE', 'retDate', '2002-02-02');
+$result  = $ToolkitServiceObj->PgmCall('ZZSRV', $libxmlservice, $param, $retrn, array('func'=>'ZZDATE'));
+// var_dump($result);
+/* in/out param myDate */
+$myDate = "XMLSERVICE i/o param myDate: ".$result["io_param"]["myDate"];
+echo "$myDate\n";
+$expect = '2007-09-30';
+if (strpos($myDate,$expect)<1) die("Fail missing $expect\n");
+/* return value retDate */
+$retDate = "XMLSERVICE return retDate: ".$result["retvals"]["retDate"];
+echo "$retDate\n";
+$expect = '2009-05-11';
+if (strpos($retDate,$expect)<1) die("Fail missing $expect\n");
+/* all good */
+echo "Success\n";
+?>
+@]
+
+!!! ZZDATEUSA (D   datfmt(*USA))
+[@
+<?php
+require_once('connection.inc');
+// assume /usr/local/zendsvr/share/ToolkitAPI
+require_once("ToolkitService.php");
+// new toolkit
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(
+array('InternalKey'=>$internalKey, // route to same XMLSERVICE job /tmp/myjob1
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'plug'=>"iPLUG32K"));              // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzdateUSA: check date parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzdateUSA       B                   export
+//     D zzdateUSA       PI              D   datfmt(*USA)
+//     D  myDate                         D   datfmt(*USA)
+//      * vars
+//     D  retDate        s               D   datfmt(*USA)
+//      /free
+//       retDate=myDate;
+//       myDate=d'2007-09-30';
+//       return retDate;
+//      /end-free
+//     P                 E
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both',  10,  'ZZDATEUSA', 'myDate', '05/11/2009');
+$retrn[] = $ToolkitServiceObj->AddParameterChar   ('both',  10,  'ZZDATEUSA', 'retDate', '2002-02-02');
+$result  = $ToolkitServiceObj->PgmCall('ZZSRV', $libxmlservice, $param, $retrn, array('func'=>'ZZDATEUSA'));
+// var_dump($result);
+/* in/out param myDate */
+$myDate = "XMLSERVICE i/o param myDate: ".$result["io_param"]["myDate"];
+echo "$myDate\n";
+$expect = '09/30/2007';
+if (strpos($myDate,$expect)<1) die("Fail missing $expect\n");
+/* return value retDate */
+$retDate = "XMLSERVICE return retDate: ".$result["retvals"]["retDate"];
+echo "$retDate\n";
+$expect = '05/11/2009';
+if (strpos($retDate,$expect)<1) die("Fail missing $expect\n");
+/* all good */
+echo "Success\n";
+?>
+@]
+
+!!! ZZTIME (T   timfmt(*iso))
+[@
+<?php
+require_once('connection.inc');
+// assume /usr/local/zendsvr/share/ToolkitAPI
+require_once("ToolkitService.php");
+// new toolkit
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(
+array('InternalKey'=>$internalKey, // route to same XMLSERVICE job /tmp/myjob1
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'plug'=>"iPLUG32K"));              // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zztime: check time parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zztime          B                   export
+//     D zztime          PI              T
+//     D  myTime                         T   timfmt(*iso)
+//      * vars
+//     D  retTime        s               T   timfmt(*iso)
+//      /free
+//       retTime=myTime;
+//       myTime=t'12.34.56';
+//       return retTime;
+//      /end-free
+//     P                 E
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both',  8,  'ZZTIME', 'myTime', '09.45.29');
+$retrn[] = $ToolkitServiceObj->AddParameterChar   ('both',  8,  'ZZTIME', 'retTime', '02.02.02');
+$result  = $ToolkitServiceObj->PgmCall('ZZSRV', $libxmlservice, $param, $retrn, array('func'=>'ZZTIME'));
+// var_dump($result);
+/* in/out param myDate */
+$myTime = "XMLSERVICE i/o param myTime: ".$result["io_param"]["myTime"];
+echo "$myTime\n";
+$expect = '12.34.56';
+if (strpos($myTime,$expect)<1) die("Fail missing $expect\n");
+/* return value retTime */
+$retTime = "XMLSERVICE return retTime: ".$result["retvals"]["retTime"];
+echo "$retTime\n";
+$expect = '09.45.29';
+if (strpos($retTime,$expect)<1) die("Fail missing $expect\n");
+/* all good */
+echo "Success\n";
+?>
+@]
+
+!!! ZZTIME (T   timfmt(*USA))
+[@
+<?php
+require_once('connection.inc');
+// assume /usr/local/zendsvr/share/ToolkitAPI
+require_once("ToolkitService.php");
+// new toolkit
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(
+array('InternalKey'=>$internalKey, // route to same XMLSERVICE job /tmp/myjob1
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'plug'=>"iPLUG32K"));              // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zztimeUSA: check time parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zztimeUSA       B                   export
+//     D zztimeUSA       PI              T   timfmt(*USA)
+//     D  myTime                         T   timfmt(*USA)
+//      * vars
+//     D  retTime        s               T   timfmt(*USA)
+//      /free
+//       retTime=myTime;
+//       myTime=t'12.34.00';
+//       return retTime;
+//      /end-free
+//     P                 E
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both',  8,  'ZZTIMEUSA', 'myTime', '09:45 AM');
+$retrn[] = $ToolkitServiceObj->AddParameterChar   ('both',  8,  'ZZTIMEUSA', 'retTime', '02:02 PM');
+$result  = $ToolkitServiceObj->PgmCall('ZZSRV', $libxmlservice, $param, $retrn, array('func'=>'ZZTIMEUSA'));
+// var_dump($result);
+/* in/out param myDate */
+$myTime = "XMLSERVICE i/o param myTime: ".$result["io_param"]["myTime"];
+echo "$myTime\n";
+$expect = '12:34 PM';
+if (strpos($myTime,$expect)<1) die("Fail missing $expect\n");
+/* return value retTime */
+$retTime = "XMLSERVICE return retTime: ".$result["retvals"]["retTime"];
+echo "$retTime\n";
+$expect = '09:45 AM';
+if (strpos($retTime,$expect)<1) die("Fail missing $expect\n");
+/* all good */
+echo "Success\n";
+?>
+@]
+
+!!! ZZSTAMP (Z)
+[@
+<?php
+require_once('connection.inc');
+// assume /usr/local/zendsvr/share/ToolkitAPI
+require_once("ToolkitService.php");
+// new toolkit
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(
+array('InternalKey'=>$internalKey, // route to same XMLSERVICE job /tmp/myjob1
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'plug'=>"iPLUG32K"));              // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzstamp: check timestamp parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzstamp         B                   export
+//     D zzstamp         PI              Z
+//     D  myStamp                        Z
+//      * vars
+//     D  retStamp       s               Z
+//      /free
+//       retStamp=myStamp;
+//       myStamp=z'1960-12-31-12.32.23.000000';
+//       return retStamp;
+//      /end-free
+//     P                 E
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both',  26,  'ZZSTAMP', 'myStamp', '2011-12-29-12.45.29.000000');
+$retrn[] = $ToolkitServiceObj->AddParameterChar   ('both',  26,  'ZZSTAMP', 'retStamp', '2002-02-02-02.02.02.000000');
+$result  = $ToolkitServiceObj->PgmCall('ZZSRV', $libxmlservice, $param, $retrn, array('func'=>'ZZSTAMP'));
+// var_dump($result);
+/* in/out param myDate */
+$myStamp = "XMLSERVICE i/o param myStamp: ".$result["io_param"]["myStamp"];
+echo "$myStamp\n";
+$expect = '1960-12-31-12.32.23.000000';
+if (strpos($myStamp,$expect)<1) die("Fail missing $expect\n");
+/* return value retStamp */
+$retStamp = "XMLSERVICE return retStamp: ".$result["retvals"]["retStamp"];
+echo "$retStamp\n";
+$expect = '2011-12-29-12.45.29.000000';
+if (strpos($retStamp,$expect)<1) die("Fail missing $expect\n");
+/* all good */
+echo "Success\n";
+?>
+@]
+
+
+
+
+!! 2) XMLSERVICE Raw XML Samples
+
+!!! ZZDATE (D   datfmt(*iso))
+[@
+<?php
+// see connection.inc param details ...
+require_once('connection.inc');
+// call IBM i
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$clobIn = getxml();
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
+// -----------------
+// output processing
+// -----------------
+// dump raw XML (easy test debug)
+var_dump($clobOut);
+// xml check via simplexml vs. expected results
+$xmlobj = simplexml_load_string($clobOut);
+if (!$xmlobj) die("Bad XML returned");
+$allpgms = $xmlobj->xpath('/script/pgm');
+if (!$allpgms) die("Missing XML pgm info");
+// -----------------
+// output pgm call
+// -----------------
+// only one program this XML script
+$pgm = $allpgms[0];
+$name = $pgm->attributes()->name;
+$lib  = $pgm->attributes()->lib;
+$func = $pgm->attributes()->func;
+// pgm parms
+$parm = $pgm->xpath('parm');
+if (!$parm) die("Fail XML pgm parms missing ($lib/$name.$func)\n");
+$var  = $parm[0]->data->attributes()->var;
+$actual = (string)$parm[0]->data;
+$expect='2007-09-30';
+if ($actual != $expect) die("parm: $var ($actual not $expect) ($lib/$name.$func)\n");
+// pgm data returned
+$retn = $pgm->xpath('return');
+if (!$retn) die("Fail XML pgm return missing ($lib/$name.$func)\n");
+$var  = $retn[0]->data->attributes()->var;
+$actual = (string)$retn[0]->data;
+$expect='2009-05-11';
+if ($actual != $expect) die("return: $var ($actual not $expect) ($lib/$name.$func)\n");
+
+// good
+echo "Success ($lib/$name.$func)\n";
+
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzdate: check date parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzdate          B                   export
+//     D zzdate          PI              D
+//     D  myDate                         D   datfmt(*iso)
+function getxml() {
+$clob = <<<ENDPROC
+<?xml version='1.0'?>
+<script>
+<pgm name='ZZSRV' lib='xyzlibxmlservicexyz' func='ZZDATE'>
+ <parm  io='both'>
+   <data var='myDate' type='10A'>2009-05-11</data>
+ </parm>
+ <return>
+   <data var='myDateRet' type='10A'>nada</data>
+ </return>
+</pgm>
+</script>
+ENDPROC;
+return test_lib_replace($clob);
+}
+?>
+@]
+
+
+!!! ZZDATEUSA (D   datfmt(*USA))
+[@
+<?php
+// see connection.inc param details ...
+require_once('connection.inc');
+// call IBM i
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$clobIn = getxml();
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
+// -----------------
+// output processing
+// -----------------
+// dump raw XML (easy test debug)
+var_dump($clobOut);
+// xml check via simplexml vs. expected results
+$xmlobj = simplexml_load_string($clobOut);
+if (!$xmlobj) die("Bad XML returned");
+$allpgms = $xmlobj->xpath('/script/pgm');
+if (!$allpgms) die("Missing XML pgm info");
+// -----------------
+// output pgm call
+// -----------------
+// only one program this XML script
+$pgm = $allpgms[0];
+$name = $pgm->attributes()->name;
+$lib  = $pgm->attributes()->lib;
+$func = $pgm->attributes()->func;
+// pgm parms
+$parm = $pgm->xpath('parm');
+if (!$parm) die("Fail XML pgm parms missing ($lib/$name.$func)\n");
+$var  = $parm[0]->data->attributes()->var;
+$actual = (string)$parm[0]->data;
+$expect='09/30/2007';
+if ($actual != $expect) die("parm: $var ($actual not $expect) ($lib/$name.$func)\n");
+// pgm data returned
+$retn = $pgm->xpath('return');
+if (!$retn) die("Fail XML pgm return missing ($lib/$name.$func)\n");
+$var  = $retn[0]->data->attributes()->var;
+$actual = (string)$retn[0]->data;
+$expect='05/11/2009';
+if ($actual != $expect) die("return: $var ($actual not $expect) ($lib/$name.$func)\n");
+
+// good
+echo "Success ($lib/$name.$func)\n";
+
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzdateUSA: check date parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzdateUSA       B                   export
+//     D zzdateUSA       PI              D   datfmt(*USA)
+//     D  myDate                         D   datfmt(*USA)
+function getxml() {
+$clob = <<<ENDPROC
+<?xml version='1.0'?>
+<script>
+<pgm name='ZZSRV' lib='xyzlibxmlservicexyz' func='ZZDATEUSA'>
+ <parm  io='both'>
+   <data var='myDate' type='10A'>05/11/2009</data>
+ </parm>
+ <return>
+   <data var='myDateRet' type='10A'>nada</data>
+ </return>
+</pgm>
+</script>
+ENDPROC;
+return test_lib_replace($clob);
+}
+?>
+@]
+
+!!! ZZTIME (T   timfmt(*iso))
+[@
+<?php
+// see connection.inc param details ...
+require_once('connection.inc');
+// call IBM i
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$clobIn = getxml();
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
+// -----------------
+// output processing
+// -----------------
+// dump raw XML (easy test debug)
+var_dump($clobOut);
+// xml check via simplexml vs. expected results
+$xmlobj = simplexml_load_string($clobOut);
+if (!$xmlobj) die("Bad XML returned");
+$allpgms = $xmlobj->xpath('/script/pgm');
+if (!$allpgms) die("Missing XML pgm info");
+// -----------------
+// output pgm call
+// -----------------
+// only one program this XML script
+$pgm = $allpgms[0];
+$name = $pgm->attributes()->name;
+$lib  = $pgm->attributes()->lib;
+$func = $pgm->attributes()->func;
+// pgm parms
+$parm = $pgm->xpath('parm');
+if (!$parm) die("Fail XML pgm parms missing ($lib/$name.$func)\n");
+$var  = $parm[0]->data->attributes()->var;
+$actual = (string)$parm[0]->data;
+$expect='12.34.56';
+if ($actual != $expect) die("parm: $var ($actual not $expect) ($lib/$name.$func)\n");
+// pgm data returned
+$retn = $pgm->xpath('return');
+if (!$retn) die("Fail XML pgm return missing ($lib/$name.$func)\n");
+$var  = $retn[0]->data->attributes()->var;
+$actual = (string)$retn[0]->data;
+$expect='09.45.29';
+if ($actual != $expect) die("return: $var ($actual not $expect) ($lib/$name.$func)\n");
+
+// good
+echo "Success ($lib/$name.$func)\n";
+
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zztime: check time parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zztime          B                   export
+//     D zztime          PI              T
+//     D  myTime                         T   timfmt(*iso)
+function getxml() {
+$clob = <<<ENDPROC
+<?xml version='1.0'?>
+<script>
+<pgm name='ZZSRV' lib='xyzlibxmlservicexyz' func='ZZTIME'>
+ <parm  io='both'>
+   <data var='myTime' type='8A'>09.45.29</data>
+ </parm>
+ <return>
+   <data var='myTimeRet' type='8A'>nada</data>
+ </return>
+</pgm>
+</script>
+ENDPROC;
+return test_lib_replace($clob);
+}
+?>
+@]
+
+!!! ZZTIMEUSA (T   timfmt(*USA))
+[@
+<?php
+// see connection.inc param details ...
+require_once('connection.inc');
+// call IBM i
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$clobIn = getxml();
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
+// -----------------
+// output processing
+// -----------------
+// dump raw XML (easy test debug)
+var_dump($clobOut);
+// xml check via simplexml vs. expected results
+$xmlobj = simplexml_load_string($clobOut);
+if (!$xmlobj) die("Bad XML returned");
+$allpgms = $xmlobj->xpath('/script/pgm');
+if (!$allpgms) die("Missing XML pgm info");
+// -----------------
+// output pgm call
+// -----------------
+// only one program this XML script
+$pgm = $allpgms[0];
+$name = $pgm->attributes()->name;
+$lib  = $pgm->attributes()->lib;
+$func = $pgm->attributes()->func;
+// pgm parms
+$parm = $pgm->xpath('parm');
+if (!$parm) die("Fail XML pgm parms missing ($lib/$name.$func)\n");
+$var  = $parm[0]->data->attributes()->var;
+$actual = (string)$parm[0]->data;
+$expect='12:34 PM';
+if ($actual != $expect) die("parm: $var ($actual not $expect) ($lib/$name.$func)\n");
+// pgm data returned
+$retn = $pgm->xpath('return');
+if (!$retn) die("Fail XML pgm return missing ($lib/$name.$func)\n");
+$var  = $retn[0]->data->attributes()->var;
+$actual = (string)$retn[0]->data;
+$expect='09:45 AM';
+if ($actual != $expect) die("return: $var ($actual not $expect) ($lib/$name.$func)\n");
+
+// good
+echo "Success ($lib/$name.$func)\n";
+
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zztimeUSA: check time parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zztimeUSA       B                   export
+//     D zztimeUSA       PI              T   timfmt(*USA)
+//     D  myTime                         T   timfmt(*USA)
+function getxml() {
+$clob = <<<ENDPROC
+<?xml version='1.0'?>
+<script>
+<pgm name='ZZSRV' lib='xyzlibxmlservicexyz' func='ZZTIMEUSA'>
+ <parm  io='both'>
+   <data type='8A'>09:45 AM</data>
+ </parm>
+ <return>
+   <data type='8A'>nada</data>
+ </return>
+</pgm>
+</script>
+ENDPROC;
+return test_lib_replace($clob);
+}
+?>
+@]
+
+!!! ZZSTAMP (Z)
+[@
+<?php
+// see connection.inc param details ...
+require_once('connection.inc');
+// call IBM i
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$clobIn = getxml();
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
+// -----------------
+// output processing
+// -----------------
+// dump raw XML (easy test debug)
+var_dump($clobOut);
+// xml check via simplexml vs. expected results
+$xmlobj = simplexml_load_string($clobOut);
+if (!$xmlobj) die("Bad XML returned");
+$allpgms = $xmlobj->xpath('/script/pgm');
+if (!$allpgms) die("Missing XML pgm info");
+// -----------------
+// output pgm call
+// -----------------
+// only one program this XML script
+$pgm = $allpgms[0];
+$name = $pgm->attributes()->name;
+$lib  = $pgm->attributes()->lib;
+$func = $pgm->attributes()->func;
+// pgm parms
+$parm = $pgm->xpath('parm');
+if (!$parm) die("Fail XML pgm parms missing ($lib/$name.$func)\n");
+$var  = $parm[0]->data->attributes()->var;
+$actual = (string)$parm[0]->data;
+$expect='1960-12-31-12.32.23.000000';
+if ($actual != $expect) die("parm: $var ($actual not $expect) ($lib/$name.$func)\n");
+// pgm data returned
+$retn = $pgm->xpath('return');
+if (!$retn) die("Fail XML pgm return missing ($lib/$name.$func)\n");
+$var  = $retn[0]->data->attributes()->var;
+$actual = (string)$retn[0]->data;
+$expect='2011-12-29-12.45.29.000000';
+if ($actual != $expect) die("return: $var ($actual not $expect) ($lib/$name.$func)\n");
+
+// good
+echo "Success ($lib/$name.$func)\n";
+
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzstamp: check timestamp parm
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzstamp         B                   export
+//     D zzstamp         PI              Z
+//     D  myStamp                        Z
+function getxml() {
+$clob = <<<ENDPROC
+<?xml version='1.0'?>
+<script>
+<pgm name='ZZSRV' lib='xyzlibxmlservicexyz' func='ZZSTAMP'>
+ <parm  io='both'>
+   <data var='myStamp' type='26A'>2011-12-29-12.45.29.000000</data>
+ </parm>
+ <return>
+   <data var='myStampRet' type='26A'>nada</data>
+ </return>
+</pgm>
+</script>
+ENDPROC;
+return test_lib_replace($clob);
+}
+?>
+@]
+
+
+
+
+----
+!!! [--Author([[http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICEDate?action=expirediff | s ]])--]
+[--Tony "Ranger" Cairns - IBM i PHP / PASE--]

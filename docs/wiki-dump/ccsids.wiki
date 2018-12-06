@@ -1,0 +1,220 @@
+(:quicktoc:)
+>>round frame bgcolor=#ffffdd<<
+!!! XMLSERVICE/Toolkit CCSID
+>><<
+
+[[XMLService/XMLService | Goto Main Page]]
+\\
+[[XMLSERVICEDocument | Goto Documents]]
+
+!!! XMLSERVICE should just work ...
+In general if you are using DB2 connections 1/2 tier and settings for your Apache or user profile are valid (not 65535), you will not need any additional CCSID manipulation/configuration. 
+
+If you are unfamiliar with 2-tier DB2 CCSID please try following link before reading this page [[PHP/DB2CCSID | DB2 CCSID]].
+
+!!! CCSID - what do?
+Few other topics dealing with web programs cause more frustrations over IBM i CCSID settings.
+
+!!! CCSID conflict between web scripts (clients) and IBM i PGMs (server)
+Any good conflict needs a basic difference in philosophy causing all the trouble.
+* '''Client (ASCII)''' - web scripts typically wish to run ASCII 819/1208 (PHP), code set(s) laptop 
+* '''Server (EBCDIC)''' - IBM i PGMs generally run EBCDIC (RPG/Cobol/CLP), code set(s) main frame
+
+!!! CCSID rule -- always a conversion client/server
+The basic operational code set differences between client (ASCII) / server (EBCDIC) required a conversion for all character data moving between client/server to be of value on either side. Your CCSID setting options are many, experimentation is usually required, but perhaps this web page helps avoid hours of frustrating tinkering attempting to adjust multitude of software "products" where CCSID conversions is possible.
+
+!!! Happens 99 times out of 100 when not working (CCSID 65535) ....
+You cannot run IBM i PHP and interact with IBM i DB2, PGM, SRVPGM (xmlservice), when your IBM i machine is default ship setting of 65535. Change the default ship Zend Server setting and you will likely be up and running.
+[@
+I run 65535 xmlservice on my V6R1 machine (among other machines) ...
+DSPSYSVAL SYSVAL(QCCSID)
+ Coded character set
+   identifier . . . . . :   65535      1-65535
+
+
+Change these files and restart everything (web, db2, xmlservice, tec.) ...
+
+I. Apache:  /www/zendsvr/conf/httpd.conf <-- (ILE Apache side)
+   DefaultFsCCSID 37   ... or 280 (Italian) ... or so on ...
+   CGIJobCCSID 37      ... or 280 (Italian) ... or so on ...
+   - This often fixes majority of web script issue
+
+II. FastCGI: /www/zendsvr/conf/fastcgi.conf <-- THIS file (PASE side)
+    CCSID=819 and LANG=C, 
+    which works nearly anywhere (UNIX default).
+    Note: 
+    - This file must be ASCII 819, so careful with editor or will not work (EDTF especially).
+    - CCSID=1208 can be a problem for PHP extensions, so most configurations use CCSID=819 and 
+      take specific script action to encode/decode 1208 data (see xmlservice hex/before/after)
+
+III. User profile -- DB2 connections 
+    CHGUSRPRF USRPRF(IAM37) CCSID(37) 
+    - This fixes most DB2 CCSID client/server problems both 1-tier and 2-tier
+
+-- or (skip I. - III.)---
+
+IV. change system ccsid for everything on the machine
+    CHGSYSVAL SYSVAL(QCCSID) VALUE(37)
+    Note: 
+    - some legacy applications may not work, should work but ..., so check things out 
+@]
+
+'''Note 65535''' - means HEX (or binary), which also means no conversion and 65535 is essentially doomsday for most any application trying to work between PASE and DB2 (most any client and DB2). 
+[@ 
+client (ASCII 819) + server (EBCDIC 65535) = junk-you-can't-read-or-use = xmlservice fails
+@]
+
+'''Now the rest of the story ...''' 65535 problem is common, so IBM i DB2 folks force a reasonable job CCSID for SOME remote connections (based on primary language generally), but NOT all connections (PASE and others), therefore observationally you may see some applications work (client access products) and others will not (PHP).   
+
+!! 1) Specific examples for XMLSERVICE
+* Command user ccsid override
+** [@
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+
+$ipc = "/tmp/packers"; // *** RIGHT HERE internalKey/IPC
+$ctl = "*sbmjob";      // *** run state full ...
+
+$clob = "<?xml version='1.0'?>\n";
+$clob .= "<script>\n";
+$clob .= "<cmd exec='rexx' hex='on' before='819/37' after='37/819'>";
+$clob .= bin2hex("RTVJOBA USRLIBL(?) SYSLIBL(?)");
+$clob .= "</cmd>\n";
+$clob .= "</script>\n";
+$clobIn = $clob;
+$clobOut = "";
+
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+
+var_dump($clobOut);
+
+$xmlobj = simplexml_load_string($clobOut);
+
+if (!$xmlobj) die("Bad XML output");
+
+$clobOut = pack("H*",(string)$xmlobj->cmd->hex);
+
+var_dump($clobOut);
+
+OUTPUT:
+> php zzhexccsidcmd.php
+string(527) "<?xml version='1.0'?>
+<script>
+<cmd exec='rexx' hex='on' before='819/37' after='37/819'><success>+++ success RTVJOBA USRLIBL(?) SYSLIBL(?)</success><hex>3C726F773E0A3C6461746120646573633D275553524C49424C273E5147504C202020202020205154454D5020202020202051444556454C4F5020202051424C445359532020202051424C44535953523C2F646174613E0A3C2F726F773E0A3C726F773E0A3C6461746120646573633D275359534C49424C273E5153595320202020202020515359533220202020202051484C5053595320202020515553525359533C2F646174613E0A3C2F726F773E0A</hex></cmd>
+</script>"
+string(176) "<row>
+<data desc='USRLIBL'>QGPL       QTEMP      QDEVELOP   QBLDSYS    QBLDSYSR</data>
+</row>
+<row>
+<data desc='SYSLIBL'>QSYS       QSYS2      QHLPSYS    QUSRSYS</data>
+</row>
+"
+
+
+
+@]
+
+* Program ccsid override
+** [@
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG512K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+
+$ipc = "/tmp/packers"; // *** RIGHT HERE internalKey/IPC
+$ctl = "*sbmjob";      // *** run state full ...
+
+$clob = "<?xml version='1.0'?>\n";
+$clob .= "<script>\n";
+$clob .= "<pgm name='ZZSRV' lib='XMLSERVICE' func='ZZ200'>\n";
+$clob .= "<parm io='both'>\n";
+$clob .= "<data type='200A' hex='on' before='819/37' after='37/819'>";
+$clob .= bin2hex("Hi there i am ok on return from xmlservice.");
+$clob .= "</data>\n";
+$clob .= "</parm>\n";
+$clob .= "</pgm>\n";
+$clob .= "</script>\n";
+$clobIn = $clob;
+$clobOut = "";
+
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+
+var_dump($clobOut);
+
+$xmlobj = simplexml_load_string($clobOut);
+
+if (!$xmlobj) die("Bad XML output");
+
+$clobOut = pack("H*",(string)$xmlobj->pgm->parm->data);
+
+var_dump($clobOut);
+
+
+OUTPUT:
+> php zzhexccsidpgm.php
+string(273) "<?xml version='1.0'?>
+<script>
+<pgm name='ZZSRV' lib='XMLSERVICE' func='ZZ200'>
+<parm io='both'>
+<data type='200A' hex='on' before='819/37' after='37/819'>4869207468657265206920616D206F6B206F6E2072657475726E2066726F6D20786D6C736572766963652E</data>
+</parm>
+</pgm>
+</script>"
+string(43) "Hi there i am ok on return from xmlservice."
+
+@]
+
+
+
+!! 2) Specific examples for New PHP Toolkit
+
+!!! CCSID override - PHP Toolkit/CW
+Simple CCSIDs only require setting the CCSID via QCCSID or in Apache. The overrides directly below are intended for for languages with more complex needs such as Hebrew or Japanese, or when individual pieces of data are encoded differently (such as a combination of 819 and 1208). 
+[@The easiest way to try these CCSID settings is with three new settings in toolkit.ini:
+; advanced CCSID options. Use all three options together.
+;ccsidBefore = '819/37'
+;ccsidAfter = '37/819'
+;useHex = true
+
+Uncomment the three settings and then adjust the ccsidBefore and ccsidAfter values according to your needs. 
+
+Another way to set these global CCSID settings is with the method setToolkitServiceParams(). In your code, after connecting with $conn::getInstance(''' etc.), set the parameters with this statement:
+$conn->setToolkitServiceParams(array('ccsidBefore'=>'819/37', 'ccsidAfter'=>'37/819', 'useHex'=>true));
+This technique works identically to changing INI values, except that this coding technique can be re-done over and over with different settings before each program/command call.
+
+These "global" CCSID techniques work with both the new API and the CW, and will convert not only data/commands and command output, but the names of programs, libraries, and functions. You may notice that your data will be converted to hex inside the toolkit and then converted back to readable text by the toolkit.
+
+For more fine-grained control over parameter data--that is, the ability to use a different CCSID conversion for each parameter, if desired--chain several new methods to AddParameterChar() like  so: (new API only--not in CW):
+$param[] = $conn->AddParameterChar('both', 10,'CODE', 'CODE', $code)
+                ->setParamCcsidBefore('819/37')
+                ->setParamCcsidAfter('37/819')
+                ->setParamUseHex(true);
+
+
+These parameters can also be passed as AddParameterChar() function parameters directly but it's easier to use the setParam… methods above.
+
+Note: these advanced CCSID settings do not affect some of the handmade API calls in the CW such as getting object lists. Helping those may be a future enhancement.
+@]
+
+If you wish to see how XMLSERVICE implements these overrides, see the following URL, under the heading: "CCSID user override - xmlservice options (hex/before/after)".
+
+
+
+----
+!!! [--Author([[http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICECCSID?action=expirediff | s ]])--]
+[--Tony "Ranger" Cairns - IBM i PHP / PASE--]
+
+
+

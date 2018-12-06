@@ -1,0 +1,329 @@
+(:quicktoc:)
+>>round frame bgcolor=#ffffdd<<
+!!! XMLSERVICE Install
+>><<
+
+[[XMLService/XMLService | Goto Main Page]]
+
+! XMLSERVICE RPG library (server)
+XMLSERVICE is Open Source RPG code that enables XML scripting calls of System i resources using most any language available on your platform. XMLSERVICE interfaces include DB2 stored procedures created by crtxml, crtxml2, crtxmlq, etc., or using optional REST interface xmlcgi.pgm. XMLSERVICE can be created into many production libraries (see installation crtxml below).
+!!! License
+[[LicenseXMLService | BSD License]] - business friendly Open Source
+!!! Installation
+# Unzip xmlservice-rpg.zip to xmlservice.savf
+# Ensure that an empty save file QGPL/XMLSERVICE exists\\
+[@
+> crtSAVF FILE(QGPL/XMLSERVICE) 
+-- or -- 
+> clrSAVF FILE(QGPL/XMLSERVICE)
+@]
+# FTP xmlservice.savf to QGPL library, into the save file referenced in 2. above
+# Install XMLSERVICE source code library on IBM i\\
+[@
+> RSTLIB SAVLIB(XMLSERVICE) DEV(*SAVF) SAVF(QGPL/XMLSERVICE) MBROPT(*ALL) ALWOBJDIF(*ALL)
+@]
+# Create xmlservice RPG programs in XMLSERVICE library and/or alternative libraries (see alternative below).\\
+[@
+First, add XMLSERVICE to library list: 
+Then choose library/libraries to compile into:
+> ADDLIBLE XMLSERVICE
+
+Independent/personal use XMLSERVICE library ...
+
+XMLSERVICE: test library XMLSERVICE, good for trying new versions
+> CRTCLPGM PGM(XMLSERVICE/CRTXML) SRCFILE(XMLSERVICE/QCLSRC)
+> call crtxml -- XMLSERVICE library only
+
+Please ignore following expected errors from generic drop/create CRTXML(x) CLP ...
+**** CLI ERROR *****                 
+         SQLSTATE: 42704              
+NATIVE ERROR CODE: -204               
+IPLUG4K in XMLSERVICE type *N not found. 
+@]
+      
+# Optional XMLSERVICE tests\\
+[@
+> CRTCLPGM PGM(XMLSERVICE/CRTTEST) SRCFILE(XMLSERVICE/QCLSRC) 
+> call crttest
+-- V6+ added tests --
+> CRTCLPGM PGM(XMLSERVICE/CRTTEST6) SRCFILE(XMLSERVICE/QCLSRC) 
+> call crttest6
+@]
+# Grant *ALL rights over XMLSERVICE to users\\
+[@
+> CHGAUT OBJ('/qsys.lib/XMLSERVICE.lib') USER(QTMHHTTP) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+> CHGAUT OBJ('/qsys.lib/XMLSERVICE.lib') USER(QTMHHTP1) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+@]
+# End any and all XTOOLKIT jobs with option *IMMED, before restarting your web servers to assure XMLSERVICE running new install.
+
+!!! Alternative compiles (step 5 alternatives)
+
+# Alternative - Companies compile XMLSERVICE production libraries (step 5 alternatives)\\
+WARNING: Hard coded XMLSERVICE paths exist each library, NEVER attempt to move PGM/SRVPGM objects between product libraries.\\
+[@
+ZENDSVR: Zend Server 5.x ZENDSVR library
+> CRTCLPGM PGM(XMLSERVICE/CRTXML2) SRCFILE(XMLSERVICE/QCLSRC)
+> call crtxml2 -- ZENDSVR library only
+(PHP users toolkit.ini file default is ZENDSVR)
+
+ZENDSVR6: Zend Server 6.x ZENDSVR6 library (1.7.6+)
+> CRTCLPGM PGM(XMLSERVICE/CRTXML6) SRCFILE(XMLSERVICE/QCLSRC)
+> call crtxml6 -- ZENDSVR6 library only
+(PHP users toolkit.ini file default is ZENDSVR6)
+
+ZENDPHP7: Zend Server n.n ZENDPHP7 library (1.9.6+)
+> CRTCLPGM PGM(XMLSERVICE/CRTXML7) SRCFILE(XMLSERVICE/QCLSRC)
+> call crtxml7 -- ZENDPHP7 library only
+(PHP users toolkit.ini file default is ZENDPHP7)
+
+POWER_RUBY: PowerRuby POWER_RUBY library (1.8.3+)
+> CRTCLPGM PGM(XMLSERVICE/CRTXMLR) SRCFILE(XMLSERVICE/QCLSRC)
+> call crtxmlr -- POWER_RUBY library only
+
+QXMLSERV: IBM PTF use only
+> CRTCLPGM PGM(XMLSERVICE/CRTXMLQ) SRCFILE(XMLSERVICE/QCLSRC)
+> call crtxmlq -- QXMLSERV library only
+
+Optional: 
+Additional CLP(s) are included for user compile redistribution
+current/modern version IBM i to install on down level IBM i.
+CRTXMLV5  - library XMLSERVICE -> TGTRLS(V5R4M0)
+CRTXMLV6  - library XMLSERVICE -> TGTRLS(V6R1M0)
+CRTXML2V5 - library ZENDSVR -> TGTRLS(V5R4M0)
+CRTXML2V6 - library ZENDSVR -> TGTRLS(V6R1M0)
+CRTXML6V5 - library ZENDSVR6 -> TGTRLS(V5R4M0)
+CRTXML6V6 - library ZENDSVR6 -> TGTRLS(V6R1M0)
+@]
+# Alternative - For IBM i that only use PTFS\\
+Optional IBM XMLSERVICE PTFs for machines not downloading XMLSERVICE (PTF library QXMLSERV).\\
+[@
+group 
+PTF SF99368 - level 31 for i 7.1
+PTF SF99713 - level 5 for i 7.2
+-- older info --
+V7R1 PTF SI50835 (1.8.1) replaces V7R1 PTF SI48830 (1.7.5)
+V6R1 PTF SI50834 (1.8.1) replaces V6R1 PTF SI48831 (1.7.5)
+V5R4 PTF SI48440 (1.7.5) no additional PTFs planned
+@]
+
+!!! Dependencies
+* [[http://www-912.ibm.com/s_dir/sline003.NSF/GroupPTFs?OpenView&Start=1&Count=30&Collapse=1#1 | {IBM PTFs}]] for Java (PASE), HTTP, DB2
+* If your machine DSPSYSVAL QCCSID is 65535 (means no CCSID or hex/binary), set CCSID /www/../conf/httpd.conf or NOTHING works (hours of trouble).\\
+[@
+conf/httpd.conf
+DefaultFsCCSID 37
+CGIJobCCSID 37
+@]
+* When running DBCS on IBM i and see "bad character data" (Chinese characters), set CCSID /www/../conf/fastcgi.conf\\
+[@
+conf/fastcgi.conf
+setSetEnv="CCSID=1208"; SetEnv="LANG=C"
+@]
+* V5R4 OPM/CLP call failure notice (V5R4-) or when calling RPG w/optional %parms, use mode='opm' to enable\\
+[@
+<pgm mode='opm' ...>
+@]
+
+!!! Configuration
+All XMLSERVICE objects are create ready to go on installation or PTF. However, you may choose to enable optional Apache REST interface (see below).
+!!! Optional Configuration XMLSERVICE REST (xmlcgi.pgm)
+Optional Apache rest configuration (XMLCGI interface), no PHP on IBM i required. XMLCGI requires DB2 id(s)/password(s) for multiple requester communication with XMLSERVICE via QSQSRVR system pre-started jobs (password *NONE requires a special compile NOT enabled by default). This interface has mostly been used for demonstrations and rapid HTML/XML or pure JavaScript tests without the bother of writing a PHP script (see demo page).
+!!! Installation
+All objects are created during XMLSERVICE installation or PTFs.
+!!! Configuration conf/httpd.conf
+* test library XMLSERVICE \\
+[@
+ScriptAlias /cgi-bin/ /QSYS.LIB/XMLSERVICE.LIB/
+<Directory /QSYS.LIB/XMLSERVICE.LIB/>
+  AllowOverride None
+  order allow,deny
+  allow from all
+  SetHandler cgi-script
+  Options +ExecCGI
+</Directory>
+Note:
+toolkit.ini: XMLServiceLib = "XMLSERVICE"
+@]
+* IBM PTFs library QXMLSERV\\
+[@
+ScriptAlias /cgi-bin/ /QSYS.LIB/QXMLSERV.LIB/
+<Directory /QSYS.LIB/QXMLSERV.LIB/>
+  AllowOverride None
+  order allow,deny
+  allow from all
+  SetHandler cgi-script
+  Options +ExecCGI
+</Directory>
+Note:
+toolkit.ini: XMLServiceLib = "QXMLSERV"
+@]
+* Zend Server6-8 library ZENDSVR6\\
+[@
+ScriptAlias /cgi-bin/ /QSYS.LIB/ZENDSVR6.LIB/
+<Directory /QSYS.LIB/ZENDSVR6.LIB/>
+  AllowOverride None
+  order allow,deny
+  allow from all
+  SetHandler cgi-script
+  Options +ExecCGI
+</Directory>
+- change toolkit.ini: XMLServiceLib = "ZENDSVR6"
+@]
+* Zend Server9 library ZENDPHP7\\
+[@
+ScriptAlias /cgi-bin/ /QSYS.LIB/ZENDPHP7.LIB/
+<Directory /QSYS.LIB/ZENDPHP7.LIB/>
+  AllowOverride None
+  order allow,deny
+  allow from all
+  SetHandler cgi-script
+  Options +ExecCGI
+</Directory>
+- change toolkit.ini: XMLServiceLib = "ZENDPHP7"
+@]
+* PowerRuby library POWER_RUBY\\
+[@
+ScriptAlias /cgi-bin/ /QSYS.LIB/POWER_RUBY.LIB/
+<Directory /QSYS.LIB/POWER_RUBY.LIB/>
+  AllowOverride None
+  order allow,deny
+  allow from all
+  SetHandler cgi-script
+  Options +ExecCGI
+</Directory>
+@]
+
+!!! XMLSERVICE *NONE uid/pwd
+Starting version 1.9.9.4 (08-17-2017), crtxml3 is open *NONE uid/pwd (XMLSERVICE lib).
+[@
+addlible xmlservice
+CRTCLPGM PGM(XMLSERVICE/CRTXML3) SRCFILE(XMLSERVICE/QCLSRC)
+call crtxml3
+@]
+
+This allows better interoperability with standalone application like node, python, etc.
+If you choose to deploy a production site, recommend restricting xmlservice Apache to local only (allow from 127.0.0.1). 
+The standalone application should use 127.0.0.1 as for REST requests to xmlservice on the machine.
+
+[@
+httpd.conf
+
+# flight 400 rest api
+ProxyPass /flight400/api http://127.0.0.1:47700/flight400/api/
+ProxyPassReverse /flight400/api http://127.0.0.1:47700/flight400/api/
+
+# zoo rest api
+ProxyPass /zoo/api http://127.0.0.1:47710/zoo/api/
+ProxyPassReverse /zoo/api http://127.0.0.1:47710/zoo/api/
+
+# silly hats
+ProxyPass /silly http://127.0.0.1:47720/silly
+ProxyPassReverse /silly http://127.0.0.1:47720/silly
+
+# XML Toolkit http settings
+# lock down xmlservice to 127.0.0.1 (internal only)
+# xmlservice created with *NONE enabled
+ScriptAlias /cgi-bin/ /QSYS.LIB/XMLSERVICE.LIB/
+<Directory /QSYS.LIB/XMLSERVICE.LIB/>
+  AllowOverride None
+  SetHandler cgi-script
+  Options +ExecCGI
+  order deny,allow
+  deny from all
+  allow from 127.0.0.1
+</Directory>
+# End XML Toolkit http settings
+@]
+
+For example, your node REST requests from on the machine would have Host 127.0.0.1 config.js.
+[@
+//Need change based on your server configurations
+var Database = "*LOCAL";
+var User = "*NONE";
+var Password = "*NONE";
+var Host = "127.0.0.1";
+var Port = 80;
+var Path = "/cgi-bin/xmlcgi.pgm";
+var IPC = "*na";
+var CTL = "*here";
+var DemoLib1 = "FLGHT400";
+var DemoLib2 = "FLGHT400M";
+@]
+
+
+A new tool 'mama' has been created as fastcgi extension to start/stop your standalone applications. 
+Mama is designed to work with Apache FastCGI as additional configuration files (mama.conf).
+* [[https://bitbucket.org/litmis/mama | litmis git mama]] - mama source code, multiple Apache configurations for different machine environments (useful patterns).
+* [[FastCGI/Mama]] - mama pre-compiled version
+
+!!! Notes (redistribution and PTFs)
+* SAV/RST
+** ONLY redistribute RSTOBJ to same library as SAVOBJ or break your toolkit (hang/busy) as various PLUGCONF(x) are hard coded to each library (crtxml, crtxml2, crtxmlq, crtxmlr)
+** XMLSERVICE stored procedures iPLUGxxx, iPLUGRxxx are automatically updated on SAVOBJ/RSTOBJ via IBM i PGM/SRVPGM object Program Associated Space (PAS), so you will NOT not need crtsql, crtsql2, etc., when using simple SAV/RST operations (PAS works on V5, V6, V7+). Key objects SAV/RST are XMLSERVICE, XMLSTOREDP, XMLCGI, XMLMAIN
+* PTFs WARNING
+** PTF processing Zend PTFs prior IBM i V7 TR5 may fail to create/recreate XMLSERVICE stored procedures iPLUGxxx, iPLUGRxxx in various Zend libraries ZENDSVR(6). IBM PTFs for QXMLSERV no action needed, only Zend PTF issue today. Manually create missing stored procedures in target Zend libraries using the following steps.\\
+[@
+Zend Server 5:
+QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL2.MBR')
+Zend Server 6:
+QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL6.MBR')
+@]
+** List of all stored procedure creates per library (if SAV/RST fails)\\
+[@
+Test:
+XMLSERVICE/XMLSTOREDP ... crtxml.clp                   ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL.MBR')
+XMLSERVICE/XMLSTOREDP ... crtxmlV5.clp TGTRLS(V5R4M0)  ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL.MBR')
+XMLSERVICE/XMLSTOREDP ... crtxmlV6.clp TGTRLS(V6R1M0)  ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL.MBR')
+XMLSERVICE/XMLSTOREDP ... crtxml3.clp (yips only)      ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL.MBR')
+
+Zend Server 5:
+ZENDSVR/XMLSTOREDP    ... crtxml2.clp                  ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL2.MBR')
+ZENDSVR/XMLSTOREDP    ... crtxml2V5.clp TGTRLS(V5R4M0) ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL2.MBR')
+ZENDSVR/XMLSTOREDP    ... crtxml2V6.clp TGTRLS(V6R1M0) ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL2.MBR')
+
+Zend Server 6:
+ZENDSVR6/XMLSTOREDP   ... crtxml6.clp                  ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL6.MBR')
+ZENDSVR6/XMLSTOREDP   ... crtxml6V5.clp TGTRLS(V5R4M0) ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL6.MBR')
+ZENDSVR6/XMLSTOREDP   ... crtxml6V6.clp TGTRLS(V6R1M0) ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQL6.MBR')
+
+PowerRuby:
+POWER_RUBY/XMLSTOREDP ... crtxmlr.clp                  ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQLR.MBR')
+
+IBM PTF:
+QXMLSERV/XMLSTOREDP   ... crtxmlq.clp                  ... QSH CMD('/usr/bin/db2 -t -f /qsys.lib/XMLSERVICE.lib/QSQLSRC.FILE/CRTSQLQ.MBR')
+@]
+
+
+!!! Debug technique: It's as easy as 1-2-3-4-5-6-7-8-9 :)
+# Run the test script that contains control "*debug" and script will "hang" while it waits on #2\\
+[@
+$ctl .= " *debug";
+@]
+# A MSGW inquiry message in DSPMSG QSYSOPR will be generated by the toolkit. Note the job information (number, name, user) provided in the MSGW.
+# STRSRVJOB using that job information as parameters.
+# STRDBG with the program and library you wish to debug.
+# Answer the MSGW. Any answer will do--"G" is fine.
+# The RPG program source will appear in debug mode in your terminal, ready to step through, allowing you to inspect variables, etc.
+# When done inspecting and stepping, let the RPG program complete (using function keys indicated on screen).
+# ENDDBG
+# ENDSRVJOB
+
+Other debug options ...
+[@
+           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)  
+                             (ctl=*debugcgi)              (ctl=*debugproc)                (ctl=*debug)
+browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here) 
+                                                       -> QSQSRVR (XMLSERVICE client) -> XTOOLKIT (XMLSERVICE ipc=/tmp/flinstone)
+
+$ctl .= " *debugcgi";  // Job 2 - debug XMLCGI to see REST/HTTP data passed by client (when using REST only)
+$ctl .= " *debugproc"; // Job 3 - debug XMLSERVICE "client" to see DB2 passed data (DB2 interface)
+$ctl .= " *debug";     // Job 4 - debug XMLSERVICE "server" to see XMLSERVICE calls (DB2 interface)
+                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server" 
+                       //         are in QSQSRVSR job (NO XTOOLKIT job)
+                       // remote: Attaching with LUW drivers changes QSQSRVR ...
+                       //   CLIENT (Client Access drivers) <==> QZDAxxxx
+                       //   CLIENT (DB2 Connect drivers)   <==> QRWxxxx
+@]
+!!! Alternative QSQSRVR stop/debug
+** [[Databases/DB2Debug | %blue%{Debug DB2 stored procedures}%%]] - find/stop QSQSRVR jobs scripting (*LOCAL-*DEBUG)
+

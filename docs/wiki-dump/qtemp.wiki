@@ -1,0 +1,222 @@
+(:quicktoc:)
+>>round frame bgcolor=#ffffdd<<
+!!! XMLSERVICE/Toolkit Sharing QTEMP
+>><<
+
+[[XMLService/XMLService | Goto Main Page]]
+\\
+[[XMLSERVICEDocument | Goto Documents]]
+
+You may want to refer to the DB2 connection link before reading this page [[ PHP/DB2Connection | PHP DB2 Connection topics ]].
+
+!!! Sharing QTEMP - what do?
+Sharing QTEMP ibm_db2/odbc/pdo_ibm/RPG/xmlservice has a few quirks, but can be "mostly" done if you understand the jobs in play.
+
+!!! The big picture ...
+[@
+xmlservice |--LUW/PASE------|-----------------------IBM i----------------------
+run type   |job 1 (1-2 tier)|  job 2 (stateless)        job 3 (IPC/private)
+-----------|----------------|------------------------|-------------------------
+stateless  | php-client-----|-->QSQSRVR              |
+           |                | ->ibm_db2,pdo_ibm,odbc |
+           |                |   *iPLUGxxxx->         |
+           |                | ->XMLSERVICE<>RPG      |
+           |                | ->XMLSERVICE<>DB2 (xml)|
+           |                | ->QTEMP (yes share)    |
+
+IPC/private| php-client-----|--->QSQSRVR             |
+           |                |  ->ibm_db2,pdo_ibm,odbc|
+           |                |    *iPLUGxxxx----------|-->XMLSERVICE<>RPG
+           |                |  ->QTEMP (no share)    | ->XMLSERVICE<>DB2 (xml)
+           |                |                        | ->QTEMP (yes share)
+
+*Note: iPLUGxxx stored procedures are included with xmlservice download
+@]
+* '''php-client (job 1)''' - can be 1-tier (PASE) / 2-tier (Linux/Unix/Windows) and PHP using extension ibm_db2,pdo_ibm,odbc.
+* '''ibm_db2,pdo_ibm,odbc (job 2 ONLY)''' - can ONLY "share" QTEMP when running stateless XMLSERVICE<>RPG mode, therefore no IPC/private.
+** PHP ibm_db2,pdo_ibm,odbc are shown in stateless column (job 2), so that everyone is visually reminded that IBM i DB2 actions do not really occur in php-client (job 1), but actually run in an "acquired" DB2 pre-started job (ie. 1-tier/2-tier makes no difference).
+*** 2-tier - "true" IBM i connection/job maybe QSQ (PASE), QWI (LUW), etc., but picture above remains consistent behavior for "sharing" QTEMP (job 2).
+*** persistent connect - persistent connection (db2_pconnect/odbc_pconnect) or full connection (db2_connect/odbc_connect) makes no difference, big picture remains exactly the same for both connections. Of course you will run faster with persistent connections (up to 30-40%), due to QSQ server job already up and waiting, but you cannot rely on persistent connections to reach same QSQ job each script start / browser click.
+**** exception - PASE ibm_db2 provides an obscure "in-line" mode only a few people understand where ibm_db2.ini file set to ibm_db2.i5_ignore_userid=1 will run all DB2 work under the default web profile and stateless in PASE php-client (job 1) ... but only if pure PASE ibm_db2 site (no PASE odbc/pdo_ibm) ... and ... well gee ... you are an expert if you understand i5_ignore_userid mode and you probably don't need this documentation.
+**** Note to future self ibm_db2, etc. ... just like xmlservice has idle timeout today (1/2 hour), we really should have a timeout idle for persistent connections across db2.
+* '''XMLSERVICE<>RPG (job 2 or job 3)''' - is toolkit call to RPG program wishing to "share" QTEMP.
+** Stateless (job 2) - Generally run slower with more CPU challenges, re-started xmlservice running in "acquired" QSQ job under stored procedure call iPLUGxxx, but on return iPLUGxxx/xmlservice need to close up shop and lose all caches (shut down, wake up, shut down, wake up, ...).
+*** YES stateless - ibm_db2/odbc/pdo_ibm (job 2) CAN share QTEMP with XMLSERVICE<>RPG/XMLSERVICE<>DB2 (also job 2).
+** IPC/private (job 3) - Generally run faster with less CPU challenges, because xmlservice stays running until explicitly killed or idle timeout (1/2 hour default / user controlled).
+*** NO IPC/private - ibm_db2/odbc/pdo_ibm (job 2) can NOT share QTEMP with XMLSERVICE<>RPG/XMLSERVICE<>DB2 (job 3).
+* '''XMLSERVICE<>DB2 (job 2 or job 3)''' - is NOT yet available in toolkit wrapper (Alan), but RAW xmlservice interface allows xml based DB2 queries and therefore can "share" QTEMP (available today in RAW xmlservice mode).
+** [@
+<?xml version='1.0'?>
+<script>
+<sql>
+<query>
+DECLARE GLOBAL TEMPORARY TABLE animalq(
+ id integer, breed varchar(32), name char(16),
+ weight decimal(7,2), height numeric(9,2))
+ ON COMMIT PRESERVE ROWS
+</query>
+<prepare>
+insert into 
+animalq (id, breed, name, weight, height) 
+values (?,?,?,?,?)
+</prepare>
+<execute>
+<parm io='in'>1</parm>
+<parm io='in'>cat</parm>
+<parm io='in'>Pook</parm>
+<parm io='in'>3.2</parm>
+<parm io='in'>9.56</parm>
+</execute>
+<execute>
+<parm io='in'>2</parm>
+<parm io='in'>dog</parm>
+<parm io='in'>Peaches</parm>
+<parm io='in'>12.3</parm>
+<parm io='in'>22.65</parm>
+</execute>
+<prepare>select * from animalq where WEIGHT > 1.0</prepare>
+<execute/>
+<describe desc='col'/>
+<fetch block='all' desc='on'/>
+</sql>
+</script>
+@]
+
+!! 1) Specific examples for New PHP Toolkit
+[@
+     -----------------------------------------
+     |              Browser                  |
+     |---------------------------------------|
+     | Download RPG (1) | Download PHP (2)   |
+     | 1) XMLSERVICE    | a) PHP CW Toolkit  |
+     |    HTML/XML/REST | b) New PHP Toolkit |<- cw-tk-php-x.x.x.zip (*)
+     |    no PHP        |--------------------|
+     |    (xmlcgi.pgm)  | c) PHP “Raw XML”   |
+     |    (optional)    |   (ibm_db2, odbc)  |
+     |    -----------------------------------|
+     | 2) XMLSERVICE DB2 stored procedures   |
+     |    (iPLUG4K, iPLUG32K, ..., iPLUG15M) |
+     | 3) XMLSERVICE (xmlservice.pgm)        |
+     |    call most anything on IBM i ...    |
+     |    (PGM, SRVPGM, PASE, DB2, etc.)     |
+     ------------------------------------------
+@]
+* '''Stateless''' - connection (job 1 / job 2)
+** [@
+// *** stateless occurs when no internalKey (e.g. '/tmp/packers') was specified ***
+// *** also when ->setToolkitServiceParams('stateless'=>true)) is called
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(array(
+'plug'=>"iPLUG32K"));         // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+@]
+
+* '''State Full''' - connection (job 1 / job 2 / job 3)
+** [@
+$internalKey = '/tmp/packers';
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(array(
+'InternalKey'=>$internalKey,  // *** RIGHT HERE internalKey/IPC
+                              // *** run state full ...
+                              //     use SBMJOB command run in new job
+                              //     PHP can call again, again, again
+                              //     with /tmp/packers and get ...
+                              //     same job every time
+                              //     same library list (*LIBL)
+                              //     same PGMs with open files, etc.
+                              //     ... exactly like 5250 sign-on screen
+'plug'=>"iPLUG32K"));         // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+@]
+
+* '''persistent connections''' - later releases PHP Toolkit allow reused/shared connections with other work, including persistent connections, but internalKey (IPC) rules remain the same (above)
+** [@
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+
+try { $ToolkitServiceObj = ToolkitService::getInstance($conn); }
+catch (Exception $e) { die($e->getMessage()); }
+@]
+
+
+!! 2) Specific examples for XMLSERVICE
+[@
+     -----------------------------------------
+     |              Browser                  |
+     |---------------------------------------|
+     | Download RPG (1) | Download PHP (2)   |
+     | 1) XMLSERVICE    | a) PHP CW Toolkit  |
+     |    HTML/XML/REST | b) New PHP Toolkit |
+     |    no PHP        |--------------------|
+     |    (xmlcgi.pgm)  | c) PHP “Raw XML”   |<- Zend Server for IBM i or Linux or Windows (*)
+     |    (optional)    |   (ibm_db2, odbc)  |
+     |    -----------------------------------|
+     | 2) XMLSERVICE DB2 stored procedures   |
+     |    (iPLUG4K, iPLUG32K, ..., iPLUG15M) |
+     | 3) XMLSERVICE (xmlservice.pgm)        |
+     |    call most anything on IBM i ...    |
+     |    (PGM, SRVPGM, PASE, DB2, etc.)     |
+     ------------------------------------------
+@]
+* '''Stateless''' - (job 1 / job 2)
+** [@
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$ipc = "";       // *** RIGHT HERE MISSING internalKey/IPC
+$ctl = "*here";  // *** run stateless ...
+                 //     here in any available database job
+                 //     must set *LIBL evey time
+// stateless - MUST do this every single script after connect/getInstance()
+//             even if using persistent connections (db2_pconnect, odbc_pconnect)
+$clobIn =
+"<?xml version='1.0'?>
+<script>
+<cmd>CHGLIBL LIBL(FREDFLIN WILMAFLIN) CURLIB(FREDFLIN)</cmd>
+</script>";
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+@]
+* '''State Full''' - (job 1 / job 2 / job 3)
+** [@
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG4K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$ipc = "/tmp/packers"; // *** RIGHT HERE internalKey/IPC
+$ctl = "*sbmjob";      // *** run state full ...
+                       //     use SBMJOB command run in new job
+                       //     PHP can call again, again, again
+                       //     with /tmp/packers and get ...
+                       //     same job every time
+                       //     same library list (*LIBL)
+                       //     same PGMs with open files, etc.
+                       //     ... exactly like 5250 sign-on screen
+// state full - MUST do this ONCE ONLY after start/sbmjob of XMLSERVICE job
+//              then forget about it (unless you choose to change libl) ...
+$clobIn =
+"<?xml version='1.0'?>
+<script>
+<cmd>CHGLIBL LIBL(FREDFLIN WILMAFLIN) CURLIB(FREDFLIN)</cmd>
+</script>";
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+@]
+
+
+
+
+----
+!!! [--Author([[http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICEQTEMP?action=expirediff | s ]])--]
+[--Tony "Ranger" Cairns - IBM i PHP / PASE--]

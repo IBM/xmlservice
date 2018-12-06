@@ -1,0 +1,1269 @@
+(:quicktoc:)
+>>round frame<<
+>><<
+
+!!! Notification
+Test versions are for brave and helpful ONLY. This page is explanation of things being worked with XMLSERVICE. You are welcome to download test version and try it out, but we recommend you try it from test library XMLSERVICE (crtxml-XMLSERVICE), not production libraries (crtxml2-ZENDSVR/crtxml6-ZENDSVR6, crtxmlr-POWER_RUBY, crtxmlq-IBM QXMLSERV). We appreciate any help checking out XMLSERVICE open source project (free programs), our goal is not to be intrusive into your daily activities, but your help testing makes XMLSERVICE better for every one. If you find an overriding issue or need a critical enhancement please let one of the authors know via email (main page).
+
+
+!!! Quick how ...
+[@
+Unzip xmlservice-rpg.zip to xmlservice.savf
+FTP xmlservice.savf to QGPL library
+> crtSAVF FILE(QGPL/XMLSERVICE)
+> clrSAVF FILE(QGPL/XMLSERVICE)
+> RSTLIB SAVLIB(XMLSERVICE) DEV(*SAVF) SAVF(QGPL/XMLSERVICE) MBROPT(*ALL) ALWOBJDIF(*ALL)   
+> ADDLIBLE XMLSERVICE
+> CRTCLPGM PGM(XMLSERVICE/CRTXML) SRCFILE(XMLSERVICE/QCLSRC)
+> call crtxml
+> CHGAUT OBJ('/qsys.lib/XMLSERVICE.lib') USER(QTMHHTTP) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+> CHGAUT OBJ('/qsys.lib/XMLSERVICE.lib') USER(QTMHHTP1) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+
+PHP Toolkit users: Make sure you change your toolkit.ini "ZENDSVR" file to point new "XMLSERVICE" ...
+/usr/local/zendsvr/share/ToolkitAPI/toolkit.ini
+; set library where XTOOLKIT lives, most likely XMLSERVICE (testing) or ZENDSVR (production)
+;XMLServiceLib = "ZENDSVR" ; production
+XMLServiceLib = "XMLSERVICE" ; for testing new XMLSERVICE packages
+@]
+
+
+!!! Active test versions
+* None active -- see main page xmlservice
+
+!!! Older test versions (archive)
+
+* 2015-02-02 -[[ Attach:xmlservice-rpg-1.9.2-sg8.zip | xmlservice-rpg-1.9.2-sg8.zip]]
+** Fix: Option 1) RPG w/java user control, remove xmlservice keyword [@<classpath>@], favour generic solution [@ADDENVVAR CLASSPATH=@] (thanks Martin)\\
+[@
+raw xml: $ctl="*java"
+toolkit: 'customControl'=>'*java'
+
+Example: 
+// IBM i
+$conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+
+// normal RPG java: 'customControl'=>'*java' -- set your own classpath 
+// SP SQL java: 'customControl'=>'*sqljava' or 'customControl'=>'*dbgjava' -- your classpath ignored
+try { $ToolkitServiceObj = ToolkitService::getInstance($conn); } catch (Exception $e) { die($e->getMessage()); }
+$options = array('plugSize'=>'4K','customControl'=>'*java','stateless'=>true);
+$ToolkitServiceObj->setToolkitServiceParams($options);
+
+/* setting classpath before calling my pgm ... worked */
+echo "setting classpath via cmd ...";
+$output = $ToolkitServiceObj->CLCommand("ADDENVVAR ENVVAR(CLASSPATH) VALUE('/home/adc/my.jar:/frog') REPLACE(*YES)");
+
+echo "calling java now ...\n";
+$param = array();
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both', 4096,  'INCHARA', 'var1', 'nothing');
+$result  = $ToolkitServiceObj->PgmCall('ZZJAVA2', 'XMLSERVICE', $param, null, null);
+var_dump($result);
+@]
+** Option 2) SQL java stored procedures, predefined classpath no user control, user owned jars must be copied via SQLJ.INSTALL_JAR into schema label /QIBM/UserData/OS400/SQLLib/Function/jar/(schema) \\
+[@
+raw xml: $ctl="*sqljava" or $ctl="*dbgjava" (port 30000)
+toolkit: 'customControl'=>'*sqljava' or 'customControl'=>'*dbgjava'  (port 30000)
+
+-- remains same (see below) --
+
+@]
+
+* 2015-01-29 -[[ Attach:xmlservice-rpg-1.9.2-sg7.zip | xmlservice-rpg-1.9.2-sg7.zip]]
+** Fix: JVM classpath missing private connections (thanks Martin)
+
+* 2015-01-28 -[[ Attach:xmlservice-rpg-1.9.2-sg6.zip | xmlservice-rpg-1.9.2-sg6.zip]]
+** Added multiple control settings for JVM start (thanks Martin)
+** Option 1) RPG w/java user control env var (CLASSPATH=) \\
+[@
+raw xml: $ctl="*java"
+toolkit: 'customControl'=>'*java'
+
+Example: 
+// IBM i
+$conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+
+// normal RPG java: 'customControl'=>'*java' -- set your own classpath 
+// SP SQL java: 'customControl'=>'*sqljava' or 'customControl'=>'*dbgjava' -- your classpath ignored
+try { $ToolkitServiceObj = ToolkitService::getInstance($conn); } catch (Exception $e) { die($e->getMessage()); }
+$options = array('plugSize'=>'4K','customControl'=>'*java','stateless'=>true);
+$ToolkitServiceObj->setToolkitServiceParams($options);
+
+echo "custom xml classpath ... ";
+$xmlRaw = "<?xml version='1.0'?>
+<script>
+<classpath>/home/adc:/QIBM/ProdData/OS400/Java400/ext/db2routines_classes.jar:/QIBM/ProdData/OS400/Java400/ext/runtime.zip:/QIBM/ProdData/OS400/Java400/ext/sqlj_classes.jar:/QIBM/ProdData/OS400/Java400/ext/db2_classes.jar</classpath>
+</script>";
+$result  = $ToolkitServiceObj->sendXml($xmlRaw);
+var_dump($result);
+
+// -- OR (perhaps easier, still debating) --
+
+/* experiment 1: try setting classpath before calling my pgm ... worked */
+echo "setting classpath via cmd ...";
+$output = $ToolkitServiceObj->CLCommand("ADDENVVAR ENVVAR(CLASSPATH) VALUE('/home/adc/my.jar:/frog/...whatever makes you classes work')");
+
+/* experiment 2: trying debug green screen (possibly system debugger gui) ... i did not try
+$output = $ToolkitServiceObj->CLCommand("ADDENVVAR ENVVAR(JAVA_TOOL_OPTIONS) VALUE('-debug')");
+*/
+
+/* trying debug eclipse on port 8001 ... i did not try 
+$output = $ToolkitServiceObj->CLCommand("ADDENVVAR ENVVAR(JAVA_TOOL_OPTIONS) VALUE('-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y  suspend=y')");
+*/
+
+echo "calling java now ...\n";
+$param = array();
+$param[] = $ToolkitServiceObj->AddParameterChar   ('both', 4096,  'INCHARA', 'var1', 'nothing');
+$result  = $ToolkitServiceObj->PgmCall('ZZJAVA2', 'XMLSERVICE', $param, null, null);
+var_dump($result);
+
+@]
+** Option 2) SQL java stored procedures, predefined classpath no user control, user owned jars must be copied via SQLJ.INSTALL_JAR into schema label /QIBM/UserData/OS400/SQLLib/Function/jar/(schema) \\
+[@
+raw xml: $ctl="*sqljava" or $ctl="*dbgjava" (port 30000)
+toolkit: 'customControl'=>'*sqljava' or 'customControl'=>'*dbgjava'  (port 30000)
+
+example:
+// IBM i
+$conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+
+// java stored procedure
+$r = db2_exec($conn, "set schema xmlservice");
+$r = db2_exec($conn, "create procedure gc() language java parameter style java external name 'java.lang.System.gc'");
+$r = db2_exec($conn, "call gc()");
+echo "java stored procedure rc=$r\n";
+
+// java UDF
+$r = db2_exec($conn, "create function getProperty(prop varchar(1024)) returns varchar(1024) language java parameter style java external name 'java.lang.System.getProperty'");
+$stmt = db2_exec($conn, "select getProperty('java.class.path') from sysibm.sysdummy1");
+echo "java UDF procedure rc=$stmt\n";
+while ($row = db2_fetch_array($stmt)) { var_dump($row); echo "\n"; }
+
+// java RPG w/java stored procedure
+$r = db2_exec($conn, "create procedure sleeper(millis BIGINT) language java parameter style java external name 'java.lang.Thread.sleep'");
+
+// normal RPG java: 'customControl'=>'*java' -- set your own classpath 
+// SP SQL java: 'customControl'=>'*sqljava' or 'customControl'=>'*dbgjava' -- your classpath ignored
+try { $ToolkitServiceObj = ToolkitService::getInstance($conn); } catch (Exception $e) { die($e->getMessage()); }
+$options = array('plugSize'=>'4K','customControl'=>'*sqljava','stateless'=>true);
+$ToolkitServiceObj->setToolkitServiceParams($options);
+$ms = 5000; // 5 seconds
+echo "java RPG w/java stored procedure now sleep($ms ms) ...\n";
+$param = array();
+$param[] = $ToolkitServiceObj->AddParameterInt32('both', "ms", "ms", $ms);
+$result  = $ToolkitServiceObj->PgmCall('ZZJAVA', 'XMLSERVICE', $param, null, null);
+var_dump($result);
+
+@]
+
+
+* 2014-12-19 -[[ Attach:xmlservice-rpg-1.9.2-sg5.zip | xmlservice-rpg-1.9.2-sg5.zip]]
+** Another copy for *java, in case something bad with sg4 (this works my machine) \\
+[@
+     H AlwNull(*UsrCtl)
+
+     D myfunc          S            128A   inz('jvmString')
+     D makestring      PR              O    EXTPROC(*JAVA:
+     D                                       'java.lang.String':
+     D                                       *CONSTRUCTOR)
+     D    bytes                      30A    CONST VARYING
+
+     D string          S               O    CLASS(*JAVA:'java.lang.String')
+
+     D Main            PR                  ExtPgm('ZZJAVA2') 
+     D  ms                           40a
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      * main(): Control flow
+      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     D Main            PI 
+     D  ms                           40a
+      /free
+        string = makestring('TEST');
+        ms = 'TEST';
+        return;
+      /end-free
+@]
+
+
+* 2014-12-10 -[[ Attach:xmlservice-rpg-1.9.2-sg4.zip | xmlservice-rpg-1.9.2-sg4.zip]]
+** NEW: Enable toolkit java SQL operations, [@$conn->setOptions(array('customControl' => '*java')@]. Most notable, fix failures with RPG programs using new DB2 REST service, which uses java for REST functions. Using v5r4=true is no longer needed with this fix, therein xmlservice back on track to exclude v5r4=true/mode='opm' in future enhancements. No perfect solution serves two masters flawlessly, there are restrictions, behavior changes, most notable sql naming default in java, but generally works. (Thanks Martin)\\
+[@
+// "create procedure sleeper(millis BIGINT) language java parameter style java external name 'java.lang.Thread.sleep'"
+//   D Main            PI 
+//   D  ms                           10i 0
+//    /free
+//      Exec Sql call hats/sleeper(:ms);
+//      return;
+//    /end-free
+var xt = require('../lib/itoolkit');
+var conf = require('../../config.js');
+
+function cb(str) {console.log(str);}
+
+// {'ctl' : "*java" } (php $conn->setOptions(array('customControl' => '*java')); )
+// *java mode, xmlservice does not own DB2 connection created by java opened PASE environment,
+// therefore xmlservice avoids executing 'change' operations on connection (attributes, free, etc.).
+// xmlservice toolkit default is system naming, wherein unqualified SQL operations use *libl,
+// *java mode default is sql naming, wherein *libl is ignored for unqualified SQL operations,
+// therefore users should expect *libl issues for some mixed DB2 script applications.
+var conn = new xt.iConn(conf.Database, conf.User, conf.Password, {'xslib':'XMLSERVICE', 'ctl' : '*java' });
+
+var JavaMe = function(callback) {
+  // ** call CMD chglib
+  conn.add(xt.iCmd("CHGLIBL LIBL("+conf.DemoLib+") CURLIB("+conf.DemoLib+")")); // add chglibl to call
+  // ** create the test java elements
+  var sql = new xt.iSql();
+  sql.addQuery("set schema "+conf.DemoLib); // dunno why i need to do this (db2 bug i think)
+  // ** java stored proc
+  //sql.addQuery("create procedure gc() language java parameter style java external name 'java.lang.System.gc'");
+  //sql.free();
+  // ** java stored proc
+  //sql.addQuery("create procedure sleeper(millis BIGINT) language java parameter style java external name 'java.lang.Thread.sleep'");
+  //sql.free();
+  // ** java UDF
+  //sql.addQuery("create function getProperty(prop varchar(1024)) returns varchar(1024) language java parameter style java external name 'java.lang.System.getProperty'");
+  //sql.free();
+  //sql.addQuery("set current path "+conf.DemoLib);
+  // ** call java stored proc
+  sql.addQuery("call gc()");
+  sql.free();
+  // ** call java stored proc
+  sql.addQuery("call sleeper(5000)");
+  sql.free();
+  // ** call java UDF
+  sql.addQuery("select getProperty('java.home') from sysibm.sysdummy1");
+  sql.fetch();
+  sql.free();
+  conn.add(sql);
+  // ** RPG program that calls java stored proc
+  var pgm = new xt.iPgm("ZZJAVA",{"lib" : "XMLSERVICE"}); // , "mode": "opm"
+  pgm.addParam(5000,  "10i0"); // sleep for 5 seconds in java.lang.Thread.sleep
+  conn.add(xt.iSh("hostname; date")); // start at ...
+  conn.add(pgm); // add pgm to call
+  conn.add(xt.iSh("hostname; date")); // ... run how long???
+  // ** check the joblog
+  // conn.add('<diag/>');
+  // ** run xmlservice
+  conn.run(callback); // call xmlservice and callcakc with answer
+}
+
+JavaMe(cb);
+
+@]
+
+* 2014-11-13 -[[ Attach:xmlservice-rpg-1.9.2-sg3.zip | xmlservice-rpg-1.9.2-sg3.zip]]
+** NEW: added overlay next/setnext offset \\
+[@
+see:
+<overlay io="out" top="1" offset="myOffset2" dim='10' dou='prim' setnext='nextoff'>
+<ds>
+<data type='10i0' next='nextoff' comment='Offset to next library record'><![CDATA[...]]></data>
+
+example:
+
+</pgm>
+</script>string(4440) "<?xml version="1.0"?>
+<script>
+<pgm name='QSZRTVPR'>
+<parm io="both" comment='Receiver variable'>
+<ds comment='PRDR0200 Format' len='rec1'>
+<data type='10i0' comment='Bytes returned'><![CDATA[288]]></data>
+<data type='10i0' comment='Bytes available' ><![CDATA[288]]></data>
+<data type='10i0' comment='Reserved'><![CDATA[0]]></data>
+<data type='7A' comment='Product ID'><![CDATA[5770SS1]]></data>
+<data type='6A' comment='Release level'><![CDATA[V7R1M0]]></data>
+<data type='4A' comment='Product option'><![CDATA[0021]]></data>
+<data type='4A' comment='Load ID'><![CDATA[5050]]></data>
+<data type='10A' comment='Load type'><![CDATA[*CODE]]></data>
+<data type='10A' comment='Symbolic load state'><![CDATA[*INSTALLED]]></data>
+<data type='10A' comment='Load error indicator'><![CDATA[*NONE]]></data>
+<data type='2A' comment='Load state'><![CDATA[90]]></data>
+<data type='1A' comment='Supported flag'><![CDATA[0]]></data>
+<data type='2A' comment='Registration type'><![CDATA[04]]></data>
+<data type='14A' comment='Registration value'><![CDATA[1-800-IBM-SERV]]></data>
+<data type='2A' comment='Reserved'><![CDATA[]]></data>
+<data type='10i0' offset='myOffset' comment='beyond size of PRDR0100'><![CDATA[108]]></data>
+<data type='4A' comment='Primary language load identifier'><![CDATA[]]></data>
+<data type='6A' comment='Minimum target release'><![CDATA[V7R1M0]]></data>
+<data type='6A' comment='Minimum VRM of *BASE required'><![CDATA[V7R1M0]]></data>
+<data type='1A' comment='Requirements met between base'><![CDATA[1]]></data>
+<data type='3A' comment='Level'><![CDATA[L]]></data>
+<data type='2048h' comment='leave some space for PRDR0200'><![CDATA[0]]></data>
+</ds>
+</parm>
+<parm  comment='Length of receiver variable'>
+<data type='10i0' setlen='rec1'><![CDATA[2156]]></data>
+</parm>
+<parm  comment='Format name'>
+<data type='8A'><![CDATA[PRDR0200]]></data>
+</parm>
+<parm  comment='Product information'>
+<data type='100A'><![CDATA[*OPSYS *CUR  0021*CODE]]></data>
+</parm>
+<parm  io="both" comment='Error code'>
+<ds comment='Format ERRC0100' len='rec2'>
+<data type='10i0' comment='Bytes returned'><![CDATA[0]]></data>
+<data type='10i0' comment='Bytes available' setlen='rec2'><![CDATA[16]]></data>
+<data type='7A' comment='Exception ID'><![CDATA[]]></data>
+<data type='1A' comment='Reserved'><![CDATA[]]></data>
+</ds>
+</parm>
+<overlay io="out" top="1" offset='myOffset'>
+<ds>
+<data type='10A' comment='Second language library'><![CDATA[*NONE]]></data>
+<data type='2A' comment='Reserved'><![CDATA[]]></data>
+<data type='10i0' enddo='prim' comment='Number of Primary languages'><![CDATA[2]]></data>
+<data type='10i0' offset="myOffset2" comment='Offset to library records'><![CDATA[128]]></data>
+</ds>
+</overlay>
+<overlay io="out" top="1" offset="myOffset2" dim='10' dou='prim' setnext='nextoff'>
+<ds>
+<data type='10i0' next='nextoff' comment='Offset to next library record'><![CDATA[208]]></data>
+<data type='10A' comment='Primary library name'><![CDATA[QSYSLOCALE]]></data>
+<data type='10A' comment='Installed library name'><![CDATA[QSYSLOCALE]]></data>
+<data type='10A' comment='Library type'><![CDATA[*PROD]]></data>
+<data type='10A' comment='Library authority'><![CDATA[*USE]]></data>
+<data type='10A' comment='Library create authority'><![CDATA[*CHANGE]]></data>
+<data type='10A' comment='Postoperation exit program name'><![CDATA[QLGMRM2]]></data>
+<data type='10i0' comment='Number of preoperation exit program names'><![CDATA[1]]></data>
+<data type='10A' comment='Preoperation exit program names'><![CDATA[QLGMRM1]]></data>
+</ds>
+</overlay>
+<overlay io="out" top="1" offset="myOffset2" dim='10' dou='prim' setnext='nextoff'>
+<ds>
+<data type='10i0' next='nextoff' comment='Offset to next library record'><![CDATA[0]]></data>
+<data type='10A' comment='Primary library name'><![CDATA[QSYSNLS]]></data>
+<data type='10A' comment='Installed library name'><![CDATA[QSYSNLS]]></data>
+<data type='10A' comment='Library type'><![CDATA[*PROD]]></data>
+<data type='10A' comment='Library authority'><![CDATA[*USE]]></data>
+<data type='10A' comment='Library create authority'><![CDATA[*CHANGE]]></data>
+<data type='10A' comment='Postoperation exit program name'><![CDATA[QLGMRM4]]></data>
+<data type='10i0' comment='Number of preoperation exit program names'><![CDATA[1]]></data>
+<data type='10A' comment='Preoperation exit program names'><![CDATA[QLGMRM3]]></data>
+</ds>
+</overlay>
+<success><![CDATA[+++ success  QSZRTVPR]]></success>
+</pgm>
+</script>"
+@]
+
+
+* 2014-11-12 -[[ Attach:xmlservice-rpg-1.9.2-sg2.zip | xmlservice-rpg-1.9.2-sg2.zip]]
+** NEW: better performance for smaller size pgm calls
+
+* 2014-11-11 -[[ Attach:xmlservice-rpg-1.9.2-sg1.zip | xmlservice-rpg-1.9.2-sg1.zip]]
+** NEW: added overlay dim='n' dou='label' for offset-2-offset chasing (thanks Ralph)\\
+[@
+see below: <overlay io="both" top="1" offset="myOffset2" dim='2' dou='prim'>
+
+string(3575) "<?xml version="1.0"?>
+<script>
+<pgm name='QSZRTVPR'>
+<parm io="both" comment='Receiver variable'>
+<ds comment='PRDR0200 Format' len='rec1'>
+<data type='10i0' comment='Bytes returned'><![CDATA[216]]></data>
+<data type='10i0' comment='Bytes available' ><![CDATA[216]]></data>
+<data type='10i0' comment='Reserved'><![CDATA[0]]></data>
+<data type='7A' comment='Product ID'><![CDATA[5770SS1]]></data>
+<data type='6A' comment='Release level'><![CDATA[V7R1M0]]></data>
+<data type='4A' comment='Product option'><![CDATA[0033]]></data>
+<data type='4A' comment='Load ID'><![CDATA[5111]]></data>
+<data type='10A' comment='Load type'><![CDATA[*CODE]]></data>
+<data type='10A' comment='Symbolic load state'><![CDATA[*INSTALLED]]></data>
+<data type='10A' comment='Load error indicator'><![CDATA[*ERROR]]></data>
+<data type='2A' comment='Load state'><![CDATA[67]]></data>
+<data type='1A' comment='Supported flag'><![CDATA[0]]></data>
+<data type='2A' comment='Registration type'><![CDATA[04]]></data>
+<data type='14A' comment='Registration value'><![CDATA[1-800-IBM-SERV]]></data>
+<data type='2A' comment='Reserved'><![CDATA[]]></data>
+<data type='10i0' offset='myOffset' comment='beyond size of PRDR0100'><![CDATA[108]]></data>
+<data type='4A' comment='Primary language load identifier'><![CDATA[2924]]></data>
+<data type='6A' comment='Minimum target release'><![CDATA[V7R1M0]]></data>
+<data type='6A' comment='Minimum VRM of *BASE required'><![CDATA[*MATCH]]></data>
+<data type='1A' comment='Requirements met between base'><![CDATA[1]]></data>
+<data type='3A' comment='Level'><![CDATA[L]]></data>
+<data type='1024h' comment='leave some space for PRDR0200'><![CDATA[0]]></data>
+</ds>
+</parm>
+<parm  comment='Length of receiver variable'>
+<data type='10i0' setlen='rec1'><![CDATA[1132]]></data>
+</parm>
+<parm  comment='Format name'>
+<data type='8A'><![CDATA[PRDR0200]]></data>
+</parm>
+<parm  comment='Product information'>
+<data type='100A'><![CDATA[*OPSYS *CUR  0033*CODE]]></data>
+</parm>
+<parm  io="both" comment='Error code'>
+<ds comment='Format ERRC0100' len='rec2'>
+<data type='10i0' comment='Bytes returned'><![CDATA[0]]></data>
+<data type='10i0' comment='Bytes available' setlen='rec2'><![CDATA[16]]></data>
+<data type='7A' comment='Exception ID'><![CDATA[]]></data>
+<data type='1A' comment='Reserved'><![CDATA[]]></data>
+</ds>
+</parm>
+<overlay io="both" top="1" offset='myOffset'>
+<ds>
+<data type='10A' comment='Second language library'><![CDATA[*NONE]]></data>
+<data type='2A' comment='Reserved'><![CDATA[]]></data>
+<data type='10i0' enddo='prim' comment='Number of Primary languages'><![CDATA[1]]></data>
+<data type='10i0' offset="myOffset2" comment='Offset to library records'><![CDATA[128]]></data>
+</ds>
+</overlay>
+<overlay io="both" top="1" offset="myOffset2" dim='2' dou='prim'>
+<ds>
+<data type='10i0' comment='Offset to next library record'><![CDATA[0]]></data>
+<data type='10A' comment='Primary library name'><![CDATA[QPASE]]></data>
+<data type='10A' comment='Installed library name'><![CDATA[QPASE]]></data>
+<data type='10A' comment='Library type'><![CDATA[*PROD]]></data>
+<data type='10A' comment='Library authority'><![CDATA[*USE]]></data>
+<data type='10A' comment='Library create authority'><![CDATA[*CHANGE]]></data>
+<data type='10A' comment='Postoperation exit program name'><![CDATA[QP2EXMRM]]></data>
+<data type='10i0' comment='Number of preoperation exit program names'><![CDATA[2]]></data>
+<data type='10A' comment='Preoperation exit program names'><![CDATA[QP2EXMRM]]></data>
+</ds>
+</overlay>
+<success><![CDATA[+++ success  QSZRTVPR]]></success>
+</pgm>
+</script>"
+@]
+
+* 2014-10-06 -[[ Attach:xmlservice-rpg-1.9.1-sg1.zip | xmlservice-rpg-1.9.1-sg1.zip]]
+** NEW: Significantly faster very large input ds dims \\
+[@
+<ds ...
+<ds dim=50>
+<ds dim='7000' dou='SV07Size' array='on'>
+</ds>
+</ds>
+../ds>
+
+This latest performance improvement is essentially loop dup memory 
+dim='1' beg/end location of first pass of by-ref values, 
+copied dim='n-1' times (cpybytes).
+
+This dup loop input method is most effective when using output side dou/enddo labels 
+provided by xmlservice and PHP toolkit, where, all data initialized (call input), 
+but fewer output (call result).
+@]
+
+* 2014-03-14 -[[ Attach:xmlservice-rpg-1.8.4-sg4.zip | xmlservice-rpg-1.8.4-sg4.zip]]
+** FIX: SQL LIKE clause not working parameter markers\\
+[@
+Fixed ...
+<prepare>select * from animals where NAME LIKE ?</prepare>
+<execute>
+<parm>Pea%<parm>
+</execute>
+@]
+
+* 2014-02-21 -[[ Attach:xmlservice-rpg-1.8.4-sg3.zip | xmlservice-rpg-1.8.4-sg3.zip]]
+** FIX: missing [@null='on'@] under 32K size LOBs (corrected XML format)\\
+[@
+Fixed ...
+<query conn='conn1' stmt='stmt1'>
+<success><![CDATA[+++ success CREATE TABLE TESTN (COL1 CLOB (16000 ), COL2 CLOB (16000 ))]]></success>
+</query>
+<query conn='conn1' stmt='stmt1'>
+<success><![CDATA[+++ success insert into TESTN values(NULL,NULL)]]></success>
+</query>
+<query conn='conn1' stmt='stmt1'>
+<success><![CDATA[+++ success select col1 from TESTN]]></success>
+</query>
+<fetch block='all' desc='on' stmt='stmt1'>
+<row><data desc='COL1' null='on'><![CDATA[]]></data></row>
+<success><![CDATA[+++ success stmt1]]></success>
+</fetch>
+@]
+
+
+* 2014-01-21 -[[ Attach:xmlservice-rpg-1.8.4-sg2.zip | xmlservice-rpg-1.8.4-sg2.zip]]
+** FIX: compile error: restore inadvertent delete of XML_PARM_OMIT_TRUE, XML_PARM_OMIT_FALSE
+** FIX: DB2 XML interface output null marker attribute on SQL_NULL_DATA
+*** Original fix may throw off column output resulting [@<data>junk</data>@]\\
+[@
+<fetch>
+<row><data desc='NAME' null='on'></data><data desc='ID' null='on'>0</data></row>
+</fetch>
+@]
+
+* 2014-01-16 -[[ Attach:xmlservice-rpg-1.8.4-sg1.zip | xmlservice-rpg-1.8.4-sg1.zip]]
+** FIX: DB2 XML interface output null marker attribute on SQL_NULL_DATA\\
+[@
+<fetch>
+<row><data desc='NAME'>Bee</data><data desc='ID'>3</data></row>
+<row><data desc='NAME' null='on'></data><data desc='ID'>21</data></row>
+</fetch>
+@]
+
+* 2013-08-23 -[[ Attach:ibm_i-1.0.2.zip | ibm_i-1.0.2.zip]] - pecl extension call xmlservice
+* PECL extension to call XMLSERVICE (memory to memory ... fast)
+** dependency xmlservice 1.8.0
+** See README in zip file to build  
+** profile switch back on exit capability config.d/ibm_i.ini for customers doing switch profile, want to make sure switch back
+** fixed ini file set alternate library "XMLSERVICE/XMLSTOREDP", "ZENDSVR/XMLSTOREDP", etc. (default changed to XMLSERVICE)
+*** [@
+bash-3.00$ cat ibm_i.ini 
+extension=ibm_i.so
+ibm_i.pgm_name="XMLSERVICE/XMLSTOREDP"
+ibm_i.func_name="RUNASCII"
+ibm_i.profile_reset=true
+@]
+
+* 2013-08-15 -[[ Attach:xmlservice-rpg-1.8.0-sg10.zip | xmlservice-rpg-1.8.0-sg10.zip]]
+* FIX: XMLSERVICE using timer-out option may cause QSQSRVR job to terminate via SIGALRM
+** production customers verified this fix.
+
+* 2013-08-08 -[[ Attach:xmlservice-rpg-1.8.0-sg9.zip | xmlservice-rpg-1.8.0-sg9.zip]]
+** NEW: XMLCGI performance improvement -- additional minor performance improvements decoding
+
+* 2013-08-08 -[[ Attach:xmlservice-rpg-1.8.0-sg8.zip | xmlservice-rpg-1.8.0-sg8.zip]]
+** FIX: XMLCGI mistake remove '+' in xml data REST data (rare use)
+*** [@ <query>SELECT 1 + 1 as test from library/table</query>
+The '+' was mistaken removed by http-based driver interface (apache xmlcgi).
+Issue ONLY REST interface xmlcgi (rare use), most often RAW XML, 
+not DB2-based interface on majority sites (Toolkit).
+@]
+** NEW: XMLCGI performance improvement -- db2 persistent connection
+*** [@ $per = "myconn"; // ten character id -- only works when current user/pwd match 'persis' key
+if ($per) {
+  $data = array(
+   'db2' => "*LOCAL",
+   'uid' => $user,
+   'pwd' => $password,
+   'ipc' => $ipc,
+   'ctl' => $ctl,
+   'xmlin' => $clobIn,
+   'xmlout' => 4096,    // size expected XML output
+   'persis' => $per     // persistent connection
+  );
+}
+else {
+  $data = array(
+  'db2' => "*LOCAL",
+  'uid' => $user,
+  'pwd' => $password,
+  'ipc' => $ipc,
+  'ctl' => $ctl,
+  'xmlin' => $clobIn,
+  'xmlout' => 4096    // size expected XML output
+  );
+}
+$postdata = http_build_query($data);
+$opts = array('http' =>
+  array(
+ 'method'  => 'POST',
+ 'header'  => 'Content-type: application/x-www-form-urlencoded',
+ 'content' => $postdata
+  )
+);
+$context  = stream_context_create($opts);
+$clobOut = file_get_contents($i5resturl, false, $context);
+@]
+
+* 2013-07-01 -[[ Attach:xmlservice-rpg-1.8.0-sg6.zip | xmlservice-rpg-1.8.0-sg6.zip]] - added xmlver callable command line version
+** [@ qsh -c /qsys.lib/xmlservice.lib/xmlver.pgm          
+   XML Toolkit 1.8.0-sg6
+@]
+* 2013-03-28 -[[ Attach:xmlservice-rpg-1.8.0-sg4.zip | xmlservice-rpg-1.8.0-sg4.zip]] - added interface runASCII
+* 2013-03-28 -[[ Attach:ibm_i-1.0.1-sg1.zip | ibm_i-1.0.1-sg1.zip]] - pecl extension call xmlservice
+* PECL extension to call XMLSERVICE
+** dependency xmlservice 1.8.0  
+** compile (traditional PHP pecl extension)
+*** need IBM i PASE includes (/usr/include/as400_protos.h  /usr/include/as400_types.h)
+* install Zend Server (PHP 5.3.6 binary included)
+** cp ibm_i.so /usr/local/zendsvr/lib/php_extensions/.
+** chmod +x /usr/local/zendsvr/lib/php_extensions/ibm_i.so
+** cp ibm_i.ini /usr/local/zendsvr/etc/conf.d/.
+*** (restart Zend Server)
+* Call interface ...
+** string i_xmlservice(string xmlin [, string ctl, string ipc, long pase_ccsid, long ebcdic_ccsid])
+** xmlin - XML input
+** optional: ctl - xmlservice control words ("*sbmjob *here *cdata ...")
+** optional: ipc - private connection ipc/internalKey route to XTOOLKIT job ("/tmp/packers")
+** optional: pase_ccsid - cssid for ascii-2-ebcdic conversion (input conversion)
+** optional: ebcdic_ccsid - cssid for ebcdic-2-ascii conversion (output conversion)
+
+* 2013-03-22 -[[ Attach:xmlservice-rpg-1.7.8-sg1.zip | xmlservice-rpg-1.7.8-sg1.zip]] - Thanks Chris!
+** PERFORMANCE — remove stop PASE during “stateless” calls 
+
+* 2013-02-18 -[[ Attach:xmlservice-rpg-1.7.6-sg6.zip | xmlservice-rpg-1.7.6-sg6.zip]]
+** FIX -- uncommon use XML DB2 error <sqlstatus> is now <sqlstate> -- Alan request
+** FIX -- uncommon use XML DB2 <sql> functions support error='on|off|fast' -- Alan request
+*** error='fast' - xml script continues  context <script><pgm or cmd or sql><error>...</pgm or cmd or sql></script> -- no joblog (therefore fast error)
+*** error='on' - xml script stops full <report><error>...<joblog>much text</joblog></report>
+*** error='off' - xml script continues context <script><pgm or cmd or sql><error>...<joblog>subset text</joblog></pgm or cmd or sql></script>
+** FIX -- most functions will return <success>+++...</success> and <error='on|off|fast'> as above -- Alan request
+
+* 2013-02-05 -[[ Attach:xmlservice-rpg-1.7.6-sg4.zip | xmlservice-rpg-1.7.6-sg4.zip]]
+** FIX -- uncommon use XML DB2 CHGLIBL will no longer change CURLIB -- Alan request
+** FIX -- uncommon use XML DB2 error='on|off' will return sqlcode, sqlstatus -- Alan request
+
+* 2012-12-18 -[[ Attach:xmlservice-rpg-1.7.6-sg3.zip | xmlservice-rpg-1.7.6-sg3.zip]]
+** FIX -- attempt number 2 fix DBCS convert characters PASE <sh>, toolkit CLInteractiveCommand() (Thanks Onoda-san!)
+*** problem -- hard coded 819 in plugpase.rpgle module changed to variable
+*** problem -- first attempt did not always set 1208 (try again)
+
+* 2012-12-18 - xmlservice-rpg-1.7.6-sg2.zip -- obsolete (sg3)
+** FIX -- attempt fix DBCS convert characters PASE <sh>, toolkit CLInteractiveCommand() (Thanks Onoda-san!)
+*** problem -- hard coded 819 in plugpase.rpgle module changed to variable
+*** [@ RAW XML Interface (available 1.7.6-sg2) ...
+$ctl .= " *pase(1208)";
+
+Toolkit interface ...
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(
+array('InternalKey'=>$ipc,         // route to same XMLSERVICE job /tmp/myjob1
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'plug'=>"iPLUG5M",                 // max size data i/o (iPLUG4K,32K,65K, 512K,1M,5M,10M,15M)
+'customControl' => '*pase(1208)'));// 1208 CCSID
+$Rows = $ToolkitServiceObj->CLInteractiveCommand("wrkactjob");
+if(!$Rows) die("Failure: ".$ToolkitServiceObj->getLastError());
+var_dump($Rows);
+@]
+
+
+* 2012-12-10 -[[ Attach:xmlservice-rpg-1.7.6-sg1.zip | xmlservice-rpg-1.7.6-sg1.zip]]
+** NEW -- ZENDSVR6 library
+*** [@For Sam ...
+library: ZENDSVR6
+clp: crtxml6 -> crtsql6
+rpg: plugconf6.rpgle
+      * RPG CLI call stored procedures (xmlcgi) 
+     D PLUGCALLSP      c                   const('CALL ZENDSVR6.')
+      * spawn config PLUGSPNLIB/PLUGSPNPGM (plugipc) 
+     D PLUGSPNPGM      c                   const('XMLSERVICE.PGM')
+     D PLUGSPNDIR      c                   const('/QSYS.LIB/ZENDSVR6.LIB/')
+      * sbmjob config (plugipc)
+     D PLUGSBMLIB      c                   const('ZENDSVR6')
+     D PLUGSBMPGM      c                   const('XMLSERVICE')
+      * was QGPL/QDFTJOBD
+     D PLUGJOBLIB      c                   const('ZENDSVR6')
+     D PLUGJOBD        c                   const('ZSVR_JOBD')   <---- is this correct ???
+     D PLUGJOBNAM      c                   const('XTOOLKIT')
+     D PLUGJOBASP      c                   const(*BLANKS)
+
+@]
+
+* 2012-11-30 -[[ Attach:xmlservice-rpg-1.7.5-sg3.zip | xmlservice-rpg-1.7.5-sg3.zip]]
+** FIX -- element version of program names for ccsid convert, hex, etc.
+*** [@FIX is for Alan 1.3.0 name case ...
+This format works:
+<pgm name='ZSXMLSRV' lib='ZENDSVR' func='RTVSYSVAL'>
+but this format does not:
+<pgm>
+<name>ZSXMLSRV</name>
+<lib>ZENDSVR</lib>
+<func>RTVSYSVAL</func>
+... with 1.7.5-sg3 both formats working
+@]
+
+* 2012-11-26 -[[ Attach:xmlservice-rpg-1.7.5-sg2.zip | xmlservice-rpg-1.7.5-sg2.zip]]
+** NEW -- VERY high speed "gigantic data" structure for Zend Forum multiple data structure chat (thanks Timo!)
+*** Additional features to allow complex <records> data structures <parm> or <return>
+*** Also dou/enddo "stop counter" technique appears to be working 
+**** [@
+$clob .= "<parm comment='wsopstdcnt'><data var='wsopstdcnt' type='3s0' enddo='wsopstdcnt'/></parm>";
+
+$clob .= "<parm comment='findMe1'>";
+$clob .= " <ds var='findMe1' data='records'>";
+$clob .= "  <ds var='dcRec1_t' array='on'>";
+$clob .= "   <ds var='dcRec1_t'>";
+$clob .= "    <data var='dcMyName1' type='10A'/>";
+$clob .= "    <ds var='dcRec2_t'>";
+$clob .= "     <data var='dcMyName2' type='10A'/>";
+$clob .= "     <ds var='dcRec3_t'>";
+$clob .= "      <data var='dcMyName3' type='10A'/>";
+$clob .= "      <ds var='dcRec_t' dim='999' dou='wsopstdcnt'>";
+$clob .= "       <data var='dcMyName' type='10A'/>";
+$clob .= "       <data var='dcMyJob' type='4096A'/>";
+$clob .= "       <data var='dcMyRank' type='10i0'/>";
+$clob .= "       <data var='dcMyPay' type='12p2'/>";
+$clob .= "      </ds>";
+$clob .= "     </ds>";
+$clob .= "    </ds>";
+$clob .= "   </ds>";
+$clob .= "  </ds>";
+$clob .= " </ds>";
+$clob .= "<records delimit=':'>";
+$clob .= ":Ranger:B:Good";
+for ($i=0; $i<$max; $i++) $clob .= ":nada{$i}:nada{$i}:1:1.1";
+$clob .= ":</records>";
+$clob .= "</parm>";
+
+@]
+
+* 2012-11-20 -[[ Attach:xmlservice-rpg-1.7.5-sg1.zip | xmlservice-rpg-1.7.5-sg1.zip]]
+** NEW -- VERY high speed "gigantic data" structure for Zend Forum multiple data structure chat (thanks Timo!)
+*** Happy Thanksgiving 
+*** Alan, I applied 1.7.5-sg1 to Yips machine for testing ...
+*** ... currently running at about 30.00 records in less than 2 seconds on Yips machine (Uff da)
+*** i only have zzbigboy.rpgle test so far, so i would not call this done deal, but you could build a wrapper 
+**** [@
+    $this->AddRecord(':::143.43:My2');
+    $ds = array(':::143.43:My2', ':Tuno be 2:Toim be 2:143.43:My2::::143.43:My2'; $this->AddRecord($ds); 
+
+     -- or -- 
+
+     maybe something with just PHP arrays and you do the delimted record in/out (people seem to enjoy arrays)
+@]
+
+
+* 2012-11-15 -[[ Attach:xmlservice-rpg-1.7.4-sg5.zip | xmlservice-rpg-1.7.4-sg5.zip]]
+** FIX -- xmlservice remove IPC/internalKey /tmp/ipcname(s) normal job close by script, however hard termination due to operator action may not allow job full close activity (thanks Christian!) 
+** FIX -- multiple issues custom CCSID and HEX settings for our PHP Toolkit German customers using hex/before/after ccsid, where CMD, PASE SH most noticeable BUG (thanks Christian!)
+*** '''Warning: Incompatible change if using CCSID/HEX settings toolkit prior to 1.4.0 (Alan working on 1.4.0)''' 
+*** In general, xmlservice/toolkit goal is never introduce incompatible changes, but we feel VERY few people are testing new PHP toolkit hex/ccsid, so most people can simply ignore this warning/bug fix and all should still work fine.
+*** The BUG fixed is to move all hex/ccsid-convert character data inside XMLSERVICE keywords (<row><data><hex>...move here...</hex></data></row>), to avoid PHP Toolkit using double simpleXML parsing (Alan code). It turns out simpleXML forces a conversion to UTF8 (always), therefore a double use of simpleXML (1st unpack keywords) -> simpleXML (2nd unpack actual data) resulted in bad German characters noticeable with CMD and SH operations (probably also an issue in Japan, China, etc.) 
+*** [@
+      *         output (incompatible change hex/ccsid 1.7.4+):
+      *         <cmd exec='rexx' hex='on' before='819/37' after='37/819'>
+      *           <success><![CDATA[+++ success RTVJOBA USRLIBL(?) SYSLIBL(?)]]></success>
+      *           <row><data desc='USRLIBL'><hex><![CDATA[5147504C20202020202020]]></hex></data></row>
+      *           <row><data desc='SYSLIBL'><hex><![CDATA[5153595320202020202020]]></hex></data></row>
+      *         </cmd>
+
+      *         output (incompatible change hex/ccsid 1.7.4+):
+      *         <sh rows='on' hex='on' before='819/37' after='37/819'>
+      *           <row><hex>746F74616C2031363636313034</hex></row>
+      *         </sh>
+      *         output (rows='off' 1.7.4+):
+      *         <sh hex='on' before='819/37' after='37/819'>
+      *           <hex>746F74616C2031363636313034</hex>
+      *         </sh>
+
+@]  
+
+
+* 2012-11-13 -[[ Attach:xmlservice-rpg-1.7.4-sg4.zip | xmlservice-rpg-1.7.4-sg4.zip]]
+** FIX -- parsing large data works again 
+*** big data test 5,000 elements ... improved 40 seconds to 3 seconds
+*** massive data timo 16,000 XML element test works ... improved 60+ seconds to 15 seconds 
+*** not done with work, but try if you would like 
+
+* 2012-11-09 -[[ Attach:xmlservice-rpg-1.7.4-sg3.zip | xmlservice-rpg-1.7.4-sg3.zip]]
+** '''UPDATE - 2012-11-13 sg3 has a error parsing large data (use at your own risk)'''
+** ADD -- working on performance improvement for extreme large data sets (5000 elements <data>)
+*** current test improved for 40 seconds to 8 seconds, not done with work, but try if you would like
+*** still using only RPG ILE XML parsing ... PASE supplemented XML parsing option possible, but not implemented (yet) 
+*** small degradation on normal workloads, but will probably figure that out soon (very small)
+** ADD -- <... error='fast' ...> option for fast subset error collection for things like ADDLIBLE failing 
+*** Alan, recommend a new option toolkit.ini like error="full|partial|fast" 
+(:table border=1 width=50%:)
+(:cellnr:)'''toolkit.ini'''
+(:cell:)'''XMLSERVICE'''
+(:cell:)'''Description'''
+(:cellnr:) error=full
+(:cell:) [@ Stop the XML script processing ...
+<pgm ... error='on'> - default
+<cmd ... error='on'>
+<sh ... error='on'>
+@]
+(:cell:) [@ Stop XML parsing and report full error ...
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<report>
+<version>XML Toolkit 1.7.4-sg3</version>
+<error>
+... part 1) all normal records ...
+</error>
+<jobinfo>
+... part 2) all normal records ...
+</jobinfo>
+<joblogscan>
+<joblogrec>
+... part 3) all normal records ...
+</joblogrec>
+</joblogscan>
+<joblog job='XTOOLKIT' user='DB2' nbr='745657'>
+... part 4) all normal records ...
+</joblog>
+</report>
+@]
+(:cellnr:) error=partial
+(:cell:) [@ Continue XML parsing and report partial error ...
+<pgm ... error='off'>
+<cmd ... error='off'> - default
+<sh ... error='off'> - default
+@]
+(:cell:) [@ Continue XML parsing and report partial error ...
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<script>
+<pgm ... or cmd ... or sh ... >
+<error>
+... part 1) all normal records ...
+</error>
+<jobinfo>
+... part 2) all normal records ...
+</jobinfo>
+<joblogscan>
+<joblogrec>
+... part 3) subset normal records ...
+</joblogrec>
+</joblogscan>
+<joblog job='XTOOLKIT' user='DB2' nbr='745657'>
+... part 4) subset normal records ...
+</joblog>
+</pgm ... or /cmd ... or /sh ...>
+@]
+(:cellnr:) error=fast
+(:cell:) [@ Continue XML parsing and report minimum error ...
+<pgm ... error='fast'>
+<cmd ... error='fast'>
+<sh ... error='fast'>
+@]
+(:cell:) [@ Continue XML parsing and report minimum error ...
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<script>
+<pgm ... or cmd ... or sh ... >
+<error>
+... part 1) all normal records ...
+</error>
+<jobinfo>
+... part 2) all normal records ...
+</jobinfo>
+</pgm ... or /cmd ... or /sh ...>
+@]
+(:tableend:)
+
+
+ 
+
+
+* 2012-11-02 -[[ Attach:xmlservice-rpg-1.7.4-sg2.zip | xmlservice-rpg-1.7.4-sg2.zip]]
+** '''UPDATE - 2012-11-13 sg2 has a error parsing large data (use at your own risk)'''
+** ADD -- working on performance improvement for extreme large data sets (5000 elements <data>)
+*** current test improved for 40 seconds to 15 seconds, not done with work, but try if you would like
+*** small degradation on normal workloads, but will probably figure that out soon (very small)
+
+* 2012-10-29 -[[ Attach:xmlservice-rpg-1.7.4-sg1.zip | xmlservice-rpg-1.7.4-sg1.zip]]
+** FIX -- BUG XMLSERVICE PLUGXML XMLWRKVAL 7161 - Length or start position is out of range for the string operation
+** FIX -- BUG XMLSTOREDP PLUGIPC IPCENDJOBBUSY 6366 - unhandled exception is sent
+** FIX -- BUG XMLSERVICE PLUGPERF log_query - possible XMLSERVLOG SQL error 38501
+
+* 2012-09-14 -[[ Attach:xmlservice-rpg-1.7.2-sg1.zip | xmlservice-rpg-1.7.2-sg1.zip]]
+** BUG -- V5R4 increase PGM OPM limit 32 to 256 parms (Thanks Sandy)
+*** Note: V5R4 issue OPM (v5r4=true or <pgm mode='opm' ...)
+*** Parm max is essentially unlimited for non-OPM (v5r4=false) 
+
+* 2012-09-04 -[[ Attach:xmlservice-rpg-1.7.1-sg6.zip | xmlservice-rpg-1.7.1-sg6.zip]]
+** BUG -- bad trim of type='12b' -- binary data ending in x'40'
+*** [@
+Example: adopt authority cw layer fails/hangs (could also be bad ds, etc.)
+XMLSERVICE undesirable trim of returned binary data type (type='12b').
+QSYGETPH 00000000196B67A08AA2540 <-- good handle in log QSYSGETPH
+QWTSETP  0000000196B679D8787E500 <-- this actually returned to CW/PHP layer, which fails subsequent use QWTSETP (+ 30 seconds of pain +)
+... x'40' (ebcdic space) trimmed by MISTAKE/ERROR in xmlservice code
+... resulting in invalid handle
+... resulting in 30 second invalid "attack delay"
+... appears random because has to end with any trim combination of x'40', x'4000' ... etc.
+... fix in SG6
+@] 
+
+* 2012-08-28 - [[ Attach:xmlservice-rpg-1.7.1-sg5.zip | xmlservice-rpg-1.7.1-sg5.zip]] -- logging 
+** PHP Report - [[ Attach:xmlservice-php-report-sg5.zip | xmlservice-php-report-sg5.zip]]
+** Notes
+** WARNING previous versions PARM hex dump may cause error -- fix in here
+** report modified to accept hex dump parms (very handy)
+*** same restrictions last post ... just more info for Greg
+
+* 2012-08-28 - [[ Attach:xmlservice-rpg-1.7.1-sg4.zip | xmlservice-rpg-1.7.1-sg4.zip]] -- logging 
+** PHP Report - [[ Attach:xmlservice-php-report-sg3-1.zip | xmlservice-php-report-sg3-1.zip]]
+** Notes
+** WARNING previous version SG3 may have caused termination / timout when logging -- fix in here
+*** same restrictions last post ... just more info for Greg
+
+* 2012-08-28 - [[ Attach:xmlservice-rpg-1.7.1-sg3.zip | xmlservice-rpg-1.7.1-sg3.zip]] -- logging 
+** PHP Report - [[ Attach:xmlservice-php-report-sg3-1.zip | xmlservice-php-report-sg3-1.zip]]
+** Notes
+*** same restrictions last post ... just more info for Greg
+
+* 2012-08-23 - [[ Attach:xmlservice-rpg-1.7.1-sg2.zip | xmlservice-rpg-1.7.1-sg2.zip]] -- logging 
+** Alan, i think this version will work to help find Greg's issue, but this is not final version ... i am thinking we need a few design changes for a real production version (next week)
+** PHP Report - [[ Attach:xmlservice-php-report-sg2.zip | xmlservice-php-report-sg2.zip]]
+** Notes
+*** standalone XMLCGI fixed
+*** restriction DB2 by XML CLI competes logging depending on mismatch SQL connection/commit/isolation options
+**** not affect normal path ibm_db2, odbc
+**** not affect normal calls PGM, CL, SH, etc.
+**** [@ Example: mismatch autocommit logging vs. user script 
+<?xml version='1.0'?>
+<script>
+<sql>
+<free/>
+<options options='noauto' autocommit='off'/>
+<connect conn='myconn' options='noauto'/>
+<query conn='myconn' stmt='myupdate'>UPDATE animal SET id = 9 where ID = 3</query>
+<query conn='myconn' stmt='myselect'>select count(*) from animal where ID = 9</query>
+<fetch stmt='myselect' block='all' desc='off'/>
+<free stmt='myselect'/>
+<commit conn='myconn' action='rollback'/>
+<query conn='myconn' stmt='myselect'>select count(*) from animal where ID = 9</query>
+<fetch stmt='myselect' block='all' desc='off'/>
+<free/>
+</sql>
+</script>
+@]
+* 2012-08-22 - [[ Attach:xmlservice-rpg-1.7.1-sg1.zip | xmlservice-rpg-1.7.1-sg1.zip]] -- logging
+** PHP Report - [[ Attach:xmlservice-php-report-sg1.zip | xmlservice-php-report-sg1.zip]]
+*** xxlog_web_wrkactxmlservice.php -- main page look at exception log entry (button click for details)
+*** xxlog_web_report.php -- detailed report (performance, XML errors, XML logging, etc.)
+*** xxlog_web_common.php -- common report DB2 log reader include
+** Notes
+*** WARNING standalone XMLCGI is broken
+*** WARNING standalone DB2 by XML is broken
+*** [@ PHP TOOLKIT
+
+toolkit.ini
+trace=true
+
+@]
+*** [@ RAW XML
+      * -- log to database file --
+      * *log[(key)]
+      *    - log records into database
+      * *nolog
+      *    - no log records into database (default)
+      *   Note: 
+      *   - *log key is unique allowing both PHP and XMLSERVICE
+      *     to record event log data and produce queries of collected
+      *     reports.
+      *     Log file layout:
+      *     create table XMLSERVLOG/LOG (
+      *       key varchar(64) NOT NULL WITH DEFAULT, 
+      *       log TIMESTAMP NOT NULL WITH DEFAULT, 
+      *       text varchar(64) NOT NULL WITH DEFAULT)
+      *     Supplemental log dump XML data layout:
+      *     create table XMLSERVLOG/DUMP (
+      *       key varchar(64) NOT NULL WITH DEFAULT, 
+      *       log TIMESTAMP NOT NULL WITH DEFAULT, 
+      *       text clob(15M) NOT NULL WITH DEFAULT)
+      *  - programers/vendors can alter xmlservice log database
+      *    with plugconf1-3 (or custom)
+@]
+
+* 2012-07-30 - [[ Attach:xmlservice-rpg-1.7.0b.zip | xmlservice-rpg-1.7.0b.zip]]
+** BUG: 1.6.x -- boundary alignment error in xmlservice module PLUGCACH, same error xmlNode_t used in XMLCOPY -- fixed 1.7.0b
+*** Note: Sam, do not ship as production PTF, has a few things half done
+** NEW: 1.7.0 -- support for CCSID/HEX override <sh hex= before= after=> 
+*** [@
+      * <sh [rows='on|off'
+      *      hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1']
+      *      >(PASE utility)</sh>
+@]
+* 2012-06-20 - [[ Attach:xmlservice-rpg-1.6.9-sg3.zip | xmlservice-rpg-1.6.9-sg3.zip]]
+** BUG: 1.6.8 -- Alan Cobol program call failure affect nested DS structures (data missing) -- fix SG3 
+** NEW: 1.6.9 added much better XML parse hint processing
+
+* 2012-06-14 - [[ Attach:xmlservice-rpg-1.6.8-sg13.zip | xmlservice-rpg-1.6.8-sg13.zip]]
+** minor cleanup xmlservice
+** BUG: fix xmljob log cut off
+** BUG: fix cw.php parse mismatch (corrected joblog difference)
+** BUG: fixed extra line feed in dsp job log (corrected joblog difference)
+** NEW: pear test cases
+*** ZZARRAY2 for Alan test aggregate parameter (dou/enddo)
+*** [[ Attach:xmlservice-php-tests-1.6.8-sg8.zip | xmlservice-php-tests-1.6.8-sg8.zip]]
+
+* 2012-06-08 - [[ Attach:xmlservice-rpg-1.6.8-sg7.zip | xmlservice-rpg-1.6.8-sg7.zip]]
+** PTF: common paths are working well -- expect no errors
+** BUG: Fixed new persistent/private pooled reservation "lock ups" various conditions (Alan PHP wrapper not available yet)
+*** <start>KEY</start>, <use>KEY</use> reservation held across browser clicks forever (seconds, minutes, hours, days), until <stop>KEY</stop> releases reservation
+**** BTW -- reservations not for faint of heart -- easy to mess up independent script start/use/stop sequences (fair warned)
+** NEW: pear test cases
+*** [[ Attach:xmlservice-php-tests-1.6.8-sg7.zip | xmlservice-php-tests-1.6.8-sg7.zip]]
+** List of actions taken 
+*** ... general performance improve of XMLSERVICE (not super fast cache ... yet)
+*** ... start/stop performance improve private IPC-based connections toolkit->disconnect (although i recommend NOT use toolkit->disconnect)
+*** ... XMLCGI changed dynamic lookup Apache functions, therefore SAV/RST binary any IBM i releases (Zend Toolkit distribution fix)
+*** ... all manner of CCSID additions (Alan working wrapper) 
+*** ... reservation start/use/stop seems to work ok (Jason notes ... Alan need wrapper)
+*** ... pear test case renumber to leave "group" space anyone wishes to add new
+*** ... pear test cases were added to bucket for ibm_db2.ini setting ibm_db2.i5_ignore_userid=1 (Luca)
+*** ... multiple pointer not set errors (Stephanie)
+
+* 2012-06-06 - [[ Attach:xmlservice-rpg-1.6.8-sg6.zip | xmlservice-rpg-1.6.8-sg6.zip]]
+** BUG: Fix XMLSERVICE with ibm_db2.ini setting ibm_db2.i5_ignore_userid=1
+** BUG: remove /tmp/xmlservice-joblog-xxxx after use 
+*** Note: removed client side PASE run during xmlservice errors QSQ job likely PASE-less (faster) 
+** Reservation support for hybrid persistent/private sharing xmlservice jobs (see tip of the day main page) - Thanks Jason
+*** start/stop key-2-ipc management implies user PHP script keeping session data ...
+*** xmlservice added <use>KEY</use> for safety to avoid <start> acquiring all pooled jobs (test above)
+*** [@
+      *************************************************************************
+      * start/use/stop exclusive use shared IPC (hotel reservation):
+      *  <start>KEY</start>  - acquire IPC -- first request
+      *  <use>KEY</use>      - match IPC   -- each request
+      *  <stop>KEY</stop>    - release IPC -- last request
+      *  Where KEY anything managed by user (key-2-IPC session data) ...
+      *   ... random based key -- scaling open any users,
+      *       want benefit of private RPG call (open files, etc),
+      *       do not care about reservation multi-request transaction
+      *       -> hybrid stateless/private call,
+      *          hold IPC for life of script only and release,
+      *          but limit jobs
+      *   ... user based key -- scaling come/go users, 
+      *       want benefit of private RPG call (open files, etc), 
+      *       also want reservation transactions
+      *       -> hybrid persistent/private, 
+      *          transaction across multi-request (browser clicks), 
+      *          but limited jobs
+      *   ... task based key -- everyone uses same task/tasks 
+      *       limited pool jobs and all must wait a turn
+      *       -> hybrid private/persistent with pre-start pool,
+      *          transaction across multi-request (browser clicks), 
+      *          load balancing design to limit machine stress 
+      *   example many requests exclusive use IPC
+      *    -- no time out --
+      *     $ctl .= " *idle(0)"
+      *    -- request 1 --
+      *     <?xml version="1.0"?>
+      *     <script>
+      *     <start>unique-user-key</start>
+      *     </script>
+      *    -- request 2 (two minutes later) --
+      *     <?xml version="1.0"?>
+      *     <script>
+      *     <use>unique-user-key</use>
+      *     <cmd exec='rexx'>RTVJOBA USRLIBL(?)</cmd>
+      *     </script>
+      *    -- request 3 (1/2 hour later) --
+      *     <?xml version="1.0"?>
+      *     <script>
+      *     <use>unique-user-key</use>
+      *     <pgm name='ZZCALL'> 
+      *      <parm>
+      *       <data type='1A'>a</data>
+      *      </parm> 
+      *      <return>
+      *       <data type='10i0'>0</data>
+      *      </return> 
+      *     </pgm> 
+      *     </script>
+      *    -- request n (2 hours later) --
+      *     <?xml version="1.0"?>
+      *     <script>
+      *     <stop>unique-user-key</stop>
+      *     </script>
+      *   Note: 
+      *   - <start>unique-user-key</start>
+      *     acquire exclusive IPC if available,
+      *   - <use>unique-user-key</use>
+      *     must appear XML every request
+      *     job held forever until see <stop>
+      *   - <stop>unique-user-key</stop>
+      *     release IPC for any other use
+      *   - <start>no-match-key</start> 
+      *     or <use>unique-user-key</use>
+      *     non-matching key results in error
+      *     almost instantly (no wait)
+      *       busy response (1301060):
+      *         <error>
+      *         <errnoxml>1301060</errnoxml>
+      *         <xmlerrmsg>IPC owner busy</xmlerrmsg>
+      *         </error>
+      *   - thoughtful setting server idle timeout
+      *     can control unwanted reservation hangs
+      *     due to careless users or errors 
+      *     $ctl .= " *idle(60)"
+      *************************************************************************
+@]
+
+
+
+* 2012-06-05 - [[ Attach:xmlservice-rpg-1.6.8-sg5.zip | xmlservice-rpg-1.6.8-sg5.zip]]
+** BUG: XMLSERVICE is not working correctly with ibm_db2.ini setting ibm_db2.i5_ignore_userid=1 (uncommon configuration)
+*** we are looking into a fix (soon)
+** for those using raw XML interface <ds dim='x'> may incorrectly assert each array DS as a top level parm -- fixed SG5
+*** error should not affect toolkit users, as performance for short hand xml dim='n' not in wrapper yet (to my knowledge)
+* 2012-06-01 (ok) - [[ Attach:xmlservice-rpg-1.6.8-sg4.zip | xmlservice-rpg-1.6.8-sg4.zip]]
+** BUG: removed PASE start/stop from QSQ job log retrieve error path (RPG/QSH only) -- QSQ should have fewer PASE pointer errors 
+*** Seems to be running healthy and faster (yes still have more performance work)
+*** YIPS site demos are running xmlservice-rpg-1.6.8-sg4.zip
+
+* 2012-05-31 (ok) - [[ Attach:xmlservice-rpg-1.6.8-sg3.zip | xmlservice-rpg-1.6.8-sg3.zip]]
+** BUG: working start/stop/error scenarios for IPC messages in job logs -- fewer IPC related, still some PASE related   
+*** Why doing? Higher speed "private" connections still have a few start/stop/error issues
+
+* 2012-05-30 (ok) - [[ Attach:xmlservice-rpg-1.6.8-sg2.zip | xmlservice-rpg-1.6.8-sg2.zip]]
+** BUG: Fixed nasty ipcpanic sbmjob issue PASE/IPC recovery start/stop private connection 
+*** issue xxx-sg1 ... eats CPU on stop ... hangs XMLSERVICE ... hangs child QSQ job ...
+
+* 2012-05-25 - [[ Attach:xmlservice-rpg-1.6.8-sg1.zip | xmlservice-rpg-1.6.8-sg1.zip]]
+** NEW: HUGE performance improvement for private connections start/stop 2 million ticks reduced to 60 thousand ticks 
+** NEW: General performance improvement for any reasonable size script (up to 2X faster)
+** NEW: Additional debug information and pre-parsed job log errors (you are welcome Alan) 
+** NEW: Alan request default NO job timeout when IPC/private connection (XMLSERVICE job stay alive forever)
+** BUG: Fixed XMLCGI to allow binary distribution between releases of IBM i (using dynamic load/call for RPG fans)
+** BUG: Recover PASE dead in many more cases
+** BUG: clean up of XMLSERVICE RPG in progress (make ready for even more perf additions)
+** WARNING - phase I of fast caching has been added, but we are not finished -- stay tuned, things are getting faster
+*** TBD: Alan and friends looking at adding <ds/data dim='xx'> capability into PHP wrapper, this will provide enormous performance improvements for array structures
+*** TBD: RPG code has a few more iterations to go through for performance including possible very fast cache technique
+
+* 2012-05-04 - [[ Attach:xmlservice-rpg-1.6.8-42.zip | xmlservice-rpg-1.6.8-42.zip]]
+** BUG: Alan expired user profile missing CPF
+** BUG: recover PASE environment when PGM exception cases (fix <joblog>failure</joblog>)
+** BUG: various customer issues/advise 
+
+* 2012-04-23 - [[ Attach:xmlservice-rpg-1.6.8-x11.zip | xmlservice-rpg-1.6.8-x11.zip]]
+** BUG: bad CCSID conversion names PGM, LIB, PROC -- change ALL PGM/SRVPGM/PROC calls use new ILE resolve to object (no longer "PASE" name conversion), which fixes many CCSID issues <pgm name='nlsname' (no wrapper required is automatic ALL).
+** NEW: additional option allows even more user control names conversion in circumstances where environmental scripting/db2 CCSID difficulties arise like umluat, special chars, etc. (Alan to wrapper Toolkit/CW)
+***[@
+use EITHER format ...
+<pgm name='fredflin' ...
+... but added additional full control option names
+    where names are converted following up to 4 conversions ccsid 
+    before attempting to resolve IBM i object name (Alan to wrapper CW/Toolkit) ...
+<pgm mode='opm|ile'>
+<name hex='on' before='cc1/cc2/cc3/cc4'>bin2hex('&fredflin')</name>
+<lib hex='on' before='cc1/cc2/cc3/cc4'>bin2hex('omlated')</lib>
+<func hex='on' before='cc1/cc2/cc3/cc4'>bin2hex('me&proc')</func>
+<parm>
+data ... already available for by user hand ccsid (Alan to wrapper CW/Toolkit) ....
+<data type='nnnA' hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>bin2hex('ascii_raw_chars')</data> 
+</parm>
+</pgm>
+@]
+** NEW: added ccsid override for CMD calls for user control over input/output ccsid (Alan to wrapper CW/Toolkit)
+*** [@
+SYNTAX:
+<cmd [exec='cmd|system|rexx' hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1']>
+
+INPUT XML:
+$clob = "<?xml version='1.0'?>\n";
+$clob .= "<script>\n";
+$clob .= "<cmd exec='rexx' hex='on' before='819/37' after='37/819'>";
+$clob .= bin2hex("RTVJOBA USRLIBL(?) SYSLIBL(?)");
+$clob .= "</cmd>\n";
+$clob .= "</script>\n";
+... make call xmlservice (same as always) ...
+// dump raw XML (easy test debug)
+var_dump($clobOut);
+$xmlobj = simplexml_load_string($clobOut);
+if (!$xmlobj) die("Bad XML output");
+// expected
+$clobOut = pack("H*",(string)$xmlobj->cmd->hex);
+var_dump($clobOut);
+
+OUTPUT XML (note hex return appears <cmd>...<hex>...</hex></cmd>):
+string(527) "<?xml version='1.0'?>
+<script>
+<cmd exec='rexx' hex='on' before='819/37' after='37/819'><success>+++ success RTVJOBA USRLIBL(?) SYSLIBL(?)</success><hex>3C726F773E0A3C6461746120646573633D275553524C49424C273E5147504C202020202020205154454D5020202020202051444556454C4F5020202051424C445359532020202051424C44535953523C2F646174613E0A3C2F726F773E0A3C726F773E0A3C6461746120646573633D275359534C49424C273E5153595320202020202020515359533220202020202051484C5053595320202020515553525359533C2F646174613E0A3C2F726F773E0A</hex></cmd>
+</script>"
+string(176) "<row>
+<data desc='USRLIBL'>QGPL       QTEMP      QDEVELOP   QBLDSYS    QBLDSYSR</data>
+</row>
+<row>
+<data desc='SYSLIBL'>QSYS       QSYS2      QHLPSYS    QUSRSYS</data>
+</row>
+
+@]
+** NEW: complete mode='opm' non-terraspace memory (V5R4 mode)
+*** RPG code has completely PASE free PGM/SRVPGM calls using mode='opm'
+*** should be able to call V5R4 OPM Cobol/CLP/etc using <pgm mode='opm' with fix
+** NEW: expanded label characters 30A for special XML len='mylabel'/setlen='mylabel' (and dou/enddo) - Alan CW
+** NEW: remove IPC /tmp/xxx on termination - Alan request
+** WARNING - fast cache removed via OPM test, don't download/use this version for performance testing
+* 2012-03-28 - [[ Attach:xmlservice-rpg-1.6.8-op7.zip | xmlservice-rpg-1.6.8-op7.zip]]
+** BUG: Alan - Change of plan ... would like XMLSERVICE to enter stateless mode (*here) if neither IPC (/path) nor stateless (*here) are specified -- added
+*** WARNING - fast cache removed via OPM test, don't download/use this version for performance testing
+* 2012-03-27 - [[ Attach:xmlservice-rpg-1.6.8-op6.zip | xmlservice-rpg-1.6.8-op6.zip]]
+** BUG: Sam - Detect and act ... Upgrade path Zend Server PTF toolkit can cause IPC hang EINVAL 3021 The value specified for the argument is not correct -- added ipc detect and remove hung IPC on 3021 conditon
+** BUG: Alan - Detect and act ... toolkit (PHP or XMLSERVICE or both) should return an error if neither IPC (/path) nor stateless (*here) are specified. Most likely user error, result messing things up. -- added detection and error return
+*** WARNING - fast cache removed via OPM test, don't download/use this version for performance testing
+* 2012-03-26 - [[ Attach:xmlservice-rpg-1.6.8-op5.zip | xmlservice-rpg-1.6.8-op5.zip]]
+** BUG: additional bug found for lib='' PGM/SRVPGM resolve program which is CW default for no library (error MODE=) -- thanks Greg/Jennifer
+*** WARNING - fast cache removed via OPM test, don't download/use this version for performance testing
+* 2012-03-22 - [[ Attach:xmlservice-rpg-1.6.8-op4.zip | xmlservice-rpg-1.6.8-op4.zip]]
+** NEW: V5R4 CLP/OPM compatibility -- much more OPM compatible <pgm mode='opm'
+*** WARNING - fast cache removed via OPM test, don't download/use this version for performance testing
+** BUG: new resolve PGM/SRVPGM should fix various LIBL misses resolve program (PASE error resolve)
+** NEW: added keyword for hex character untouched (<data type='200a' hex='on|off' ...) -- request by Sam for 5250 bridge
+*** makes a change before/after character data to allow un-touch / no ccsid convert as well
+** BUG: Commands like RTVMSG (<cmd exec='rexx' ...), added additional character space to fix truncated results 
+
+* 2012-03-15 - [[ Attach:xmlservice-rpg-1.6.8-op2.zip | xmlservice-rpg-1.6.8-op2.zip]]
+** NEW: V5R4 compatibility added new keyword to allow call OPM/CLP ... needs testing but worked with Shlomo's CLP [@ <pgm name='ZZSHLOMO' lib='XMLSERVICE' mode='opm'> @]
+*** Alan created generic toolkit.ini setting to enable this: [@v5r4=true@]
+*** getting mixed review from testers, resolve fails, etc., so clearly not done with xmlservice OPM support yet
+
+!!! Bugs and coming attractions
+* Upgrade Zend PTF -- FIX xmlservice-rpg-1.6.8-op6
+** BUG: Current scenario exists where upgrade MAY leave XMLSERVICE IPC in a bad state, so next run of demo toolki "hangs" -- we are working on a perm fix for problem next release. You may consider the follow technique to unlock the IPCs for tactical fix.
+*** [@
+Example: grep -i qtm means ipcrm for (QTM)HHTTP ...
+endTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest end web server 
+call qp2term
+> ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}'        -- show action, but NOT do  action 
+> ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}' | sh   -- remove semaphores/shared memory
+strTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest start web server 
+@]
+
+* CCSID part 1 - available 1.6.8 (toolkit tbd)
+** BUG: German ccsid umlaute chars -- depends on editor  ... some UTF-8 ... other not ... makes xmlservice clob use difficult, may need to enable/use xmlservice before/after/hex support in PHP wrapper 
+*** Theory follows that most of XML document "intent" will remain immutable across db2 clob conversion (keywords, numbers, etc.), but for character data on some occasion there will be mixed/competing  client/server ccsid conversion intention (client running 819, but data 1208), or there may be multiple language ccsid in the same XML document request (German, English, French), therefore using a combination of transfer in hex (hex='on') and IBM i server ccsid translation before/after should allow complete control over transforms at user need.  
+*** RAW (available 1.6.8) -- See advanced ccsid in XMLSERVICE Reserved Words documentation
+**** <data type='200A' %red%hex='on' before='819/1088' after='1088/819'%%>bin2hex('ascii_raw_chars')</data>
+**** [@ <data type='nnnA' hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>bin2hex('ascii_raw_chars')</data>@]
+
+* CCSID part 2 - TBD (toolkit)
+** NEW: Examples hex/before/after (Alan investigate)
+*** CW (not available)
+**** ( "Name"=>"INCHARA","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_CHAR,"Length"=>"1" %red%,"ccsid"=>819/1098,"hex"=true%%)
+*** Toolkit (not available)
+**** $ToolkitServiceObj->AddParameterChar   ('both',  1,  'INCHARA', 'var1', 'Y' %red%,'819/273',true%%)
+
+* CCSID part 2 - TBD
+** NEW: ccsid possible before/after commands (<cmd before/after>...</cmd>), pase shells (<sh before/after>...</sh>)
+** NEW: looking for volunteer to help us work out DBCS concerns for Japanese and/or Chinese with XMLSERVICE
+
+* Performance
+** NEW: need various performance improvements not in current versions of XMLSERVICE
+*** we appreciate your patience while we design improvements in performance. However in the spirit of good community Open Source we do not intend to enter any discussion of performance against any other toolkit, but we are striving to provide "good enough" performance for all your toolkit applications.
+**** Today -- user actions you can take right now: 
+***** use existing persistent ibm_db2/odbc connections (or pdo_ibm if using raw)
+***** turn off debug logging toolkit
+***** use private connections (IPC, internalKey, etc.)
+***** when private connections allow built-in xmlservice time-out vs. script disconnect via toolkit   
+
+* Debug
+** NEW: design, development, debug, and trace/audit features for XMLSERVICE development
+*** we appreciate your patience while we design this feature -- we understand having only text file debug.log(s) is not enough for rapid development with toolkit and xmlservice
+
+* Authority 
+** BUG: CW adopt authority scripts private connections (ipc=/tmp/fred), default CW stateless best alternative
+
+Note: The classification of BUG vs. NEW is more a statement of work item for the authors, so please feel free to consider a new feature a bug if missing (most people do)
+
+
+
+!!! toolkit hang after update (SAV/RST)
+[@
+4. Create xmlservice RPG programs (test/production)
+   > ADDLIBLE XMLSERVICE
+-- test version XMLSERVICE library (will NOT update zend production ZENDSVR library) ---
+   > CRTCLPGM PGM(XMLSERVICE/CRTXML) SRCFILE(XMLSERVICE/QCLSRC)
+   > call crtxml
+   Note redistribution: 
+   - ONLY redistribute SAVOBJ/RSTOBJ to XMLSERVICE library
+     will NOT work to RSTOBJ into ZENDSVR library
+     will break your production toolkit (hang/busy)
+   - stored procedures are automatically updated
+     on SAVOBJ/RSTOBJ XMLSERVICE library via
+     Program Associated Space (not need crtsql)
+   - XMLSERVICE lib objects: XMLSERVICE, XMLSTOREDP, XMLCGI, XMLMAIN
+     (again do NOT RSTOBJ into ZENDSVR library)     
+-- or update zend production ZENDSVR library --
+   > CRTCLPGM PGM(XMLSERVICE/CRTXML2) SRCFILE(XMLSERVICE/QCLSRC)
+   > call crtxml2
+   Note redistribution: 
+   - ONLY redistribute SAVOBJ/RSTOBJ to ZENDSVR library
+     will NOT work to RSTOBJ into XMLSERVICE library
+     will break your test toolkit (hang/busy)
+   - stored procedures are automatically updated
+     on SAVOBJ/RSTOBJ ZENDSVR library via
+     Program Associated Space (not need crtsql2)
+   - ZENDSVR lib objects: XMLSERVICE, XMLSTOREDP, XMLCGI, XMLMAIN     
+     (again do NOT RSTOBJ into XMLSERVICE library)     
+@]

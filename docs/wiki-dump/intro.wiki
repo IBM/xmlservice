@@ -1,0 +1,503 @@
+(:quicktoc:)
+>>round frame bgcolor=#ffffdd<<
+!!! XMLSERVICE Introduction ...
+>><<
+
+[[XMLService/XMLService | Goto Main Page]]
+\\
+[[XMLSERVICEDocument | Goto Documents]]
+
+The following foils include running examples you can click to help get started as you learn about this Open Source.
+* Part 1 - XML Service - Protect your investment ...
+* Part 2 -  XML Service and PHP Toolkit - Production use today ...
+
+Goal of Open Source XMLSERVICE RPG library is flexibility, enabling ANY sort of transport local/remote connection with any language available in your enterprise to call resources on your IBM i machine. XMLSERVICE primary transport interface in production today is DB2 connections using included stored procedures (xmlstoredp.srvpgm iPLUGxxxx). XMLSERVICE secondary transport interface used mostly demos is Apache REST connection (xmlcgi.pgm). However, XMLSERVICE allows writing your own custom transport (anything you imagine). XML Service and Toolkit on-going mission is to add new function, improve performance, expand uses, with goal of never impacting existing customers.
+
+Note: Click link 'Quick Page Table of Contents' to navigate directly to a topic.
+
+Warning: This is an active IBM i education machine, occasionally examples may not work, try back later. 
+
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+----
+! [++Part 1 - Protect your investment ...++]
+%block lframe%{$Imagehard}company.png
+[[<<]]
+[++Topics++]
+*[++XML Service Access Native IBM i Objects from any language using XML++]
+*[++XML Service completely free/safe commercial use download (Yips)++]
+*[++XML Service examples HTML/XML (no PHP, no RPG)++]
+*[++XML Service examples RPG (no PHP)++]
+*[++XML Service vs. DB2 Stored Procedures - Why use XML Service at all?++]
+*[++XML Service protect your investment summary++]
+----
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service - is free
+
+%block lframe%{$Imagehard}nodollar4.png
+[[<<]]
+
+*[++XML Service is completely free/safe commercial use download (Yips)++]
+**[++BSD license, download, keep any source copy forever (safe)++]
+*[++XML Service written in RPG open source (you can change it)++]
+**[++Techniques used IBM i calls are stable, unlikely to change (ever)++]
+*[++XML Service is supported Open Source++]
+**[++XML Service fix/add improvement goal is never impact current customers++]
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service - XML everything 
+
+%lfloat width=600 height=400%{$Imagehard}xmlservice.png
+[[<<]]
+* [++XML input <> XML output++]
+** [++Any device++]
+** [++Any language++]
+** [++Any local/remote connection++]
+** [++Any IBM i service (PGM, CMD, System API, DB2, PASE)++]
+
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service - IBM i Native Access through XML
+
+%block lframe%{$Imagehard}xmlany2.png
+[[<<]]
+*[++Access Native IBM i Objects from any language using XML++]
+**[++Local or remote IBM i: IBM i local, IBM i-2-IBM i, Linux/Unix/Windows-2-IBM, etc.++]
+**[++Any language access: PHP, Ruby, Java, Perl, RPG, no language at all (HTML/XML)++]
+**[++Many Native Object Types: DB2 SQL and Native, Program call, Procedure call, Data Area, Data Queue, Message Queue, Commands, System values, Spool files, PASE utilities++]
+*[++Local or remote call interfaces to XMLSERVICE (included RPG download)++]
+**[++Primary: call DB2 stored procedures local or remote (iPLUG4K - iPLUG15M)++]
+**[++Secondary: call REST HTTP local or remote (xmlcgi.pgm)++]
+
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service - Moving Parts 
+
+%lfloat width=600 height=300%{$Imagehard}MovingParts.png
+[[<<]] 
+* [++Any language++]
+** [++Browser HTML/XML++]
+** [++Script PHP, Ruby, JavaScript, etc.++]
+** [++Compiled RPG, C, etc.++]
+* [++Any local/remote connection++]
+** [++Linux/Unix/Windows/Mac ibm_db2/odbc/REST to IBM i++]
+** [++Native IBM i ibm_db2/odbc/REST to IBM i++]
+
+
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service public "stateless" (*here)
+
+%lfloat width=600 height=400%{$Imagehard}redbook_stateless.png
+[[<<]] 
+* [++XMLSERVICE public "stateless" (CTL='*here', IPC='*NA')++]
+** profile FRED (any public QSQ)
+** profile SALLY (any public QSQ)
+** profile RITA (any public QSQ)
+** profile XAVIER (any public QSQ)
+* [++XMLSTOREDP->XMLSERVICE (QSQ)++]
+** QSQ temporary profile use (stateless)
+** QSQ return to pool on script end
+** XMLSERVICE restart every request (web style)
+
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service private "state full" (*sbmjob)
+
+%lfloat width=600 height=400%{$Imagehard}redbook_statefull.png
+[[<<]] 
+* [++XMLSERVICE private "state full" (CTL='*sbmjob', IPC='/tmp/xxxx')++]
+** profile FRED XTOOLKIT myjob1,myjob2 (private)
+** profile SALLY XTOOLKIT sallyjob1 (private)
+** profile RITA XTOOLKIT nursejob (private)
+** profile XAVIER XTOOLKIT xjob1,xjob2,xjob3,xjob4,xjob5 (private)
+* [++XMLSTOREDP (QSQ)++]
+** QSQ temporary profile use (stateless)
+** QSQ return to pool on script end
+* [++XMLSERVICE (XTOOLKIT)++]
+** XTOOLKIT owned by profile (private)
+** XTOOLKIT job never ends (until killed)
+** XTOOLKIT full state programming (5250 style)
+
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service Configuration
+
+%lfloat width=600 height=300%{$Imagehard}ConfigAny.png
+[[<<]] 
+* [++Apache REST (xmlcgi.pgm)++]
+** [[XMLSERVICE/XMLSERVICE123NoPHP | HTML to IBM i]]
+* [++DB2 stored procedures (xmlstoredp.srvpgm iPLUGxx)++]
+** [[XMLSERVICE/XMLSERVICEInstall | IBM i]]
+*** [[XMLSERVICE/XMLSERVICE123PHP | PHP Toolkit to IBM i]]
+*** [[XMLSERVICE/XMLSERVICE123RAW | PHP Raw DB2 to IBM i]]
+** [[XMLSERVICE/XMLSERVICEJustToolkit | PHP Toolkit Windows/Linux DRDA/ODBC to IBM i]]
+*** [[PHP/DB2IBMDB2 | PHP LUW ibm_db2 to IBM i]]
+*** [[PHP/DB2ODBC | PHP LUW odbc to IBM i]]
+
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+
+!!XML Service - Example HTML/XML (no PHP, no RPG)
+
+%block lframe%{$Imagehard}browsertoo5.png
+[[<<]]
+
+*[++XML Service HTTP browser direct (xmlcgi.pgm)++] 
+** [[{$Samplehard}/Toolkit_HTML/index.html | try it (click me)]] --or-- [[{$Samplehard}/Yips_util/dspfoil.php?afile={$Sampledir}/Toolkit_HTML/index.html | view it (click me)]] --or-- [[ Attach:Toolkit_HTML-1.6.6.zip | download it (click me)]]
+** [@ web enable via httpd.conf:
+# <form method='POST' action='/cgi-bin/xmlcgi.pgm'>
+ScriptAlias /cgi-bin/ /QSYS.LIB/XMLSERVICE.LIB/
+<Directory /QSYS.LIB/XMLSERVICE.LIB/>
+  order allow,deny
+  allow from all
+  SetHandler cgi-script
+  Options +ExecCGI
+</Directory>
+@]
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service - Example RPG (no PHP)
+
+%block lframe%{$Imagehard}rpgtoo5.png 
+[[<<]]
+
+*[++XML Service stored procedure interface++]
+**[++(1) RPG DB2 using Exec Sql (iPLUGxxx)++] 
+*** [[{$SampleRPG}/demo/loopcall.pgm | try it (click me)]] --or-- [[{$Samplehard}/Yips_util/dspfoil.php?afile={$Sampledir}/Toolkit_intro/loopcall.rpgle | view it (click me)]] --or-- [[ Attach:Toolkit_RAW-1.6.6.zip | download it (click me)]]
+**[++(2) RPG DB2 using CLI (iPLUGxxx)++] 
+*** [[{$SampleRPG}/demo/loopcli.pgm | try it (click me)]] --or-- [[{$Samplehard}/Yips_util/dspfoil.php?afile={$Sampledir}/Toolkit_intro/loopcli.rpgle | view it (click me)]] --or-- [[ Attach:Toolkit_RAW-1.6.6.zip | download it (click me)]]
+** [@ web enable via httpd.conf:
+# demo callpase
+ScriptAlias /demo/ /QSYS.LIB/CALLPASE.LIB/
+<Directory /QSYS.LIB/CALLPASE.LIB/>
+  order allow,deny
+  allow from all
+  SetHandler cgi-script
+  Options +ExecCGI
+</Directory>
+Note: Exec Sql RPG CGI uses profile QTMHHTP1, however PHP is usually running QTMHHTTP, 
+      so you may fail authorisation sharing same XMLSERVICE job (1). Therefore, 
+      i recommend use RPG CLI technique to run any profile, 
+      where XMLSERVICE job(s) PHP/RPG is no problem (2).
+@]
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service vs. DB2 Stored Procedures - Why use XML Service at all?
+
+%block lframe%{$Imagehard}eggchick.gif
+\\\
+[++Why not write my own stored procedures?++]
+\\\
+[++Why use XML Service at all?++]
+[[<<]]
+(:table border=1 width=80%:)
+(:cellnr:)'''Task / Feature'''
+(:cell:)'''XML Service'''
+(:cell:)'''Stored procedure'''
+(:cellnr:)[++Device, protocol, & language portability++]
+(:cell:)
+%green%Browser%% - [[{$Samplehard}/Toolkit_intro/zzcall.html | {try it}]] [[{$Samplehard}/Yips_util/dspfoil.php?afile={$Sampledir}/Toolkit_intro/zzcall.html | {view it}]]\\
+%green%REST%% - [[{$Samplehard}/Toolkit_intro/zzcall.php | {try it} ]]  [[{$Samplehard}/Toolkit_intro/zzcall.src.php | {view it} ]]\\
+%green%DB2%% - [[{$Samplehard}/Toolkit_intro/zzcust.php | {try it} ]] [[{$Samplehard}/Toolkit_intro/zzcust.src.php | {view it} ]]\\
+%green%RPG%% - [[{$SampleRPG}/demo/loopcall.pgm | {try it}]] [[{$Samplehard}/Yips_util/dspfoil.php?afile={$Sampledir}/Toolkit_intro/loopcall.rpgle | {view it}]]\\
+%green%... anything you imagine%%
+(:cell:) %red%device specific%%
+%red%driver specific%%\\
+%red%language specific%%\\
+%red%... hit & miss coverage%%
+(:cellnr:)[++Complex Data Structures++]
+(:cell:) %green%trivial%% [[{$Samplehard}/Toolkit_intro/zzton.php | {try it} ]] [[{$Samplehard}/Toolkit_intro/zzton.src.php | {view it} ]]
+(:cell:) %red%near impossible%%
+(:cellnr:)[++Nested/Complex Arrays Data Structures++]
+(:cell:) %green%trivial%% [[{$Samplehard}/Toolkit_intro/zzdeep.php | {try it} ]]  [[{$Samplehard}/Toolkit_intro/zzdeep.src.php | {view it} ]]
+(:cell:) %red%near impossible%%
+(:cellnr:)[++DOU Count Data Structures++]
+(:cell:) %green%trivial%% [[{$Samplehard}/Toolkit_intro/zzcust.php | {try it} ]] [[{$Samplehard}/Toolkit_intro/zzcust.src.php | {view it} ]]
+(:cell:) %red%near impossible%%
+(:cellnr:)[++Call CMDs and collect data++]
+(:cell:) %green%trivial%% [[{$Samplehard}/Toolkit_intro/zzcmdme.php | {try it} ]] [[{$Samplehard}/Toolkit_intro/zzcmdme.src.php | {view it} ]]
+(:cell:) %red%very difficult%%
+(:cellnr:)[++Call PASE utilities and collect data++]
+(:cell:) %green%trivial%% [[{$Samplehard}/Toolkit_intro/zzshme.php | {try it} ]] [[{$Samplehard}/Toolkit_intro/zzshme.src.php | {view it} ]]
+(:cell:) %red%very difficult%%
+(:cellnr:)[++Route same job (IPC/internalKey)++]
+(:cell:) %green%trivial%% (table examples)
+(:cell:) %red%near impossible%%
+(:cellnr:)[++30,000 records around 2 seconds++]
+(:cell:) %green%fast%% [[{$Samplehard}/Toolkit_intro/zzbigboy.php | {try it} ]] [[{$Samplehard}/Toolkit_intro/zzbigboy.src.php | {view it} ]]
+(:cell:) %green%faster%%
+(:cellnr:)[[ Attach:Toolkit_intro-1.6.6.zip | download it (click me)]]
+(:cell:)
+(:cell:)
+(:tableend:)
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!! Protect your investment
+
+%block lframe%{$Imagehard}boxall.png
+[[<<]]
+
+*[++XML Service protects your wallet 100% free download++]
+*[++XML Service protects your skills 100% RPG source code++]
+*[++XML Service protects your project costs with XML based low budget features++]
+*[++XML Service protects your investment applications functions/performance over time++]
+*[++XML Service protects your investment across device proliferation++]
+*[++XML Service protects your investment across script language proliferation++]
+*[++XML Service protects your investment across any transport driver (XML is a string)++]
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+----
+! [++Part 2 - Production use today ...++]
+%block lframe%{$Imagehard}phptoday.png
+[[<<]]
+[++Topics++]
+*[++PHP Toolkit included with Zend Server for IBM i++]
+*[++XML Interface ibm_db2, pdo_ibm, odbc included with Zend Server for IBM i++]
+*[++XML Interface and PHP Toolkit - Performance++]
+*[++XML Interface and PHP Toolkit - Debugging++]
+*[++XML Interface and PHP Toolkit - Active community/support++]
+----
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!! New PHP Toolkit included with Zend Server for IBM i
+
+%block lframe%{$Imagehard}phpnewtoo5.png
+[[<<]]
+*[++Zend Server PHP Toolkit (included)++]
+**[++PHP CW Layer - old toolkit++]
+**[++PHP New Toolkit - OO toolkit++]
+*** [[{$Samplehard}/Toolkit/index.html | try it (click me)]] --or-- [[ Attach:Toolkit_PHP-1.6.6.zip | download it (click me)]]
+
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!! XML Interface ibm_db2, pdo_ibm, odbc included with Zend Server for IBM i
+
+%block lframe%{$Imagehard}phprawtoo5.png
+[[<<]]
+*[++XML Service stored procedure interface (included)++]
+**[++DB2 ibm_db2 param in/out (iPLUG 4k-15m)++]
+**[++DB2 odbc result set (iPLUGR 4k-15m)++]
+*** [[{$Samplehard}/Toolkit_RAW/index.html | try it (click me)]] --or-- [[ Attach:Toolkit_RAW-1.6.6.zip | download it (click me)]]
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Service - Performance Speed Limits
+
+%block lframe%{$Imagehard}speedlimit5.png
+[[<<]]
+
+(:table border=1 width=80%:)
+(:cellnr colspan=2:) [++Avg IBM i machine speed limits today (Oct 2012) ...  ++]
+* [++Avg Apache serves HTML 800/hits second (non-FRCA)++]
+* [++Avg persistent DB2 driver serves 400/hits second (db2_pconnect)++]
+* [++Avg non-persistent DB2 driver serves 40/hits second (db2_connect)++]
+(:cellnr:)[++PHP direct XMLSERVICE++]
+* [++Avg PHP direct 200-400 calls/sec++]
+** [[{$Samplehard}/Toolkit_intro/loopcall_raw.php | try it (click me)]] --or-- [[{$Samplehard}/Toolkit_intro/loopcall_raw.src.php | view it (click me)]]
+* [++30,000 records around 2 seconds++]
+** [[{$Samplehard}/Toolkit_intro/zzbigboy.php | try it (click me) ]]  --or-- [[{$Samplehard}/Toolkit_intro/zzbigboy.src.php | view it (click me) ]]
+(:cell:)[++PHP OO Toolkit++] 
+* [++Avg PHP OO Toolkit 100-300 calls/sec++]
+** [[{$Samplehard}/Toolkit_intro/loopcall.php | try it (click me)]] --or-- [[{$Samplehard}/Toolkit_intro/loopcall.src.php | view it (click me)]]
+(:cellnr colspan=4:) Next performance improvement focus areas:
+o PHP OO Toolkit overall closer to DB2 persistent connection speeds
+\\
+o XMLSERVICE faster large node XML documents (large/nested structures)
+(:tableend:)
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!!XML Interface and PHP Toolkit - Active community/support
+
+%block lframe%{$Imagehard}phpmasscot.png
+\\
+[++You are not alone, seek out help ...++]
+[[<<]]
+
+*[++Active YiPs download support++]- [[XMLSERVICE/XMLSERVICE | XML Service downloads ]], [[XMLSERVICE/XMLSERVICEChangeLog | XML Service Change log ]], [[XMLSERVICE/CWChangeLog | PHP Toolkit Change log]]
+*[++Active IBM i community support++] - [[http://forums.zend.com/viewforum.php?f=67 | Zend Server IBM i forums]], [[http://forums.zend.com/viewforum.php?f=113 | PHP Toolkit forum]] 
+*[++Active documentation++] - [[XMLSERVICE/XMLSERVICEDocument | YiPS Documents]], [[http://files.zend.com/help/Zend-Server-IBMi/zend-server.htm#php_toolkit_xml_service_functions.htm | Zend Manuals]]
+*[++Active PHP++] - [[http://www.hotscripts.com | hotscripts]], [[http://www.phpjunkyard.com/ | phpjunkyard]], [[http://www.phpfreaks.com/ | phpfreaks]]
+
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+\\\
+
+!! Debug technique: It's as easy as 1-2-3-4-5-6-7-8-9 :)
+# Run the test script that contains control "*debug" and script will "hang" while it waits on #2\\
+[@
+$ctl .= " *debug";
+@]
+# A MSGW inquiry message in DSPMSG QSYSOPR will be generated by the toolkit. Note the job information (number, name, user) provided in the MSGW.
+# STRSRVJOB using that job information as parameters.
+# STRDBG with the program and library you wish to debug.
+# Answer the MSGW. Any answer will do--"G" is fine.
+# The RPG program source will appear in debug mode in your terminal, ready to step through, allowing you to inspect variables, etc.
+# When done inspecting and stepping, let the RPG program complete (using function keys indicated on screen).
+# ENDDBG
+# ENDSRVJOB
+
+Other debug options ...[@
+           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)  
+                             (ctl=*debugcgi)              (ctl=*debugproc)                (ctl=*debug)
+browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here) 
+                                                       -> QSQSRVR (XMLSERVICE client) -> XTOOLKIT (XMLSERVICE ipc=/tmp/flinstone)
+
+$ctl .= " *debugcgi";  // Job 2 - debug XMLCGI to see REST/HTTP data passed by client (when using REST only)
+$ctl .= " *debugproc"; // Job 3 - debug XMLSERVICE "client" to see DB2 passed data (DB2 interface)
+$ctl .= " *debug";     // Job 4 - debug XMLSERVICE "server" to see XMLSERVICE calls (DB2 interface)
+                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server" 
+                       //         are in QSQSRVSR job (NO XTOOLKIT job)
+                       // remote: Attaching with LUW drivers changes QSQSRVR ...
+                       //   CLIENT (Client Access drivers) <==> QZDAxxxx
+                       //   CLIENT (DB2 Connect drivers)   <==> QRWxxxx
+@]
+
+
+
+
+----
+!!! [--Author([[http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICEIntro?action=expirediff | s ]])--]
+[--Tony "Ranger" Cairns - IBM i PHP / PASE--]

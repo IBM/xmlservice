@@ -1,0 +1,139 @@
+(:quicktoc:)
+>>round frame bgcolor=#ffffdd<<
+!!! Toolkit go faster 
+>><<
+
+[[XMLService/XMLService | Goto Main Page]]
+\\
+[[XMLSERVICEDocument | Goto Documents]]
+[[<<]]
+
+Before you start ...
+
+This page is about running faster using persistent and private pooled connections workload balancing techniques. This is not a discussion about using QTEMP or *LDA in called RPG programs across browser clicks, that is a different topic entirely. 
+
+!!! New version Zend Server include ZRAY
+Server set up asks if Developer or Production.  If Developer, Z-Ray is on by default, but easy to turn off.  If Production, Z-Ray is off by default, but easy to turn on.  Z-Ray is recommended to be off in Production for performance and security reasons.  It can be set up in secured mode in production to only be used on pages deliberately accessed by a developer.
+
+!!! Toolkit connections performance
+There are many ways to workload balance PHP Toolkit connections:
+* slower ... public "stateless" job - no 'InternalKey' (default) \\
+[@ $ToolkitServiceObj->setToolkitServiceParams( array('stateless'=>true)); @]
+* faster ... private "state full " single job - $user="SALLY" connected to single xmlservice job \\
+[@
+// php:db2_connect <- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user" -> XTOOLKIT:XMLSERVICE
+$ToolkitServiceObj->setToolkitServiceParams(array('InternalKey'=>"/tmp/$user")) 
+@]
+* fastest ... private "state full" pool jobs - $user="SALLY".rand(1,10) connected to 10 random xmlservice jobs \\
+[@
+// php:db2_connect :<- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user1"  -> XTOOLKIT:XMLSERVICE(1)
+// rand pick server:
+//                 :<- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user10" -> XTOOLKIT:XMLSERVICE(10)
+$ToolkitServiceObj->setToolkitServiceParams(array('InternalKey'=>"/tmp/$user".rand(1,10)) 
+@]
+
+The following is a relative performance guideline: 
+* slower ... public "stateless" job ... stateless connection (safe default)
+** [@<?php
+// job 1 (client)                      job 2 (server)
+// any php-cgi job                     attach QSQSRVR call XMSLERVICE 
+// ------------------                  ------------------------------
+// php:db2_(p)connect <- XML IN/OUT -> QSQSRVR:XMLSERVICE
+
+$extension='ibm_db2';  
+try { $ToolkitServiceObj = ToolkitService::getInstance($db, $user, $pass, $extension); }
+catch (Exception $e) { echo  $e->getMessage(), "\n"; exit(); }
+$options = array('stateless'=>true,'plugSize'=>'4K');
+$ToolkitServiceObj->setToolkitServiceParams($options);
+$ToolkitServiceObj->disconnect();
+@]
+*** slower ... uses db2_connect / odbc_connect (full open/close of QSQSRVR job)
+*** slower ... starts/stops xmlservice within QSQSRVR job each script request
+*** What to watch for ...
+**** not much, this is a simple full start/stop model (slow, but safe mostly)
+
+* faster ... private pool jobs ... state full connection (private)
+** [@<?php
+// job 1 (client)                      job 2 (proxy)                           job 3..13 (10 servers)
+// any php-cgi job                     QSQSRVR passthru                        XTOOLKIT(s) ready (always)
+// ------------------                  ------------------                      --------------------------
+// php:db2_(p)connect:<- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user1"  -> XTOOLKIT:XMLSERVICE(1)
+//                   :<- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user2"  -> XTOOLKIT:XMLSERVICE(2)
+// rand pick a server:
+//                   :<- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user10" -> XTOOLKIT:XMLSERVICE(10)
+
+$extension='ibm_db2';  
+try { $ToolkitServiceObj = ToolkitService::getInstance($db, $user, $pass, $extension); }
+catch (Exception $e) { echo  $e->getMessage(), "\n"; exit(); }  
+$maxpool = 10; // 10 jobs good enough to handle my machine needs 
+$internalKey = '/tmp/packers'.rand(1,$maxpool); 
+$ToolkitServiceObj->setToolkitServiceParams(array('InternalKey'=>$internalKey)); 
+/* Do not use the disconnect() function for "state full" connection */ 
+/* NEVER EVER USE THIS ... $ToolkitServiceObj->disconnect();        */ 
+/* Why? *immed kill of job, not nice or sync, just kill             */ 
+@]
+*** slower ... uses db2_connect / odbc_connect (full open/close of QSQSRVR job)
+*** fastest ... starts another xmlservice /tmp/packers1-to-10 beyond QSQSRVR job (XTOOLKIT PGM-XMLSERVICE), and jobs 1-10 use over and over and over ... until killed by $ToolkitServiceObj->disconnect() or by IBM i operator
+*** What to watch for ...
+**** Security 1: profile FRED can not attach to profile SALLY XMLSERVICE jobs (SALLY owns /tmp/packers1-10, FRED will have to make his own jobs /tmp/bears1-10)
+**** Co-operate with web site: develop procedures start/stop xmlservice when doing system maintenance (kill xmlservice jobs, etc.)
+**** A live job: QTEMP/*LDA are re-used, therefore your called applications must be ready to handle/clear
+
+* fastest ... private pool jobs ... add persistent db2 connections (db2_pconnect)
+** [@<?php
+// job 1 (client)                      job 2 (proxy)                           job 3..13 (10 servers)
+// any php-cgi job                     QSQSRVR passthru                        XTOOLKIT(s) ready (always)
+// ------------------                  ------------------                      --------------------------
+// php:db2_(p)connect:<- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user1"  -> XTOOLKIT:XMLSERVICE(1)
+//                   :<- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user2"  -> XTOOLKIT:XMLSERVICE(2)
+// rand pick a server:
+//                   :<- XML IN/OUT -> QSQSRVR:XMLSERVICE <- "/tmp/$user10" -> XTOOLKIT:XMLSERVICE(10)
+
+require_once("ToolkitService.php");
+$i5persistentconnect = true;
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) echo "Bad connect: $conn,$database,$user,perm=$i5persistentconnect";
+try { $ToolkitServiceObj = ToolkitService::getInstance($conn); }
+catch (Exception $e) { die($e->getMessage()); }
+$maxpool = 10; // 10 jobs good enough to handle my machine needs
+$ToolkitServiceObj->setToolkitServiceParams(array('InternalKey'=>'/tmp/packers'.rand(1,$maxpool),'plug'=>'iPLUG32K'));
+@]
+*** fastest ... uses db2_pconnect / odbc_pconnect (persistent QSQSRVR job stays alive "forever")
+*** fastest ... starts another xmlservice /tmp/packers1-to-10 beyond QSQSRVR job (XTOOLKIT PGM-XMLSERVICE), and jobs 1-10 use over and over and over ... until killed by $ToolkitServiceObj->disconnect() or by IBM i operator
+*** What to watch for ...
+**** Security 1: profile FRED can not attach to profile SALLY XMLSERVICE jobs (SALLY owns /tmp/packers1-10, FRED will have to make his own jobs /tmp/bears1-10)
+**** Security 2: profile FRED owns a db2_pconnect(tion), and SALLY owns a db2_pconnect(ion), XMLSERVICE connect InternalKey profile must match (db2_pconnect("SALLY") owns /tmp/packers1-10, db2_pconnect("FRED") owns /tmp/bears1-10)
+**** Co-operate with web site: develop procedures start/stop xmlservice when doing system maintenance (kill xmlservice jobs, etc.)
+**** A live job: QTEMP/*LDA are re-used, therefore your called applications must be ready to handle/clear
+
+
+!!! Toolkit operations performance 
+Always use PgmCall API for speed including data area, job attributes, etc. (V6+ also call CL and OPM *PGM with PgmCall), most command functions will run significantly slower.
+* slower ... PASE sh utilities (system wrkactjob, ls, ps, etc.)
+** [@ $ToolkitServiceObj->CLInteractiveCommand @]
+* slightly faster ... CMDS that return data (RTVJOBA, etc.)
+** [@ $ToolkitServiceObj->CLCommandWithOutput @]
+* faster ... CMDS that do not return data (ADDLIBLE, etc.)
+** [@ $ToolkitServiceObj->CLCommand @]
+* fastest ... calling PGMs/SRVPGMs (RPG, CLP, Cobol, System API, etc.)
+** [@ $ToolkitServiceObj->PgmCall @]
+
+!!! Toolkit plug size performance 
+Setting plug size to match your data size can offer increased performance.
+* slower ... 15 MB plug size (max)
+** [@ $ToolkitServiceObj->setToolkitServiceParams(array('InternalKey'=>'/tmp/packers'.rand(1,$maxpool),'plugSize' => '15M')); @]
+* faster ... 512K plug size (default)
+** [@ $ToolkitServiceObj->setToolkitServiceParams(array('InternalKey'=>'/tmp/packers'.rand(1,$maxpool),'plugSize'=>'512K')); @]
+* fastest ... 4K plug size (min)
+** [@ $ToolkitServiceObj->setToolkitServiceParams(array('InternalKey'=>'/tmp/packers'.rand(1,$maxpool),'plugSize'=>'4K')); @]
+
+Why a plug size at all?\\
+DB2 connections are safe reliable transport for XML documents between client (PHP) and server (XMLSERVICE), but DB2 forces you to declare IN/OUT parameter size of any call procedure, XMLSERVICE download includes a few different stored procedure sizes (iPLUG4k .. iPLUG15M), so your script needs to choose the IN/OUT size that fits your data.  
+
+----
+
+!!! [--Author([[http://youngiprofessionals.com/wiki/index.php/XMLSERVICE/XMLSERVICEFaster?action=expirediff | s ]])--]
+[--Tony "Ranger" Cairns - IBM i PHP / PASE--]
+
+

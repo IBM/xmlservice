@@ -1,0 +1,186 @@
+(:quicktoc:)
+>>round frame bgcolor=#ffffdd<<
+!!! XMLSERVICE/Toolkit Character Varying
+>><<
+
+[[XMLService/XMLService | Goto Main Page]]
+\\
+[[XMLSERVICEDocument | Goto Documents]]
+
+
+'''... under construction ... '''
+
+!!! Character varying - what do?
+Character varying is easy, just add character varying attribute. Varying character works for parameters, return and data structures (DS). 
+
+!! 1) New PHP Toolkit
+[@
+     -----------------------------------------
+     |              Browser                  |
+     |---------------------------------------|
+     | Download RPG (1) | Download PHP (2)   |
+     | 1) XMLSERVICE    | a) PHP CW Toolkit  |
+     |    HTML/XML/REST | b) New PHP Toolkit |<- cw-tk-php-x.x.x.zip (*)
+     |    no PHP        |--------------------|
+     |    (xmlcgi.pgm)  | c) PHP “Raw XML”   |
+     |    (optional)    |   (ibm_db2, odbc)  |
+     |    -----------------------------------|
+     | 2) XMLSERVICE DB2 stored procedures   |
+     |    (iPLUG4K, iPLUG32K, ..., iPLUG15M) |
+     | 3) XMLSERVICE (xmlservice.pgm)        |
+     |    call most anything on IBM i ...    |
+     |    (PGM, SRVPGM, PASE, DB2, etc.)     |
+     ------------------------------------------
+@]
+
+!!! Character varying (S 20A varying)
+[@
+<?php
+require_once('connection.inc');
+// assume /usr/local/zendsvr/share/ToolkitAPI
+require_once("ToolkitService.php");
+// new toolkit
+try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $password); }
+catch (Exception $e) { die($e->getMessage()); }
+$ToolkitServiceObj->setToolkitServiceParams(
+array('InternalKey'=>$internalKey, // route to same XMLSERVICE job /tmp/myjob1
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'plug'=>"iPLUG32K"));              // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzvary: check return varying 
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzvary          B                   export
+//     D zzvary          PI            20A   varying
+//     D  myName                       10A   varying
+//      * vars
+//     D tmp             S             20A   varying
+//      /free
+//       tmp = 'my name is ';
+//       tmp = tmp + myName;
+//       return tmp;
+//      /end-free
+//     P                 E
+$param[] = $ToolkitServiceObj->AddParameterChar('both', 10, 'ZZVARY', 'myVary', 'Ranger', 'on'); // 6th parameter--'on'--is for varying
+$retrn[] = $ToolkitServiceObj->AddParameterChar('both', 20, 'ZZVARY', 'retVary', 'Mud', 'on'); // 6th parameter--'on'--is for varying
+$result  = $ToolkitServiceObj->PgmCall('ZZSRV', $libxmlservice, $param, $retrn, array('func'=>'ZZVARY'));
+// var_dump($result);
+/* in/out param myDate */
+$myVary = "XMLSERVICE i/o param myVary: ".$result["io_param"]["myVary"];
+echo "$myVary\n";
+$expect = 'Ranger';
+if (strpos($myVary,$expect)<1) die("Fail missing $expect\n");
+/* return value retVary */
+$retVary = "XMLSERVICE return retVary: ".$result["retvals"]["retVary"];
+echo "$retVary\n";
+$expect = 'my name is Ranger';
+if (strpos($retVary,$expect)<1) die("Fail missing $expect\n");
+/* all good */
+echo "Success\n";
+?>
+@]
+
+
+!! 2) XMLSERVICE Raw XML
+[@
+     -----------------------------------------
+     |              Browser                  |
+     |---------------------------------------|
+     | Download RPG (1) | Download PHP (2)   |
+     | 1) XMLSERVICE    | a) PHP CW Toolkit  |
+     |    HTML/XML/REST | b) New PHP Toolkit |
+     |    no PHP        |--------------------|
+     |    (xmlcgi.pgm)  | c) PHP “Raw XML”   |<- Zend Server for IBM i or Linux or Windows (*)
+     |    (optional)    |   (ibm_db2, odbc)  |
+     |    -----------------------------------|
+     | 2) XMLSERVICE DB2 stored procedures   |
+     |    (iPLUG4K, iPLUG32K, ..., iPLUG15M) |
+     | 3) XMLSERVICE (xmlservice.pgm)        |
+     |    call most anything on IBM i ...    |
+     |    (PGM, SRVPGM, PASE, DB2, etc.)     |
+     ------------------------------------------
+@]
+
+!!! Character varying (S 20A varying)
+[@
+<?php
+// see connection.inc param details ...
+require_once('connection.inc');
+// call IBM i
+if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
+else $conn = db2_connect($database,$user,$password);
+if (!$conn) die("Bad connect: $database,$user");
+$stmt = db2_prepare($conn, "call $libxmlservice.iPLUG32K(?,?,?,?)");
+if (!$stmt) die("Bad prepare: ".db2_stmt_errormsg());
+$clobIn = getxml();
+$clobOut = "";
+$ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 2, "ctl", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 3, "clobIn", DB2_PARAM_IN);
+$ret=db2_bind_param($stmt, 4, "clobOut", DB2_PARAM_OUT);
+$ret=db2_execute($stmt);
+if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
+// -----------------
+// output processing
+// -----------------
+// dump raw XML (easy test debug)
+var_dump($clobOut);
+// xml check via simplexml vs. expected results
+$xmlobj = simplexml_load_string($clobOut);
+if (!$xmlobj) die("Bad XML returned");
+$allpgms = $xmlobj->xpath('/script/pgm');
+if (!$allpgms) die("Missing XML pgm info");
+// -----------------
+// output pgm call
+// -----------------
+// only one program this XML script
+$pgm = $allpgms[0];
+$name = $pgm->attributes()->name;
+$lib  = $pgm->attributes()->lib;
+$func = $pgm->attributes()->func;
+// pgm parms
+$parm = $pgm->xpath('parm');
+if ($parm) die("Unexpected XML pgm parms io='in' ($lib/$name.$func)\n");
+// pgm data returned
+$retn = $pgm->xpath('return');
+if (!$retn) die("Fail XML pgm return missing ($lib/$name.$func)\n");
+$var  = $retn[0]->data->attributes()->var;
+$actual = (string)$retn[0]->data;
+$expect = 'my name is Ranger';
+if ($actual != $expect) die("$var ($actual not $expect) ($lib/$name.$func)\n");
+
+// good
+echo "Success ($lib/$name.$func)\n";
+
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      * zzvary: check return varying 
+//      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//     P zzvary          B                   export
+//     D zzvary          PI            20A   varying
+//     D  myName                       10A   varying
+//      * vars
+//     D tmp             S             20A   varying
+//      /free
+//       tmp = 'my name is ';
+//       tmp = tmp + myName;
+//       return tmp;
+//      /end-free
+//     P                 E
+function getxml() {
+$clob = <<<ENDPROC
+<?xml version='1.0'?>
+<script>
+<pgm name='ZZSRV' lib='xyzlibxmlservicexyz' func='ZZVARY'>
+ <parm comment='search this name' io='in'>
+  <data var='myName' type='10A' varying='on'>Ranger</data>
+ </parm>
+ <return>
+  <data var='myReturnName' type='20A' varying='on'>Mud</data>
+ </return>
+</pgm>
+</script>
+ENDPROC;
+return test_lib_replace($clob);
+}
+?>
+@]
+

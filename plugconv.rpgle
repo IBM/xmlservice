@@ -97,11 +97,11 @@
      D wquot           S              1C   inz(%UCS2('"'))                      &quot;
      D wapos           S              1C   inz(%UCS2(''''))                     &apos;
       * reserved job ccsid chars 
-     D clt             S              1C   inz(*blank)                          &lt;
-     D cgt             S              1C   inz(*blank)                          &gt;
-     D camp            S              1C   inz(*blank)                          &amp;
-     D cquot           S              1C   inz(*blank)                          &quot;
-     D capos           S              1C   inz(*blank)                          &apos;
+     D clt             S              1A   inz(*blank)                          &lt;
+     D cgt             S              1A   inz(*blank)                          &gt;
+     D camp            S              1A   inz(*blank)                          &amp;
+     D cquot           S              1A   inz(*blank)                          &quot;
+     D capos           S              1A   inz(*blank)                          &apos;
       * reserved unicode  
      D welt            S              4C   inz(%UCS2('&lt;'))                   &lt;
      D wegt            S              4C   inz(%UCS2('&gt;'))                   &gt;

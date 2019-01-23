@@ -27,7 +27,7 @@ TODO ...
 - [Node.js](https://bitbucket.org/litmis/nodejs-itoolkit)
 - [Python](https://bitbucket.org/litmis/python-itoolkit)
 - [Swift](https://bitbucket.org/litmis/swift-itoolkit)
-- [.NET](http://xmlservicei.codeplex.com/)
+- [.NET](https://github.com/richardschoen/IbmiXmlserviceStd)
 
 ## Contributing
 

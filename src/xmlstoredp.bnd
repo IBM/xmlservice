@@ -1,4 +1,4 @@
-             strpgmexp  pgmlvl(*CURRENT) signature('XMLSTOREDP 19039')
+             strpgmexp  pgmlvl(*CURRENT) signature(*GEN)
                 export     symbol('iPLUG4K')
                 export     symbol('iPLUG32K')
                 export     symbol('iPLUG65K')

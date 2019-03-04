@@ -60,9 +60,9 @@ $clob = <<<ENDPROC
 <name><![CDATA[TEST_100]]></name>
 <lib><![CDATA[LOUISBAD]]></lib>
 <parm comment='p1' io='both'>
-<data type='500A' var='p1' ><![CDATA[AAA \<TABLE\>]]></data>           
+<data type='500A' var='p1' ><![CDATA[AAA \<TABLE\>]]></data>
 </parm><parm comment='p2' io='both'>
-<data type='500A' var='p2' ><![CDATA[ ]]></data>           
+<data type='500A' var='p2' ><![CDATA[ ]]></data>
 </parm>
 </pgm>
 </script>

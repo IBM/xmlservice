@@ -1,39 +1,39 @@
      H NOMAIN
      H AlwNull(*UsrCtl)
      H BNDDIR('QC2LE')
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -71,11 +71,11 @@
      P                 E
 
       *****************************************************
-      * RPG SQL any active 
+      * RPG SQL any active
       *****************************************************
      P sql_active_any...
      P                 B                   export
-     D sql_active_any...        
+     D sql_active_any...
      D                 PI             1N
      D  type                          1A   value
      D  label                        10A
@@ -94,7 +94,7 @@
       *****************************************************
      P sql_options_ctor...
      P                 B                   export
-     D sql_options_ctor...        
+     D sql_options_ctor...
      D                 PI             1N
      D pOpt                            *   value
       /free
@@ -109,7 +109,7 @@
 
      P sql_options_setup...
      P                 B                   export
-     D sql_options_setup...        
+     D sql_options_setup...
      D                 PI             1N
      D  label                        10A
      D  sqloptions                 1024A
@@ -126,7 +126,7 @@
 
      P sql_env_options...
      P                 B                   export
-     D sql_env_options...        
+     D sql_env_options...
      D                 PI             1N
      D  conn                         10A
      D  options                      10A   value
@@ -143,7 +143,7 @@
 
      P sql_conn_options...
      P                 B                   export
-     D sql_conn_options...        
+     D sql_conn_options...
      D                 PI             1N
      D  conn                         10A
      D  options                      10A   value
@@ -160,7 +160,7 @@
 
      P sql_stmt_options...
      P                 B                   export
-     D sql_stmt_options...        
+     D sql_stmt_options...
      D                 PI             1N
      D  stmt                         10A
      D  options                      10A   value
@@ -177,7 +177,7 @@
 
      P sql_options_free...
      P                 B                   export
-     D sql_options_free...        
+     D sql_options_free...
      D                 PI             1N
      D  options                      10A   value
       /free
@@ -192,7 +192,7 @@
 
      P sql_options_free_all...
      P                 B                   export
-     D sql_options_free_all...        
+     D sql_options_free_all...
      D                 PI             1N
       /free
        select;
@@ -209,7 +209,7 @@
       *****************************************************
      P sql_connect_default...
      P                 B                   export
-     D sql_connect_default...        
+     D sql_connect_default...
      D                 PI             1N
      D  label                        10A
       /free
@@ -224,7 +224,7 @@
 
      P sql_connect...
      P                 B                   export
-     D sql_connect...        
+     D sql_connect...
      D                 PI             1N
      D  label                        10A
      D  options                      10A
@@ -247,7 +247,7 @@
       *****************************************************
      P sql_end_transaction...
      P                 B                   export
-     D sql_end_transaction...        
+     D sql_end_transaction...
      D                 PI             1N
      D  conn                         10A
      D  rollback                      1N   value
@@ -263,11 +263,11 @@
 
 
       *****************************************************
-      * RPG SQL free 
+      * RPG SQL free
       *****************************************************
      P sql_connect_free...
      P                 B                   export
-     D sql_connect_free...        
+     D sql_connect_free...
      D                 PI             1N
      D  conn                         10A   value
       /free
@@ -282,7 +282,7 @@
 
      P sql_connect_free_all...
      P                 B                   export
-     D sql_connect_free_all...        
+     D sql_connect_free_all...
      D                 PI             1N
       /free
        select;
@@ -299,7 +299,7 @@
       *****************************************************
      P sql_parm_desc_nbr...
      P                 B                   export
-     D sql_parm_desc_nbr...        
+     D sql_parm_desc_nbr...
      D                 PI             1N
      D  stmt                         10A
      D  nParms                        5I 0
@@ -319,7 +319,7 @@
       *****************************************************
      P sql_parm_desc...
      P                 B                   export
-     D sql_parm_desc...        
+     D sql_parm_desc...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -338,7 +338,7 @@
       *****************************************************
      P sql_parm_bind...
      P                 B                   export
-     D sql_parm_bind...        
+     D sql_parm_bind...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -359,7 +359,7 @@
       *****************************************************
      P sql_col_desc_nbr...
      P                 B                   export
-     D sql_col_desc_nbr...        
+     D sql_col_desc_nbr...
      D                 PI             1N
      D  stmt                         10A
      D  nCols                         5I 0
@@ -379,7 +379,7 @@
       *****************************************************
      P sql_col_desc...
      P                 B                   export
-     D sql_col_desc...        
+     D sql_col_desc...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -398,7 +398,7 @@
       *****************************************************
      P sql_col_bind...
      P                 B                   export
-     D sql_col_bind...        
+     D sql_col_bind...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -413,11 +413,11 @@
      P                 E
 
       *****************************************************
-      * RPG SQL SQLPrepare 
+      * RPG SQL SQLPrepare
       *****************************************************
      P sql_prepare...
      P                 B                   export
-     D sql_prepare...        
+     D sql_prepare...
      D                 PI             1N
      D  conn                         10A
      D  stmt_str                       *   value
@@ -437,11 +437,11 @@
      P                 E
 
       *****************************************************
-      * RPG SQL SQLExecute 
+      * RPG SQL SQLExecute
       *****************************************************
      P sql_parm_ctor...
      P                 B                   export
-     D sql_parm_ctor...        
+     D sql_parm_ctor...
      D                 PI             1N
      D  sqlParm                        *
       /free
@@ -456,7 +456,7 @@
 
      P sql_execute...
      P                 B                   export
-     D sql_execute...        
+     D sql_execute...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -472,11 +472,11 @@
      P                 E
 
       *****************************************************
-      * RPG SQL SQLExecute fetch parm 
+      * RPG SQL SQLExecute fetch parm
       *****************************************************
      P sql_fetch_parm...
      P                 B                   export
-     D sql_fetch_parm...        
+     D sql_fetch_parm...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -495,11 +495,11 @@
 
 
       *****************************************************
-      * RPG SQL SQLExecDirect 
+      * RPG SQL SQLExecDirect
       *****************************************************
      P sql_query...
      P                 B                   export
-     D sql_query...        
+     D sql_query...
      D                 PI             1N
      D  conn                         10A
      D  stmt_str                       *   value
@@ -519,11 +519,11 @@
      P                 E
 
       *****************************************************
-      * RPG SQL stmt free 
+      * RPG SQL stmt free
       *****************************************************
      P sql_stmt_free...
      P                 B                   export
-     D sql_stmt_free...        
+     D sql_stmt_free...
      D                 PI             1N
      D  stmt                         10A   value
       /free
@@ -538,7 +538,7 @@
 
      P sql_connect_free_stmts...
      P                 B                   export
-     D sql_connect_free_stmts...        
+     D sql_connect_free_stmts...
      D                 PI             1N
      D  conn                         10A   value
       /free
@@ -553,7 +553,7 @@
 
      P sql_stmt_free_all...
      P                 B                   export
-     D sql_stmt_free_all...        
+     D sql_stmt_free_all...
      D                 PI             1N
       /free
        select;
@@ -571,7 +571,7 @@
       *****************************************************
      P sql_fetch_parm_desc...
      P                 B                   export
-     D sql_fetch_parm_desc...        
+     D sql_fetch_parm_desc...
      D                 PI             1N
      D  stmt                         10A
      D  outPtrP                        *
@@ -592,7 +592,7 @@
       *****************************************************
      P sql_fetch_col_desc...
      P                 B                   export
-     D sql_fetch_col_desc...        
+     D sql_fetch_col_desc...
      D                 PI             1N
      D  stmt                         10A
      D  outPtrP                        *
@@ -612,7 +612,7 @@
       *****************************************************
      P sql_fetch...
      P                 B                   export
-     D sql_fetch...        
+     D sql_fetch...
      D                 PI             1N
      D  stmt                         10A
      D  block                        10i 0
@@ -632,11 +632,11 @@
 
 
       *****************************************************
-      * RPG SQL stmt row count 
+      * RPG SQL stmt row count
       *****************************************************
      P sql_row_count...
      P                 B                   export
-     D sql_row_count...        
+     D sql_row_count...
      D                 PI             1N
      D  stmt                         10A
      D  count                        10I 0
@@ -652,11 +652,11 @@
      P                 E
 
       *****************************************************
-      * RPG SQL conn last insert id 
+      * RPG SQL conn last insert id
       *****************************************************
      P sql_last_insert_id...
      P                 B                   export
-     D sql_last_insert_id...        
+     D sql_last_insert_id...
      D                 PI             1N
      D  conn                         10A
      D  outPtrP                        *
@@ -676,7 +676,7 @@
       *****************************************************
      P sql_error_rec...
      P                 B                   export
-     D sql_error_rec...        
+     D sql_error_rec...
      D                 PI             1N
      D  hType                        10I 0 value
      D  handle                       10I 0 value
@@ -697,7 +697,7 @@
       *****************************************************
      P sql_tables...
      P                 B                   export
-     D sql_tables...        
+     D sql_tables...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -723,7 +723,7 @@
       *****************************************************
      P sql_table_privileges...
      P                 B                   export
-     D sql_table_privileges...        
+     D sql_table_privileges...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -748,7 +748,7 @@
       *****************************************************
      P sql_columns...
      P                 B                   export
-     D sql_columns...        
+     D sql_columns...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -774,7 +774,7 @@
       *****************************************************
      P sql_column_privileges...
      P                 B                   export
-     D sql_column_privileges...        
+     D sql_column_privileges...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -800,7 +800,7 @@
       *****************************************************
      P sql_special_columns...
      P                 B                   export
-     D sql_special_columns...        
+     D sql_special_columns...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -827,7 +827,7 @@
       *****************************************************
      P sql_procedures...
      P                 B                   export
-     D sql_procedures...        
+     D sql_procedures...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -852,7 +852,7 @@
       *****************************************************
      P sql_procedure_columns...
      P                 B                   export
-     D sql_procedure_columns...        
+     D sql_procedure_columns...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -878,7 +878,7 @@
       *****************************************************
      P sql_primary_keys...
      P                 B                   export
-     D sql_primary_keys...        
+     D sql_primary_keys...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -903,7 +903,7 @@
       *****************************************************
      P sql_foreign_keys...
      P                 B                   export
-     D sql_foreign_keys...        
+     D sql_foreign_keys...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -932,7 +932,7 @@
       *****************************************************
      P sql_statistics...
      P                 B                   export
-     D sql_statistics...        
+     D sql_statistics...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A

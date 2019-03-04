@@ -7,7 +7,7 @@ XML i Toolkit: ODBC result set PGM - performance loop call
 $i5loop = 5000;
 require_once('connection.inc');
 
-// include connect performance 
+// include connect performance
 // (worst connect situation)
 $start_time = microtime();
 $conn = odbc_connect($database,$user,$password);
@@ -27,17 +27,17 @@ for ($i=0;$i<$i5loop;$i++) {
   // bad behavior odbc extension ...
   // on IBM i result set warning???
   // slooows down writing to php.log
-  error_reporting(~E_ALL); 
+  error_reporting(~E_ALL);
   // rebind parms simulate changed data bindings
-  // randomly happening througout php script 
+  // randomly happening througout php script
   $ret=odbc_execute($stmt,array($ipc,$ctl,$clobIn));
-  error_reporting(E_ALL); 
+  error_reporting(E_ALL);
   while(odbc_fetch_row($stmt)) {
     $clobOut .= driverJunkAway(odbc_result($stmt, 1));
   }
   // remove var dump because screen output will
   // be the greatest timing factor dwarfing other data
-  // echo " IN:\n"; var_dump($clobIn);  
+  // echo " IN:\n"; var_dump($clobIn);
   // echo "OUT:\n"; var_dump($clobOut);
   if (strpos($clobOut,'4444444444.44')<1) {
     var_dump($clobOut);
@@ -50,11 +50,11 @@ $wire_time= control_microtime_used($start_time,$end_time)*1000000;
 
 // result times
 $look = round($wire_time/1000000,2);
-echo 
-  sprintf("Time (loop=$i5loop) total=%1.2f sec (%1.2f ms per call)\n", 
+echo
+  sprintf("Time (loop=$i5loop) total=%1.2f sec (%1.2f ms per call)\n",
   round($wire_time/1000000,2),
   round(($wire_time/$i5loop)/1000,2));
-// less than two minutes (usually around one minute) 
+// less than two minutes (usually around one minute)
 if ($look<120) echo "ok\n";
 else echo "fail - too slow\n";
 

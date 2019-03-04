@@ -4,7 +4,7 @@
 <script language="javascript">
 // Changes XML to JSON
 function xmlToJson(xml) {
-	
+
 	// Create the return object
 	var obj = {};
 
@@ -51,7 +51,7 @@ var msgout = "xmlservice output";
 var xmlhttp = null;
 var route = "http://"
         + self.location.hostname
-        + "/cgi-bin/xmlcgi.pgm?" 
+        + "/cgi-bin/xmlcgi.pgm?"
         + "db2=" + db
         + "&uid=" + uid
         + "&pwd=" + pwd
@@ -114,27 +114,27 @@ var pshell = "<?xml version='1.0'?>"
         + " </myscript>";
 var size = "&xmlout=1000000";
 
-if (window.XMLHttpRequest) 
+if (window.XMLHttpRequest)
 { xmlhttp = new XMLHttpRequest();
-  if ( typeof xmlhttp.overrideMimeType != 'undefined') 
+  if ( typeof xmlhttp.overrideMimeType != 'undefined')
   { xmlhttp.overrideMimeType('text/xml');
   }
-} 
-else if (window.ActiveXObject) 
+}
+else if (window.ActiveXObject)
 { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-} 
-else 
+}
+else
 { alert('Perhaps your browser does not support xmlhttprequests?');
 }
 // not need dojo for simple JavaScript rest
 dojo.require("dojox.xml.parser");
-function processXMLSERVICE(inputXml) 
+function processXMLSERVICE(inputXml)
 { var urli = encodeURI(inputXml);
-  var args = 
+  var args =
   { url:urli,
     handleAs:"xml",
     preventCache:true,
-    load:function(data) 
+    load:function(data)
     { var Xml2String = new XMLSerializer().serializeToString(data);
       var FlatXmlBetter = Xml2String.replace(/\s+/g, ' ').replace(/>\s*/g, '>').replace(/\s*</g, '<').trim();
       alert("xml returned ... \n" + FlatXmlBetter);
@@ -142,8 +142,8 @@ function processXMLSERVICE(inputXml)
       var xmlDoc = xmlToJson(parser.parseFromString(FlatXmlBetter,"text/xml"));
       alert("now json ... \n" + JSON.stringify(xmlDoc));
     },
-    error:function(error) 
-    { alert("Error:" + error); 
+    error:function(error)
+    { alert("Error:" + error);
     }
   };
   // alert(msgin + " dojo ... \n" + url);

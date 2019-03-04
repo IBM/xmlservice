@@ -29,7 +29,7 @@ if (!$xmlobj) die("Bad XML returned\n");
 if (strlen(trim($clobOut))<1 || strpos($clobOut,"error")>0) die("Fail\n");
 echo "Success\n";
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zznada: check no parms 
+//      * zznada: check no parms
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zznada          B                   export
 //     D zznada          PI

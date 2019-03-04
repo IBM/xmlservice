@@ -26,11 +26,11 @@ DSPSYSVAL SYSVAL(QCCSID)
    identifier . . . . . :   65535      1-65535
 
 edit configuration:
-/www/zendsvr/conf/fastcgi.conf (optional from editor): 
+/www/zendsvr/conf/fastcgi.conf (optional from editor):
 SetEnv="LANG=C"
 
 /www/zendsvr/conf/httpd.conf (web admin GUI port 2001 - ZENDSVR):
-DefaultFsCCSID 37  ... or 208 (Italian) ... or so on ... 
+DefaultFsCCSID 37  ... or 208 (Italian) ... or so on ...
 CGIJobCCSID 37     ... or 208 (Italian) ... or so on ...
 
 restart jobs:
@@ -70,7 +70,7 @@ change the system CCSID value:
 CHGSYSVAL SYSVAL(QCCSID) VALUE(5035)
 
 edit configuration:
-/www/zendsvr/conf/fastcgi.conf (editor): 
+/www/zendsvr/conf/fastcgi.conf (editor):
 SetEnv="CCSID=1208" SetEnv="LANG=C"
 
 /www/zendsvr/conf/httpd.conf (web admin GUI port 2001 - ZENDSVR):
@@ -100,11 +100,11 @@ where:
   before    - XMLSERVICE convert CCSID before ILE program call
   after     - XMLSERVICE convert CCSID after ILE program call for client return
   bin2hex() - script hex string unaltered ascii image (also returned hex string avoid any conversion)
-  pack()    - script uses pack('H*',"xml_hex_back") function in PHP program for ascii characters 
+  pack()    - script uses pack('H*',"xml_hex_back") function in PHP program for ascii characters
 Note:
   Up to four conversions can take place for the truly diabolical ccsid issues
   <data type='A' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>bin2hex('wild_ascii_raw_chars')</data>
-  flow: 
+  flow:
   -> PHP client bin2hex('wild_ascii_raw_chars')
   -> xmlservice hex2bin back to 'wild_ascii_raw_chars'
   -> xmlservice convert cc1->cc2->cc3->cc4 (before)
@@ -124,7 +124,7 @@ Many common XMLSERVICE tags already support a form of CDATA …
 BUT there are restrictions for speed of parsing (i think reasonable) …
 
     not allowed to put reserved words in cdata - NO <query><![CDATA[</query>]]></query>
-    no binary data (character data only) - <query><![CDATA[binary stuff]]></query> 
+    no binary data (character data only) - <query><![CDATA[binary stuff]]></query>
 
 … there may be other restrictions because i don’t know everything about CDATA “abuse” in XML.
 LIBL, LIBL, LIBL
@@ -142,7 +142,7 @@ XMLSERVICE via XMLCGI may be too powerful using only HTML/XML with no user/passw
 
     change plugconf1 or plugconf2 or plugconf3 or make your own plugconf
     D PLUGNONEOK S 1N inz(*ON)
-    recompile and your machine will be wide open … 
+    recompile and your machine will be wide open …
 
 How do i kill/end XMLSERVICE jobs?
 
@@ -239,7 +239,7 @@ Can i use curl to test XMLSERVICE?
 
 This works from my Linux machine to IBM i.
 
- 
+
 curl http://myibmi/cgi-bin/xmlcgi.pgm --data-urlencode db2=*LOCAL --data-urlencode uid=*NONE --data-urlencode pwd=*NONE --data-urlencode ipc=/tmp/rangerhtmlonly --data-urlencode ctl=*sbmjob --data-urlencode xmlin="<?xml version='1.0'?><script><pgm name='ZZCALL' lib='XMLSERVICE'><parm><data type='1A'>a</data></parm><parm><data type='1A'>b</data></parm><parm><data type='7p4'>11.1111</data></parm><parm><data type='12p2'>222.22</data></parm><parm><ds><data type='1A'>x</data><data type='1A'>y</data><data type='7p4'>66.6666</data><data type='12p2'>77777.77</data></ds></parm><return><data type='10i0'>0</data></return></pgm></script>" --data-urlencode xmlout=32768
 
 Can i customize XMLSERVICE security?
@@ -248,21 +248,21 @@ Yes. XMLSERVICE allows for you to customize a few key security and output decisi
 
     plugconf1 - XMLSERVICE library for testing
     plugconf2 - ZENDSVR library update Zend production product
-    plugconf3 - XMLSERVICE library for YiPs demo site 
+    plugconf3 - XMLSERVICE library for YiPs demo site
 
 Just build your own RPG plugconfx and a matching crtxmlx and your site will be secured by your own hand.
 I need to start over kill everything
 
 … doing a lot of machine “updating” test cw/xmlservice versions … many install errors … state unknown … i recommend following actions assuming only Zend Server running this system (be kind to others) …
 
-1) end zendsrvr http 
+1) end zendsrvr http
 ENDTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)
 ... wrkactjob wait all php-cgi to go down, kill php-cgi *immed by hand if won't die ...
 2) clear left over IPC attributes for cw/xmlservice test profiles ...
 call qp2term
-> ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}' | sh  
-> ipcs | grep -i myid1 | awk '{print "ipcrm -" tolower($1) " "$2}' | sh  
-> ipcs | grep -i myid1 | awk '{print "ipcrm -" tolower($1) " "$2}' | sh  
+> ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}' | sh
+> ipcs | grep -i myid1 | awk '{print "ipcrm -" tolower($1) " "$2}' | sh
+> ipcs | grep -i myid1 | awk '{print "ipcrm -" tolower($1) " "$2}' | sh
 Where:
 > qtm - clear IPCs for QTMHHTTP
 > myid1 - clear IPCs for profile MYID1
@@ -273,10 +273,10 @@ call qp2term
 > pwd
 /tmp --- if you do not see /tmp, stop now rm -R may kill whole system
 > rm -R *
-4) recycle DB2 connections (optional) 
+4) recycle DB2 connections (optional)
 ENDPJ SBS(QSYSWRK) PGM(QSQSRVR) OPTION(*IMMED)
 STRPJ SBS(QSYSWRK) PGM(QSQSRVR)
-5) re-check configuration 
+5) re-check configuration
 Change these files and restart everything (web, db2, xmlservice, tec.) ...
 I. Apache:  /www/zendsvr/conf/httpd.conf <-- (ILE Apache side)
    DefaultFsCCSID 37   ... or 280 (Italian) ... or so on ...
@@ -290,7 +290,7 @@ This is a very rare condition, but if you find your huge size PHP script runs ou
 
 You can force most any 32-bit PASE program to leave more heap space (including php-cgi), just specify environment variable up to LDR_CNTRL=MAXDATA=0×80000000 (8 * 256MB). However, please be aware while you are increasing the heap, you are also limiting the number of 256MB segments available for shared memory (not commonly used by PHP programs anyway).
 
-    http://www.ibm.com/developerworks/aix/library/j-nativememory-aix/index.html - Thanks for the memory article applies to PASE as well (therefore also PHP) 
+    http://www.ibm.com/developerworks/aix/library/j-nativememory-aix/index.html - Thanks for the memory article applies to PASE as well (therefore also PHP)
 
 In FastCGI php-cgi just add directive to fastcgi.config.
 

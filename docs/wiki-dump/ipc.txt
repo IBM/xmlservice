@@ -7,11 +7,11 @@ With exception of old CW layer, DB2 connection persistent/full makes NO differen
 The naming of the internalKey (IPC) varies across layers PHP Toolkit, but it means the same thing.
 
     New PHP Toolkit - refers to internalKey (‘InternalKey’=>”/tmp/packers”)
-        Note: works with both persistent and non-persistent connections (db2_pconnect or db2_connect, odbc_pconnect or odbc_connect) 
+        Note: works with both persistent and non-persistent connections (db2_pconnect or db2_connect, odbc_pconnect or odbc_connect)
     XMLSERVICE RAW - refers to IPC ($ipc=“/tmp/packers”)
-        Note: works with both persistent and non-persistent connections (db2_pconnect or db2_connect, odbc_pconnect or odbc_connect) 
+        Note: works with both persistent and non-persistent connections (db2_pconnect or db2_connect, odbc_pconnect or odbc_connect)
     New PHP Toolkit CW Layer - refers to “private connection” and provides APIs to get/set private “key/nbr”
-        Note: CW Layer requires “persistent connection” to achieve “private connection”, this old technology is just for compatibly with old toolkit concepts 
+        Note: CW Layer requires “persistent connection” to achieve “private connection”, this old technology is just for compatibly with old toolkit concepts
 
 How IPC/internalKey works?
 

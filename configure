@@ -26,5 +26,5 @@ for f in files_to_map:
         for line in _in:
             for k,v in mappings.items():
                 line = line.replace(k, v)
-            
+
             print(line, end='', file=_out)

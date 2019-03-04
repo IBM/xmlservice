@@ -52,7 +52,7 @@ echo "Success ($size)\n";
 //     D  dcMyRank                     10i 0
 //     D  dcMyPay                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzarray: check return array aggregate 
+//      * zzarray: check return array aggregate
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzarray         B                   export
 //     D zzarray         PI                  likeds(dcRec_t) dim(ARRAYMAX)

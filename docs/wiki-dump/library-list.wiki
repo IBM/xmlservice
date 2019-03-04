@@ -11,7 +11,7 @@
 You may want to refer to the DB2 connection link before reading this page [[ PHP/DB2Connection | PHP DB2 Connection topics ]].
 
 !!! change XMLSERVICE 1.7.3+
-The default setting for SBMJOB of all XMLSERVICE jobs was changed to INLLIBL(*CURRENT) better follow the user profile of QSQSRVR job. If you are having difficulty with private connections libl you may want to try this version. 
+The default setting for SBMJOB of all XMLSERVICE jobs was changed to INLLIBL(*CURRENT) better follow the user profile of QSQSRVR job. If you are having difficulty with private connections libl you may want to try this version.
 
 !!! setting *LIBL - what do i do?
 Few other topics dealing with web programs cause more frustrations then setting IBM i library list (*LIBL), but if you follow a few rules it all works.
@@ -168,7 +168,7 @@ $ret=db2_execute($stmt);
 
 * '''Stateless''' - set *LIBL every single request, but for CW, specify libraries in reverse order (via ADDLIBLE)\\
 [@
-$options = array(I5_OPTIONS_INITLIBL => 'WILMAFLIN FREDFLIN' ); 
+$options = array(I5_OPTIONS_INITLIBL => 'WILMAFLIN FREDFLIN' );
 $conn = i5_connect($host, $user, $password, $options);
 // or persistent (which is also stateless): still must specify library each time
 $conn = i5_pconnect($host, $user, $password, $options);
@@ -177,7 +177,7 @@ $conn = i5_pconnect($host, $user, $password, $options);
 [@
 session_start();
 
-// if we previously saved a connection number in PHP session, use it. 
+// if we previously saved a connection number in PHP session, use it.
 // otherwise, use 0 (which means create a new connection)
 $conNum = (isset($_SESSION['conectionNum']) ? $_SESSION['conectionNum'] : 0;
 
@@ -197,14 +197,14 @@ if (!$conn) {
 
     // if original conNum was 0, let's retrieve the new number.
     if ($conNum == 0) {
-    
+
         // Session variable was 0: Get connection ID and store it in session variable.
         $ret = i5_get_property(I5_PRIVATE_CONNECTION, $conn);
 
         if (!$ret) {
             echo "Something went wrong: <PRE>" . print_r(i5_error(), true) . "</PRE>";
         } else {
-    
+
             // We have a good new private connection. Store connection ID in session variable
             $_SESSION['conectionNum'] = $ret;
 

@@ -19,9 +19,9 @@ if (!$conn)
 
 $msgid = "CPF0010";
 $msgf = "QCPFMSG";
-   
+
 if (!i5_command("RTVMSG", array("MSGID" => $msgid, "MSGF" => $msgf), array("MSG" => array("msg", "char(200)")), $conn)) die(i5_errormsg());
-if (function_exists('i5_output')) extract(i5_output());   
+if (function_exists('i5_output')) extract(i5_output());
 echo "Description of $msgid: $msg\n";
 
 if (strpos($msg,'support')<1) die("$msg not contain support");

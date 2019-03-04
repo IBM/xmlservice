@@ -16,18 +16,18 @@ fclose($handle);
 // call IBM i
 $database = "ibm:".$database;
 try {
-  $db = new PDO($database, 
-                strtoupper($user), 
-                strtoupper($password), 
+  $db = new PDO($database,
+                strtoupper($user),
+                strtoupper($password),
                 array(PDO::ATTR_AUTOCOMMIT=>true));
   if (!$db) throw new Exception('foo');
-} catch( Exception $e ) { 
-  die("Bad connect: $database,$user"); 
+} catch( Exception $e ) {
+  die("Bad connect: $database,$user");
 }
 try {
   $stmt = $db->prepare("call $procLib.iPLUGR1M(?,?,?)");
   if (!$stmt) throw new Exception('bar');
-} catch( Exception $e ) { 
+} catch( Exception $e ) {
   $err = $db->errorInfo();
   $cod = $db->errorCode();
   die("Bad prepare: ".$cod." ".$err[0]." ".$err[1]." ".$err[2]);
@@ -70,7 +70,7 @@ if (!$parm) die("Missing XML pgm parms ($lib/$name.$func)\n");
 $var    = $parm[0]->data->attributes()->var;
 $hexret = (string)$parm[0]->data;
 $size = 32;
-$max  = strlen($hexpdf); 
+$max  = strlen($hexpdf);
 for ($i=0;$i<$max;$i+=$size) {
   if ($i + $size > $max) $size = $max - $i;
   $a = substr($hexpdf,$i,$size);
@@ -95,7 +95,7 @@ echo substr($hexret,0,400)."\n";
 echo "Success ($lib/$name.$func)\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzpdf: check binary 
+//      * zzpdf: check binary
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzpdf           B                   export
 //     D zzpdf           PI            10i 0

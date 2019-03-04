@@ -11,9 +11,9 @@ if (!extension_loaded('pdo_ibm')) {
 }
 
 // *** XMLSERVICE call (DB2 driver) ***
-// Note: 
+// Note:
 // Connection ($procConn) is global to avoid looping
-// re-open/re-close that errors most drivers 
+// re-open/re-close that errors most drivers
 function xmlservice($xml) {
 global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn, $procLib, $procPlug, $procPlugR;
   $xmlIn = $xml;
@@ -25,17 +25,17 @@ global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn,
       else $opt = array(PDO::ATTR_AUTOCOMMIT=>true);                                    // full open/close connection
       $procConn = new PDO($database, strtoupper($user), strtoupper($password), $opt);
       if (!$procConn) throw new Exception("Bad");
-    } catch( Exception $e ) { 
-      die("Bad connect: $database, $user"); 
+    } catch( Exception $e ) {
+      die("Bad connect: $database, $user");
     }
   }
   try {
-    $stmt = $procConn->prepare("call $procLib.$procPlug(?,?,?,?)");   // Call XMLSERVICE 
+    $stmt = $procConn->prepare("call $procLib.$procPlug(?,?,?,?)");   // Call XMLSERVICE
                                                           // stored procedure interface
                                                           // in/out parameter (xmlOut)
                                                           // sizes: iPLUG4K - iPLUG15M
     if (!$stmt) throw new Exception('Bad');
-  } catch( Exception $e ) { 
+  } catch( Exception $e ) {
     $err = $procConn->errorInfo();
     $cod = $procConn->errorCode();
     die("Bad prepare: ".$cod." ".$err[0]." ".$err[1]." ".$err[2]);

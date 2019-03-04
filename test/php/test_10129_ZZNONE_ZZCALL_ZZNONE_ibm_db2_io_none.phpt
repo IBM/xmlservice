@@ -47,11 +47,11 @@ for ($i=0; $i<3; $i++) {
   if (strlen(trim($clobOut))<1 || strpos($clobOut,"error")>0) die("Fail\n");
 }
 echo "Success\n";
-//     D Main            PR                  ExtPgm('ZZNONE') 
+//     D Main            PR                  ExtPgm('ZZNONE')
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * main(): Control flow
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     D Main            PI 
+//     D Main            PI
 function getxml1() {
 $clob = <<<ENDPROC
 <?xml version='1.0'?>
@@ -61,7 +61,7 @@ ENDPROC;
 return test_lib_replace($clob);
 }
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zznada: check no parms 
+//      * zznada: check no parms
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zznada          B                   export
 //     D zznada          PI

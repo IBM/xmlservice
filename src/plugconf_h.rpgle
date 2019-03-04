@@ -7,34 +7,34 @@
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -144,7 +144,7 @@
      D                               50    inz('LANGID(*CURRENT)')
      D                               50    inz('CNTRYID(*CURRENT)')
      D                               50    inz('CCSID(*CURRENT)')
-     D SBMNBR          c                   %div(%size(SBMOPTS):%size(sbm1)) 
+     D SBMNBR          c                   %div(%size(SBMOPTS):%size(sbm1))
      D pSBMOPTS        s               *   inz(%addr(SBMOPTS))
      D SBMARRAY        s             50    dim(SBMNBR) based(pSBMOPTS)
       * stored procs call PLUGCALL.PLUG4K (xmlcgi)
@@ -313,11 +313,11 @@
       * 0x0000B000 argv   - _PGMCALL    (134172672) 32757 pages
       *    0x10000        - max argv[]     ( 65536)    16 pages
       *            data   - _ILECALL (actually starts at ILEBASE)
-      *            parms  - data                       
+      *            parms  - data
       *            return - data
       * 0x00FFFE00 end                  (016773120) 04095 pages
       * 0x08000000 end                  (134217728) 32768 pages
-      * 
+      *
       * PASE can only see PASE memory
       * Qp2malloc returns PASE useable memory
       *****************************************************
@@ -332,7 +332,7 @@
       * 0x0000B000 argv   - _PGMCALL    (134172672) 32757 pages
       *    0x10000        - max argv[]     ( 65536)    16 pages
       *            data   - _ILECALL (actually starts at ILEBASE)
-      *            parms  - data                       
+      *            parms  - data
       *            return - data
       * 0x00A00000 end                  (010375168) 02533 pages
       * 0x00FFFE00 end                  (016773120) 04095 pages -- max
@@ -357,7 +357,7 @@
       *****************************************************
       * shared memory IPC w/fast XML cache processing ...
       * IPCSZ     - max size of shared memory IPC
-      *             ipcRec_t IPC anchor between processes                  
+      *             ipcRec_t IPC anchor between processes
       *             IPCSZ    (see ipcRec_t)
       *****************************************************
      D IPC_ID          c                   const(1)
@@ -424,7 +424,7 @@
      D doSbmNam                      10A
      D doSbmAsp                      10A
      D doLogKey                      64A
-     D doESCP                         1N                                        
+     D doESCP                         1N
 
       *****************************************************
       * ipc control area
@@ -458,42 +458,42 @@
      D pgmSigPo                      10i 0
      D pgmArgPo                      10i 0
      D pgmValPo                      10i 0
-     
+
      D pgmRetPo                      10i 0
      D pgmSigSz                      10i 0
      D pgmArgSz                      10i 0
      D pgmValSz                      10i 0
-     
+
      D pgmRetSz                      10i 0
      D pgmTruOff                     10i 0
      D xmlStrSz                      10i 0
      D xmlOccurs                     10i 0
-     
+
      D xmlDigits                     10i 0
      D xmlFrac                       10i 0
      D xmlbCCSID1                    10i 0
      D xmlbCCSID2                    10i 0
-     
+
      D xmlbCCSID3                    10i 0
      D xmlbCCSID4                    10i 0
      D xmlaCCSID1                    10i 0
      D xmlaCCSID2                    10i 0
-     
+
      D xmlaCCSID3                    10i 0
      D xmlaCCSID4                    10i 0
      D xmlTopNbr                     10i 0
      D xmlOffNbr                     10i 0
-     
+
      D cacElemCnt                    10i 0
      D cacElemTop1                   10i 0
      D cacDouDim                     10i 0
      D cacDouEnd                     10i 0
-     
+
      D cacOffOvr                     10i 0
      D cacOffEnd                     10i 0
      D cacLenOne                     10i 0
      D cacLenSet                     10i 0
-     
+
      D cacLenBeg                     10i 0
      D cacLenOff1                    10i 0
      D cacLenOff2                    10i 0
@@ -507,7 +507,7 @@
      D cacIsRecD                      1A
      D xmlpad03                       1A
 
-     D xmlpad04                       1A     
+     D xmlpad04                       1A
      D pgmPtrTyp                      1A
      D pgmArgTop                      1A
      D pgmOPMMem                      1A
@@ -526,7 +526,7 @@
      D xmlIsOmit                      1A
      D xmlIsTop                       1A
      D xmlTrim                        1A
-     
+
      D pgmValHex                     16A
 
       *****************************************************
@@ -631,25 +631,25 @@
      D   fildes                      10I 0 value
 
 
-     D readIFS         PR            20I 0 ExtProc('read')     
-     D   fd                          10I 0 value                       
+     D readIFS         PR            20I 0 ExtProc('read')
+     D   fd                          10I 0 value
      D   buf                           *   value
-     D   size                        10I 0 value                       
+     D   size                        10I 0 value
 
-     D writeIFS        PR            20I 0 ExtProc('write')     
-     D   fd                          10I 0 value                       
+     D writeIFS        PR            20I 0 ExtProc('write')
+     D   fd                          10I 0 value
      D   buf                           *   value
-     D   size                        10I 0 value 
+     D   size                        10I 0 value
 
-     D fsyncIFS        PR            20I 0 ExtProc('fsync')     
-     D   fd                          10I 0 value                       
+     D fsyncIFS        PR            20I 0 ExtProc('fsync')
+     D   fd                          10I 0 value
 
-     D unlink          PR            10I 0 ExtProc('unlink')                 
-     D   path                          *   value options(*string)            
+     D unlink          PR            10I 0 ExtProc('unlink')
+     D   path                          *   value options(*string)
 
-     D rmdir           PR            10I 0 ExtProc('rmdir')                 
-     D   path                          *   value options(*string)            
-   
+     D rmdir           PR            10I 0 ExtProc('rmdir')
+     D   path                          *   value options(*string)
+
       *****************************************************
       * file _C_IFS_fopen, _C_NEU_DM_fopen, fopen
       *****************************************************
@@ -776,17 +776,17 @@
      D                 ds                  qualified
      D                                     based(Template)
      D   flags                       10U 0
-     D   pgroup                      10i 0 
+     D   pgroup                      10i 0
      D   sigmask                     20U 0
      D   sigdefault                  20U 0
 
      D spawn           PR            10i 0 ExtProc('spawn')
-     D  path                           *   Value 
-     D  fdcount                      10i 0 
-     D  fdmap                          *   Value 
-     D  inherit                        *   Value 
-     D  argv                           *   Value 
-     D  envp                           *   Value 
+     D  path                           *   Value
+     D  fdcount                      10i 0
+     D  fdmap                          *   Value
+     D  inherit                        *   Value
+     D  argv                           *   Value
+     D  envp                           *   Value
 
       * pid_t waitpid(pid_t pid, int *stat_loc, int options);
      D waitpid         PR            10i 0 ExtProc('waitpid')
@@ -797,32 +797,32 @@
       *****************************************************
       * convert string to numeric
       *****************************************************
-     D QXXDTOP         PR                  ExtProc('QXXDTOP') 
-     D  pTarget                        *   Value 
-     D  digit                        10i 0 Value 
-     D  frac                         10i 0 Value 
-     D  value                         8f   Value 
+     D QXXDTOP         PR                  ExtProc('QXXDTOP')
+     D  pTarget                        *   Value
+     D  digit                        10i 0 Value
+     D  frac                         10i 0 Value
+     D  value                         8f   Value
 
-     D QXXDTOZ         PR                  ExtProc('QXXDTOZ') 
-     D  pTarget                        *   Value 
-     D  digit                        10i 0 Value 
-     D  frac                         10i 0 Value 
-     D  value                         8f   Value 
+     D QXXDTOZ         PR                  ExtProc('QXXDTOZ')
+     D  pTarget                        *   Value
+     D  digit                        10i 0 Value
+     D  frac                         10i 0 Value
+     D  value                         8f   Value
 
-     D QXXPTOD         PR             8f   ExtProc('QXXPTOD') 
-     D  pTarget                        *   Value 
-     D  digit                        10i 0 Value 
-     D  frac                         10i 0 Value 
+     D QXXPTOD         PR             8f   ExtProc('QXXPTOD')
+     D  pTarget                        *   Value
+     D  digit                        10i 0 Value
+     D  frac                         10i 0 Value
 
-     D QXXZTOD         PR             8f   ExtProc('QXXZTOD') 
-     D  pTarget                        *   Value 
-     D  digit                        10i 0 Value 
-     D  frac                         10i 0 Value 
+     D QXXZTOD         PR             8f   ExtProc('QXXZTOD')
+     D  pTarget                        *   Value
+     D  digit                        10i 0 Value
+     D  frac                         10i 0 Value
 
       *****************************************************
       * run command (error in job log)
       *****************************************************
-     D cmdexec         PR                  ExtPgm('QCMDEXC') 
+     D cmdexec         PR                  ExtPgm('QCMDEXC')
      D cmdstr                      3000A   Const Options(*VarSize)
      D cmdlen                        15P 5 Const
      D cmdDbcs                        3A   Const Options(*NOPASS)
@@ -836,7 +836,7 @@
      D                             1024a   options(*varsize) const
      D                                9b 0 const
      D                                9b 0 const
-     D                              512a   options(*varsize) const     
+     D                              512a   options(*varsize) const
 
       *****************************************************
       * run command (error _EXCP_MSGID 'CPF3142')
@@ -850,15 +850,15 @@
       * run rexx
       *   funt   - 'P' - pull, 'A' - add/push (1A)
       *   buf    - buffer     (xA)
-      *   buflen - buffer len (10u 0) 
+      *   buflen - buffer len (10u 0)
       *   flag   - operation flag (1A?)
       *   rcode  - return code (1A)
       *****************************************************
-     D cmdrexx         PR                  ExtPgm('QREXQ') 
+     D cmdrexx         PR                  ExtPgm('QREXQ')
      D funt                           1A
      D buf                             *
      D buflen                        10U 0
-     D flag                           1A   
+     D flag                           1A
      D rcode                          1A
 
       *****************************************************
@@ -878,31 +878,31 @@
       *  PGM      x'201'
       *  SRVPGM   x'203'
       *  LIB      x'401'
-     D rslvsp          PR              *   procptr ExtProc('rslvsp') 
-     D  ObjType                       2A   Value                     
-     D  ObjName                        *   Value OPTIONS(*STRING)    
-     D  ObjLibr                        *   Value OPTIONS(*STRING)    
-     D  ObjAuth                       2A   Value  
-                   
-     D actbndpgm       PR            20i 0 ExtProc('QleActBndPgmLong') 
-     D  objPtr                         *   Value 
+     D rslvsp          PR              *   procptr ExtProc('rslvsp')
+     D  ObjType                       2A   Value
+     D  ObjName                        *   Value OPTIONS(*STRING)
+     D  ObjLibr                        *   Value OPTIONS(*STRING)
+     D  ObjAuth                       2A   Value
 
-     D actsympgm       PR              *   ExtProc('QleGetExpLong') 
-     D  objAct                       20i 0  
+     D actbndpgm       PR            20i 0 ExtProc('QleActBndPgmLong')
+     D  objPtr                         *   Value
+
+     D actsympgm       PR              *   ExtProc('QleGetExpLong')
+     D  objAct                       20i 0
      D  zeroA1                       10i 0 Value
      D  symLen                       10i 0
-     D  symName                        *   Value OPTIONS(*STRING)    
-     D  expPtr                         *   Value 
+     D  symName                        *   Value OPTIONS(*STRING)
+     D  expPtr                         *   Value
      D  expTyp                       10i 0
-                                                                
-      **  Set space ptr from system pointer                                 
-     D setcPTR         PR              *   ExtProc('_SETSPPFP')      
+
+      **  Set space ptr from system pointer
+     D setcPTR         PR              *   ExtProc('_SETSPPFP')
      D  AnyPtr                         *   Value Procptr
 
-     D cpybytes        PR                  ExtProc('_CPYBYTES') 
-     D  pTarget                        *   Value 
-     D  pSource                        *   Value 
-     D  nLength                      10U 0 Value 
+     D cpybytes        PR                  ExtProc('_CPYBYTES')
+     D  pTarget                        *   Value
+     D  pSource                        *   Value
+     D  nLength                      10U 0 Value
 
      d cpybwp          PR                  extproc('_CPYBWP')
      d  pTarget                        *   value
@@ -934,9 +934,9 @@
      D putenv          PR            10i 0 ExtProc('putenv')
      D  pVal                           *   Value options(*string)
 
-     D getpid          PR            20I 0 ExtProc('getpid')     
+     D getpid          PR            20I 0 ExtProc('getpid')
 
-     D kill            PR            10I 0 ExtProc('kill')     
+     D kill            PR            10I 0 ExtProc('kill')
      D  pid                          10I 0 Value
      D  sig                          10I 0 Value
 
@@ -1050,13 +1050,13 @@
 
 
      D isDigit         PR             1N
-     D  pSource                        *   Value 
-     D  nLength                      10i 0 Value 
+     D  pSource                        *   Value
+     D  nLength                      10i 0 Value
 
      D toUpperSafe...
      D                 PR             1N
-     D  pSource                        *   Value 
-     D  nLength                      10i 0 Value 
+     D  pSource                        *   Value
+     D  nLength                      10i 0 Value
 
      Dtimeval_t        ds                  qualified based(Template)
      D tv_sec                        10i 0
@@ -1096,14 +1096,14 @@
      D qtqRsv                        20i 0
 
      D CNVOPNMAX       c                   const(128)
-     
+
      Dciconv_t         ds                  qualified based(Template)
      D conviok                       10i 0
      D conv                                likeds(iconv_t)
      D tocode                              likeds(qtqCode_t)
      D fromcode                            likeds(qtqCode_t)
 
-     D iconvOpen       PR                  extproc('QtqIconvOpen') 
+     D iconvOpen       PR                  extproc('QtqIconvOpen')
      D                                     likeds(iconv_t)
      D   tocode                            likeds(qtqCode_t)
      D   fromcode                          likeds(qtqCode_t)
@@ -1115,6 +1115,6 @@
      D   pOutBuff                      *   value
      D   nOutLen                       *   value
 
-     D iconvClose      PR                  extproc('iconv_close') 
+     D iconvClose      PR                  extproc('iconv_close')
      D   cd                                likeds(iconv_t)
 

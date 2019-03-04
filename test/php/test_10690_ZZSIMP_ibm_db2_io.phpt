@@ -30,7 +30,7 @@ var_dump($clobOut);
 // good
 echo "Success\n";
 
-//     D ZZSIMP        PR                  ExtPgm 
+//     D ZZSIMP        PR                  ExtPgm
 //     D  HEXHND                       64
 //     D  DBID                          2
 //     D  SPPGID                       10

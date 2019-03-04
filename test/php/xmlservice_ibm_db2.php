@@ -11,9 +11,9 @@ if (!extension_loaded('ibm_db2')) {
 }
 
 // *** XMLSERVICE call (DB2 driver) ***
-// Note: 
+// Note:
 // Connection ($procConn) is global to avoid looping
-// re-open/re-close that errors most drivers 
+// re-open/re-close that errors most drivers
 function xmlservice($xml) {
 global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn, $procLib, $procPlug, $procPlugR;
   $xmlIn = $xml;
@@ -23,7 +23,7 @@ global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn,
     else $procConn = db2_connect($database, $user, $password);          // full open/close connection
   }
   if (!$procConn) die("Bad connect: $database, $user");
-  $stmt = db2_prepare($procConn, "call $procLib.$procPlug(?,?,?,?)"); // Call XMLSERVICE 
+  $stmt = db2_prepare($procConn, "call $procLib.$procPlug(?,?,?,?)"); // Call XMLSERVICE
                                                           // stored procedure interface
                                                           // in/out parameter (xmlOut)
                                                           // sizes: iPLUG4K - iPLUG15M

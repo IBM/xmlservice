@@ -18,7 +18,7 @@ Installation
 
 Installation of XMLSERVICE Open Source is trivial for any IBM i person.
 
-> Unzip xmlservice-rpg.zip to xmlservice.savf 
+> Unzip xmlservice-rpg.zip to xmlservice.savf
 > crtSAVF FILE(QGPL/XMLSERVICE)
 > FTP xmlservice.savf to QGPL/XMLSERVICE (binary FTP)
 > RSTLIB SAVLIB(XMLSERVICE) DEV(*SAVF) SAVF(QGPL/XMLSERVICE) MBROPT(*ALL) ALWOBJDIF(*ALL)
@@ -29,7 +29,7 @@ XMLSERVICE: test library XMLSERVICE, good for trying new versions
 > CHGAUT OBJ('/qsys.lib/XMLSERVICE.lib') USER(QTMHHTTP) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 Note: Other CLP exist for other team production libraries.
       XMLSERVICE PGM objects are coded to compile library only,
-      therefore you cannot SAV/RST PGM, etc. to other libraries. 
+      therefore you cannot SAV/RST PGM, etc. to other libraries.
 
 IBM PTFs
 
@@ -63,10 +63,10 @@ test programs
 
 Optional: To compile XMLSERVICE library test programs.
 
-> CRTCLPGM PGM(XMLSERVICE/CRTTEST) SRCFILE(XMLSERVICE/QCLSRC) 
+> CRTCLPGM PGM(XMLSERVICE/CRTTEST) SRCFILE(XMLSERVICE/QCLSRC)
 > call crttest
 -- V6+ added tests --
-> CRTCLPGM PGM(XMLSERVICE/CRTTEST6) SRCFILE(XMLSERVICE/QCLSRC) 
+> CRTCLPGM PGM(XMLSERVICE/CRTTEST6) SRCFILE(XMLSERVICE/QCLSRC)
 > call crttest6
 > CHGAUT OBJ('/qsys.lib/XMLSERVICE.lib') USER(QTMHHTTP) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 
@@ -78,17 +78,17 @@ Optional: To compile XMLSERVICE library test programs.
 
          D  INCHARA        S              1a
          D  INCHARB        S              1a
-         D  INDEC1         S              7p 4        
+         D  INDEC1         S              7p 4
          D  INDEC2         S             12p 2
-         D  INDS1          DS                  
+         D  INDS1          DS
          D   DSCHARA                      1a
-         D   DSCHARB                      1a           
-         D   DSDEC1                       7p 4      
-         D   DSDEC2                      12p 2            
+         D   DSCHARB                      1a
+         D   DSDEC1                       7p 4
+         D   DSDEC2                      12p 2
           *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
           * main(): Control flow
           *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-         C     *Entry        PLIST                   
+         C     *Entry        PLIST
          C                   PARM                    INCHARA
          C                   PARM                    INCHARB
          C                   PARM                    INDEC1
@@ -118,29 +118,29 @@ XMLSERVICE APIs (included)
 XMLSERVICE library includes language transports for popular REST and DB2 connections, which fulfills needs for most internet services applications.
 
     XMLSERVICE/XMLCGI.PGM— RPG CGI HTTP/REST method GET or POST (traditional web service interface)
-        http://myibmi/cgi-bin/xmlcgi.pgm?db2=x@uid=x@pwd=x@ipc=x@ctl=x@xmlin=x@xmlout=x 
+        http://myibmi/cgi-bin/xmlcgi.pgm?db2=x@uid=x@pwd=x@ipc=x@ctl=x@xmlin=x@xmlout=x
     XMLSERVICE/XMLSTOREDP.SRVPGM — RPG DB2 stored procedure (IBM i’s premier DB2 for i)
         DB2 drivers local/remote with stored procedure IN/OUT capabilities (traditional DB2 interface)
 
-         
+
         iPLUG4K  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CHAR(4064),  OUT XMLOUT CHAR(4064))
-        iPLUG32K (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(32000), OUT XMLOUT CLOB(32000)) 
-        iPLUG65K (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(65K),   OUT XMLOUT CLOB(65K)) 
-        iPLUG512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(512K),  OUT XMLOUT CLOB(512K)) 
-        iPLUG1M  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(1M),    OUT XMLOUT CLOB(1M)) 
-        iPLUG5M  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(5M),    OUT XMLOUT CLOB(5M)) 
-        iPLUG10M (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(10M),   OUT XMLOUT CLOB(10M)) 
+        iPLUG32K (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(32000), OUT XMLOUT CLOB(32000))
+        iPLUG65K (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(65K),   OUT XMLOUT CLOB(65K))
+        iPLUG512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(512K),  OUT XMLOUT CLOB(512K))
+        iPLUG1M  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(1M),    OUT XMLOUT CLOB(1M))
+        iPLUG5M  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(5M),    OUT XMLOUT CLOB(5M))
+        iPLUG10M (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(10M),   OUT XMLOUT CLOB(10M))
         iPLUG15M (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(15M),   OUT XMLOUT CLOB(15M))
 
         DB2 drivers local/remote without stored procedure IN/OUT capabilities (loop fetch required)
 
         iPLUGR4K  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CHAR(4064))
-        iPLUGR32K (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(32000)) 
-        iPLUGR65K (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(65K)) 
-        iPLUGR512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(512K)) 
-        iPLUGR1M  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(1M)) 
-        iPLUGR5M  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(5M)) 
-        iPLUGR10M (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(10M)) 
+        iPLUGR32K (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(32000))
+        iPLUGR65K (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(65K))
+        iPLUGR512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(512K))
+        iPLUGR1M  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(1M))
+        iPLUGR5M  (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(5M))
+        iPLUGR10M (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(10M))
         iPLUGR15M (IN IPC CHAR(1024), IN CTL CHAR(1024), IN XMLIN CLOB(15M))
 
     XMLSERVICE/XMLSTOREDP.SRVPGM — optional custom transport (programmers only)
@@ -211,13 +211,13 @@ XMLSERVICE parameters CTL and IPC enable two types of connections.
     public connection — XMLSERVICE stateless, many jobs, every use a fresh start
         CTL='*here' , IPC="*NA"
             “public” because any IBM i profile use is a fresh start
-            life scope — life of a single XML IN/OUT request 
+            life scope — life of a single XML IN/OUT request
     private connection — XMLSERVICE state full, single job, where a given profile is routed to XTOOLKIT job(s)
         CTL='*sbmjob' , IPC="/tmp/myjob1"
             CTL='*sbmjob' — if not running, submit a new XTOOLKIT job
             IPC="/tmp/myjob1" — all requests of IPC route to XTOOLKIT job (*sbmjob)
             “private” because ONE IBM i profile owns XTOOLKIT job, any other IBM i profile will fail to attach
-            life scope — forever, until ended by operator or user program ends XTOOLKIT job (like a 5250) 
+            life scope — forever, until ended by operator or user program ends XTOOLKIT job (like a 5250)
 
 When to use XMLSERVICE public or private?
 Of course any discussion that presumes to predict usage is likely to have legitimate user exception, but a guideline may be appropriate for use of XMLSERVICE public vs. private connection.
@@ -243,7 +243,7 @@ Although very handy, clean wrkactjob, no hanging locks, etc., public connection 
         CTL='*here' , IPC="*NA" — profile FRED (RPG company stock service)
         CTL='*here' , IPC="*NA" — profile SALLY (RPG IRS flat tax rate service)
         CTL='*here' , IPC="*NA" — profile RITA (RPG calculate pound to kilo)
-        CTL='*here' , IPC="*NA" — profile XAVIER (RPG company stock service) 
+        CTL='*here' , IPC="*NA" — profile XAVIER (RPG company stock service)
 
 Traditional programming style (private, state full)
 XMLSERVICE private connections are generally used when IBM i resource will be called many times by the same user profile, lasting persistent data needed by the IBM i resource (RPG variables, open files, etc.). The programmer meta description of required data services is “state full programming”.
@@ -278,9 +278,9 @@ Traditional RPG programs usually need to track local variables, open files, etc.
         CTL='*sbmjob' , IPC="/tmp/xjob4" — profile XAVIER XTOOLKIT xjob4 (Xavier’s use only RPG nurse scheduling application)
         CTL='*sbmjob' , IPC="/tmp/xjob5" — profile XAVIER XTOOLKIT xjob5 (Xavier’s use only RPG super hero application)
         IBM i programmer: Profile Xavier is using many XTOOLKIT jobs (xjob1 - xjob5), many different applications, but Xavier cannot use Fred’s, Sally’s or Rita’s XTOOLKIT jobs (myjob1,myjob2,sallyjob1,nursejob), because Xavier does not own other profile XTOOLKIT jobs. XTOOLKIT jobs should be an easy pattern for RPG programmers familiar with single session 5250 job(s), owned by a profile, one thing at a time (not threaded), long running RPG programs, many IBM i files open, etc.
-            However, XTOOLKIT jobs have an interesting characteristic that 5250 emulator jobs cannot match, profile owned XTOOLKIT jobs can be accessed by many different client devices all at the same time, to wit, Xavier can use a laptop and a smart phone to all jobs at the same time (xjob1 - xjob5), or Xavier can leave his work laptop running (connected), go home, have dinner, and continue working all XTOOLKIT jobs from the family iPAD. 
+            However, XTOOLKIT jobs have an interesting characteristic that 5250 emulator jobs cannot match, profile owned XTOOLKIT jobs can be accessed by many different client devices all at the same time, to wit, Xavier can use a laptop and a smart phone to all jobs at the same time (xjob1 - xjob5), or Xavier can leave his work laptop running (connected), go home, have dinner, and continue working all XTOOLKIT jobs from the family iPAD.
         IBM i operator: You may wrkactjob and kill *immed XTOOLKIT jobs (same as 5250).
-            However, an ipcs administrative cleaner solution may suggest you write a custom XMLSERVICE program CTL='*immed' , IPC="/tmp/myjob1", to remove “in the way” XTOOLKIT jobs (suggestion only). 
+            However, an ipcs administrative cleaner solution may suggest you write a custom XMLSERVICE program CTL='*immed' , IPC="/tmp/myjob1", to remove “in the way” XTOOLKIT jobs (suggestion only).
 
 Open Source goal
 
@@ -515,7 +515,7 @@ The flow:
     XMLCGI.PGM calls XMLSERVICE.PGM (using DB2 stored procedures iPLUGxxx, but you do not need to know this yet).
     XMLSERVICE.PGM parses XML input and runs internal DB2 driver <sql><query>...</query></sql>.
     XMLSERVICE.PGM parses result set from DB2 driver into output XML document <sql><fetch/></sql>
-    browser sees XML return of DB2 data 
+    browser sees XML return of DB2 data
 
 XMLSERVICE is Open Source, so you can examine internals of XMLCGI.PGM, for now , we simply need to understand XMLCGI.PGM decodes HTML/XML document, passes XML document request to XMLSERVICE.PGM (DB2 request example), and returns XML output to client (browser). If REST client is not a browser, but a scripting language like PHP or Ruby, exact same sequence occurs, except additionally most languages offer an XML parser to parse output XML into variables or structures (PHP Toolkit or Ruby Toolkit).
 Quick test functions HTML/XML
@@ -528,10 +528,10 @@ DB2 connection is not a web service, but many languages support high speed DB2 l
 We should note, XMLSERVICE DB2 is much faster over REST interface, so many language toolkits offer DB2 connection as the premier service.
 RPG DB2 (no toolkit)
 
-       myIPC = '/tmp/thebears1';       
+       myIPC = '/tmp/thebears1';
        myCtl = '*sbmjob';
        // call XMLSERVICE/ZZCALL(...) using XML only
-       myXmlIn = 
+       myXmlIn =
          '<?xml version="1.0" encoding="ISO-8859-1"?>'         + x'0D'
        + '<script>'                                            + x'0D'
        + '<pgm name="ZZCALL" lib="XMLSERVICE">'                + x'0D'
@@ -549,7 +549,7 @@ RPG DB2 (no toolkit)
        + '</parm>'                                             + x'0D'
        + '</pgm>'                                              + x'0D'
        + '</script>'                                           + x'00';
-       myXmlOut = *BLANKS; 
+       myXmlOut = *BLANKS;
        // make call to XMLSERVICE provided stored procedure(s)
        // sizes from iPLUG4k to iPLUG15M (see crtsql xmlservice package)
        Exec Sql call XMLSERVICE/iPLUG4K(:myIPC,:myCtl,:myXmlIn,:myXmlOut);
@@ -561,7 +561,7 @@ try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $passwo
 catch (Exception $e) { die($e->getMessage()); }
 $ToolkitServiceObj->setToolkitServiceParams(
 array('InternalKey'=>$ipc,         // route to same XMLSERVICE job /tmp/myjob1
-'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running)
 'plug'=>"32K"));                   // max size data i/o (iPLUG4K,32K,65K, 512K,1M,5M,10M,15M)
 $param[] = $ToolkitServiceObj->AddParameterChar   ('both',  1,  'INCHARA', 'var1', 'Y');
 $param[] = $ToolkitServiceObj->AddParameterChar   ('both',  1,  'INCHARB', 'var2', 'Z');
@@ -597,12 +597,12 @@ $xmlIn   = "<?xml version='1.0' encoding='ISO-8859-1'?>
  </ds>
 </parm>
 </pgm>
-</script>"; 
+</script>";
 $xmlOut = '';
 if ($fast) $conn = db2_pconnect($db, $user, $pass);     // persistent/pooled connection
 else $conn = db2_connect($db, $user, $pass);            // full open/close connection
 if (!$conn) die("Bad connect: $db, $user");
-$stmt = db2_prepare($conn, "call $lib.$plug(?,?,?,?)"); // Call XMLSERVICE 
+$stmt = db2_prepare($conn, "call $lib.$plug(?,?,?,?)"); // Call XMLSERVICE
                                                         // stored procedure interface
                                                         // in/out parameter (xmlOut)
                                                         // sizes: iPLUG4K - iPLUG15M
@@ -707,7 +707,7 @@ import java.math.*;
 public class javaXMLserviceDemoJDBC {
 public static void main(String[] args)   {
   Connection conn = null;
-  Statement stmt=null; 
+  Statement stmt=null;
   CallableStatement cstmt = null ;
   PreparedStatement pstmt = null;
   String url = "jdbc:db2://localhost"; // Set URL for data source
@@ -716,8 +716,8 @@ public static void main(String[] args)   {
   try
   { // Load the DB2(R) Universal JDBC Driver with DriverManager
     Class.forName("com.ibm.db2.jdbc.app.DB2Driver");
-    conn = DriverManager.getConnection(url, user, password); 
-    String inputClob = 
+    conn = DriverManager.getConnection(url, user, password);
+    String inputClob =
         "<?xml version='1.0'?>"
       + " <script>"
       + " <pgm name='ZZCALL' lib='XMLSERVICE'>"
@@ -738,7 +738,7 @@ public static void main(String[] args)   {
       + " </script>";
     String sql="CALL XMLSERVICE.iPLUG512K(?,?,?,?)";
     cstmt = conn.prepareCall(sql);
-    System.out.println("Calling with valid name"); 
+    System.out.println("Calling with valid name");
     cstmt.setString(1,"/tmp/packers01");
     cstmt.setString(2,"*sbmjob");
     cstmt.setString(3,inputClob);
@@ -747,11 +747,11 @@ public static void main(String[] args)   {
     String doc = cstmt.getString(4);
     System.out.println("****** Documento XML: **********");
     System.out.println(doc);
-  } 
-  catch (Exception e) 
+  }
+  catch (Exception e)
   { System.out.println("******* Eccezione !!! *********");
     e.printStackTrace();
-  } 
+  }
 }
 }
 
@@ -828,7 +828,7 @@ var msgout = "xmlservice output";
 var xmlhttp = null;
 var url = encodeURI("http://"
         + self.location.hostname
-        + "/cgi-bin/xmlcgi.pgm?" 
+        + "/cgi-bin/xmlcgi.pgm?"
         + "db2=*LOCAL"
         + "&uid=MYUID"
         + "&pwd=MYPWD"
@@ -873,22 +873,22 @@ function readNode(baseNode,output)
   }
   return output;
 }
-function processXMLSERVICE2() 
-{ var args = 
+function processXMLSERVICE2()
+{ var args =
   { url:url,
     handleAs:"xml",
     preventCache:true,
-    load:function(data) 
+    load:function(data)
     { var xmlArray = readNode(data);
       var table = document.createElement('table');
-      var output = 
+      var output =
         "<th>parm</th>"
       + "<th>ds</th>"
       + "<th>var</th>"
       + "<th>value</th>\n";
       parms = xmlArray['myscript'][0]['pgm'][0]['parm'];
       for (var i=0;i<parms.length;i++)
-      { if (i<parms.length - 1) 
+      { if (i<parms.length - 1)
         { output += "<tr>"
           + "<td>" + parms[i].$var + "</td>\n"
           + "<td>" + "(na)" + "</td>\n"
@@ -914,8 +914,8 @@ function processXMLSERVICE2()
       table.innerHTML = output;
       document.getElementById("addtable").appendChild(table);
     },
-    error:function(error) 
-    { alert("Error:" + error); 
+    error:function(error)
+    { alert("Error:" + error);
     }
   };
   var ajaxCall = dojo.xhrGet(args);
@@ -1031,7 +1031,7 @@ xmlin = '<?xml version="1.0"?>
 </script>'
 xmlout = ""
 
-post_args = { 
+post_args = {
  :db2 => "*LOCAL",
  :uid => "MYUID",
  :pwd => "MYPWD",
@@ -1050,14 +1050,14 @@ Java REST (no toolkit)
 import java.net.*;
 import java.io.*;
 public class javaXMLserviceDemoREST {
-  public static void main(String[] args) 
-  { try 
-    { // The URL class does not itself encode or decode any URL components according to the escaping mechanism defined in RFC2396. 
-      // It is the responsibility of the caller to encode any fields, which need to be escaped prior to calling URL, 
-      // and also to decode any escaped fields, that are returned from URL. Furthermore, because URL has no knowledge of URL escaping, 
+  public static void main(String[] args)
+  { try
+    { // The URL class does not itself encode or decode any URL components according to the escaping mechanism defined in RFC2396.
+      // It is the responsibility of the caller to encode any fields, which need to be escaped prior to calling URL,
+      // and also to decode any escaped fields, that are returned from URL. Furthermore, because URL has no knowledge of URL escaping,
       // it does not recognise equivalence between the encoded or decoded form of the same URL
-      String inputURL = 
-          "http://174.79.32.155/cgi-bin/xmlcgi.pgm?" 
+      String inputURL =
+          "http://174.79.32.155/cgi-bin/xmlcgi.pgm?"
         + java.net.URLEncoder.encode(
           "db2=*LOCAL"
         + "&uid=MYUID"
@@ -1083,7 +1083,7 @@ public class javaXMLserviceDemoREST {
         + " <return><data type='10i0'>0</data></return>"
         + " </pgm>"
         + " </script>"
-        + "&xmlout=32768", 
+        + "&xmlout=32768",
           "ISO-8859-1");
       // make REST call to XMLSERVICE
       URL restUrl = new URL(inputURL);
@@ -1091,7 +1091,7 @@ public class javaXMLserviceDemoREST {
       // output processing
       System.out.println("Content type: " + conn.getContentType());
       System.out.println("Content length: " + conn.getContentLength());
-      BufferedReader strm = new BufferedReader(new InputStreamReader(conn.getInputStream()));		
+      BufferedReader strm = new BufferedReader(new InputStreamReader(conn.getInputStream()));
       String inputLine;
       String doc = "";
       while ((inputLine = strm.readLine()) != null) {
@@ -1099,8 +1099,8 @@ public class javaXMLserviceDemoREST {
       }
       System.out.println("****** Documento XML: **********");
       System.out.println(doc);
-    } 
-    catch (Exception e) 
+    }
+    catch (Exception e)
     { System.out.println("******* Eccezione !!! *********");
       e.printStackTrace();
     }
@@ -1130,17 +1130,17 @@ RPG program ZZRPGSQL.PGM demonstrates client use of XMLSERVICE calling a *PGM (Z
 XMLSERVICE/ZZCALL (*PGM)
      D  INCHARA        S              1a
      D  INCHARB        S              1a
-     D  INDEC1         S              7p 4        
+     D  INDEC1         S              7p 4
      D  INDEC2         S             12p 2
-     D  INDS1          DS                  
+     D  INDS1          DS
      D   DSCHARA                      1a
-     D   DSCHARB                      1a           
-     D   DSDEC1                       7p 4      
-     D   DSDEC2                      12p 2            
+     D   DSCHARB                      1a
+     D   DSDEC1                       7p 4
+     D   DSDEC2                      12p 2
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       * main(): Control flow
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     C     *Entry        PLIST                   
+     C     *Entry        PLIST
      C                   PARM                    INCHARA
      C                   PARM                    INCHARB
      C                   PARM                    INDEC1
@@ -1178,10 +1178,10 @@ XMLSERVICE
          D strlen          PR            10I 0 ExtProc('strlen')
          D  pVal                           *   Value options(*string)
 
-         D writeIFS        PR            20I 0 ExtProc('write')     
-         D   fd                          10I 0 value                       
+         D writeIFS        PR            20I 0 ExtProc('write')
+         D   fd                          10I 0 value
          D   buf                           *   value
-         D   size                        10I 0 value      
+         D   size                        10I 0 value
 
          D xmlfind         PR         65000A
          D  xml                            *   value
@@ -1190,20 +1190,20 @@ XMLSERVICE
          D  xbeg1                        32A   value
          D  xend                         32A   value
 
-         D Main            PR                  ExtPgm('ZZRPGSQL') 
+         D Main            PR                  ExtPgm('ZZRPGSQL')
           *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
           * main(): Control flow
           *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-         D Main            PI 
+         D Main            PI
           /free
-           Monitor;       
+           Monitor;
 
            // -----
            // input
 
-           myIPC = '*NA';       
+           myIPC = '*NA';
            myCtl = '*here';
-           myXmlIn = 
+           myXmlIn =
              '<?xml version="1.0" encoding="ISO-8859-1"?>'                + x'0D'
            + '<script>'                                                   + x'0D'
            + '<pgm name="ZZCALL" lib="XMLSERVICE">'                       + x'0D'
@@ -1221,7 +1221,7 @@ XMLSERVICE
            + '</parm>'                                                    + x'0D'
            + '</pgm>'                                                     + x'0D'
            + '</script>'                                                  + x'00';
-           myXmlOut = *BLANKS; 
+           myXmlOut = *BLANKS;
 
            // -----
            // sql call XMLSERVICE provided stored procedure(iPLUG4k -iPLUG15M)
@@ -1235,7 +1235,7 @@ XMLSERVICE
            data = 'Content-type: text/html' + x'15' + x'15' + x'00';
            rn = writeIFS(1:%addr(data):strlen(%addr(data)));
            // -----
-           // send return data       
+           // send return data
            // HTML table
            data  = '<h3>RPG call XMLSERVICE</h3>'                 + x'0D';
            data  = %trim(data) + '<table border="1">'             + x'0D';
@@ -1324,7 +1324,7 @@ The flow of ZZRPGSQL.PGM is similar to HTML/XML, except we are using the XMLSERV
     XMLSERVICE.PGM parses in/out parameters from ZZCALL.PGM into output XML document
     ZZRPGSQL.PGM myXmlOut variable contains XML output document
     ZZRPGSQL.PGM parses myXmlOut into a HTML table output (writeIFS)
-    browser sees the HTML table of ZZCALL data 
+    browser sees the HTML table of ZZCALL data
 
 RPG client XMLSERVICE (*SRVPGM)
 
@@ -1338,7 +1338,7 @@ XMLSERVICE/ZZSRV.ZZVARY (*SRVPGM)
 XMLSERVICE called ZZSRV.ZZARRY SRVPGM demonstrates advance functions problematic for PCML based web services.
 
     difficult — parameter 10A varying - PCML requires multiple XML definitions for length, data
-    impossible — return 20A varying - PCML has no ability to return complex data (only single integer) 
+    impossible — return 20A varying - PCML has no ability to return complex data (only single integer)
 
 XMLSERVICE
 > http://lp0364d:10022/cgi-bin/zzvrysql.pgm
@@ -1370,10 +1370,10 @@ XMLSERVICE
          D strlen          PR            10I 0 ExtProc('strlen')
          D  pVal                           *   Value options(*string)
 
-         D writeIFS        PR            20I 0 ExtProc('write')     
-         D   fd                          10I 0 value                       
+         D writeIFS        PR            20I 0 ExtProc('write')
+         D   fd                          10I 0 value
          D   buf                           *   value
-         D   size                        10I 0 value      
+         D   size                        10I 0 value
 
          D xmlfind         PR         65000A
          D  xml                            *   value
@@ -1382,22 +1382,22 @@ XMLSERVICE
          D  xbeg1                        32A   value
          D  xend                         32A   value
 
-         D Main            PR                  ExtPgm('ZZVRYSQL') 
+         D Main            PR                  ExtPgm('ZZVRYSQL')
           *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
           * main(): Control flow
           *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-         D Main            PI 
+         D Main            PI
           /free
-           Monitor;       
+           Monitor;
 
            // -----
            // input
            //     P zzvary          B                   export
            //     D zzvary          PI            20A   varying
            //     D  myName                       10A   varying
-           myIPC = '*NA';       
+           myIPC = '*NA';
            myCtl = '*here';
-           myXmlIn = 
+           myXmlIn =
              '<?xml version="1.0" encoding="ISO-8859-1"?>'                + x'0D'
            + '<script>'                                                   + x'0D'
            + '<pgm name="ZZSRV" lib="XMLSERVICE" func="ZZVARY">'          + x'0D'
@@ -1409,7 +1409,7 @@ XMLSERVICE
            + '</return>'                                                  + x'0D'
            + '</pgm>'                                                     + x'0D'
            + '</script>'                                                  + x'00';
-           myXmlOut = *BLANKS; 
+           myXmlOut = *BLANKS;
 
            // -----
            // sql call XMLSERVICE provided stored procedure(iPLUG4k -iPLUG15M)
@@ -1423,7 +1423,7 @@ XMLSERVICE
            data = 'Content-type: text/html' + x'15' + x'15' + x'00';
            rn = writeIFS(1:%addr(data):strlen(%addr(data)));
            // -----
-           // send return data       
+           // send return data
            // HTML table
            data  = '<h3>RPG call XMLSERVICE</h3>'                 + x'0D';
            data  = %trim(data) + '<table border="1">'             + x'0D';
@@ -1506,7 +1506,7 @@ RPG client XMLSERVICE (DataQueue)
 RPG program ZZQUESQL.PGM demonstrates client use of XMLSERVICE calling a CMDs and System APIs for Data Queue. As you read source code for ZZQUESQL.PGM, you will see it is nearly identical to previous example ZZRPGSQL.PGM.
 
 DLTDTAQ DTAQ(XMLSERVICE/MYDATAQ)
-CRTDTAQ DTAQ(XMLSERVICE/MYDATAQ) MAXLEN(100) 
+CRTDTAQ DTAQ(XMLSERVICE/MYDATAQ) MAXLEN(100)
 ***************************************
 * Send Data Queue (QSNDDTAQ) API
 ***************************************
@@ -1553,10 +1553,10 @@ XMLSERVICE
          D strlen          PR            10I 0 ExtProc('strlen')
          D  pVal                           *   Value options(*string)
 
-         D writeIFS        PR            20I 0 ExtProc('write')     
-         D   fd                          10I 0 value                       
+         D writeIFS        PR            20I 0 ExtProc('write')
+         D   fd                          10I 0 value
          D   buf                           *   value
-         D   size                        10I 0 value      
+         D   size                        10I 0 value
 
          D xmlfind         PR         65000A
          D  xml                            *   value
@@ -1565,13 +1565,13 @@ XMLSERVICE
          D  xbeg1                        32A   value
          D  xend                         32A   value
 
-         D Main            PR                  ExtPgm('ZZVRYSQL') 
+         D Main            PR                  ExtPgm('ZZVRYSQL')
           *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
           * main(): Control flow
           *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-         D Main            PI 
+         D Main            PI
           /free
-           Monitor;       
+           Monitor;
 
            // -----
            // input
@@ -1590,13 +1590,13 @@ XMLSERVICE
            // * 3 Length of data   Input Packed(5,0)
            // * 4 Data Char(*)     Output
            // * 5 Wait time        Input Packed(5,0)
-           myIPC = '*NA';       
+           myIPC = '*NA';
            myCtl = '*here';
-           myXmlIn = 
+           myXmlIn =
              '<?xml version="1.0" encoding="ISO-8859-1"?>'                + x'0D'
            + '<script>'                                                   + x'0D'
            + '<cmd error="fast">DLTDTAQ DTAQ(XMLSERVICE/MYDATAQ)</cmd>'   + x'0D'
-           + '<cmd error="fast">CRTDTAQ DTAQ(XMLSERVICE/MYDATAQ) MAXLEN(100)</cmd>' 
+           + '<cmd error="fast">CRTDTAQ DTAQ(XMLSERVICE/MYDATAQ) MAXLEN(100)</cmd>'
            + x'0D'
            + '<pgm name="QSNDDTAQ">'                                      + x'0D'
            + ' <parm>'                                                    + x'0D'
@@ -1631,7 +1631,7 @@ XMLSERVICE
            + '</pgm>'                                                     + x'0D'
            + '<cmd error="fast">DLTDTAQ DTAQ(XMLSERVICE/MYDATAQ)</cmd>'   + x'0D'
            + '</script>'                                                  + x'00';
-           myXmlOut = *BLANKS; 
+           myXmlOut = *BLANKS;
 
            // -----
            // sql call XMLSERVICE provided stored procedure(iPLUG4k -iPLUG15M)
@@ -1645,7 +1645,7 @@ XMLSERVICE
            data = 'Content-type: text/html' + x'15' + x'15' + x'00';
            rn = writeIFS(1:%addr(data):strlen(%addr(data)));
            // -----
-           // send return data       
+           // send return data
            // HTML table
            data  = '<h3>RPG call XMLSERVICE</h3>'                 + x'0D';
            data  = %trim(data) + '<table border="1">'             + x'0D';

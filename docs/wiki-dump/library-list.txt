@@ -12,14 +12,14 @@ Few other topics dealing with web programs cause more frustrations then setting 
 Any good conflict needs a basic difference in philosophy causing all the trouble.
 
     Stateless - web scripts typically wish to run stateless (PHP), with no environmental settings (such as *LIBL) set on the server
-    State Full - IBM PGMs generally run state full (RPG/Cobol/CLP), meaning need *LIBL to run at all 
+    State Full - IBM PGMs generally run state full (RPG/Cobol/CLP), meaning need *LIBL to run at all
 
 Rule of toolkit web *LIBL …
 
 The following rules apply to all toolkit DB2 connections persistent (db2_pconnect, odbc_pconnect) and non-persistent (db2_connect, odbc_connect).
 
     Stateless - PHP scripts using Toolkit without internalKey (IPC) MUST set *LIBL on every request before calling PGMs (see specific examples)
-    State Full - PHP scripts using Toolkit with internalKey (IPC) set *LIBL only once for life of job before calling PGMs (see specific examples) 
+    State Full - PHP scripts using Toolkit with internalKey (IPC) set *LIBL only once for life of job before calling PGMs (see specific examples)
 
 1) Specific examples for New PHP Toolkit
 
@@ -156,7 +156,7 @@ The following rules apply to all toolkit DB2 connections persistent (db2_pconnec
 
     Stateless - set *LIBL every single request, but for CW, specify libraries in reverse order (via ADDLIBLE)
 
-    $options = array(I5_OPTIONS_INITLIBL => 'WILMAFLIN FREDFLIN' ); 
+    $options = array(I5_OPTIONS_INITLIBL => 'WILMAFLIN FREDFLIN' );
     $conn = i5_connect($host, $user, $password, $options);
     // or persistent (which is also stateless): still must specify library each time
     $conn = i5_pconnect($host, $user, $password, $options);
@@ -165,7 +165,7 @@ The following rules apply to all toolkit DB2 connections persistent (db2_pconnec
 
     session_start();
 
-    // if we previously saved a connection number in PHP session, use it. 
+    // if we previously saved a connection number in PHP session, use it.
     // otherwise, use 0 (which means create a new connection)
     $conNum = (isset($_SESSION['conectionNum']) ? $_SESSION['conectionNum'] : 0;
 

@@ -7,7 +7,7 @@ XML i Toolkit: IBM_DB2 result set PGM - performance loop call
 $i5loop = 5000;
 require_once('connection.inc');
 
-// include connect performance 
+// include connect performance
 // (worst connect situation)
 $start_time = microtime();
 $conn = db2_connect($database,$user,$password);
@@ -18,15 +18,15 @@ for ($i=0;$i<$i5loop;$i++) {
   $clobOut = "";
   $stmt = db2_prepare($conn, "call $procLib.iPLUGR4K(?,?,?)");
   // rebind parms simulate changed data bindings
-  // randomly happening througout php script 
+  // randomly happening througout php script
   $ret=db2_execute($stmt,array($ipc,$ctl,$clobIn));
   while ($row = db2_fetch_array($stmt)){
     $clobOut .= $row[0];
   }
   $clobOut = trim($clobOut);
   // remove var dump because screen output will
-  // be the greatest timing factor dwarfing other data 
-  // echo " IN:\n"; var_dump($clobIn);  
+  // be the greatest timing factor dwarfing other data
+  // echo " IN:\n"; var_dump($clobIn);
   // echo "OUT:\n"; var_dump($clobOut);
   if (strpos($clobOut,'4444444444.44')<1) {
     var_dump($clobOut);
@@ -39,11 +39,11 @@ $wire_time= control_microtime_used($start_time,$end_time)*1000000;
 
 // result times
 $look = round($wire_time/1000000,2);
-echo 
-  sprintf("Time (loop=$i5loop) total=%1.2f sec (%1.2f ms per call)\n", 
+echo
+  sprintf("Time (loop=$i5loop) total=%1.2f sec (%1.2f ms per call)\n",
   round($wire_time/1000000,2),
   round(($wire_time/$i5loop)/1000,2));
-// less than two minutes (usually around one minute) 
+// less than two minutes (usually around one minute)
 if ($look<120) echo "ok\n";
 else echo "fail - too slow\n";
 

@@ -1,39 +1,39 @@
      H NOMAIN
      H AlwNull(*UsrCtl)
      H BNDDIR('QC2LE')
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -57,8 +57,8 @@
       *****************************************************
      D sFlyMe          S              1N   inz(*OFF)
      D sLogMe          S              1N   inz(*OFF)
-     
-     D log_query...        
+
+     D log_query...
      D                 PR             1N
      D  stmt_str                       *   value
      D  stmt_len                     10I 0 value
@@ -321,7 +321,7 @@
 
        when errXml = PERF_XML_SERVER_ERROR_JOBLOG;
          msgOut    = PERF_MSG_SERVER_ERROR_JOBLOG;
-         
+
        when errXml = PERF_XML_SERVER_RUN_SUCCESS;
          msgOut    = PERF_MSG_SERVER_RUN_SUCCESS;
        when errXml = PERF_XML_SERVER_RUN_ERROR;
@@ -410,7 +410,7 @@
        return msgOut;
       /end-free
      P                 E
-     
+
 
 
       *****************************************************
@@ -457,7 +457,7 @@
        endif;
       /end-free
      P                 E
-     
+
      P perfDumpAdd     B                   export
      D perfDumpAdd     PI
      D   text                     65000A   value
@@ -468,7 +468,7 @@
        endif;
       /end-free
      P                 E
-     
+
      P perfLogId       B                   export
      D perfLogId       PI
       * vars
@@ -487,26 +487,26 @@
          rc = ileJob(jobName:jobUserID:jobNbr:jobInfo);
          text = 'L_JOB'
               + ' ' + %trim(jobInfo.Job0_CurUser)
-              + ' ' + %trim(jobName) 
-              + ' ' + %trim(jobUserID) 
+              + ' ' + %trim(jobName)
+              + ' ' + %trim(jobUserID)
               + ' ' + %trim(jobNbr);
          confLogPop(text);
          text = 'L_IPC'
-              + ' ' + %trim(ipcIPC()) 
+              + ' ' + %trim(ipcIPC())
               + ' ' + %trim(ipcFtok());
          confLogPop(text);
          paseCCSID = PaseLstCCSID();
-         text = 'L_CCSID' 
-              + ' ' + %char(jobInfo.Job0_CCSID) 
-              + ' ' + %char(jobInfo.Job0_DfCCSID) 
+         text = 'L_CCSID'
+              + ' ' + %char(jobInfo.Job0_CCSID)
+              + ' ' + %char(jobInfo.Job0_DfCCSID)
               + ' ' + %char(paseCCSID);
          confLogPop(text);
-         text = 'L_LIBL' 
+         text = 'L_LIBL'
               + ' ' + %trim(jobInfo.Job0_UsrL);
          confLogPop(text);
        endif;
       /end-free
-     P                 E     
+     P                 E
 
 
       *****************************************************
@@ -514,7 +514,7 @@
       *****************************************************
      P log_query...
      P                 B
-     D log_query...        
+     D log_query...
      D                 PI             1N
      D  stmt_str                       *   value
      D  stmt_len                     10I 0 value
@@ -531,15 +531,15 @@
      D pOpt            s               *   inz(%addr(opt))
       /free
        Monitor;
-             
+
        // CLI SQL
        DB2_RC=db2AllocEnv(henv);
-       
+
        // allocate connect
        if DB2_RC = 0;
          DB2_RC=db2AllocConnect(henv:hdbc);
        endif;
-       
+
        // make connection
        if DB2_RC = 0;
          DB2_RC=db2Connect(hdbc:
@@ -548,34 +548,34 @@
                          *NULL:0);
        endif;
 
-       // always system naming  
+       // always system naming
        if DB2_RC = 0;
          opt = DB2_TRUE;
          DB2_RC=db2SetConnectAttr(hdbc:DB2_ATTR_DBC_SYS_NAMING:pOpt:DB2_NTS);
        endif;
-       
+
        // always auto commit on
        if DB2_RC = 0;
          opt = DB2_TRUE;
          DB2_RC=db2SetConnectAttr(hdbc:DB2_ATTR_AUTOCOMMIT:pOpt:DB2_NTS);
        endif;
-       
+
        // make statement
        if DB2_RC = 0;
          DB2_RC=db2AllocStmt(hdbc:hstmt);
        endif;
-       
+
        // make call
        if DB2_RC = 0;
-         DB2_RC=db2ExecDirect(hstmt:stmt_str:stmt_len);      
+         DB2_RC=db2ExecDirect(hstmt:stmt_str:stmt_len);
        endif;
-              
+
        // fetch one string
        if %parms >= 4;
-         if DB2_RC = 0;     
+         if DB2_RC = 0;
            DB2_RC=db2BindCol(hstmt:1:DB2_CHAR:fetch_str:fetch_len:pout);
          endif;
-         if DB2_RC = 0;     
+         if DB2_RC = 0;
            DB2_RC=db2Fetch(hstmt);
          endif;
        endif;
@@ -597,14 +597,14 @@
          On-error;
          Endmon;
        endif;
-       
+
        if hdbc <> 0;
          Monitor;
          DB2_RC1=db2Disconnect(hdbc);
          On-error;
          Endmon;
        endif;
-       
+
        if hdbc <> 0;
          Monitor;
          DB2_RC1=db2FreeConnect(hdbc);
@@ -627,7 +627,7 @@
        return *ON;
       /end-free
      P                 E
-      
+
       *****************************************************
       * xmlservice logging
       *****************************************************
@@ -664,25 +664,25 @@
        myTable2 = %trim(myLib) + '/' + %trim(myFile2);
        // -----------
        // SQL call
-       stmt = 'create schema ' 
+       stmt = 'create schema '
             + %trim(myLib);
        stmt_str = %addr(stmt);
        stmt_len = %len(%trim(stmt));
        rc = log_query(stmt_str:stmt_len);
        // -----------
        // authorization
-       stmt = 'GRTOBJAUT OBJ(' 
-            + %trim(myLib) 
-            + ') OBJTYPE(*LIB) USER(*PUBLIC) AUT(*ALL)'; 
+       stmt = 'GRTOBJAUT OBJ('
+            + %trim(myLib)
+            + ') OBJTYPE(*LIB) USER(*PUBLIC) AUT(*ALL)';
        stmt_str = %addr(stmt);
        stmt_len = %len(%trim(stmt));
        rc = ileCmdExc(stmt_str:stmt_len);
        // -----------
        // SQL call - log table
-       stmt = 'create table ' 
+       stmt = 'create table '
             + %trim(myTable)
             + ' ('
-            + ' key varchar(64) NOT NULL WITH DEFAULT,' 
+            + ' key varchar(64) NOT NULL WITH DEFAULT,'
             + ' log TIMESTAMP NOT NULL WITH DEFAULT,'
             + ' text varchar(64) NOT NULL WITH DEFAULT )';
        stmt_str = %addr(stmt);
@@ -690,10 +690,10 @@
        rc = log_query(stmt_str:stmt_len);
        // -----------
        // SQL call - dump table
-       stmt = 'create table ' 
+       stmt = 'create table '
             + %trim(myTable2)
             + ' ('
-            + ' key varchar(64) NOT NULL WITH DEFAULT,' 
+            + ' key varchar(64) NOT NULL WITH DEFAULT,'
             + ' log TIMESTAMP NOT NULL WITH DEFAULT,'
             + ' text clob(15M) NOT NULL WITH DEFAULT )';
        stmt_str = %addr(stmt);
@@ -701,8 +701,8 @@
        rc = log_query(stmt_str:stmt_len);
       /end-free
      P                 E
-      
-      
+
+
      P log_add...
      P                 B                   export
      D log_add...
@@ -741,8 +741,8 @@
          myKey = ipcDoLogKey();
          myText = text;
          bigJunkOut(%addr(myText):%addr(myText)+%size(myText):*ON:*ON:*ON);
-         stmt = 'insert into ' 
-              + %trim(myTable) 
+         stmt = 'insert into '
+              + %trim(myTable)
               + ' (key, text) values ('
               + ''''
               + %trim(myKey)
@@ -800,8 +800,8 @@
          myKey = ipcDoLogKey();
          myText = text;
          bigJunkOut(%addr(myText):%addr(myText)+%size(myText):*OFF:*OFF:*ON);
-         stmt = 'insert into ' 
-              + %trim(myTable) 
+         stmt = 'insert into '
+              + %trim(myTable)
               + ' (key, text) values ('
               + ''''
               + %trim(myKey)
@@ -824,7 +824,7 @@
      P log_id...
      P                 B                   export
      D log_id...
-     D                 PI            64A  
+     D                 PI            64A
       * vars
      D i               s             10i 0 inz(0)
      D pos1            s             10i 0 inz(0)
@@ -834,8 +834,8 @@
      D myFile          s             10A   inz(*BLANKS)
      D myTable         s             21A   inz(*BLANKS)
      D myKey           s             64A   inz(*BLANKS)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
       * sql statement
      D  stmt           s            256A   inz(*BLANKS)
      D  stmt_str       s               *   inz(*NULL)
@@ -857,7 +857,7 @@
      D jobName         s             10A   inz(*BLANKS)
      D jobUserID       s             10A   inz(*BLANKS)
      D jobNbr          s              6A   inz(*BLANKS)
-     D jobInfo         ds                  likeds(myJob_t)      
+     D jobInfo         ds                  likeds(myJob_t)
       /free
        cCDATA1 = xmlcCDATA1(); // USC2 convert job ccsid (1.6.7)
        cCDATA2 = xmlcCDATA2(); // USC2 convert job ccsid (1.6.7)
@@ -868,7 +868,7 @@
        myTable = %trim(myLib) + '/' + %trim(myFile);
        // -----------
        // SQL call
-       stmt = 'select HEX(GENERATE_UNIQUE()) from ' 
+       stmt = 'select HEX(GENERATE_UNIQUE()) from '
             + %trim(myTable);
        stmt_str = %addr(stmt);
        stmt_len = %len(%trim(stmt));
@@ -887,12 +887,12 @@
        rc = ileJob(jobName:jobUserID:jobNbr:jobInfo);
        myKey = %trim(myKey)
              + %trim(jobInfo.Job0_CurUser)
-             + %trim(jobName) 
-             + %trim(jobUserID) 
+             + %trim(jobName)
+             + %trim(jobUserID)
              + %trim(jobNbr);
        return myKey;
       /end-free
      P                 E
 
-     
+
 

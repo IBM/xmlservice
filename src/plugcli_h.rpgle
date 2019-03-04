@@ -2,39 +2,39 @@
       /eof
       /endif
       /define PLUGCLI_H
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -73,14 +73,14 @@
      D                 C                   const(10003)
       * DB2_TRUE, DB2_FALSE (DB2_FALSE)
 
-      * The DB2_ATTR_COMMIT attribute should be set 
+      * The DB2_ATTR_COMMIT attribute should be set
       * before the SQLConnect
      DDB2_TXN_ISOLATION...
      D                 C                   const(0)
      DDB2_ATTR_COMMIT...
      D                 C                   const(0)
      DDB2_TXNISO       C                   const(0)
-      * Commitment control is not used      
+      * Commitment control is not used
      DDB2_COMMIT_NONE...
      D                 C                   const(1)
      DDB2_TXN_NO_COMMIT...
@@ -88,8 +88,8 @@
      DDB2_TXN_NOCOMMIT...
      D                 C                   const(1)
      DDB2_TXNNON       C                   const(1)
-      * Dirty reads, nonrepeatable reads, 
-      * and phantoms are possible. 
+      * Dirty reads, nonrepeatable reads,
+      * and phantoms are possible.
       * This is the default isolation level
       * DB2_TXN_READ_UNCOMMITTED is uncommitted read
      DDB2_COMMIT_CHG...
@@ -99,7 +99,7 @@
      DDB2_TXN_READ_UNCOMMITTED...
      D                 C                   const(2)
      DDB2_TXNUNC       C                   const(2)
-      * Dirty reads are not possible. 
+      * Dirty reads are not possible.
       * Non-repeatable reads and phantoms are possible.
       * DB2_TXN_READ_COMMITTED is cursor stability
      DDB2_COMMIT_CS...
@@ -107,7 +107,7 @@
      DDB2_TXN_READ_COMMITTED...
      D                 C                   const(3)
      DDB2_TXNCOM       C                   const(3)
-      * Dirty reads and nonrepeatable reads are not possible. 
+      * Dirty reads and nonrepeatable reads are not possible.
       * Phantoms are possible.
       * DB2_TXN_REPEATABLE_READ is read stability
      DDB2_COMMIT_ALL...
@@ -117,8 +117,8 @@
      DDB2_TXN_REPEATABLE_READ...
      D                 C                   const(4)
      DDB2_TXNREP       C                   const(4)
-      * Transactions are serializable. 
-      * Dirty reads, non-repeatable reads, 
+      * Transactions are serializable.
+      * Dirty reads, non-repeatable reads,
       * and phantoms are not possible.
       * DB2_TXN_SERIALIZABLE is repeatable read
      DDB2_COMMIT_RR...
@@ -127,9 +127,9 @@
      D                 C                   const(5)
      DDB2_TXNSER       C                   const(5)
 
-      * A character value that indicates the default library 
-      * that is used for resolving unqualified file references. 
-      * This is not valid if the connection is using 
+      * A character value that indicates the default library
+      * that is used for resolving unqualified file references.
+      * This is not valid if the connection is using
       * system naming mode
      DDB2_ATTR_DBC_DEFAULT_LIB...
      D                 C                   const(10005)
@@ -216,7 +216,7 @@
      DDB2_CURSOR_STATIC...
      D                 C                   CONST(1)
       * DB2_CURSOR_DYNAMIC
-     DDB2_SCROLLABLE... 
+     DDB2_SCROLLABLE...
      D                 C                   CONST(2)
      DDB2_CURSOR_DYNAMIC...
      D                 C                   CONST(2)
@@ -279,13 +279,13 @@
      DDB2_PARAM_INPUT_OUTPUT...
      D                 C                   CONST(3)
 
-     DDB2_COMMIT... 
+     DDB2_COMMIT...
      D                 C                   CONST(0)
-     DDB2_ROLLBACK... 
+     DDB2_ROLLBACK...
      D                 C                   CONST(1)
-     DDB2_COMMIT_HOLD... 
+     DDB2_COMMIT_HOLD...
      D                 C                   CONST(2)
-     DDB2_ROLLBACK_HOLD... 
+     DDB2_ROLLBACK_HOLD...
      D                 C                   CONST(3)
 
 

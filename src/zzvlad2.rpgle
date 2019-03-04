@@ -9,7 +9,7 @@
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       * main(): Control flow
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     C     *Entry        PLIST                   
+     C     *Entry        PLIST
      C                   PARM                    ErrorParm
      C                   PARM                    NumOfErrors       2 0
       /free

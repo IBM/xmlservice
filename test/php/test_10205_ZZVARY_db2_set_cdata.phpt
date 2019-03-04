@@ -53,7 +53,7 @@ if ($actual != $expect) die("$var ($actual not $expect) ($lib/$name.$func)\n");
 echo "Success ($lib/$name.$func)\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzvary: check return varying 
+//      * zzvary: check return varying
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzvary          B                   export
 //     D zzvary          PI            20A   varying

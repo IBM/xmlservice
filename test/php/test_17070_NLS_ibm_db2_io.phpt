@@ -77,7 +77,7 @@ $ret=db2_execute($stmt);
 if (!$ret) die("Bad execute: ".db2_stmt_errormsg());
 
 // ***********************************************************
-// *** back from XMLSERVICE call with results (XML output) *** 
+// *** back from XMLSERVICE call with results (XML output) ***
 echo "=== $nls_xml_ccsid ===\n";
 $xmlobj = simplexml_load_string($clobOut);
 if (!$xmlobj) {

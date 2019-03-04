@@ -69,21 +69,21 @@ if ((string)$retn[0]->data == 0) die("return not greater than '0'");
 // good
 echo "Success ($lib/$name and $lib1/$name1.$func1)\n";
 
-// Make two different program calls at once: 
+// Make two different program calls at once:
 // 1) first call this PGM ...
 //     D  INCHARA        S              1a
 //     D  INCHARB        S              1a
-//     D  INDEC1         S              7p 4        
+//     D  INDEC1         S              7p 4
 //     D  INDEC2         S             12p 2
-//     D  INDS1          DS                  
+//     D  INDS1          DS
 //     D   DSCHARA                      1a
-//     D   DSCHARB                      1a           
-//     D   DSDEC1                       7p 4      
-//     D   DSDEC2                      12p 2            
+//     D   DSCHARB                      1a
+//     D   DSDEC1                       7p 4
+//     D   DSDEC2                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * main(): Control flow
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     C     *Entry        PLIST                   
+//     C     *Entry        PLIST
 //     C                   PARM                    INCHARA
 //     C                   PARM                    INCHARB
 //     C                   PARM                    INDEC1

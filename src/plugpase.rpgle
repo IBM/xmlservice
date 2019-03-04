@@ -1,39 +1,39 @@
      H NOMAIN
      H AlwNull(*UsrCtl)
      H BNDDIR('QC2LE')
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -194,11 +194,11 @@
      D                 S               *
      D SZILESYM        c                   const(256)
      DsyArgs           DS                  qualified based(piILESYMParms)
-     D syExport                      10U 0 
+     D syExport                      10U 0
      D syActMark                     10i 0
      D sySymb                        10U 0
      D syPad                         10U 0
-     D syExport1                       * 
+     D syExport1                       *
      D sySymb1                      128A
      D syMe                          10U 0
      DsyArgSig         DS
@@ -220,11 +220,11 @@
      D                 S               *
      D SZILECALL       c                   const(256)
      DieArgs           DS                  qualified based(piILECALLParms)
-     D ieTarget                      10U 0 
+     D ieTarget                      10U 0
      D ieBase                        10U 0
      D ieSig                         10U 0
      D ieRet                         10i 0
-     D ieTarget1                       * 
+     D ieTarget1                       *
      D ieMe                          10U 0
      DieArgSig         DS
      D ieSig1                         5i 0 inz(QP2_ARG_PTR32)
@@ -241,7 +241,7 @@
      D                 S               *
      D SZPOPEN         c                   const(256)
      DpoArgs           DS                  qualified based(piPOPENParms)
-     D poCmd                         10U 0 
+     D poCmd                         10U 0
      D poMode                        10U 0
      D poFd                          10U 0
      D poMode1                        2A
@@ -260,7 +260,7 @@
      D                 S               *
      D SZFGETS         c                   const(256)
      DfgArgs           DS                  qualified based(piFGETSParms)
-     D fgS                           10U 0 
+     D fgS                           10U 0
      D fgN                           10i 0
      D fgStream                      10U 0
      D fgMe                          10U 0
@@ -278,7 +278,7 @@
      D                 S               *
      D SZPCLOSE        c                   const(16)
      DclArgs           DS                  qualified based(piPCLOSEParms)
-     D clStream                      10U 0 
+     D clStream                      10U 0
      D clMe                          10U 0
      DclArgSig         DS
      D clSig1                         5i 0 inz(QP2_ARG_PTR32)
@@ -352,11 +352,11 @@
      d  pccsid                       10I 0 value
      d  psym_Pase                      *   value
 
-      * PASE procedure ran to completion 
+      * PASE procedure ran to completion
       * and its function result stored
      d QP2CALLPASE_NORMAL...
      d                 c                   const(0)
-      * PASE procedure ran to completion, 
+      * PASE procedure ran to completion,
       * but its function result could not be stored
      d QP2CALLPASE_RESULT_ERROR...
      d                 c                   const(1)
@@ -366,7 +366,7 @@
       * One or more values in the signature array are not valid.
      d QP2CALLPASE_ARG_ERROR...
      d                 c                   const(4)
-      * The i5/OS PASE program is terminating. 
+      * The i5/OS PASE program is terminating.
       * No function result was returned.
      d QP2CALLPASE_TERMINATING...
      d                 c                   const(6)
@@ -616,7 +616,7 @@
       *   int            callType
       *   char         * externalName
       *   struct sqlda * sqldaInOut
-      *   struct sqlca * sqlca 
+      *   struct sqlca * sqlca
       *   int            resultSets
       *   char         * schemaName
       *   char         * procedureName
@@ -918,16 +918,16 @@
              // running JVM in process (1.9.2)
              jvm = ipcDoJVM();
              if jvm = *OFF;
-               // @ADC remove 819 hard code value 
+               // @ADC remove 819 hard code value
                // in favour of user ctl *pase value (1.7.6)
                paseCCSID = getccsidPASE();
                if paseCCSID <= 0;
                  paseCCSID = 819;
                endif;
-               rc = Qp2RunPase(iarg1: *NULL: *NULL: 0: paseCCSID: 
+               rc = Qp2RunPase(iarg1: *NULL: *NULL: 0: paseCCSID:
                        %ADDR(iarg1): %ADDR(ienv1));
              else;
-               // JVM in my QSQ process 
+               // JVM in my QSQ process
                // (peanut butter on my chocolate)
                jvmSQLa = ipcDoSQLJVM();
                // JVM SQL stored proc start
@@ -1088,7 +1088,7 @@
        paseCtl.paseSigP   = piSig;
        paseCtl.paseArgvP  = piArgv;
 
-       // ok 
+       // ok
        perfAdd(PERF_ANY_WATCH_PASESTART:*OFF);
        return *ON;
       /end-free
@@ -1187,9 +1187,9 @@
       *****************************************************
       * rc=PaseRslv32(...)
       * return (*ON=good, *OFF=error)
-      * Note: 
+      * Note:
       * calling ILE and call argument buffer
-      * was prepared by plugile using "ILE memory" 
+      * was prepared by plugile using "ILE memory"
       * (not pase memory)
       *
       * ptr = rslvsp(objType:pgm1:lib1:x'0000');
@@ -1253,7 +1253,7 @@
          objPASE = QP2_JOBLOG_DSPOBJD_SRVPGM;
        endif;
 
-       // convert 
+       // convert
        pgm1 = pgm2;
        rcb = toUpperSafe(%addr(pgm1):%size(pgm1));
        lib1 = lib2;
@@ -1378,10 +1378,10 @@
       *****************************************************
       * rc=PasePGM32(...)
       * return (*ON=good, *OFF=error)
-      * Note: 
+      * Note:
       * calling ILE and call argument buffer
-      * was prepared by plugile using "ILE memory" 
-      * (not pase memory) 
+      * was prepared by plugile using "ILE memory"
+      * (not pase memory)
       *****************************************************
      P PasePGM32       B                   export
      D PasePGM32       PI             1N
@@ -1458,10 +1458,10 @@
       *****************************************************
       * rc=PaseSRV32(...)
       * return (*ON=good, *OFF=error)
-      * Note: 
+      * Note:
       * calling ILE and call argument buffer
-      * was prepared by plugile using "ILE memory" 
-      * (not pase memory) 
+      * was prepared by plugile using "ILE memory"
+      * (not pase memory)
       *****************************************************
      P PaseSRV32       B                   export
      D PaseSRV32       PI             1N
@@ -1506,7 +1506,7 @@
          return *OFF;
        endif;
 
-       // rc = _ILECALL(pILESym, &arguments->base, 
+       // rc = _ILECALL(pILESym, &arguments->base,
        //               signature, RESULT_VOID );
        pCopy = piBase;
        myCopy.ulonglongx = 0;
@@ -1529,10 +1529,10 @@
        if retSize > 0 and piReturn <> *NULL;
          // expect to call OPM programs (V5R4)
          if mixOPM = *ON;
-           PaseReturnAggregate.aggr_addr 
+           PaseReturnAggregate.aggr_addr
              = ieArgs.ieBase + SZBASE + tBenArgSz;
          else;
-           PaseReturnAggregate.aggr_addr 
+           PaseReturnAggregate.aggr_addr
              = paAlloc + ( piReturn - piAlloc );
          endif;
        endif;
@@ -1549,19 +1549,19 @@
            pCopy = piReturn;
            select;
            when retSize = RESULT_INT8;
-             myCopy.chrx = PaseReturn8.a8_data; 
+             myCopy.chrx = PaseReturn8.a8_data;
            when retSize = RESULT_UINT8;
-             myCopy.uchrx = PaseReturn8.a8_data; 
+             myCopy.uchrx = PaseReturn8.a8_data;
            when retSize = RESULT_INT16;
-             myCopy.shortx = PaseReturn16.a16_data; 
+             myCopy.shortx = PaseReturn16.a16_data;
            when retSize = RESULT_UINT16;
-             myCopy.ushortx = PaseReturn16.a16_data; 
+             myCopy.ushortx = PaseReturn16.a16_data;
            when retSize = RESULT_INT32;
-             myCopy.intx = PaseReturn32.a32_data; 
+             myCopy.intx = PaseReturn32.a32_data;
            when retSize = RESULT_UINT32;
-             myCopy.uintx = PaseReturn32.a32_data; 
+             myCopy.uintx = PaseReturn32.a32_data;
            when retSize = RESULT_INT64;
-             myCopy.longlongx = PaseReturn64.a64_data; 
+             myCopy.longlongx = PaseReturn64.a64_data;
            when retSize = RESULT_UINT64;
              myCopy.ulonglongx = PaseReturn64.a64_data;
            when retSize = RESULT_FLOAT64;
@@ -1594,7 +1594,7 @@
       *****************************************************
       * rc=PaseExec32(...)
       * return (*ON=good, *OFF=error)
-      * Note: 
+      * Note:
       * calling PASE popen(cmd), therefore using
       * PASE memory (Qp2malloc memory), that needs
       * copyout back into ILE memory used by
@@ -1631,7 +1631,7 @@
        myDat = %str(cmd:cmdLen)  + x'00';
        poArgs.poMe = paAlloc+(piPOPENParms-piAlloc);
        poArgs.poCmd  = paAlloc+(piArgv-piAlloc);
-       poArgs.poMode = poArgs.poMe + 
+       poArgs.poMode = poArgs.poMe +
          (%addr(poArgs.poMode1)-%addr(poArgs.poCmd));
        poArgs.poFd   = 0;
        poArgs.poMode1= x'72' + x'00';

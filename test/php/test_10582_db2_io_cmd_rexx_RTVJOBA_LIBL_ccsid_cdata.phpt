@@ -44,10 +44,10 @@ if (!$sh) die("Missing XML cmd info");
 $usualrows = $xmlobj->xpath('/script/cmd/row');
 $data = "";
 foreach($usualrows as $row) {
-  $usualdata = $row->xpath('data'); 
+  $usualdata = $row->xpath('data');
   foreach($usualdata as $mydata) {
     $data .= " \n-> ".$mydata;
-  } 
+  }
 }
 echo "$data\n";
 if (strpos($data,"QSYS")<1) die("Missing QSYS\n");

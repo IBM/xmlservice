@@ -9,7 +9,7 @@ Common errors
     <xmlhint><![CDATA[/tmp/packers3]]></xmlhint>
     </error>
 
-        errnoile 3401 — usually means another process with a different user profile is using IPC (/tmp/packers3) 
+        errnoile 3401 — usually means another process with a different user profile is using IPC (/tmp/packers3)
     <errnoile>3021</errnoile>
     <errnoxml>1301009</errnoxml>
     <xmlerrmsg>IPC getshm fail</xmlerrmsg>
@@ -18,22 +18,22 @@ Common errors
 
         Example: grep -i qtm means ipcrm for (QTM)HHTTP ...
 
-        endTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest end web server 
+        endTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest end web server
 
         call qp2term
-        > ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}'        -- show action, but NOT do  action 
+        > ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}'        -- show action, but NOT do  action
         > ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}' | sh   -- remove semaphores/shared memory
 
-        strTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest start web server 
+        strTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest start web server
 
     <errnoxml>1000005</errnoxml>
     <xmlerrmsg>PASE resolve failed</xmlerrmsg>
     <xmlhint><![CDATA[MYPGM]]></xmlhint>
-        The program you tried to call, shown here as “MYPGM” (in the CDATA tag), was not found. Make sure you specified the library and program correctly, including upper or lower case (usually upper case). 
+        The program you tried to call, shown here as “MYPGM” (in the CDATA tag), was not found. Make sure you specified the library and program correctly, including upper or lower case (usually upper case).
     <errnoxml>1480002</errnoxml>
     <xmlerrmsg>XMLCGI invalid</xmlerrmsg>
     <xmlhint>*NONE</xmlhint>
-        *NONE requires a special compile of the RPG source and is NOT enabled in production versions of the toolkit by default. It is most useful for demos with custom security like this site, if you try on your machine you will likely get 1480002 error XMLCGI. See customization security from main page (only crtxml3 allows *NONE). 
+        *NONE requires a special compile of the RPG source and is NOT enabled in production versions of the toolkit by default. It is most useful for demos with custom security like this site, if you try on your machine you will likely get 1480002 error XMLCGI. See customization security from main page (only crtxml3 allows *NONE).
 
 Error messages in plugerr_h
 
@@ -430,7 +430,7 @@ ILE errno
 
 Errno Values for UNIX-Type Functions
 
-Programs using the UNIX(R)-type functions may receive error information as errno values. 
+Programs using the UNIX(R)-type functions may receive error information as errno values.
 The possible values returned are listed here in ascending errno value sequence.
 
 Name 	        Value 	Text

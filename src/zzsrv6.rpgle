@@ -23,8 +23,8 @@
      D dcRec1_t        ds                  qualified based(Template)
      D  dcMyName1                    10A
      D  dcRec1                             likeds(dcRec2_t)
-     
-     
+
+
      D zzarray3        PR
      D  myName                       10A
      D  myMax                         3s 0
@@ -45,7 +45,7 @@
      D  findMe1                            likeds(dcRec1_t)
      D  findMe2                            likeds(dcRec2_t)
      D  findMe3                            likeds(dcRec3_t)
-     
+
 
      D zzouch          PR
      D  myName                       10A
@@ -86,14 +86,14 @@
      d zznullme        pr              N
      D  fdate1                         D   datfmt(*USA) options(*nullind)
 
-     
+
      D zzptr1          PR
      D  myPtr1                         *
      D  myPtr2                         *
      D  myMax                         3s 0
      D  wskdist                       3a
 
-     
+
      D zzbool1         PR
      D  myBool1                       1N
      D  myBool2                       1N
@@ -107,7 +107,7 @@
      D  Frog                         10
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zznullid: check indicator 
+      * zznullid: check indicator
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zznullid        B                   export
      D zznullid        PI
@@ -118,7 +118,7 @@
      D  dcData                         *
      D  dcNULL                         *
      D tmp             S               n   inz(*ON)
-     D ddate1          ds                  likeds(dcNULL_t) 
+     D ddate1          ds                  likeds(dcNULL_t)
      D vdate1          s               D   datfmt(*USA)
      D ndate1          s               N   inz(*ON)
       * fake call out
@@ -144,7 +144,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zznullme: check indicator 
+      * zznullme: check indicator
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zznullme        B                   export
      D zznullme        PI              n
@@ -158,7 +158,7 @@
 
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzvary4: check return varying 
+      * zzvary4: check return varying
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzvary4         B                   export
      D zzvary4         PI            20A   varying(4)
@@ -171,11 +171,11 @@
        return tmp;
       /end-free
      P                 E
-     
-     
+
+
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzarray3: check parameter array aggregate 
+      * zzarray3: check parameter array aggregate
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzarray3        B                   export
      D zzarray3        PI
@@ -266,7 +266,7 @@
 
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzouch: check BAD parameter array aggregate 
+      * zzouch: check BAD parameter array aggregate
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzouch          B                   export
      D zzouch          PI
@@ -325,14 +325,14 @@
        // findMe2
        findMe2.dcMyName2 = %trim(myName);
        findMe2.dcRec2.dcMyName3 = %trim(myName);
-       // ouch 
+       // ouch
        memset(%addr(findMe2.dcRec2.dcRec3(2).dcMyName):196:32768); // 'D'
        return;
       /end-free
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzptr1: check skip ptr 
+      * zzptr1: check skip ptr
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzptr1          B                   export
      D zzptr1          PI
@@ -355,7 +355,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzbool1: check boolean 
+      * zzbool1: check boolean
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzbool1         B                   export
      D zzbool1         PI
@@ -398,5 +398,5 @@
       /end-free
      P                 E
 
-     
+
 

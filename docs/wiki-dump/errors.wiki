@@ -27,13 +27,13 @@
 ** [@
 Example: grep -i qtm means ipcrm for (QTM)HHTTP ...
 
-endTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest end web server 
+endTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest end web server
 
 call qp2term
-> ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}'        -- show action, but NOT do  action 
+> ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}'        -- show action, but NOT do  action
 > ipcs | grep -i qtm | awk '{print "ipcrm -" tolower($1) " "$2}' | sh   -- remove semaphores/shared memory
 
-strTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest start web server 
+strTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- suggest start web server
 @]
 
 * <errnoxml>1000005</errnoxml>\\
@@ -44,7 +44,7 @@ strTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- sugge
 * <errnoxml>1480002</errnoxml>\\
   <xmlerrmsg>XMLCGI invalid</xmlerrmsg>\\
   <xmlhint>*NONE</xmlhint>
-** *NONE requires a special compile of the RPG source and is NOT enabled in production versions of the toolkit by default. It is most useful for demos with custom security like this site, if you try on your machine you will likely get 1480002 error XMLCGI. See customization security from main page (only crtxml3 allows *NONE). 
+** *NONE requires a special compile of the RPG source and is NOT enabled in production versions of the toolkit by default. It is most useful for demos with custom security like this site, if you try on your machine you will likely get 1480002 error XMLCGI. See customization security from main page (only crtxml3 allows *NONE).
 
 
 
@@ -446,7 +446,7 @@ strTCPSVR SERVER(*HTTP) INSTANCE(ZENDSVR)                               -- sugge
 [@
 Errno Values for UNIX-Type Functions
 
-Programs using the UNIX(R)-type functions may receive error information as errno values. 
+Programs using the UNIX(R)-type functions may receive error information as errno values.
 The possible values returned are listed here in ascending errno value sequence.
 
 Name 	        Value 	Text

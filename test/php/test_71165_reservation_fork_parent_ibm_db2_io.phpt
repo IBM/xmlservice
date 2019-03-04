@@ -33,7 +33,7 @@ for ($loop=0;$loop<$max;$loop++) {
     die('Failure could not fork');
   }
   // child
-  if (!$pid) { 
+  if (!$pid) {
     $out0 = `php test_71166_reservation_child.php2 0 > "/tmp/test_71166_reservation_0_{$loop}.test" &`;
     $out1 = `php test_71166_reservation_child.php2 1 > "/tmp/test_71166_reservation_1_{$loop}.test" &`;
     $out2 = `php test_71166_reservation_child.php2 2 > "/tmp/test_71166_reservation_2_{$loop}.test" &`;
@@ -67,7 +67,7 @@ for ($h=0; $retry && $h<40;$h++) {
   for ($loop=0;$loop<$max;$loop++) {
     if ($fork0[$loop] || $fork1[$loop] || $fork2[$loop] || $fork3[$loop]) $retry = true;
   } // loop
- 
+
   // check all <use>myspecialkey</use> complete
   // make sure <stop>myspecialkey</stop> occurrs
   // allow getxml3 (ls /tmp): good free key IPC ...
@@ -84,7 +84,7 @@ for ($h=0; $retry && $h<40;$h++) {
 
 } // h
 
-// bad 
+// bad
 if ($retry) {
   for ($loop=0;$loop<$max;$loop++) {
     if ($fork0[$loop] || $fork1[$loop] || $fork2[$loop] || $fork3[$loop]) $retry = true;
@@ -131,7 +131,7 @@ function continueLookingFile($title, $id, $lp, $dumpError=false) {
     if ($dumpError) echo "$data\n";
     return true; // waiting on child
   }
-  /// child needs to run 
+  /// child needs to run
   echo ("Good child program ($cmd) $title \n");
   return false; // done with child
 }

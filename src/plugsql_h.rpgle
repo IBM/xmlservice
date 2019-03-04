@@ -2,39 +2,39 @@
       /eof
       /endif
       /define PLUGSQL_H
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -54,8 +54,8 @@
       *   </script>
       *   Note: You only need chglibl once for all scripts because
       *         XMLSERVICE jobs remain active until killed (*immed).
-      *         XMLSERVICE default is system naming (not sql naming), 
-      *         so library list is significant for unqualified 
+      *         XMLSERVICE default is system naming (not sql naming),
+      *         so library list is significant for unqualified
       *         statements (see options below).
       *  Output:
       *   <?xml version='1.0'?>
@@ -82,7 +82,7 @@
       *
       * Connect to DB2 (optional):
       * <connect [conn='label' db='x' uid='x' pwd='x' options='label']/>
-      * 
+      *
       * Options template (optional):
       * <options [options='label' error='on|off|fast'
       *  Environment level (SQLSetEnvAttr) ...
@@ -120,7 +120,7 @@
       *  - repeatable   - read stability   (*RS, *ALL)
       *  - serializable - repeatable read  (*RR, *ALL)
       *
-      * Commit or rollback transaction (optional): 
+      * Commit or rollback transaction (optional):
       * <commit [conn='label' action='rollback' error='on|off|fast']/>
       * These alternate db2 features available ...
       *       error='on,off,fast' (1.7.6)
@@ -143,7 +143,7 @@
       *              fast - script continues, brief error log
       * Note:
       * - options='label' (version 1.5.1+)
-      * 
+      *
       * Prepare a statement (SQLPrepare/SQLExecute):
       * <prepare [conn='label' stmt='label' options='label' error='on|off|fast']>
       *  call storedproc(?,?)
@@ -191,7 +191,7 @@
       *    <row><data desc='NAME' null='on'></data><data desc='ID'>21</data></row>
       *   </fetch>
       * Note:
-      * - result set column types and descriptions are 
+      * - result set column types and descriptions are
       *   decided internally in XMLSERVICE (SQLNumResultCols/SQLDescribeCol)
       *   and bound at call time (SQLBindCol)
       * - rec='n' (version 1.5.1+)
@@ -238,10 +238,10 @@
       *   </count>
       *
       * Free resources:
-      * <free [conn='all|label' 
-      *        cstmt='label' 
-      *        stmt='all|label' 
-      *        options='all|label' 
+      * <free [conn='all|label'
+      *        cstmt='label'
+      *        stmt='all|label'
+      *        options='all|label'
       *        error='on|off|fast']/>
       * These alternate db2 features available ...
       *       error='on,off,fast' (1.7.6)
@@ -490,7 +490,7 @@
       *     allowed for the XMLSERVICE job. This is a DB2 rule of
       *     one activation equals one active connection/transaction,
       *     so you must free/commit a connection/transaction before
-      *     attempting to create a new connection/transaction 
+      *     attempting to create a new connection/transaction
       *     (or connect another profile). This is the correct
       *     mode for sharing QTEMP with XMLSERVICE called
       *     PGMs/SRVPGMs, so it is also the XMLSERVICE default.
@@ -506,12 +506,12 @@
       * > Commit rules (see options):
       *   - default is autocommit='on', where all create, insert,
       *     delete actions will be committed at operation time.
-      *   - if autocommit='off', commit action may be delayed 
+      *   - if autocommit='off', commit action may be delayed
       *     across multiple requests to XMLSERVICE and you
       *     may also rollback the transaction.
       * > Statement rules:
       *   - if stmt='label' is omitted (normal), the first active
-      *     statement available will be used for a sql operation 
+      *     statement available will be used for a sql operation
       *     such as fetch or describe. Therefore it is not wise
       *     to mix stmt='label' and omitted in the same XMLSERVICE
       *     task.
@@ -525,17 +525,17 @@
       *     wrong result set.
       * > Options rules:
       *   -Using servermode='on' universally executes statements
-      *    in child process (QSQSRVR jobs), not XMLSERVICE job. 
+      *    in child process (QSQSRVR jobs), not XMLSERVICE job.
       *    Once servermode='on', it stays 'on' for all connections
       *    for the life of the XMLSERVICE job, therefore you cannot
-      *    expect to share QTEMP between PGM calls/DB2 SQL, etc. 
+      *    expect to share QTEMP between PGM calls/DB2 SQL, etc.
       *    (ie. think very careful before you use this option)
       *   -Default mode is servermode='na' (off), or 'normal mode',
       *    which means a single connect/transaction is allowed
       *    active at any given time. Therefore, you must end
       *    any transation with <commit> and <free conn='all'>,
       *    before attempting to switch between connection profiles.
-      *    (normal CLI rules transaction/connect in a single process)  
+      *    (normal CLI rules transaction/connect in a single process)
       *   -System vs. SQL naming libl, where:
       *    - naming='system' with libl='curlib1 mylib2' (list)
       *      example: select * from mylib3/table (specific library)
@@ -553,7 +553,7 @@
       *   options='label' - unique name options template (optional)
       *   - a label is ten characters or less
       *   - a unique 'label' is used as XMLSERVICE/DB2 routing 'key'
-      *     thereby allowing multiple XML <sql> calls to XMLSERVICE 
+      *     thereby allowing multiple XML <sql> calls to XMLSERVICE
       *     routing back to open/active DB2 connection(s)/statement(s)
       *   - If optional conn/stmt 'label' is omitted, XMLSERVICE
       *     will return a unique 'label' attribute in output XML
@@ -563,7 +563,7 @@
       *     works just fine with less XML, but you need to be very careful
       *     that other scripts do not introduce additional conn/stmt
       *     'label(s)' that spoil your generic XML DB2 statements.
-      * > Connection/statements/options free rules (optional free): 
+      * > Connection/statements/options free rules (optional free):
       *   - Connections/statements remain active/open until released:
       *     <free/>                 - release all
       *     <free options='label'/> - release options template
@@ -573,11 +573,11 @@
       *     <free cstmt='label'/>   - release all statements 'label' connection
       *     <free stmt='label'/>    - release this statement
       *     <free stmt='all'/>      - release all statements
-      *   - conn='all'   : free all connections, 
+      *   - conn='all'   : free all connections,
       *                    also frees all statements
-      *   - cstmt='label': free all statements under 'label' connection, 
+      *   - cstmt='label': free all statements under 'label' connection,
       *                    other connections/statements remain active
-      *   - stmt='all'   : free all statements, 
+      *   - stmt='all'   : free all statements,
       *                    connections remain active
       * > These alternate db2 features available ...
       *       error='on,off,fast' (1.7.6)
@@ -751,28 +751,28 @@
      D SQL_ACTIVE_OPTIONS...
      D                 c                   const('O')
 
-     D sql_active_any...        
+     D sql_active_any...
      D                 PR             1N
      D  type                          1A   value
      D  label                        10A
 
-     D sql_options_setup...        
+     D sql_options_setup...
      D                 PR             1N
      D  label                        10A
      D  setoptions                 1024A
 
-     D sql_options_free...        
+     D sql_options_free...
      D                 PR             1N
      D  options                      10A   value
 
-     D sql_options_free_all...        
+     D sql_options_free_all...
      D                 PR             1N
 
-     D sql_connect_default...        
+     D sql_connect_default...
      D                 PR             1N
      D  label                        10A
 
-     D sql_connect...        
+     D sql_connect...
      D                 PR             1N
      D  label                        10A
      D  options                      10A
@@ -781,23 +781,23 @@
      D  ipwd                         10A
      D  sqlCode                      10I 0
 
-     D sql_connect_free...        
+     D sql_connect_free...
      D                 PR             1N
      D  conn                         10A   value
 
-     D sql_connect_free_all...        
+     D sql_connect_free_all...
      D                 PR             1N
 
-     D sql_connect_free_stmts...        
+     D sql_connect_free_stmts...
      D                 PR             1N
      D  conn                         10A   value
 
-     D sql_end_transaction...        
+     D sql_end_transaction...
      D                 PR             1N
      D  conn                         10A
      D  rollback                      1N   value
 
-     D sql_prepare...        
+     D sql_prepare...
      D                 PR             1N
      D  conn                         10A
      D  stmt_str                       *   value
@@ -806,23 +806,23 @@
      D  options                      10A
      D  sqlCode                      10I 0
 
-     D sql_parm_ctor...        
+     D sql_parm_ctor...
      D                 PR             1N
      D  sqlParm                        *
 
-     D sql_execute...        
+     D sql_execute...
      D                 PR             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
      D  sqlParm                        *
 
-     D sql_fetch_parm_desc...        
+     D sql_fetch_parm_desc...
      D                 PR             1N
      D  stmt                         10A
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_fetch_parm...        
+     D sql_fetch_parm...
      D                 PR             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -830,7 +830,7 @@
      D  outPtrP                        *
      D  sqlParm                            likeds(hBind_t)
 
-     D sql_query...        
+     D sql_query...
      D                 PR             1N
      D  conn                         10A
      D  stmt_str                       *   value
@@ -839,14 +839,14 @@
      D  options                      10A
      D  sqlCode                      10I 0
 
-     D sql_stmt_free...        
+     D sql_stmt_free...
      D                 PR             1N
      D  stmt                         10A   value
 
-     D sql_stmt_free_all...        
+     D sql_stmt_free_all...
      D                 PR             1N
 
-     D sql_fetch...        
+     D sql_fetch...
      D                 PR             1N
      D  stmt                         10A
      D  block                        10i 0
@@ -855,26 +855,26 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_fetch_col_desc...        
+     D sql_fetch_col_desc...
      D                 PR             1N
      D  stmt                         10A
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_row_count...        
+     D sql_row_count...
      D                 PR             1N
      D  stmt                         10A
      D  count                        10I 0
      D  sqlCode                      10I 0
 
 
-     D sql_last_insert_id...        
+     D sql_last_insert_id...
      D                 PR             1N
      D  conn                         10A
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_tables...        
+     D sql_tables...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -884,7 +884,7 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_table_privileges...        
+     D sql_table_privileges...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -893,17 +893,7 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_columns...        
-     D                 PR             1N
-     D  conn                         10A
-     D  iqual                       128A
-     D  ischema                     128A
-     D  itable                      128A
-     D  icol                        128A
-     D  outPtrP                        *
-     D  sqlCode                      10I 0
-
-     D sql_column_privileges...        
+     D sql_columns...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -913,7 +903,17 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_special_columns...        
+     D sql_column_privileges...
+     D                 PR             1N
+     D  conn                         10A
+     D  iqual                       128A
+     D  ischema                     128A
+     D  itable                      128A
+     D  icol                        128A
+     D  outPtrP                        *
+     D  sqlCode                      10I 0
+
+     D sql_special_columns...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -924,7 +924,7 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_procedures...        
+     D sql_procedures...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -933,7 +933,7 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_procedure_columns...        
+     D sql_procedure_columns...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -943,7 +943,7 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_primary_keys...        
+     D sql_primary_keys...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -952,7 +952,7 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_foreign_keys...        
+     D sql_foreign_keys...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -964,7 +964,7 @@
      D  outPtrP                        *
      D  sqlCode                      10I 0
 
-     D sql_statistics...        
+     D sql_statistics...
      D                 PR             1N
      D  conn                         10A
      D  iqual                       128A
@@ -977,62 +977,62 @@
       *****************************************************
       * database helpers
       *****************************************************
-     D sql_options_ctor...        
+     D sql_options_ctor...
      D                 PR             1N
      D pOpt                            *   value
 
-     D sql_env_options...        
+     D sql_env_options...
      D                 PR             1N
      D  conn                         10A
      D  options                      10A   value
      D  sqlCode                      10I 0
 
-     D sql_conn_options...        
+     D sql_conn_options...
      D                 PR             1N
      D  conn                         10A
      D  options                      10A   value
      D  sqlCode                      10I 0
 
-     D sql_stmt_options...        
+     D sql_stmt_options...
      D                 PR             1N
      D  stmt                         10A
      D  options                      10A   value
      D  sqlCode                      10I 0
 
-     D sql_error_rec...        
+     D sql_error_rec...
      D                 PR             1N
      D  hType                        10I 0 value
      D  handle                       10I 0 value
      D  sqlCode                      10I 0
 
-     D sql_col_desc_nbr...        
+     D sql_col_desc_nbr...
      D                 PR             1N
      D  stmt                         10A
      D  nCols                         5I 0
      D  sqlCode                      10I 0
 
-     D sql_col_desc...        
+     D sql_col_desc...
      D                 PR             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
 
-     D sql_col_bind...        
+     D sql_col_bind...
      D                 PR             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
 
-     D sql_parm_desc_nbr...        
+     D sql_parm_desc_nbr...
      D                 PR             1N
      D  stmt                         10A
      D  nParms                        5I 0
      D  sqlCode                      10I 0
 
-     D sql_parm_desc...        
+     D sql_parm_desc...
      D                 PR             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
 
-     D sql_parm_bind...        
+     D sql_parm_bind...
      D                 PR             1N
      D  stmt                         10A
      D  sqlCode                      10I 0

@@ -2,55 +2,55 @@
 
      D INDS6           DS                  qualified based(Template)
      D  I1                           10i 0
-     D  C2                           10a           
-     D  P1                           12p 2      
-     D  Z2                           12s 2            
-     D  R2                            8F            
-     D  R3                            4F            
+     D  C2                           10a
+     D  P1                           12p 2
+     D  Z2                           12s 2
+     D  R2                            8F
+     D  R3                            4F
 
      D INDS5           DS                  qualified based(Template)
      D  I1                           10i 0
-     D  C2                           10a           
-     D  P1                           12p 2      
-     D  Z2                           12s 2            
-     D  R2                            8F            
-     D  R3                            4F            
+     D  C2                           10a
+     D  P1                           12p 2
+     D  Z2                           12s 2
+     D  R2                            8F
+     D  R3                            4F
 
      D INDS4           DS                  qualified based(Template)
      D  I1                           10i 0
-     D  C2                           10a           
-     D  P1                           12p 2      
-     D  Z2                           12s 2            
+     D  C2                           10a
+     D  P1                           12p 2
+     D  Z2                           12s 2
      D   D5                                likeds(INDS5) dim(5)
 
      D INDS3           DS                  qualified based(Template)
      D  I1                           10i 0
-     D  C2                           10a           
-     D  P1                           12p 2      
-     D  Z2                           12s 2            
+     D  C2                           10a
+     D  P1                           12p 2
+     D  Z2                           12s 2
      D   D4                                likeds(INDS4) dim(4)
 
      D INDS2           DS                  qualified based(Template)
      D  I1                           10i 0
-     D  C2                           10a           
-     D  P1                           12p 2      
-     D  Z2                           12s 2            
+     D  C2                           10a
+     D  P1                           12p 2
+     D  Z2                           12s 2
      D   D3                                likeds(INDS3) dim(3)
 
      D INDS1           DS                  qualified
      D  I1                           10i 0
-     D  C2                           10a           
-     D  P1                           12p 2      
-     D  Z2                           12s 2            
+     D  C2                           10a
+     D  P1                           12p 2
+     D  Z2                           12s 2
      D   D2                                likeds(INDS2) dim(2)
      D   D4                                likeds(INDS4) dim(4)
      D   D5                                likeds(INDS5)
      D   D6                                likeds(INDS6)
-     D  R2                            8F            
-     D  R3                            4F            
-     D  C3                           60a           
-     D  Z3                           12s 3            
-     D  Z4                           12s 4            
+     D  R2                            8F
+     D  R3                            4F
+     D  C3                           60a
+     D  Z3                           12s 3
+     D  Z4                           12s 4
 
      D i               s             10i 0 inz(0)
      D j               s             10i 0 inz(0)
@@ -60,7 +60,7 @@
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       * main(): Control flow
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     C     *Entry        PLIST                   
+     C     *Entry        PLIST
      C                   PARM                    INDS1
       /free
         INDS1.I1 = -1;

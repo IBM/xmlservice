@@ -91,7 +91,7 @@ xmlstoredp.srvpgm: xmlstoredp.module $(COMMON)
 	system -q "CRTRPGMOD MODULE($(LIBRARY)/$*) SRCSTMF('$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES)" > $*.log 2>&1 && rm $*.log || :
 	test ! -e $*.log || (./parse.sh $*.log; exit 1)
 	touch $@
-	
+
 %.module: src/%.rpglesql
 	system -q "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES) COMPILEOPT('INCDIR(''src/'')')" > $*.log 2>&1 && rm $*.log || :
 	test ! -e $*.log || (./parse.sh $*.log; exit 1)

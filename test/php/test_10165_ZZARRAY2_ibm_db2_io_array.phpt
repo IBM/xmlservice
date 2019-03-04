@@ -98,7 +98,7 @@ echo "Success ($lib/$name.$func)\n";
 //     D  dcMyRank                     10i 0
 //     D  dcMyPay                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzarray2: check parameter array aggregate 
+//      * zzarray2: check parameter array aggregate
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzarray2        B                   export
 //     D zzarray2        PI

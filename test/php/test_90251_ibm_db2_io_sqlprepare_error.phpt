@@ -54,7 +54,7 @@ foreach ($allerror as $myerror) {
       if (!$error) die("Bad error='fast' prepare missed error");
       $joblog = $xmlobj->xpath('/script/sql/prepare/joblog');
       if ($joblog) die("Bad error='fast' prepare included joblog");
-      
+
       $error = $xmlobj->xpath('/script/sql/execute/error');
       if (!$error) die("Bad error='fast' execute missed error");
       $joblog = $xmlobj->xpath('/script/sql/execute/joblog');
@@ -69,7 +69,7 @@ foreach ($allerror as $myerror) {
       if (!$error) die("Bad error='off' prepare missing error");
       $joblog = $xmlobj->xpath('/script/sql/prepare/joblog');
       if (!$joblog) die("Bad error='off' prepare missing joblog");
-      
+
       $error = $xmlobj->xpath('/script/sql/execute/error');
       if (!$error) die("Bad error='off' execute missing error");
       $joblog = $xmlobj->xpath('/script/sql/execute/joblog');
@@ -80,7 +80,7 @@ foreach ($allerror as $myerror) {
       if (!$sqlcode) die("Bad error='on' prepare missed sqlcode");
       $sqlstate = $xmlobj->xpath('/report/error/sqlstate');
       if (!$sqlstate) die("Bad error='on' prepare missed sqlstate");
-      
+
       $error = $xmlobj->xpath('/report/error');
       if (!$error) die("Bad error='on' missing error");
       $joblog = $xmlobj->xpath('/report/joblog');

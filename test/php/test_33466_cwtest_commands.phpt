@@ -44,8 +44,8 @@ $end = microtime(true);
 
 $elapsed = $end - $start;
 
-echo "Ran command $cmdString with an output array in $elapsed seconds. Return: " . 
-     OkBad($commandSuccessful) . 
+echo "Ran command $cmdString with an output array in $elapsed seconds. Return: " .
+     OkBad($commandSuccessful) .
      " with CCSID '$ccsid', default CCSID '$defaultCcsid', current user '$currentUser', job name '$jobName', job number '$jobNumber', job user '$jobUser', with user liblist '$userLibl'.<BR><BR>";
 
 // Note: old toolkit cannot get interactive output of this sort (DSPJOBLOG). This is additional functionality of the new toolkit.

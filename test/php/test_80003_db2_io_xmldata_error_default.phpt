@@ -1,5 +1,5 @@
 --TEST--
-XML i Toolkit: IBM_DB2 check pgm bad xml missing error default 
+XML i Toolkit: IBM_DB2 check pgm bad xml missing error default
 --SKIPIF--
 <?php require_once('skipifdb2.inc'); ?>
 --FILE--

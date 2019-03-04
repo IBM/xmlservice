@@ -30,12 +30,12 @@ IPC/private| php-client-----|--->QSQSRVR             |
             2-tier - “true” IBM i connection/job maybe QSQ (PASE), QWI (LUW), etc., but picture above remains consistent behavior for “sharing” QTEMP (job 2).
             persistent connect - persistent connection (db2_pconnect/odbc_pconnect) or full connection (db2_connect/odbc_connect) makes no difference, big picture remains exactly the same for both connections. Of course you will run faster with persistent connections (up to 30–40%), due to QSQ server job already up and waiting, but you cannot rely on persistent connections to reach same QSQ job each script start / browser click.
                 exception - PASE ibm_db2 provides an obscure “in-line” mode only a few people understand where ibm_db2.ini file set to ibm_db2.i5_ignore_userid=1 will run all DB2 work under the default web profile and stateless in PASE php-client (job 1) … but only if pure PASE ibm_db2 site (no PASE odbc/pdo_ibm) … and … well gee … you are an expert if you understand i5_ignore_userid mode and you probably don’t need this documentation.
-                Note to future self ibm_db2, etc. … just like xmlservice has idle timeout today (1/2 hour), we really should have a timeout idle for persistent connections across db2. 
+                Note to future self ibm_db2, etc. … just like xmlservice has idle timeout today (1/2 hour), we really should have a timeout idle for persistent connections across db2.
     XMLSERVICE<>RPG (job 2 or job 3) - is toolkit call to RPG program wishing to “share” QTEMP.
         Stateless (job 2) - Generally run slower with more CPU challenges, re-started xmlservice running in “acquired” QSQ job under stored procedure call iPLUGxxx, but on return iPLUGxxx/xmlservice need to close up shop and lose all caches (shut down, wake up, shut down, wake up, …).
-            YES stateless - ibm_db2/odbc/pdo_ibm (job 2) CAN share QTEMP with XMLSERVICE<>RPG/XMLSERVICE<>DB2 (also job 2). 
+            YES stateless - ibm_db2/odbc/pdo_ibm (job 2) CAN share QTEMP with XMLSERVICE<>RPG/XMLSERVICE<>DB2 (also job 2).
         IPC/private (job 3) - Generally run faster with less CPU challenges, because xmlservice stays running until explicitly killed or idle timeout (1/2 hour default / user controlled).
-            NO IPC/private - ibm_db2/odbc/pdo_ibm (job 2) can NOT share QTEMP with XMLSERVICE<>RPG/XMLSERVICE<>DB2 (job 3). 
+            NO IPC/private - ibm_db2/odbc/pdo_ibm (job 2) can NOT share QTEMP with XMLSERVICE<>RPG/XMLSERVICE<>DB2 (job 3).
     XMLSERVICE<>DB2 (job 2 or job 3) - is NOT yet available in toolkit wrapper (Alan), but RAW xmlservice interface allows xml based DB2 queries and therefore can “share” QTEMP (available today in RAW xmlservice mode).
 
         <?xml version='1.0'?>
@@ -48,8 +48,8 @@ IPC/private| php-client-----|--->QSQSRVR             |
          ON COMMIT PRESERVE ROWS
         </query>
         <prepare>
-        insert into 
-        animalq (id, breed, name, weight, height) 
+        insert into
+        animalq (id, breed, name, weight, height)
         values (?,?,?,?,?)
         </prepare>
         <execute>

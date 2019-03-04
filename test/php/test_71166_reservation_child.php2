@@ -3,7 +3,7 @@
 // see connection.inc param details ...
 require_once('connection.inc');
 
-// arguments passed 
+// arguments passed
 // $argv[0] - name of program
 // $argv[1] - which program to run
 //  0 - INPUT getxml0 (dsplibl): good exclusive key IPC ...

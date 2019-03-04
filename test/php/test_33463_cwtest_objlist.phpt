@@ -8,17 +8,17 @@ XML i Toolkit: - cwtest object list
 require_once('xxcw_test_setup.php');
 
 if ($doObjectList) {
-	
+
 	echo h2('Object lists');
 
 	echo "About to do object list with '$demoLib', '*ALL','*PGM'<BR>";
 // object list
-$list = i5_objects_list($demoLib, '*ALL', '*PGM', $conn); 
+$list = i5_objects_list($demoLib, '*ALL', '*PGM', $conn);
 if (!$list) {
 	die('Error getting object list: ' . printArray(i5_error()) . '<BR><BR>');
-	
+
 } else {
-    
+
 	while ($listItem = i5_objects_list_read($list)) {
 			echo printArray($listItem);
 	}

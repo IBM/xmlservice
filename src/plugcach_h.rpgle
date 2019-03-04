@@ -2,39 +2,39 @@
       /eof
       /endif
       /define PLUGCACH_H
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -114,10 +114,10 @@
       * ---------------------------
       * 3) SQL
       *    <sql>
-      *    <options options='noauto' autocommit='off'/>       
+      *    <options options='noauto' autocommit='off'/>
       *                                     -- cacClrOPT, cacAddOPT, cacScanOPT
       *                                        (options='noauto'<> ... )
-      *    <connect conn='myconn' options='noauto'/>       
+      *    <connect conn='myconn' options='noauto'/>
       *                                     -- cacClrDB2, cacAddDB2, cacScanDB2
       *                                        (conn='myconn'<> ...)
       *    <prepare conn='myconn' stmt='mylob'>
@@ -337,7 +337,7 @@
       * xml scan element
       *****************************************************
      D cacClrXML       PR
-     
+
      D cacFixXML       PR            10i 0
 
      D cacGetXML       PR            10i 0
@@ -424,10 +424,10 @@
      D cacClrDou       PR
 
      D cacAddDou       PR             1N
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D cacPopDou       PR            10i 0
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
       *****************************************************
       * xml pgm offset (XML node)
@@ -435,10 +435,10 @@
      D cacClrOff       PR
 
      D cacAddOff       PR             1N
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D cacPopOff       PR            10i 0
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
       *****************************************************
       * xml overlay next offset (XML node)
@@ -446,10 +446,10 @@
      D cacClrNxt       PR
 
      D cacAddNxt       PR             1N
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D cacPopNxt       PR            10i 0
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
       *****************************************************
       * xml pgm len DS caching (XML node)
@@ -465,10 +465,10 @@
 
      D cacAddLen       PR             1N
      D   type                        10I 0 value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D cacPushLen      PR             1N
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
       *****************************************************
       * pgm overlay markers
@@ -509,7 +509,7 @@
 
 
       *****************************************************
-      * iconv records 
+      * iconv records
       *****************************************************
      D cacClrCnv       PR
 

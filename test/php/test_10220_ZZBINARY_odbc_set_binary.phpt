@@ -15,12 +15,12 @@ if (!$stmt) die("Bad prepare: ".odbc_errormsg());
 $ctl .= " *hack";
 $clobIn = getxml();
 $clobOut = "";
-// bad behavior odbc extension ... 
+// bad behavior odbc extension ...
 // why IBM i result set warning???
-error_reporting(~E_ALL); 
+error_reporting(~E_ALL);
 $ret=odbc_execute($stmt,array($ipc,$ctl,$clobIn));
 if (!$ret) die("Bad execute: ".odbc_errormsg());
-error_reporting(E_ALL); 
+error_reporting(E_ALL);
 while(odbc_fetch_row($stmt)) {
   $clobOut .= driverJunkAway(odbc_result($stmt, 1));
 }
@@ -61,7 +61,7 @@ if ($actual != $expect) die("return: $var ($actual not $expect) ($lib/$name.$fun
 echo "Success ($lib/$name.$func)\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzbinary: check return binary 
+//      * zzbinary: check return binary
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzbinary        B                   export
 //     D zzbinary        PI            20A

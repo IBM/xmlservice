@@ -48,29 +48,29 @@ if ((string)$parm[2]->data != "ALAN HOW ARE YOU TEST one of one") die("3) not 'A
 // good
 echo "Success ($lib/$name $mode)\n";
 
-//PGM PARM(&CHAR1 &NUM2 &RTNVAL)                                 
-//      DCL VAR(&CHAR1) TYPE(*CHAR) LEN(15)                            
-//      DCL VAR(&NUM1) TYPE(*DEC) LEN(10)                              
-//      DCL VAR(&NUM2) TYPE(*CHAR) LEN(10)                             
-//      DCL VAR(&RTNVAL) TYPE(*CHAR) LEN(100)                          
-//      CHGVAR VAR(&CHAR1) VALUE('I am 15')             
-//      CHGVAR VAR(&NUM2) VALUE(12.2)             
-//      CHGVAR VAR(&RTNVAL) VALUE('ALAN HOW ARE YOU TEST one of one')  
-// ENDPGM: +                                                           
-//     ENDPGM                                                         
+//PGM PARM(&CHAR1 &NUM2 &RTNVAL)
+//      DCL VAR(&CHAR1) TYPE(*CHAR) LEN(15)
+//      DCL VAR(&NUM1) TYPE(*DEC) LEN(10)
+//      DCL VAR(&NUM2) TYPE(*CHAR) LEN(10)
+//      DCL VAR(&RTNVAL) TYPE(*CHAR) LEN(100)
+//      CHGVAR VAR(&CHAR1) VALUE('I am 15')
+//      CHGVAR VAR(&NUM2) VALUE(12.2)
+//      CHGVAR VAR(&RTNVAL) VALUE('ALAN HOW ARE YOU TEST one of one')
+// ENDPGM: +
+//     ENDPGM
 function getxml() {
 $clob = <<<ENDPROC
 <?xml version='1.0'?>
 <script>
 <pgm mode='opm' name='ZZSHLOMO' lib='xyzlibxmlservicexyz'>
 <parm io='both'>
-<data type='15A'>frog</data>           
+<data type='15A'>frog</data>
 </parm>
 <parm io='both'>
-<data type='10A'>12.2</data>           
+<data type='10A'>12.2</data>
 </parm>
 <parm io='both'>
-<data type='100A'>dude</data>           
+<data type='100A'>dude</data>
 </parm>
 </pgm>
 </script>

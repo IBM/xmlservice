@@ -75,7 +75,7 @@ if ($actual != $expect) die("return: $var ($actual not $expect) ($lib/$name.$fun
 echo "Success ($lib/$name.$func)\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzbinary: check return binary 
+//      * zzbinary: check return binary
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzbinary        B                   export
 //     D zzbinary        PI            20A

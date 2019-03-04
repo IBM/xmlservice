@@ -66,7 +66,7 @@ echo "Success ($lib/$name.$func)\n";
 //     D  myNam8                    32000A
 //     D  myNam9                    32000A
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzbig: check big 
+//      * zzbig: check big
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzbig           B                   export
 //     D zzbig           PI            10I 0

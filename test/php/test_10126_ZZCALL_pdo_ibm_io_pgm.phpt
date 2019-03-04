@@ -8,18 +8,18 @@ XML i Toolkit: PDO_IBM inout PGM - call pgm complex data
 require_once('connection.inc');
 $database = "ibm:".$database;
 try {
-  $db = new PDO($database, 
-                strtoupper($user), 
-                strtoupper($password), 
+  $db = new PDO($database,
+                strtoupper($user),
+                strtoupper($password),
                 array(PDO::ATTR_AUTOCOMMIT=>true));
   if (!$db) throw new Exception('foo');
-} catch( Exception $e ) { 
-  die("Bad connect: $database,$user"); 
+} catch( Exception $e ) {
+  die("Bad connect: $database,$user");
 }
 try {
   $stmt = $db->prepare("call $procLib.iPLUG4K(?,?,?,?)");
   if (!$stmt) throw new Exception('bar');
-} catch( Exception $e ) { 
+} catch( Exception $e ) {
   $err = $db->errorInfo();
   $cod = $db->errorCode();
   die("Bad prepare: ".$cod." ".$err[0]." ".$err[1]." ".$err[2]);
@@ -79,17 +79,17 @@ echo "Success ($lib/$name)\n";
 
 //     D  INCHARA        S              1a
 //     D  INCHARB        S              1a
-//     D  INDEC1         S              7p 4        
+//     D  INDEC1         S              7p 4
 //     D  INDEC2         S             12p 2
-//     D  INDS1          DS                  
+//     D  INDS1          DS
 //     D   DSCHARA                      1a
-//     D   DSCHARB                      1a           
-//     D   DSDEC1                       7p 4      
-//     D   DSDEC2                      12p 2            
+//     D   DSCHARB                      1a
+//     D   DSDEC1                       7p 4
+//     D   DSDEC2                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * main(): Control flow
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     C     *Entry        PLIST                   
+//     C     *Entry        PLIST
 //     C                   PARM                    INCHARA
 //     C                   PARM                    INCHARB
 //     C                   PARM                    INDEC1

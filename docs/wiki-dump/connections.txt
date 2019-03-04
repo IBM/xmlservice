@@ -20,18 +20,18 @@ XMLSERVICE connections discussed this page …
     1) Stateless — clean running come/go, “full open/close,” start/stop connection to be used by any requester. Must set LIBL during each request
     2) State full — State retained between requests: LIBL, transactions, etc., “private” connection used by one requester/task for a long period of time (like 5250)
     3) State full — hybrid “private/persistent” connection shared by many requesters, but keep open PGM, files, etc.
-    4) State full — reservation hybrid “private/persistent” connection exclusively held for a period each requesters, but returned back to pool for re-use (rare use) 
+    4) State full — reservation hybrid “private/persistent” connection exclusively held for a period each requesters, but returned back to pool for re-use (rare use)
 
 The jobs involved in “connections”:
 
 1) Stateless
                     (job 1)  (job 2)                (job 3)
-                    Apache   FastCGI                DB2 (stateless)      
+                    Apache   FastCGI                DB2 (stateless)
                     -------  ---------------        ---------------------
    browser/client ->thread-->socket->php-cgi
                           --->$ctl="*here";      -->QSQSRVR+XMLSERVICE
-                                                    shut down after 
-                                                    each request 
+                                                    shut down after
+                                                    each request
                                                     ("stateless")
 
 2) State full
@@ -45,7 +45,7 @@ The jobs involved in “connections”:
                                                                             ("state full")
 
 
-Jobs originates ... 
+Jobs originates ...
 (job 1) Apache picks any thread (1st level routing)
 (job 2) FastCGI all "non-busy" worker php-cgi wait on unix domain socket /www/zend2/logs/fcgi-hmjadgek.sock (2nd level routing)
 (job 3) php-cgi - database connections odbc, ibm_db2, pdo_ibm (3rd level routing)
@@ -61,22 +61,22 @@ Drivers involved in conection:
 400 server start-up 	Common usage 	Big picture 	Comments
 STRTCPSVR SERVER(*HTTP)
 
-    port 80 or 10088 or … (REST/HTTP interface) 
+    port 80 or 10088 or … (REST/HTTP interface)
 
 	1-tier - XMLCGI 	CLIENT <==> IBM HTTP Server <==> XMLCGI (CLI server mode) <==> QSQxxxx <==> IBM i Resources 	XMLCGI + CLI from Yips (Cairns IBM Rochester)
 PASE library (no start needed)
 
-    no port 
+    no port
 
 	1-tier - PHP ibm_db2+pdo_ibm+odbc (Native PASE CLI libdb400.a driver) 	CLIENT (PASE libdb400.a driver) <==> QSQxxx <==> IBM i Resources 	Native PASE CLI libdb400.a driver (IBM Rochester)
 STRHOSTSVR SERVER(*DATABASE)
 
-    port 8471 (database) 
+    port 8471 (database)
 
 	2-tier - PHP odbc interface (IBM i Client Access odbc driver interface) 	CLIENT (Client Access drivers) <==> QZDAxxxx <==> IBM i Resources 	Client Access odbc-based drivers (IBM Rochester)
 STRTCPSVR SERVER(*DDM)
 
-    port 446 (DDM/DRDA) 
+    port 446 (DDM/DRDA)
 
 	2-tier - PHP ibm_db2+pdo_ibm (DB2 Connect driver interface) 	CLIENT (DB2 Connect drivers) <==> QRWxxxx <==> IBM i Resources 	DB2 CLI DRDA-based DB2 Connect drivers (IBM Toronto)
 1) Stateless — no LIBL, come/go
@@ -106,7 +106,7 @@ Example new Toolkit (stateless):
     Stateless: If you choose $ctl=‘*here’, you will run in the calling process DB2 connection (QSQSRVR job). When XMLSERVICE completes your XML script it will shut down to nothing, considered stateless and holds zero state on return.
         In general you will run slower in stateless mode (CW default / Toolkit default), because XMLSERVICE has to keep starting things over and over and over again, but perhaps not an issue if you have CPU to burn.
         The is no semaphore locking or shared memory ipc when running as stateless (*here), because only one sally client/server is a pair, but of course there may be many sally client/server pairs on the same machine.
-        There is no “memory” of the LIBL in stateless, so it must be set EVERY time before use. 
+        There is no “memory” of the LIBL in stateless, so it must be set EVERY time before use.
 
 2) State full — LIBL, transactions, etc.
 
@@ -158,12 +158,12 @@ Example new Toolkit (state full):
         Security is managed through IFS shared memory / semaphores access control just like any other IFS file, so once profile sally owns an active XMLSERVICE ctl+ipc then no other profile can attach to the active XMLSERVICE job … well … except for high authority profiles like *SECOFR (of course).
         With version 1.6.6 state full XMLSERVICE connections are ended via configurable idle timeout $ctl .= “ *idle(3000)”, you may keep the jobs alive forever using $ctl .= “ *idle(0)” to match the original version behavior. There are other options for client wait $clt .= “ *wait(30)” and waiting for called program to return $ctl .= “ *call(200)” and various actions that can be taken for each wait/timer (busy,kill,etc.).
         In this example we have been using one sally client/server $ipc=“/tmp/packers”, you can of course have many different sally client/server ($ipc=“/tmp/packers”, $ipc=“/tmp/vikings”, $ipc=“/tmp/bears”, etc.) and each of these sally ipcs may have many clients chatting with each sally server ipc … sort of a sally work load balancing dream situation where we can clone a new sally ipc server for each task at hand.
-        You only need to set the LIBL once in state full (unless you want to change LIBL for some reason). 
+        You only need to set the LIBL once in state full (unless you want to change LIBL for some reason).
     Toolkit State full (with IPC) - avoid start up/shut down XMLSERVICE (NOT toolkit default)
         avoid using toolkit disconnect ($ctl=“*immed”) to leave XMLSERVICE up and running (will timeout shut down if idle for 1/2 hour)
         choose a the minimum plug size need for the task to avoid send/receive extra blanks
         TURN DEBUG and LOGS off in toolkit to avoid IFS file write (takes forever in computer timings)
-        db2_pconnect() - persistent or “shared” connection with toolkit avoids acquire/release QSQ jobs (NOT toolkit default) 
+        db2_pconnect() - persistent or “shared” connection with toolkit avoids acquire/release QSQ jobs (NOT toolkit default)
 
 XMLSERVICE adopt authority issues
 
@@ -173,7 +173,7 @@ Two choices:
 
     a) If you MUST “adopt authority” do it in a stateless job (*here), where full connection processing may undo “left over switch profile” potential damage on the way out of XMLSERVICE script. This option should always work.
     b) Be very careful to return back to sally profile EACH TIME leaving xmlservice sending data back to the waiting sally client … sort of good manners talk to sally client as sally server (adopted fred can speak/do only when asked, then go away)
-        Note: We are thinking about forcing “switch back to originating profile on the way back” within XMLSERVICE code, but have not yet understood what that means to PHP wrappers like CW, so the mission is at the moment in your called program and/or PHP wrapper/user code. 
+        Note: We are thinking about forcing “switch back to originating profile on the way back” within XMLSERVICE code, but have not yet understood what that means to PHP wrappers like CW, so the mission is at the moment in your called program and/or PHP wrapper/user code.
 
 3) State full — hybrid “private/persistent” connection
 
@@ -184,12 +184,12 @@ Worried about too many IPC’s/XMLSERVICE jobs??
 The following gives you a hybrid “private/persistent” connection …
 
     … most all the benefits for called RPG (state full, open files, etc.)
-    … but only $maxpool XMLSERVICE jobs 
+    … but only $maxpool XMLSERVICE jobs
 
 Try this simple technique for pooled IPC’s/XMLSERVICE jobs $internalKey = '/tmp/packers'.rand(1,$maxpool)
 
     IF your application set can tolerate multi-client shared access to a pool of persistent/private/semi-stateless connections the random technique should work well.
-    However, if you need your client make a exclusive reservation see the next topic 
+    However, if you need your client make a exclusive reservation see the next topic
 
 3) State full -- hybrid "private/persistent" connection
    $maxpool = 3;
@@ -212,7 +212,7 @@ Try this simple technique for pooled IPC’s/XMLSERVICE jobs $internalKey = '/tm
                   -->thread--socket->php-cgi--->QSQSRVR(profile sally)--|
                   -->thread--socket->php-cgi--->QSQSRVR(profile sally)--.
 
-   3 XMSLERVICE jobs handle work for all sally clients using the site 
+   3 XMSLERVICE jobs handle work for all sally clients using the site
 
 Example new Toolkit (hybrid "private/persistent" connection):
 
@@ -236,21 +236,21 @@ Example new Toolkit (hybrid "private/persistent" connection):
 
     So simple, why does it work???
         Works much same as Apache FastCGI PHP jobs (even using random), because $maxpool “child XMLSERVICE workers” can be increased to match machine workload (tinker-trial-error) … just like Apache threads … just like PHP children … all the same
-        Most web requests are sub-second, so even on routing collision by random it is a short wait 
+        Most web requests are sub-second, so even on routing collision by random it is a short wait
     Could i dedicate different pools to different tasks ???
-        Yes, a bag full of really low effort work (/tmp/packers1–40, /tmp/vikings1–40). 
+        Yes, a bag full of really low effort work (/tmp/packers1–40, /tmp/vikings1–40).
     Could i dedicate different user ids to different pools as well as tasks???
-        Yes, a bag full of really low effort work (/tmp/packers1–40, /tmp/vikings1–40). 
+        Yes, a bag full of really low effort work (/tmp/packers1–40, /tmp/vikings1–40).
     Can i idle timeout unused XMLSERVICE jobs ???
         Yes of course, toolkit.ini setting or specify manually.
-        NEVER EVER USE THIS … $ToolkitServiceObj→disconnect(); 
+        NEVER EVER USE THIS … $ToolkitServiceObj→disconnect();
     Should i use persistent connections??
         db2_pconnect — Yes of course, it will save the time “attaching” a QSQSRVR job
-        db2_connect — However, you can use same technique with full open/close (yes it does work, try it) 
+        db2_connect — However, you can use same technique with full open/close (yes it does work, try it)
     Can i prestart jobs?
         Yes, but they will start on web demand which i think is much better (just like Apache)
         SBMJOB CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM(‘/tmp/packers1′)) JOBD(ZENDSVR/ZSVR_JOBD) USER(PACKERS)
-        SBMJOB CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM(‘/tmp/vikings1′)) JOBD(ZENDSVR/ZSVR_JOBD) USER(VIKINGS) 
+        SBMJOB CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM(‘/tmp/vikings1′)) JOBD(ZENDSVR/ZSVR_JOBD) USER(VIKINGS)
 
 4) State full — reservation hybrid “private/persistent” connection
 
@@ -270,7 +270,7 @@ If your client needs to start/use/stop a reservation hybrid “private/persisten
                 <xmlerrmsg>IPC owner busy</xmlerrmsg>
               </error>
 
-        thoughtful setting server idle timeout can control unwanted reservation hangs due to careless users or errors $ctl .= " *idle(60)" 
+        thoughtful setting server idle timeout can control unwanted reservation hangs due to careless users or errors $ctl .= " *idle(60)"
 
 4) hybrid "private/persistent" connection with reservation
    $maxpool = 3;
@@ -324,14 +324,14 @@ Example new Toolkit (hybrid "private/persistent" connection with reservation):
      <?xml version="1.0"?>
      <script>
      <use>unique-user-key</use>
-     <pgm name='ZZCALL'> 
+     <pgm name='ZZCALL'>
       <parm>
        <data type='1A'>a</data>
-      </parm> 
+      </parm>
       <return>
         <data type='10i0'>0</data>
-      </return> 
-     </pgm> 
+      </return>
+     </pgm>
      </script>
     -- request n (2 hours later) --
      <?xml version="1.0"?>

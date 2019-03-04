@@ -5,34 +5,34 @@
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -114,8 +114,8 @@
      D   talkIPC                     10i 0 value
      D   talkClient                  10i 0 value
      D   talkServer                  10i 0 value
-     
-     
+
+
       *****************************************************
       * set ipc safe (1.7.4)
       * return (NA)
@@ -129,13 +129,13 @@
          // check IPC ok
          rc = ipcCtl.ipcReadyGo;
        On-error;
-         // local IPC until attached (here) 
+         // local IPC until attached (here)
          ipcCtlP    = %ADDR(ipcHereCtl);
          ipcDoFlagP = %ADDR(ipcCtl.ipcFlags);
        Endmon;
       /end-free
      P                 E
-     
+
 
       *****************************************************
       * set global
@@ -183,17 +183,17 @@
        endif;
 
        perfAdd(PERF_ANY_WATCH_IPCSTATIC:*ON);
-       
+
        // user provided sbmjob
        sUsrSbmJob = *BLANKS;
 
-       // local IPC until attached (here) 
+       // local IPC until attached (here)
        ipcCtlP    = %ADDR(ipcHereCtl);
        ipcDoFlagP = %ADDR(ipcCtl.ipcFlags);
        // ipcCtl.ipcTmClt = *BLANKS;
        // ipcCtl.ipcTmSrv = *BLANKS;
 
-       // no user buffers, 
+       // no user buffers,
        // internal buffer power scotty
        if pIClob = *NULL;
          pIClob = %addr(ipcHereIn);
@@ -295,7 +295,7 @@
        ipcDoFlags.doPaseILE  = -42;
        ipcDoFlags.doPasePASE = -42;
        ipcDoFlags.doTest = -42;
-       ipcDoFlags.doESCP = *OFF; 
+       ipcDoFlags.doESCP = *OFF;
 
        // parse elements (input)
        len  = %len(%trim(pCtlSP));
@@ -671,7 +671,7 @@
 
        // doDebugProc and doDebugCGI handle first
        if count > 0;
-        if ipcDoFlags.doDebugProc = *OFF 
+        if ipcDoFlags.doDebugProc = *OFF
         and ipcDoFlags.doDebugCGI = *OFF;
          // debug XMLSERVICE
          pBeg = bigScan(pTop:xDEBUG:pLst);
@@ -777,7 +777,7 @@
          count -= 1;
         endif;
        endif;
-       
+
        // log performance data *ON
        if count > 0;
         pBeg = bigScan(pTop:xDOLOG:pLst);
@@ -853,7 +853,7 @@
          ccsidILE(ipcDoFlags.doPaseILE);
        endif;
 
-       // run escape   
+       // run escape
        if count > 0;
         pBeg = bigScan(pTop:xESCP:pLst);
         if pBeg <> *NULL;
@@ -917,7 +917,7 @@
        ipcCtl.ipcOClobP    = aCtl.ipcOClobP;
        ipcCtl.ipcIClobSz   = aCtl.ipcIClobSz;
        ipcCtl.ipcOClobSz   = aCtl.ipcOClobSz;
-       // on internal buffer power scotty 
+       // on internal buffer power scotty
        if ipcCtl.ipcIClobP = *NULL;
          ipcCtl.ipcIClobP = %addr(ipcHereIn);
          ipcCtl.ipcIClobSz = %size(ipcHereIn);
@@ -1007,7 +1007,7 @@
        return ipcDoFlags.doDbgJVM;
       /end-free
      P                 E
-     
+
      P ipcDoLogKey     B                   export
      D ipcDoLogKey     PI            64A
       /free
@@ -1079,7 +1079,7 @@
      d serverPid       s             10i 0 inz(0)
       /free
        myErrno = 0;
-       
+
        // no sbmjob stateless
        if ipcIsHere = *ON;
          if ipcShmAddr = *NULL;
@@ -1154,16 +1154,16 @@
       * return (*ON=good; *OFF=bad)
       * Note:
       * Called IPC belongs to client ...
-      *   ipcOwnJob()       
+      *   ipcOwnJob()
       *   RUN_CLIENT_OWN    -- after shared memory,
       *                        before lock semaphore (ipcLocked = *OFF)
-      *                        before ipcCopyIn (ipcCtl local) 
+      *                        before ipcCopyIn (ipcCtl local)
       *                        (quick check no match)
       *
       *   RUN_CLIENT_COPYIN -- after shared memory,
       *                        after lock semaphore (ipcLocked = *ON)
       *                        server copyin allowed
-      *                        before ipcCopyIn (ipcCtl local) 
+      *                        before ipcCopyIn (ipcCtl local)
       *                        (slower check exclusive IPC)
       *****************************************************
      P ipcOwnUse       B                   export
@@ -1223,7 +1223,7 @@
        ipcSafe(); // @ADC safe IPC (1.7.4)
        // blank set it
        ipcOwnFix(ipcCtlP);
-       if ipcCtl.ipcOwnKey = *BLANKS 
+       if ipcCtl.ipcOwnKey = *BLANKS
        or ipcCtl.ipcOwnKey = jobKey;
          ipcCtl.ipcOwnKey = jobKey;   // local flag set (prior ipcCopyIn)
        endif;
@@ -1343,7 +1343,7 @@
          serverPid = bCtl.ipcPidSrv;
        endif;
 
-       // immed end from client side 
+       // immed end from client side
        // also sends server sigkill
        if serverPid > 0 and serverPid <> getpid();
          rcsig = kill(serverPid:SIGKILL);
@@ -1410,33 +1410,33 @@
          // execute command
          // SBMJOB CMD(CALL PGM(PLUGSBMLIB/PLUGSBMPGM)
          //   PARM('/tmp/ranger')) JOBD(ZENDSVR/ZSVR_JOBD)
-         //   PRTDEV(*JOBD) OUTQ(*JOBD) INLLIBL(*JOBD) 
+         //   PRTDEV(*JOBD) OUTQ(*JOBD) INLLIBL(*JOBD)
          //   INLASPGRP(*JOBD) SPLFACN(*JOBD)
          mylib = confSBMLIB();
          mypgm = confSBMPGM();
-         cmdstr = 'SBMJOB CMD(CALL PGM(' 
-              + %trim(mylib) 
-              + '/' 
-              + %trim(mypgm) 
+         cmdstr = 'SBMJOB CMD(CALL PGM('
+              + %trim(mylib)
+              + '/'
+              + %trim(mypgm)
               + ')'
               + ' PARM('
-              + '''' 
-              + %trim(ipcPathBlk) 
-              + '''' 
+              + ''''
+              + %trim(ipcPathBlk)
+              + ''''
               + '))'
               + ' JOB('
-              + %trim(ipcDoFlags.doSbmNam) 
+              + %trim(ipcDoFlags.doSbmNam)
               + ')'
               + ' JOBD('
-              + %trim(ipcDoFlags.doSbmLib) 
-              + '/' 
-              + %trim(ipcDoFlags.doSbmJobd)         
-              + ')';          
+              + %trim(ipcDoFlags.doSbmLib)
+              + '/'
+              + %trim(ipcDoFlags.doSbmJobd)
+              + ')';
          // INLASPGRP(ASP1) (1.6.5)
          if ipcDoFlags.doSbmAsp <> *BLANKS;
            cmdstr = %trim(cmdstr)
               + ' INLASPGRP('
-              + %trim(ipcDoFlags.doSbmAsp) 
+              + %trim(ipcDoFlags.doSbmAsp)
               + ')';
          endif;
          // add options for SBMJOB
@@ -1575,7 +1575,7 @@
        if ipcAllKey > -1;
          thekey = ipcFtok();
 
-         // destroy semaphore 
+         // destroy semaphore
          cmdstr = *BLANKS;
          cmdstr = %trim(cmdstr) + 'call PGM(QSYS/QP0ZIPCR) PARM(';
          cmdstr = %trim(cmdstr) + '''-S0X';
@@ -1657,7 +1657,7 @@
            ipcSemRet = semget(ipcSemKey:NUMSEMS:xIPC_RWCRT); // +XIPC_OTHR
            if ipcSemRet < 0;
              errsWarning(IPC_ERROR_CRTSEM1_FAIL:ipcPathBlk);
-             // EINVAL 3021 The value specified 
+             // EINVAL 3021 The value specified
              // for the argument is not correct.
              errsLast(myErrLast);
              if myErrLast.erErrNo = 3021;
@@ -1687,7 +1687,7 @@
            ipcSemRet = semget(ipcSemKey:NUMSEMS:xIPC_RW);
            if ipcSemRet < 0;
              errsCritical(IPC_ERROR_GETSEM_FAIL:ipcPathBlk);
-             // EINVAL 3021 The value specified 
+             // EINVAL 3021 The value specified
              // for the argument is not correct.
              errsLast(myErrLast);
              if myErrLast.erErrNo = 3021;
@@ -1746,9 +1746,9 @@
            ipcShmId = shmget(ipcShmKey:IPCSZ:xIPC_RWCRT+XSHM_TS); // +XIPC_OTHR
            if ipcShmId < 0;
              errsCritical(IPC_ERROR_CRTSHM_FAIL:ipcPathBlk);
-             // EINVAL 3021 The value specified 
+             // EINVAL 3021 The value specified
              // for the argument is not correct.
-             // EIDRM  3509 The semaphore, shared memory, 
+             // EIDRM  3509 The semaphore, shared memory,
              // or message queue identifier is removed from the system.
              // ENOENT 3025 No such path or directory.
              // EINTR 3407 Interrupted function call.
@@ -1787,9 +1787,9 @@
            ipcShmId = shmget(ipcShmKey:IPCSZ:xIPC_RW+XSHM_TS);
            if ipcShmId < 0;
              errsWarning(IPC_ERROR_GETSHM_FAIL:ipcPathBlk);
-             // EINVAL 3021 The value specified 
+             // EINVAL 3021 The value specified
              // for the argument is not correct.
-             // EIDRM  3509 The semaphore, shared memory, 
+             // EIDRM  3509 The semaphore, shared memory,
              // or message queue identifier is removed from the system.
              // ENOENT 3025 No such path or directory.
              // EINTR 3407 Interrupted function call.
@@ -1964,7 +1964,7 @@
        // -----------------
        looper = 0;
        if ipcShmKey > 0 and ipcShmId > 0
-       and ipcShmAddr <> *NULL;  // @ADC 1.6.10 
+       and ipcShmAddr <> *NULL;  // @ADC 1.6.10
         dow iAmReady = *OFF;
          bCtlP = ipcShmAddr;
          if bCtl.ipcReadyGo = *ON;
@@ -2138,7 +2138,7 @@
        ipcSemKey = -1;
        ipcSemRet = -1;
 
-       // new destroy IPC safeguard 
+       // new destroy IPC safeguard
        // rcb = ipcPanic(); // ADC (1.6.8)
 
        // destroy memory
@@ -2166,10 +2166,10 @@
       * vars
      D rc              s             10i 0 inz(0)
      D myKey           s             10i 0 inz(0)
-     D pTarget         s               *   inz(*NULL) 
+     D pTarget         s               *   inz(*NULL)
      D nLength         s             10i 0 inz(0)
-     D myHex           s             32A   inz(*BLANKS) 
-     D pSource         s               *   inz(*NULL) 
+     D myHex           s             32A   inz(*BLANKS)
+     D pSource         s               *   inz(*NULL)
       /free
        myKey = ftok(ipcPathNull:IPC_ID);
        pTarget = %addr(myHex);
@@ -2236,12 +2236,12 @@
        // ... result = 0, result--              *** WAKE ALL
        // ... result < 0, waits for result > 0  *** ZZZZZZZZ
        // ... result > 0, result--              *** nada
-       // Note: 
+       // Note:
        //   sem_flg IPC_NOWAIT - not wait
        //   sem_flg 0          - wait forever
        ipcSemSet(1).sem_num = 0;  // USE IPC world
        ipcSemSet(1).sem_op  = talkIPC;
-       ipcSemSet(1).sem_flg = 0;  
+       ipcSemSet(1).sem_flg = 0;
        ipcSemSet(2).sem_num = 1;  // TALK CLIENT
        ipcSemSet(2).sem_op  = talkClient;
        ipcSemSet(2).sem_flg = 0;
@@ -2305,7 +2305,7 @@
      P                 E
 
       *****************************************************
-      * ipcClientWaitCopyOut - ipc wait server call finish 
+      * ipcClientWaitCopyOut - ipc wait server call finish
       *                        for copyout
       * return (*ON=good; *OFF=bad)
       *****************************************************
@@ -2487,7 +2487,7 @@
      d len             s             20i 0 inz(1)
      d remain          s             20i 0 inz(0)
      d need            s             20i 0 inz(0)
-     D myTmp           s           4096A   inz(*BLANKS) 
+     D myTmp           s           4096A   inz(*BLANKS)
      D pTmp            s               *   inz(*NULL)
      d myLen           s             10i 0 inz(1)
      D pTop            s               *   inz(*NULL)
@@ -2510,7 +2510,7 @@
            //            xxxxxxxxxx
            //            xxxxxxxxxx <---------------- copy needs this spot
            // remain --> 0000000000 < yyyyyyyyyy <--- len (read)
-           //            0000000000 < yyyyyyyyyy 
+           //            0000000000 < yyyyyyyyyy
            //                       < yyyyyyyyyy <--- need space
            if len > 0;
              remain = pBot - pTop;

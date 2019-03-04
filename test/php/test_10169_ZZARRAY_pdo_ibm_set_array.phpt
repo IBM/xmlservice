@@ -8,18 +8,18 @@ XML i Toolkit: PDO_IBM result set SRVPGM - DS records returned
 require_once('connection.inc');
 $database = "ibm:".$database;
 try {
-  $db = new PDO($database, 
-                strtoupper($user), 
-                strtoupper($password), 
+  $db = new PDO($database,
+                strtoupper($user),
+                strtoupper($password),
                 array(PDO::ATTR_AUTOCOMMIT=>true));
   if (!$db) throw new Exception('foo');
-} catch( Exception $e ) { 
-  die("Bad connect: $database,$user"); 
+} catch( Exception $e ) {
+  die("Bad connect: $database,$user");
 }
 try {
   $stmt = $db->prepare("call $procLib.iPLUGR1M(?,?,?)");
   if (!$stmt) throw new Exception('bar');
-} catch( Exception $e ) { 
+} catch( Exception $e ) {
   $err = $db->errorInfo();
   $cod = $db->errorCode();
   die("Bad prepare: ".$cod." ".$err[0]." ".$err[1]." ".$err[2]);
@@ -113,7 +113,7 @@ echo "Success ($lib/$name.$func)\n";
 //     D  dcMyRank                     10i 0
 //     D  dcMyPay                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzarray: check return array aggregate 
+//      * zzarray: check return array aggregate
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzarray         B                   export
 //     D zzarray         PI                  likeds(dcRec_t) dim(ARRAYMAX)

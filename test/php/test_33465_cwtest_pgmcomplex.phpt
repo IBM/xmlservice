@@ -11,8 +11,8 @@ require_once('xxcw_test_setup.php');
 
 if ($doPgmCallComplex) {
 
-echo '<BR>Program call with complex parameters<BR>';	
-	
+echo '<BR>Program call with complex parameters<BR>';
+
 $progname = "$demoLib/RPCTEST";
 
 echo "<b>About to call $progname with data structure parameters.</b>";

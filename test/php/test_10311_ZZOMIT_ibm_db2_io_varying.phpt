@@ -53,7 +53,7 @@ if ($actual != $expect) die("$var ($actual not $expect) ($lib/$name.$func)\n");
 echo "Success ($lib/$name.$func)\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzomit: check omit 
+//      * zzomit: check omit
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzomit          B                   export
 //     D zzomit          PI            50A   varying

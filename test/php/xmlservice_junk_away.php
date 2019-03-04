@@ -1,8 +1,8 @@
 <?php
 // *** $ctl .= " *hack"; ***
-// some drivers (result set) ... 
+// some drivers (result set) ...
 // possible junk end record, therefore
-// xmlservice provided $ctl='*hack' 
+// xmlservice provided $ctl='*hack'
 // record</hack>junk
 function driverJunkAway($xml)
 {

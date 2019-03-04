@@ -12,7 +12,7 @@ You may want to refer to the DB2 connection link before reading this page [[ PHP
 
 You may also want to refer to general "run slow" link before reading this page [[PHP/RunSlow | running slow?]]
 
-!!! Performance at a glance 
+!!! Performance at a glance
 
 The following tests are full browser simulations (Apache ab tool), not PHP loop tests
 * [[Apache/ab | Apache ab tool]] -- Apache ab web site stress tests are performed from the 5250 command line (call qp2term) or ssh myibmi using PASE (see Apache ab link install instructions)
@@ -56,7 +56,7 @@ if ($i5persistentconnect) $conn = db2_pconnect($database,$user,$password);
 else $conn = db2_connect($database,$user,$password);
 if (!$conn) echo "Bad connect: $conn,$database,$user,perm=$i5persistentconnect";
 $ipc  = '/tmp/packers';    // *here no need ipc
-$ctl  = "*sbmjob";         // *here for no additional private job 
+$ctl  = "*sbmjob";         // *here for no additional private job
 // $ipc  = '';
 // $ctl  = '*here';
 $clobIn = "<?xml version='1.0'?>
@@ -142,18 +142,18 @@ Drive the CPU to 100% capacity, then estimate actual users supported to drive th
 41,731,200 requests/day (24 hours)..864,000 users/day    (relatively constant user capacity ibm_db2 scripts persistent connections)
 @]
 Things to consider:
-* Who am i testing with ab tool? 
+* Who am i testing with ab tool?
 *** lighting fast ab tool "no delay" push CPU 100% (superman users faster than a speeding bullet ... a machine)
 *** normal thinking users "10 second delay user actions" to push CPU 100% (average Joe ... a human)
 *** your application complexity may go far beyond simple ibm_db2_fetch.php above, but most any
     web 'load runner' tool (like 'ab tool') or worse php script 'loop call test'
-    requires human action calculation to understand user capacity, so don't believe 
-    blog people until you actually run your application specific performance test. 
+    requires human action calculation to understand user capacity, so don't believe
+    blog people until you actually run your application specific performance test.
 
 If you want to run Apache ab tool on PASE (IBM i) ...
-*** [[Apache/ab]] -- Apache ab tool from old Zend Core (simulate browsers) 
+*** [[Apache/ab]] -- Apache ab tool from old Zend Core (simulate browsers)
 
-!!! XMLSERVICE still evolving 
+!!! XMLSERVICE still evolving
 Toolkit/XMLSERVICE performance will evolve over time, we understand performance is important and we intend push data through faster (perhaps much faster).
 
 * What runs fast?

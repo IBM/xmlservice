@@ -41,7 +41,7 @@ for ($i=0;$i<$loopme;$i++) {
 }
 echo "Success\n";
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zznada: check no parms 
+//      * zznada: check no parms
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zznada          B                   export
 //     D zznada          PI

@@ -1,37 +1,37 @@
-     H AlwNull(*UsrCtl) bnddir('QC2LE')   
+     H AlwNull(*UsrCtl) bnddir('QC2LE')
 
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -94,7 +94,7 @@
 
       *****************************************************
       * Decode entries:
-      * 'db2='    - CLI database (*LOCAL) 
+      * 'db2='    - CLI database (*LOCAL)
       * 'uid='    - CLI connect user profile
       * 'pwd='    - CLI connect user password
       * 'ipc='    - XML Toolkit SERVICE IPC (/tmp/ranger)
@@ -187,9 +187,9 @@
 
      D cgiStatic       PR
 
-     D restData        PR             1N 
+     D restData        PR             1N
 
-     D toHex           PR             1A 
+     D toHex           PR             1A
      D  nbr                          10i 0   value
 
      D xltEBC1         PR            10i 0
@@ -378,7 +378,7 @@
          // Content-type: text/plain ... windows maybe???
          // CRLF x'15' ... windows ok (today)???
          // CRLFold x'0d25' ... windows maybe???
-         respHead = 'Content-type: text/xml' 
+         respHead = 'Content-type: text/xml'
                   + CRLF + CRLF + NULLTERM;
          rn = writeIFS(1:%addr(respHead):strlen(%addr(respHead)));
          // rn = ileErrno();
@@ -536,7 +536,7 @@
       * return (*ON=good, *OFF=bad)
       *****************************************************
      P restData        B
-     D restData        PI             1N 
+     D restData        PI             1N
       * vars
      D rCopy           s               *   inz(*NULL)
      D rContent        s             32A   inz(*BLANKS)
@@ -584,7 +584,7 @@
          uOver.cIChar = '&';
          szContent = strlen(pContent);
          // moved remove marker '+' 1st safely (1.8.0)
-         // content included '+' will be encoded 
+         // content included '+' will be encoded
          // <query>SELECT 1 + 1 ... </query>
          rn = rmvPlus(pContent:szContent);
          if rn < 0;
@@ -593,14 +593,14 @@
            return *OFF;
          endif;
          // what sort of unescape junk happened?
-         // %%MIXED%%, %%EBCDIC%%, 
+         // %%MIXED%%, %%EBCDIC%%,
          // %%BINARY%%, %%EBCDIC_JCD%%, - not supported
          rMode = getenv('CGI_MODE');
          if rMode <> *NULL;
            rModeType = %str(rMode:strlen(rMode));
            pos = %scan(%trim(isMIXED):rModeType);
          endif;
-         // %%MIXED%% ASCII unescape (%0A means %25) 
+         // %%MIXED%% ASCII unescape (%0A means %25)
          // actually EBCDIC representing ASCII hex (wow)
          if pos > 0;
            rn = xltEBC1(pContent:szContent);
@@ -659,7 +659,7 @@
       * return (1=good, -1=bad)
       *****************************************************
      P rmvPlus         B
-     D rmvPlus         PI            10i 0 
+     D rmvPlus         PI            10i 0
      D  where                          *   value
      D  size                         10i 0 value
       * vars
@@ -880,7 +880,7 @@
       * return ('0'-'F'-good, ' '-bad)
       *****************************************************
      P toHex           B
-     D toHex           PI             1A 
+     D toHex           PI             1A
      D  nbr                          10i 0   value
       /free
        select;
@@ -927,7 +927,7 @@
       * return (1=good, -1=bad)
       *****************************************************
      P xltEBC1         B
-     D xltEBC1         PI            10i 0 
+     D xltEBC1         PI            10i 0
      D  where                          *   value
      D  size                         10i 0 value
       * vars
@@ -985,7 +985,7 @@
          ebca(i) = '%' + toHex(hi) + toHex(lo);
        endfor;
 
-       // replace ascii escape 
+       // replace ascii escape
        // with ebcdic equivalent
        pIOver = where;
        for i = 1 to size;
@@ -1024,7 +1024,7 @@
       * vars
      D hackSz          S             10I 0 inz(0)
      DDB2_RC           S             10I 0 inz(0)
-     DDB2_RC1          S             10I 0 inz(0) 
+     DDB2_RC1          S             10I 0 inz(0)
 
      DiTry             S             10I 0 inz(0)
      DiPersis          S             10I 0 inz(0)
@@ -1058,7 +1058,7 @@
      DZeroBin          S            128A   INZ(*ALLX'00')
 
      DParm1P           S               *   inz(*NULL)
-     DParm1Ind         S             10I 0 inz(0) 
+     DParm1Ind         S             10I 0 inz(0)
      DParm1IndP        S               *   inz(%addr(Parm1Ind))
      DParm1Mark        S             10I 0 inz(0)
      DParm1IO          S              5I 0 inz(0)
@@ -1069,7 +1069,7 @@
      DParm1UnUse       S             10I 0 inz(0)
 
      DParm2P           S               *   inz(*NULL)
-     DParm2Ind         S             10I 0 inz(0) 
+     DParm2Ind         S             10I 0 inz(0)
      DParm2IndP        S               *   inz(%addr(Parm2Ind))
      DParm2Mark        S             10I 0 inz(0)
      DParm2IO          S              5I 0 inz(0)
@@ -1080,7 +1080,7 @@
      DParm2UnUse       S             10I 0 inz(0)
 
      DParm3P           S               *   inz(*NULL)
-     DParm3Ind         S             10I 0 inz(0) 
+     DParm3Ind         S             10I 0 inz(0)
      DParm3IndP        S               *   inz(%addr(Parm3Ind))
      DParm3Mark        S             10I 0 inz(0)
      DParm3IO          S              5I 0 inz(0)
@@ -1091,7 +1091,7 @@
      DParm3UnUse       S             10I 0 inz(0)
 
      DParm4P           S               *   inz(*NULL)
-     DParm4Ind         S             10I 0 inz(0) 
+     DParm4Ind         S             10I 0 inz(0)
      DParm4IndP        S               *   inz(%addr(Parm4Ind))
      DParm4Mark        S             10I 0 inz(0)
      DParm4IO          S              5I 0 inz(0)
@@ -1112,7 +1112,7 @@
        endif;
 
        // persistent connection (retry)
-       for iTry = 1 to 2; 
+       for iTry = 1 to 2;
 
        // CLI SQL
        DB2_RC=db2AllocEnv(henv);
@@ -1257,7 +1257,7 @@
        endif;
 
        // persistent connection
-       if DB2_RC = 0 and yPersis <> '*FOUND' 
+       if DB2_RC = 0 and yPersis <> '*FOUND'
        and xPersis <> '*NONE' and perdb2 = 1;
          for iPersis = 1 to PERMAX;
            if perkey(iPersis) = *BLANKS;
@@ -1286,7 +1286,7 @@
        if hackSz > 0;
          DB2_RC = 0;
        endif;
-       
+
        // errors
        if DB2_RC <> 0;
          MsgLenMax=71;

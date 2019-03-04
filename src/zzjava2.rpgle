@@ -23,12 +23,12 @@
      D                                      'getBytes') VARYING
 
 
-     D Main            PR                  ExtPgm('ZZJAVA2') 
+     D Main            PR                  ExtPgm('ZZJAVA2')
      D  ms                         4096a
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       * main(): Control flow
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     D Main            PI 
+     D Main            PI
      D  ms                         4096a
       /free
         propstr = makeString('java.class.path');

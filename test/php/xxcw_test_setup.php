@@ -1,4 +1,4 @@
-<?php 
+<?php
 // see connection.inc param details ...
 require_once('connection.inc');
 require_once('CW/cw.php'); // don't need if added auto_append in PHP.INI
@@ -56,7 +56,7 @@ function OkBad($success = false) {
 		return 'Failed with this error: ' . print_r(i5_error(), true);
 	}
 } //(OkBad)
-function printArray($array) 
+function printArray($array)
 {
 	return '<PRE>' . print_r($array, true) . '</PRE>';
 }
@@ -123,14 +123,14 @@ echo "setup CW persistent = $persistent\n";
  * // If you specify a naming mode (i5/sql) in your connection, make sure they match.
  * $namingMode = DB2_I5_NAMING_ON;
  * $existingDb = db2_pconnect('', '','', array('i5_naming' => $namingMode));
- * // Add to existing connection options                 
+ * // Add to existing connection options
  * $options[CW_EXISTING_TRANSPORT_CONN] = $existingDb;
  * $options[CW_EXISTING_TRANSPORT_I5_NAMING] = $namingMode;
 */
 
 $start = microtime(true);
 
-// about to connect. Can use i5_connect or i5_pconnect.                
+// about to connect. Can use i5_connect or i5_pconnect.
 $conn = $connFunction($cwdb, $user, $password, $options);
 $end = microtime(true);
 $elapsed = $end - $start;
@@ -138,8 +138,8 @@ echo "Ran $connFunction function, with options, in $elapsed seconds.\n";
 
 // if unable to connect, find out why.
 if (!$conn) {
-    die('\nCould not connect. Reason: ' . printArray(i5_error()));	
-} 
+    die('\nCould not connect. Reason: ' . printArray(i5_error()));
+}
 
 echo "Connection object output: '$conn'\n\n";
 
@@ -153,11 +153,11 @@ if ($private) {
 } //($private)
 
 
-// CONNECTED. 
+// CONNECTED.
 
 // check that demo library exists
 echo "About to verify that the demo library, '$demoLib', exists.\n";
-$list = i5_objects_list('QSYS', $demoLib, '*LIB', $conn); 
+$list = i5_objects_list('QSYS', $demoLib, '*LIB', $conn);
 if (!$list) {
 	echo 'Error getting object list: ' . printArray(i5_error()) . '\n\n';
 } else {

@@ -11,9 +11,9 @@ if (!extension_loaded('odbc')) {
 }
 
 // *** XMLSERVICE call (DB2 driver) ***
-// Note: 
+// Note:
 // Connection ($procConn) is global to avoid looping
-// re-open/re-close that errors most drivers 
+// re-open/re-close that errors most drivers
 function xmlservice($xml) {
 global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn, $procLib, $procPlug, $procPlugR;
   $xmlIn = $xml;
@@ -22,7 +22,7 @@ global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn,
     if ($i5persistentconnect) $procConn = odbc_pconnect($database, $user, $password);  // persistent/pooled connection
     else $procConn = odbc_connect($database, $user, $password);         // full open/close connection
   }
-  $stmt = odbc_prepare($procConn, "call $procLib.$procPlugR(?,?,?)"); // Call XMLSERVICE 
+  $stmt = odbc_prepare($procConn, "call $procLib.$procPlugR(?,?,?)"); // Call XMLSERVICE
                                                           // stored procedure interface
                                                           // result set return (fetch)
                                                           // sizes: iPLUGR4K - iPLUGR15M
@@ -30,17 +30,17 @@ global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn,
   $options = array($ipc,                                  // ? - /tmp/raw_$user (*sbmjob)
                    $ctl,                                  // ?- *here or *sbmjob
                    $xmlIn);                               // ?- XML input script
-  // bad behavior odbc extension 
+  // bad behavior odbc extension
   // ... IBM i result set warning???
   error_reporting(~E_ALL);                                // bad behavior odbc extension
-                                                          // ... IBM i result set warning??? 
+                                                          // ... IBM i result set warning???
   $ret=odbc_execute($stmt,$options);
   if (!$ret) die("Bad execute: ".odbc_errormsg());
-  error_reporting(E_ALL); 
+  error_reporting(E_ALL);
   while(odbc_fetch_row($stmt)) {
     $xmlOut .= driverJunkAway(odbc_result($stmt, 1));     // bad behavior odbc extension
                                                           // ... possible junk end record,
-                                                          // xmlservice provided $ctl='*hack' 
+                                                          // xmlservice provided $ctl='*hack'
                                                           // record</hack>junk
   }
   return $xmlOut;

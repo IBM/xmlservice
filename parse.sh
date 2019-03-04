@@ -4,13 +4,13 @@
 # Only prints lines like this:
 ##   1396 D   NumQueues                   10I 0 const lkjwer                                                                   000058
 ## ======>                                            aaaaaa
-## *RNF3308 20 a      000058  Keyword name is not valid; the keyword is ignored. 
+## *RNF3308 20 a      000058  Keyword name is not valid; the keyword is ignored.
 # And transforms them in to this:
 ##   1396 D   NumQueues                   10I 0 const lkjwer                                                                   000058
 ##                                                    ^~~~~~
 ## RNF3308: Keyword name is not valid; the keyword is ignored.
 
-BEGIN { 
+BEGIN {
     context = ""
     header_line_count = 0
     is_error_message = 0
@@ -26,13 +26,13 @@ header_line_count > 0 {
 /[=]{6}>/ {
     # Found an error marker (======>), print the context line and
     # altered error marker line
-    
+
     # Convert "aa...." to "^~...."
     sub(/a/, "^")
     gsub(/a/, "~")
     # Remove error arrow
     gsub(/[=>]/, " ")
-    
+
     print context
     print $0
 

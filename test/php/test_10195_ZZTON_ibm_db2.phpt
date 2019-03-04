@@ -188,7 +188,7 @@ echo "Success\n";
 //     D  zo15a                        15a
 //     D  zo17p7                       17p 7
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzton: check parm array aggregate 
+//      * zzton: check parm array aggregate
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzton           B                   export
 //     D zzton           PI

@@ -6,34 +6,34 @@
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -132,17 +132,17 @@
      D  xElemNext                    10i 0
      D  xDoNada                       1N
      D  xDoCDATA                      1N
-     
+
      D sXmlCache       DS                  likeds(xmlRec_t) dim(XMLMAXXML)
      D sXmlCachei      S             10i 0 inz(1)
      D sXmlCacheX      S             10i 0 inz(1)
 
      D XMLMAXBEG       c                   const(100)
-     
+
      DxmlBeg_t         ds                  qualified based(Template)
      D  xElemIdx                     10i 0
      D  xElemTop                     10i 0
-     
+
      D sXmlBeg         DS                  likeds(xmlBeg_t) dim(XMLMAXBEG)
      D sXmlBegX        S             10i 0 inz(1)
 
@@ -244,13 +244,13 @@
      DhOpt_t           ds                  qualified based(Template)
      D hauto                          1N
 
-     D sSqlConn        DS                  likeds(hConn_t) 
+     D sSqlConn        DS                  likeds(hConn_t)
      D                                     dim(SQLMAXCONN)
 
-     D sSqlConnSet     DS                  likeds(sqOpt_t) 
+     D sSqlConnSet     DS                  likeds(sqOpt_t)
      D                                     dim(SQLMAXOPTS)
 
-     D sSqlStmt        DS                  likeds(hStmt_t) 
+     D sSqlStmt        DS                  likeds(hStmt_t)
      D                                     dim(SQLMAXSTMT)
 
 
@@ -544,7 +544,7 @@
       /free
        ptrErrP = %addr(sErrCache);
 
-       if idx < 0 or idx > ERRSMAX 
+       if idx < 0 or idx > ERRSMAX
        or anyErr(idx).erErrXml = 0;
          return *OFF;
        endif;
@@ -634,12 +634,12 @@
        memset(ptrXMLP:0:%size(anyXML:*ALL));
        sXmlCachei = 1;
        sXmlCacheX = 1;
-       
+
        memset(%addr(sXmlBeg):0:%size(sXmlBeg:*ALL));
        sXmlBegX = 0;
       /end-free
      P                 E
-     
+
 
      P cacFixXML       B                   export
      D cacFixXML       PI            10i 0
@@ -668,7 +668,7 @@
          endsl;
          i = i - 1;
        enddo;
-       
+
        // clear back to last full <item>...</item> boundary
        if where > 0;
          ptrOne = %addr(anyXML(where));
@@ -715,7 +715,7 @@
        return where;
       /end-free
      P                 E
-     
+
 
      P cacUpdXML       B                   export
      D cacUpdXML       PI            10i 0
@@ -815,7 +815,7 @@
        offset1 = aElemTop - aVeryTop;
 
        // assume next element (high probability guess)
-       k = sXmlCachei + 1; 
+       k = sXmlCachei + 1;
 
 
        // scan the cache ...
@@ -1026,8 +1026,8 @@
            leave;
          // update based on <item ...>
          //                          x
-         when aDups = *ON 
-         and aElemTop2 <> *NULL 
+         when aDups = *ON
+         and aElemTop2 <> *NULL
          and anyXML(i).xElemTop2 = offset2;
            where = i;
            sXmlCachei = i;
@@ -1242,7 +1242,7 @@
        if index < 1 or index > XMLMAXATTE;
          return where;
        endif;
-      
+
        // cache attributes
        ptrAttP = %addr(sXmlARec);
 
@@ -1411,7 +1411,7 @@
 
      P cacAddDou       B                   export
      D cacAddDou       PI             1N
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D rcb             s              1N   inz(*OFF)
      D i               s             10i 0 inz(0)
@@ -1433,7 +1433,7 @@
        endif;
 
        for i = 1 to XMLMAXDOU;
-         if anyATT(i).cacElemCnt = 0; 
+         if anyATT(i).cacElemCnt = 0;
            xmlCOPY(anyATT(i):node);
            anyATT(i).cacElemCnt = 1;
            rcb = *ON;
@@ -1452,7 +1452,7 @@
 
      P cacPopDou       B                   export
      D cacPopDou       PI            10i 0
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D i               s             10i 0 inz(0)
      D myOccurs        s             10i 0 inz(-1)
@@ -1474,7 +1474,7 @@
        endif;
 
        for i = 1 to XMLMAXDOU;
-         if anyATT(i).cacElemCnt = 0; 
+         if anyATT(i).cacElemCnt = 0;
            leave;
          elseif anyATT(i).cacDouEnd = node.cacDouDim;
            myOccurs = ilePopVal(anyATT(i));
@@ -1504,7 +1504,7 @@
 
      P cacAddOff       B                   export
      D cacAddOff       PI             1N
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D rcb             s              1N   inz(*OFF)
      D i               s             10i 0 inz(0)
@@ -1525,7 +1525,7 @@
        endif;
 
        for i = 1 to XMLMAXDOU;
-         if anyATT(i).cacElemCnt = 0; 
+         if anyATT(i).cacElemCnt = 0;
            xmlCOPY(anyATT(i):node);
            anyATT(i).cacElemCnt = 1;
            rcb = *ON;
@@ -1544,7 +1544,7 @@
 
      P cacPopOff       B                   export
      D cacPopOff       PI            10i 0
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D i               s             10i 0 inz(0)
      D myOff           s             10i 0 inz(-1)
@@ -1565,7 +1565,7 @@
        endif;
 
        for i = 1 to XMLMAXDOU;
-         if anyATT(i).cacElemCnt = 0; 
+         if anyATT(i).cacElemCnt = 0;
            leave;
          elseif anyATT(i).cacOffEnd = node.cacOffOvr;
            myOff = ilePopVal(anyATT(i));
@@ -1594,7 +1594,7 @@
 
      P cacAddNxt       B                   export
      D cacAddNxt       PI             1N
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D rcb             s              1N   inz(*OFF)
      D i               s             10i 0 inz(0)
@@ -1615,7 +1615,7 @@
        endif;
 
        for i = 1 to XMLMAXDOU;
-         if anyATT(i).cacElemCnt = 0; 
+         if anyATT(i).cacElemCnt = 0;
            xmlCOPY(anyATT(i):node);
            anyATT(i).cacElemCnt = 1;
            rcb = *ON;
@@ -1634,7 +1634,7 @@
 
      P cacPopNxt       B                   export
      D cacPopNxt       PI            10i 0
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D i               s             10i 0 inz(0)
      D myOff           s             10i 0 inz(-1)
@@ -1655,7 +1655,7 @@
        endif;
 
        for i = 1 to XMLMAXDOU;
-         if anyATT(i).cacElemCnt = 0; 
+         if anyATT(i).cacElemCnt = 0;
            leave;
          elseif anyATT(i).cacNxtOff = node.cacNxtOvr;
            myOff = ilePopVal(anyATT(i));
@@ -1685,7 +1685,7 @@
      P cacAddLen       B                   export
      D cacAddLen       PI             1N
      D   type                        10I 0 value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D rcb             s              1N   inz(*OFF)
      D i               s             10i 0 inz(0)
@@ -1756,7 +1756,7 @@
 
      P cacPushLen      B                   export
      D cacPushLen      PI             1N
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D rc              s              1N   inz(*ON)
      D i               s             10i 0 inz(0)
@@ -1952,7 +1952,7 @@
          memset(ptrBigP:0:%size(anyBIG:*ALL));
          return;
        endif;
-      
+
        // index passed
        if %parms >= 1;
          i = index;
@@ -2051,7 +2051,7 @@
        if index < 1 or index > SZBIGSCAN;
          return where;
        endif;
-       // valid index 
+       // valid index
        ptrBigP = %addr(sBigScan);
        // valid count
        if anyBIG(index).bigcnt < 1;
@@ -2150,7 +2150,7 @@
            if where = 0 and fit > 0;
              where = fit;
            endif;
-       // ???? 
+       // ????
        other;
        endsl;
 
@@ -2167,7 +2167,7 @@
            ptrAnyP = anyBIG(where).bigaddr;
          endif;
          // memory too small dealloc
-         if anyBIG(where).bigsize > 0 
+         if anyBIG(where).bigsize > 0
          and anyBIG(where).bigsize < bsize;
            cacClrBig(where);
            ptrAnyP = *NULL;
@@ -2264,7 +2264,7 @@
          j = index;
          k = index;
        endif;
-       if j < 1 or k < 1 
+       if j < 1 or k < 1
        or j > IPCBATMAX or k > IPCBATMAX;
          return where;
        endif;
@@ -2338,7 +2338,7 @@
                where = i;
              endif;
            endif;
-         // ???? 
+         // ????
          other;
          endsl;
          // action taken
@@ -2663,10 +2663,10 @@
          memset(ptrDcP:0:%size(anyDC:*ALL));
          return;
        endif;
-       if j < 1 or k < 1 
+       if j < 1 or k < 1
        or j > CACHEMAX or k > CACHEMAX;
          return;
-       endif; 
+       endif;
 
        for i=j to k;
 
@@ -2970,7 +2970,7 @@
              where = i;
              leave;
            endif;
-         // ???? 
+         // ????
          // CAC_OPT_UPDATE...
          // CAC_OPT_ACTIVE...
          // CAC_OPT_DELETE...
@@ -3003,7 +3003,7 @@
        // new attributes
        if type = CAC_OPT_NEW
        or type = CAC_OPT_UPDATE;
-         cpybytes(pOpt2:pOpt:%size(sqOpt_t)); 
+         cpybytes(pOpt2:pOpt:%size(sqOpt_t));
          if label = *BLANKS;
            label              = 'opt'+%char(where);
          endif;
@@ -3085,7 +3085,7 @@
              where = i;
              leave;
            endif;
-         // ???? 
+         // ????
          // CAC_CONN_UPDATE...
          // CAC_CONN_ACTIVE...
          // CAC_CONN_DELETE...
@@ -3228,7 +3228,7 @@
               where = i;
               leave;
             endif;
-         // ???? 
+         // ????
          // CAC_STMT_UPDATE...
          // CAC_STMT_ACTIVE...
          // CAC_STMT_DELETE...
@@ -3438,7 +3438,7 @@
          other;
          endsl;
        endfor;
-       
+
        // not found ...
        // reuse random slot
        if where = 0;

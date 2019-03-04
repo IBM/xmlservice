@@ -1,39 +1,39 @@
      H NOMAIN
      H AlwNull(*UsrCtl)
      H BNDDIR('QC2LE')
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -60,20 +60,20 @@
      D sServMode       s              1N   inz(*OFF)
      D sV5Binary       s              1N   inz(*OFF)
 
-     D db2_connect_libl...        
+     D db2_connect_libl...
      D                 PR             1N
      D  conn                         10A
      D  sqlCode                      10I 0
 
-     D db2_option_is_sql_naming...        
+     D db2_option_is_sql_naming...
      D                 PR             1N
      D  options                      10A   value
 
-     D db2_option_is_autocommit...        
+     D db2_option_is_autocommit...
      D                 PR             1N
      D  options                      10A   value
 
-     D db2_ctor_statement...        
+     D db2_ctor_statement...
      D                 PR             1N
      D  conn                         10A
      D  stmt                         10A
@@ -81,7 +81,7 @@
      D  sqlCode                      10I 0
 
 
-     D db2_get_data...        
+     D db2_get_data...
      D                 PR             1N
      D  stmt                         10A
      D  colnum                        5I 0
@@ -92,7 +92,7 @@
      D  sqlCode                      10I 0
 
 
-     D db2_lob_length...        
+     D db2_lob_length...
      D                 PR             1N
      D  conn                         10A
      D  lob_loc                      10I 0
@@ -101,7 +101,7 @@
      D  len                          10I 0
      D  sqlCode                      10I 0
 
-     D db2_lob_data...        
+     D db2_lob_data...
      D                 PR             1N
      D  conn                         10A
      D  lob_loc                      10I 0
@@ -115,7 +115,7 @@
      D  outLen                       10I 0
      D  sqlCode                      10I 0
 
-     D db2_meta_set...        
+     D db2_meta_set...
      D                 PR
      D  p1                             *   options(*nopass)
      D  cb1                           5i 0 options(*nopass)
@@ -130,20 +130,20 @@
      D  p6                             *   options(*nopass)
      D  cb6                           5i 0 options(*nopass)
 
-     
-     D db2_stmt_free_monitor...        
+
+     D db2_stmt_free_monitor...
      D                 PR            10I 0
      D   hstmt                       10I 0 value
 
-     D db2_conn_free_monitor...        
+     D db2_conn_free_monitor...
      D                 PR            10I 0
      D   hdbc                        10I 0 value
 
-     D db2_env_free_monitor...        
+     D db2_env_free_monitor...
      D                 PR            10I 0
      D   lenv                        10I 0 value
 
-     D db2_disconnect_monitor...        
+     D db2_disconnect_monitor...
      D                 PR            10I 0
      D   hdbc                        10I 0 value
 
@@ -165,14 +165,14 @@
 
       /end-free
      P                 E
-     
-     
+
+
       *****************************************************
-      * RPG CLI monitored free 
+      * RPG CLI monitored free
       *****************************************************
      P db2_stmt_free_monitor...
      P                 B
-     D db2_stmt_free_monitor...        
+     D db2_stmt_free_monitor...
      D                 PI            10I 0
      D   hstmt                       10I 0 value
       * vars
@@ -195,7 +195,7 @@
 
      P db2_conn_free_monitor...
      P                 B
-     D db2_conn_free_monitor...        
+     D db2_conn_free_monitor...
      D                 PI            10I 0
      D   hdbc                        10I 0 value
       * vars
@@ -209,7 +209,7 @@
        if jvm = *OFF;
          DB2_RC1=db2FreeConnect(hdbc);
        endif;
-       
+
        // -------------
        // error
        On-error;
@@ -222,7 +222,7 @@
 
      P db2_env_free_monitor...
      P                 B
-     D db2_env_free_monitor...        
+     D db2_env_free_monitor...
      D                 PI            10I 0
      D   lenv                        10I 0 value
       * vars
@@ -230,13 +230,13 @@
      D jvm             S              1N   inz(*OFF)
       /free
        Monitor;
-       
+
        // running JVM in process (1.9.2)
        jvm = ipcDoJVM();
        if jvm = *OFF;
          DB2_RC1=db2FreeEnv(lenv);
        endif;
-       
+
        // -------------
        // error
        On-error;
@@ -249,7 +249,7 @@
 
      P db2_disconnect_monitor...
      P                 B
-     D db2_disconnect_monitor...        
+     D db2_disconnect_monitor...
      D                 PI            10I 0
      D   hdbc                        10I 0 value
       * vars
@@ -257,13 +257,13 @@
      D jvm             S              1N   inz(*OFF)
       /free
        Monitor;
-       
+
        // running JVM in process (1.9.2)
        jvm = ipcDoJVM();
        if jvm = *OFF;
          DB2_RC1=db2Disconnect(hdbc);
        endif;
-       
+
        // -------------
        // error
        On-error;
@@ -276,11 +276,11 @@
 
 
       *****************************************************
-      * RPG CLI any active 
+      * RPG CLI any active
       *****************************************************
      P db2_active_any...
      P                 B                   export
-     D db2_active_any...        
+     D db2_active_any...
      D                 PI             1N
      D  type                          1A   value
      D  label                        10A
@@ -342,7 +342,7 @@
       *****************************************************
      P db2_options_ctor...
      P                 B                   export
-     D db2_options_ctor...        
+     D db2_options_ctor...
      D                 PI             1N
      D pOpt                            *   value
       * vars
@@ -447,7 +447,7 @@
 
      P db2_option_is_autocommit...
      P                 B
-     D db2_option_is_autocommit...        
+     D db2_option_is_autocommit...
      D                 PI             1N
      D  options                      10A   value
       * vars
@@ -472,7 +472,7 @@
 
      P db2_option_is_sql_naming...
      P                 B
-     D db2_option_is_sql_naming...        
+     D db2_option_is_sql_naming...
      D                 PI             1N
      D  options                      10A   value
       * vars
@@ -497,7 +497,7 @@
 
      P db2_options_setup...
      P                 B                   export
-     D db2_options_setup...        
+     D db2_options_setup...
      D                 PI             1N
      D  label                        10A
      D  sqloptions                 1024A
@@ -852,7 +852,7 @@
 
      P db2_env_options...
      P                 B                   export
-     D db2_env_options...        
+     D db2_env_options...
      D                 PI             1N
      D  conn                         10A
      D  options                      10A   value
@@ -906,12 +906,12 @@
 
        // ** server mode only work private connection **
        // servermode='on' (global env level)
-       // A job must set the server mode at the very beginning 
-       // of processing before doing anything else. For jobs 
-       // that are strictly CLI users, they must use the 
-       // SQLSetEnvAttr call to turn on server mode. 
-       // Remember to do this right after SQLAllocEnv but 
-       // before any other calls. As soon as the server mode is on, 
+       // A job must set the server mode at the very beginning
+       // of processing before doing anything else. For jobs
+       // that are strictly CLI users, they must use the
+       // SQLSetEnvAttr call to turn on server mode.
+       // Remember to do this right after SQLAllocEnv but
+       // before any other calls. As soon as the server mode is on,
        // it cannot be turned off.
 
        // running JVM in process (1.9.2)
@@ -950,7 +950,7 @@
 
      P db2_connect_libl...
      P                 B
-     D db2_connect_libl...        
+     D db2_connect_libl...
      D                 PI             1N
      D  conn                         10A
      D  sqlCode                      10I 0
@@ -1019,7 +1019,7 @@
 
      P db2_conn_options...
      P                 B                   export
-     D db2_conn_options...        
+     D db2_conn_options...
      D                 PI             1N
      D  conn                         10A
      D  options                      10A   value
@@ -1410,7 +1410,7 @@
 
      P db2_stmt_options...
      P                 B                   export
-     D db2_stmt_options...        
+     D db2_stmt_options...
      D                 PI             1N
      D  stmt                         10A
      D  options                      10A   value
@@ -1596,7 +1596,7 @@
 
      P db2_options_free...
      P                 B                   export
-     D db2_options_free...        
+     D db2_options_free...
      D                 PI             1N
      D  options                      10A   value
       * vars
@@ -1612,7 +1612,7 @@
 
      P db2_options_free_all...
      P                 B                   export
-     D db2_options_free_all...        
+     D db2_options_free_all...
      D                 PI             1N
       * vars
      D rc              s              1N   inz(*ON)
@@ -1636,7 +1636,7 @@
       *****************************************************
      P db2_connect_default...
      P                 B                   export
-     D db2_connect_default...        
+     D db2_connect_default...
      D                 PI             1N
      D  conn                         10A
       * vars
@@ -1653,7 +1653,7 @@
 
      P db2_connect...
      P                 B                   export
-     D db2_connect...        
+     D db2_connect...
      D                 PI             1N
      D  label                        10A
      D  options                      10A
@@ -1825,8 +1825,8 @@
        endif;
 
        // new connection
-       if db = *BLANKS 
-       and uid = *BLANKS 
+       if db = *BLANKS
+       and uid = *BLANKS
        and pwd = *BLANKS;
          DB2_RC=db2Connect(hdbc:
                            *NULL:0:
@@ -1878,7 +1878,7 @@
       *****************************************************
      P db2_end_transaction...
      P                 B                   export
-     D db2_end_transaction...        
+     D db2_end_transaction...
      D                 PI             1N
      D  conn                         10A
      D  rollback                      1N   value
@@ -1896,7 +1896,7 @@
      D option1         s             10A   inz(*BLANKS)
       /free
        Monitor;
-       
+
        sqlCode = 0;
 
        // *** old connection ***
@@ -1931,11 +1931,11 @@
 
 
       *****************************************************
-      * RPG CLI free 
+      * RPG CLI free
       *****************************************************
      P db2_connect_free...
      P                 B                   export
-     D db2_connect_free...        
+     D db2_connect_free...
      D                 PI             1N
      D  conn                         10A   value
       * vars
@@ -1960,7 +1960,7 @@
               :conn:option1:db:uid:pwd);
        if rc = *ON;
 
-         // autocommit=*ON, rollback=*OFF (commit) 
+         // autocommit=*ON, rollback=*OFF (commit)
          // autocommit=*OFF, rollback=*ON (rollback)
          if db2_option_is_autocommit(option1) = *ON;
            rc=db2_end_transaction(conn:*OFF);
@@ -1971,7 +1971,7 @@
          // free all statements
          rc =db2_connect_free_stmts(conn);
 
-         // free connection resources 
+         // free connection resources
          DB2_RC1=db2_disconnect_monitor(hdbc);
          DB2_RC1=db2_conn_free_monitor(hdbc);
          lenv = henv; // save env handle
@@ -2007,7 +2007,7 @@
 
      P db2_connect_free_all...
      P                 B                   export
-     D db2_connect_free_all...        
+     D db2_connect_free_all...
      D                 PI             1N
       * vars
      D rc              s              1N   inz(*ON)
@@ -2036,7 +2036,7 @@
       *****************************************************
      P db2_parm_desc_nbr...
      P                 B                   export
-     D db2_parm_desc_nbr...        
+     D db2_parm_desc_nbr...
      D                 PI             1N
      D  stmt                         10A
      D  nParms                        5I 0
@@ -2086,7 +2086,7 @@
       *****************************************************
      P db2_parm_desc...
      P                 B                   export
-     D db2_parm_desc...        
+     D db2_parm_desc...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -2130,7 +2130,7 @@
        if nParms < 1;
          return *ON;
        endif;
-       // allocate description area 
+       // allocate description area
        rc = cacScanStm(CAC_STMT_ALLOC_PARMT:istm:hstmt:conn:stmt
               :nCols:pcolT1st
               :nParms:pparmT1st);
@@ -2241,7 +2241,7 @@
       *****************************************************
      P db2_parm_bind...
      P                 B                   export
-     D db2_parm_bind...        
+     D db2_parm_bind...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -2513,7 +2513,7 @@
       *****************************************************
      P db2_col_desc_nbr...
      P                 B                   export
-     D db2_col_desc_nbr...        
+     D db2_col_desc_nbr...
      D                 PI             1N
      D  stmt                         10A
      D  nCols                         5I 0
@@ -2564,7 +2564,7 @@
       *****************************************************
      P db2_col_desc...
      P                 B                   export
-     D db2_col_desc...        
+     D db2_col_desc...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -2604,7 +2604,7 @@
          rc=db2_error_rec(DB2_HANDLE_STMT:hstmt:sqlCode);
          return *OFF;
        endif;
-       // allocate description area 
+       // allocate description area
        rc = cacScanStm(CAC_STMT_ALLOC_COLT:istm:hstmt:conn:stmt
               :nCols:pcolT1st
               :nParms:pparmT1st);
@@ -2722,7 +2722,7 @@
       *****************************************************
      P db2_col_bind...
      P                 B                   export
-     D db2_col_bind...        
+     D db2_col_bind...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -2994,11 +2994,11 @@
      P                 E
 
       *****************************************************
-      * RPG CLI db2Prepare 
+      * RPG CLI db2Prepare
       *****************************************************
      P db2_prepare...
      P                 B                   export
-     D db2_prepare...        
+     D db2_prepare...
      D                 PI             1N
      D  conn                         10A
      D  stmt_str                       *   value
@@ -3083,7 +3083,7 @@
        // running JVM in process (1.9.2)
        jvm = ipcDoJVM();
        if jvm = *OFF;
-         // prepare       
+         // prepare
          DB2_RC=db2Prepare(hstmt:stmt_str:stmt_len);
        else;
          // convert to utf-16 to match java start
@@ -3094,7 +3094,7 @@
          else;
            jvm_half = 0;
          endif;
-         // prepare       
+         // prepare
          DB2_RC=db2Prepare(hstmt:%addr(jvmUTF16):jvm_half);
        endif;
        if DB2_RC <> DB2_SUCCESS;
@@ -3108,11 +3108,11 @@
      P                 E
 
       *****************************************************
-      * RPG CLI db2Execute 
+      * RPG CLI db2Execute
       *****************************************************
      P db2_parm_ctor...
      P                 B                   export
-     D db2_parm_ctor...        
+     D db2_parm_ctor...
      D                 PI             1N
      D  sqlParm1                       *
       * compiler bug workaround
@@ -3134,7 +3134,7 @@
 
      P db2_execute...
      P                 B                   export
-     D db2_execute...        
+     D db2_execute...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -3205,11 +3205,11 @@
      P                 E
 
       *****************************************************
-      * RPG CLI db2Execute fetch parm 
+      * RPG CLI db2Execute fetch parm
       *****************************************************
      P db2_fetch_parm...
      P                 B                   export
-     D db2_fetch_parm...        
+     D db2_fetch_parm...
      D                 PI             1N
      D  stmt                         10A
      D  sqlCode                      10I 0
@@ -3261,7 +3261,7 @@
          return *OFF;
        endif;
 
-       if colNbr > nParms; 
+       if colNbr > nParms;
          return *OFF;
        endif;
 
@@ -3374,7 +3374,7 @@
       *****************************************************
      P db2_query...
      P                 B                   export
-     D db2_query...        
+     D db2_query...
      D                 PI             1N
      D  conn                         10A
      D  stmt_str                       *   value
@@ -3486,11 +3486,11 @@
      P                 E
 
       *****************************************************
-      * RPG CLI stmt free 
+      * RPG CLI stmt free
       *****************************************************
      P db2_stmt_free...
      P                 B                   export
-     D db2_stmt_free...        
+     D db2_stmt_free...
      D                 PI             1N
      D  stmt                         10A   value
       * vars
@@ -3525,7 +3525,7 @@
 
      P db2_connect_free_stmts...
      P                 B                   export
-     D db2_connect_free_stmts...        
+     D db2_connect_free_stmts...
      D                 PI             1N
      D  conn                         10A   value
       * vars
@@ -3559,7 +3559,7 @@
 
      P db2_stmt_free_all...
      P                 B                   export
-     D db2_stmt_free_all...        
+     D db2_stmt_free_all...
      D                 PI             1N
       * vars
      D rc              s              1N   inz(*ON)
@@ -3596,7 +3596,7 @@
       *****************************************************
      P db2_fetch_parm_desc...
      P                 B                   export
-     D db2_fetch_parm_desc...        
+     D db2_fetch_parm_desc...
      D                 PI             1N
      D  stmt                         10A
      D  outPtrP                        *
@@ -3859,7 +3859,7 @@
       *****************************************************
      P db2_fetch_col_desc...
      P                 B                   export
-     D db2_fetch_col_desc...        
+     D db2_fetch_col_desc...
      D                 PI             1N
      D  stmt                         10A
      D  outPtrP                        *
@@ -4130,7 +4130,7 @@
       *****************************************************
      P db2_get_data...
      P                 B
-     D db2_get_data...        
+     D db2_get_data...
      D                 PI             1N
      D  stmt                         10A
      D  colnum                        5I 0
@@ -4183,7 +4183,7 @@
       *****************************************************
      P db2_lob_length...
      P                 B
-     D db2_lob_length...        
+     D db2_lob_length...
      D                 PI             1N
      D  conn                         10A
      D  lob_loc                      10I 0
@@ -4227,7 +4227,7 @@
        endif;
        DB2_RC=db2GetLength(hstmt
               :loc_type
-              :lob_loc 
+              :lob_loc
               :%addr(hlen)
               :%addr(hind));
        len = hlen;
@@ -4247,7 +4247,7 @@
       *****************************************************
      P db2_lob_data...
      P                 B
-     D db2_lob_data...        
+     D db2_lob_data...
      D                 PI             1N
      D  conn                         10A
      D  lob_loc                      10I 0
@@ -4318,7 +4318,7 @@
       *****************************************************
      P db2_fetch...
      P                 B                   export
-     D db2_fetch...        
+     D db2_fetch...
      D                 PI             1N
      D  stmt                         10A
      D  block                        10i 0
@@ -4355,7 +4355,7 @@
      D strP            s               *   inz(%addr(str))
      D strSz           s             10i 0 inz(0)
      D pWatch          s               *   inz(*NULL)
-      * finish output 
+      * finish output
      D rowStart        s              1N   inz(*OFF)
      D colStart        s              1N   inz(*OFF)
       * col descr
@@ -4432,16 +4432,16 @@
        else;
          // ???
          // DB2_RC=db2FetchScroll(hstmt:DB2_FETCH_ABSOLUTE:recnbr);
-         // if DB2_RC <> DB2_SUCCESS 
+         // if DB2_RC <> DB2_SUCCESS
          // and DB2_RC <> DB2_SUCCESS_WITH_INFO;
            DB2_RC=db2FetchScroll(hstmt:DB2_FETCH_FIRST:0);
-           if recnbr > 1 
+           if recnbr > 1
            and (DB2_RC = DB2_SUCCESS or DB2_RC = DB2_SUCCESS_WITH_INFO);
              DB2_RC=db2FetchScroll(hstmt:DB2_FETCH_RELATIVE:recnbr-1);
            endif;
          // endif;
        endif;
-       if DB2_RC <> DB2_SUCCESS 
+       if DB2_RC <> DB2_SUCCESS
        and DB2_RC <> DB2_SUCCESS_WITH_INFO;
          // no records at all???
          if rec = 1;
@@ -4512,7 +4512,7 @@
          and colT.type <> DB2_CLOB
          and colT.type <> DB2_DBCLOB;
            // <data null='on'>
-           //       oooooooooo     
+           //       oooooooooo
            if colT.olen = DB2_NULL_DATA; // (1.8.4)
              str = ' null=''on''>';
              strSz = 11;
@@ -4590,7 +4590,7 @@
                   :forLen
                   :sqlCode);
              // <data null='on'>
-             //       oooooooooo     
+             //       oooooooooo
              if forLen = DB2_NULL_DATA; // (1.8.4)
                str = ' null=''on''>';
                strSz = 11;
@@ -4627,7 +4627,7 @@
              endif;
            else;
              // <data null='on'>
-             //       oooooooooo     
+             //       oooooooooo
              if colT.olen = DB2_NULL_DATA; // (1.8.4)
                str = ' null=''on''>';
                strSz = 11;
@@ -4693,11 +4693,11 @@
 
 
       *****************************************************
-      * RPG CLI stmt row count 
+      * RPG CLI stmt row count
       *****************************************************
      P db2_row_count...
      P                 B                   export
-     D db2_row_count...        
+     D db2_row_count...
      D                 PI             1N
      D  stmt                         10A
      D  count                        10I 0
@@ -4743,7 +4743,7 @@
       *****************************************************
      P db2_last_insert_id...
      P                 B                   export
-     D db2_last_insert_id...        
+     D db2_last_insert_id...
      D                 PI             1N
      D  conn                         10A
      D  outPtrP                        *
@@ -4800,7 +4800,7 @@
       *****************************************************
      P db2_meta_set...
      P                 B
-     D db2_meta_set...        
+     D db2_meta_set...
      D                 PI
      D  p1                             *   options(*nopass)
      D  cb1                           5i 0 options(*nopass)
@@ -4890,7 +4890,7 @@
       *****************************************************
      P db2_ctor_statement...
      P                 B                   export
-     D db2_ctor_statement...        
+     D db2_ctor_statement...
      D                 PI             1N
      D  conn                         10A
      D  stmt                         10A
@@ -4970,7 +4970,7 @@
       *****************************************************
      P db2_error_rec...
      P                 B                   export
-     D db2_error_rec...        
+     D db2_error_rec...
      D                 PI             1N
      D  hType                        10I 0 value
      D  handle                       10I 0 value
@@ -5013,7 +5013,7 @@
       *****************************************************
      P db2_tables...
      P                 B                   export
-     D db2_tables...        
+     D db2_tables...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5096,7 +5096,7 @@
       *****************************************************
      P db2_table_privileges...
      P                 B                   export
-     D db2_table_privileges...        
+     D db2_table_privileges...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5169,7 +5169,7 @@
       *****************************************************
      P db2_columns...
      P                 B                   export
-     D db2_columns...        
+     D db2_columns...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5253,7 +5253,7 @@
       *****************************************************
      P db2_column_privileges...
      P                 B                   export
-     D db2_column_privileges...        
+     D db2_column_privileges...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5337,7 +5337,7 @@
       *****************************************************
      P db2_special_columns...
      P                 B                   export
-     D db2_special_columns...        
+     D db2_special_columns...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5428,7 +5428,7 @@
       *****************************************************
      P db2_procedures...
      P                 B                   export
-     D db2_procedures...        
+     D db2_procedures...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5502,7 +5502,7 @@
       *****************************************************
      P db2_procedure_columns...
      P                 B                   export
-     D db2_procedure_columns...        
+     D db2_procedure_columns...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5585,7 +5585,7 @@
       *****************************************************
      P db2_primary_keys...
      P                 B                   export
-     D db2_primary_keys...        
+     D db2_primary_keys...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5658,7 +5658,7 @@
       *****************************************************
      P db2_foreign_keys...
      P                 B                   export
-     D db2_foreign_keys...        
+     D db2_foreign_keys...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A
@@ -5761,7 +5761,7 @@
       *****************************************************
      P db2_statistics...
      P                 B                   export
-     D db2_statistics...        
+     D db2_statistics...
      D                 PI             1N
      D  conn                         10A
      D  iqual                       128A

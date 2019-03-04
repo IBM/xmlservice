@@ -1,39 +1,39 @@
      H NOMAIN
      H AlwNull(*UsrCtl)
      H BNDDIR('QC2LE')
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
       *   and the following disclaimer.
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -261,7 +261,7 @@
        sArgvP    = sArgvBegP;
        sArgvSz   = 0;
 
-       // parms copy in 
+       // parms copy in
        sParmP    = sArgvBegP + SZARGC;
        sParmBegP = ileQuad(sOrigP:sParmP);
        sParmP    = sParmBegP;
@@ -361,7 +361,7 @@
          cacScanOvr(CAC_OVR_END:sz:sOrigP
               :sArgvP:sArgvSz:sParmP:sParmSz
               :sRetP:sRetSz:sSigP:sSigSz);
-       // ???? 
+       // ????
        other;
        endsl;
 
@@ -750,7 +750,7 @@
      D Cc_ocbl         S              9b 0
      D Cc_ocbf         S              8    inz('CPOP0100')
      D Cc_lafccs       S              9b 0 inz(0)
-     D Cc_loccsatr     S              9b 0                                  
+     D Cc_loccsatr     S              9b 0
 
      D Cpop0100        Ds                  inz
      D  cpop_tocp                     9b 0 inz(0)
@@ -941,11 +941,11 @@
      D myCData         S             40A   inz(*BLANKS)
      D myCDataOFF      c                   const(':CDD0:*OFF')
      D myCDataON       c                   const(':CDD0:*ON')
-     D myCDATABEG      c                   const(':CDD1:') 
-     D myCDATAEND      c                   const(':CDD2:') 
-     D myCDATAFIN      c                   const(':CFIN:') 
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D myCDATABEG      c                   const(':CDD1:')
+     D myCDATAEND      c                   const(':CDD2:')
+     D myCDATAFIN      c                   const(':CFIN:')
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
       /free
        Monitor;
 
@@ -1108,19 +1108,19 @@
        // -------------
        // execute command
        if setCDATA = *ON;  // ADC (1.6.2)
-         myCData = myCDataON 
-                 + myCDATABEG + cCDATA1 
+         myCData = myCDataON
+                 + myCDATABEG + cCDATA1
                  + myCDATAEND + cCDATA2
                  + myCDATAFIN;
        else;
-         myCData = myCDataOFF 
+         myCData = myCDataOFF
                  + myCDATABEG + cCDATA1
                  + myCDATAEND + cCDATA2
                  + myCDATAFIN;
        endif;
        myCmd = %str(cmd:len);
        // rcb = toUpperSafe(%addr(myCmd):len);
-       cmdstr = 'STRREXPRC SRCMBR(HOW) SRCFILE(QTEMP/XMLREXX)' 
+       cmdstr = 'STRREXPRC SRCMBR(HOW) SRCFILE(QTEMP/XMLREXX)'
               + ' PARM('
               + ''''
               + %trim(myCmd)
@@ -1144,7 +1144,7 @@
        pData = %addr(myData);
        pSize = 65000;
        result = %addr(datastr);
-       dow result <> *NULL;                    
+       dow result <> *NULL;
          result = fgetSRC(pData:pSize:fd);
          if result <> *NULL;
            // </chop> ... [</lf>]x'00'
@@ -1162,12 +1162,12 @@
              if pAddLF <> *NULL;
                // </chop> ... </lf>x'00'
                //        ooooo
-               datastr = %trim(datastr) 
+               datastr = %trim(datastr)
                        + %str(pData2:pSize2)+x'25';
               else;
                 // </chop> ... x'00' (no </lf>)
                 //        ooooo
-                datastr = %trim(datastr) 
+                datastr = %trim(datastr)
                         + %str(pData2:pSize2);
               endif;
            endif;
@@ -1227,7 +1227,7 @@
        if len < 4097;
          pCopy = start;
          dow len > 0;
-           if xml.me01(len) <> *BLANKS 
+           if xml.me01(len) <> *BLANKS
            and xml.me01(len) <> x'00';
              leave;
            endif;
@@ -1236,7 +1236,7 @@
        else;
          dow len > 0;
            pCopy = start + (len-1);
-           if myCopy.bytex <> *BLANKS 
+           if myCopy.bytex <> *BLANKS
            and myCopy.bytex <> x'00';
              leave;
            endif;
@@ -1267,7 +1267,7 @@
      D where           s               *   inz(*NULL)
      D saveLast        s              1a   inz(*BLANKS)
       /free
-       if pTop = *NULL 
+       if pTop = *NULL
        or pBottom = *NULL
        or pBottom < pTop;
          return *NULL;
@@ -1301,7 +1301,7 @@
 
       *****************************************************
       * where = bigJunkOut
-      * return 
+      * return
       *****************************************************
      P bigJunkOut      B                   export
      D bigJunkOut      PI
@@ -1312,8 +1312,8 @@
      D  rmQuote                       1N   value options(*nopass)
       * vars
      d totLen          s             10i 0 inz(0)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
      D pTop1           s               *   inz(*NULL)
      D myTop1          ds                  likeds(over_t) based(pTop1)
      D pBot1           s               *   inz(*NULL)
@@ -1328,8 +1328,8 @@
          doRmQuote = rmQuote;
        endif;
 
-       // nothing to do 
-       if pTop = *NULL 
+       // nothing to do
+       if pTop = *NULL
        or pBottom = *NULL
        or pBottom < pTop;
          return;
@@ -1351,7 +1351,7 @@
          totLen = strlen(pTop);
          pTop1 = pTop + totLen;
        enddo;
-       
+
        // single quote to double
        if doRmQuote = *ON;
          pTop1 = strchr(pTop:x'7D');
@@ -1360,7 +1360,7 @@
            pTop1 = strchr(pTop:x'7D');
          enddo;
        endif;
-       
+
        // LF - x'25' to x'40'
        if doRmLF = *ON;
          pTop1 = strchr(pTop:x'25');
@@ -1420,8 +1420,8 @@
      D i               s             10i 0 inz(0)
      D p               s               *   inz(*NULL)
       /free
-       if pTop = *NULL 
-       or pBottom = *NULL 
+       if pTop = *NULL
+       or pBottom = *NULL
        or search = *BLANKS
        or pBottom < pTop;
          return 0;
@@ -1591,7 +1591,7 @@
        pEnd = bigScan(pTop:')':pLst:*ON);
        if pBeg = *NULL
        or pEnd = *NULL
-       or pEnd < pBeg 
+       or pEnd < pBeg
        or pBeg > pLst;
          perfAdd(PERF_ANY_WATCH_BIGDIMOPT:*OFF);
          return *ON;
@@ -1648,7 +1648,7 @@
      D pCend           s               *   inz(*NULL)
      D pCopy           s               *   inz(*NULL)
      D myCopy          ds                  likeds(over_t) based(pCopy)
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA2         S              3A   inz(*BLANKS)
       /free
        // <![CDATA[...]]>
        // x  x
@@ -1755,7 +1755,7 @@
      D pCopy2          s               *   inz(*NULL)
      D xml2            ds                  likeds(meover_t) based(pCopy2)
       /free
-      
+
        if len > 0;
          //
          //         44     4  4
@@ -1798,13 +1798,13 @@
            j = 1;
          endif;
        endif;
-       
+
        // return character
        return xml.me01(j);
       /end-free
      P                 E
-     
-     
+
+
       *****************************************************
       * where = bigAssist
       * return (0=good; !0=bad)
@@ -1848,8 +1848,8 @@
      D end             s             10i 0 inz(0)
      D endlen          s             10i 0 inz(-1)
      D nextbeg         s             10i 0 inz(0)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
      D aDoNada         S              1N   inz(*OFF)
      D aDoCDATA        S              1N   inz(*OFF)
      D aKeyElem        S             10i 0 inz(1)
@@ -1859,7 +1859,7 @@
       /free
        cCDATA1 = xmlcCDATA1(); // USC2 convert job ccsid (1.6.7)
        cCDATA2 = xmlcCDATA2(); // USC2 convert job ccsid (1.6.7)
-       
+
        // movable pointer structure
        pCopy = pTop;
        xmllen = pBottom - pTop;
@@ -1871,9 +1871,9 @@
            leave;
          endif;
        endfor;
-       
+
        for i = 0 to xmllen;
-       
+
         // get next single character
         c = lilAssist(pCopy:find:j:0:search(1));
         pCopyBug = pTop + i;
@@ -1946,8 +1946,8 @@
                    :pTop + nextbeg);
           endif;
         endif;
-        
-        // re-init everything on error/miss 
+
+        // re-init everything on error/miss
         if begok < 1 or endok < 1;
           deadzone=0;
           dat1=0;
@@ -1973,8 +1973,8 @@
           nextbeg=0;
           isknow=0;
         endif;
-  
-        // deadzone <![CDATA[ ... deadzone ... ]]> 
+
+        // deadzone <![CDATA[ ... deadzone ... ]]>
         //          xxxxxxxxx
         if deadzone < 1;
           d = lilAssist(pCopy:find:j:9:cCDATA1);
@@ -1982,7 +1982,7 @@
             deadzone = i;
             dat1 = i;
           endif;
-        // deadzone <![CDATA[ ... deadzone ... ]]> 
+        // deadzone <![CDATA[ ... deadzone ... ]]>
         //                                     xxx
         else;
           d = lilAssist(pCopy:find:j:3:cCDATA2);
@@ -1993,7 +1993,7 @@
         if deadzone > 1;
           iter;
         endif;
-        
+
         // start beg <node ...  >
         //           xx
         // - or --
@@ -2045,7 +2045,7 @@
               iter;
             endif;
           other;
-            // find start <node ...> 
+            // find start <node ...>
             //            b+
             if beg1 > 0 and beg1+1 = i and beg < 1;
               for k = 1 to kcount;
@@ -2064,7 +2064,7 @@
           if beg3 < 1;
             iter;
           endif;
-        endif;        
+        endif;
 
         // end1 xml </node>
         //          xxxxxxx
@@ -2108,13 +2108,13 @@
               endfor;
             endif;
           endsl;
-          if end3 < 1; 
+          if end3 < 1;
             iter;
           endif;
-        endif; 
+        endif;
 
        endfor; // end loop
-        
+
        count = cacFixXML();
        return count;
       /end-free
@@ -2295,7 +2295,7 @@
                // found begin <search> was out of scope
                // <search>.<search>.</search>.</search>.<search>?
                // 1111111                     nnnnnnnn  xxxxxxx
-               if  aBeg <> *NULL and aEnd <> *NULL 
+               if  aBeg <> *NULL and aEnd <> *NULL
                and aBeg > aEnd;
                  j -= 1;
                endif;
@@ -2389,7 +2389,7 @@
 
 
       *****************************************************
-      * xml DATA types 
+      * xml DATA types
       * return (*ON=yes, *OFF=no)
       *****************************************************
      P bigValType      B                   export
@@ -2480,7 +2480,7 @@
            else;
              tmpAttr = XML_ATTR_VAL_D;
            endif;
-         // ???? 
+         // ????
          other;
          endsl;
          // next char
@@ -2553,7 +2553,7 @@
      P                 E
 
       *****************************************************
-      * offset round to quad 
+      * offset round to quad
       * return addr
       *****************************************************
      P uintQuad        B                   export
@@ -2577,7 +2577,7 @@
      P                 E
 
       *****************************************************
-      * ILE round to quad 
+      * ILE round to quad
       * return addr
       * note: start is assumed quad align
       *****************************************************
@@ -2686,7 +2686,7 @@
 
 
       *****************************************************
-      * ILE dec size 
+      * ILE dec size
       * return (*ON=good, *OFF=error)
       *****************************************************
      P ileDecSize      B
@@ -2712,7 +2712,7 @@
          when l = 1;
            declen = 1;
          other;
-           declen=%DIV((l+1):2); 
+           declen=%DIV((l+1):2);
          endsl;
        endif;
        return declen;
@@ -2727,7 +2727,7 @@
       * most all parms are pass by ref (ptr),
       * but by value can be specified for
       * *SRVPGMs in RPG (and ILE c compiler)
-      * note: 
+      * note:
       * pass by value a copy out (pop)
       * will just return the original value
       * note:
@@ -2766,7 +2766,7 @@
        if node.xmlPrmRet = XML_IS_PARM;
          // ------------
          // by reference (PGM or SRVPGM top)
-         if node.xmlBy = XML_BY_REF 
+         if node.xmlBy = XML_BY_REF
          and node.pgmArgTop = XML_PGM_TOP_TRUE;
            argvType = XML_BY_REF;
          // ------------
@@ -2778,7 +2778,7 @@
        endif;
 
        // no data default ILE
-       if node.xmlAttr = XML_ATTR_VAL_B 
+       if node.xmlAttr = XML_ATTR_VAL_B
        and node.xmlStrSz < 2;
          node.xmlStrSz = 0;
        endif;
@@ -2911,7 +2911,7 @@
        endsl;
 
        // -----------
-       // may return register, 
+       // may return register,
        // not memory aggregate
        if inRegister = *ON;
          select;
@@ -2935,7 +2935,7 @@
        // -----------
        // parm is by reference (pointer)
        if argvType = XML_BY_REF;
-         if node.xmlCallAs = XML_FUNC_SRVPGM 
+         if node.xmlCallAs = XML_FUNC_SRVPGM
          or sOPM = XML_PGM_OPM_TRUE;
            // req 16-byte aligned for _ILECALL
            pCopy = ileAlign(sOrigP:sArgvP:16);
@@ -3086,7 +3086,7 @@
      P                 E
 
       *****************************************************
-      * ILE push data input 
+      * ILE push data input
       * return (*ON=good, *OFF=error)
       *****************************************************
      P ilePushData     B                   export
@@ -3220,7 +3220,7 @@
        endif;
 
        // by value argument?
-       if node.xmlPrmRet = XML_IS_PARM 
+       if node.xmlPrmRet = XML_IS_PARM
        and node.xmlBy = XML_BY_VAL
        and node.xmlCallAs = XML_FUNC_SRVPGM;
          pCopy = pArgv;
@@ -3250,7 +3250,7 @@
            pArgv += %size(sParmBegP);
            myArgv.ptrx = *NULL;              // null terminate
          else;
-           myArgv.uintx = sOrig 
+           myArgv.uintx = sOrig
                       + (sParmP - sOrigP);   // by ref (pase addr)
            pArgv += 4;
            myArgv.uintx = 0;                 // null terminate
@@ -3388,7 +3388,7 @@
 
 
       *****************************************************
-      * ILE pop data int 
+      * ILE pop data int
       * return
       *****************************************************
      P ilePushLen      B                   export
@@ -3479,7 +3479,7 @@
 
 
       *****************************************************
-      * ILE pop data output 
+      * ILE pop data output
       * return (*ON=good, *OFF=error)
       *****************************************************
      P ilePopData      B                   export
@@ -3507,8 +3507,8 @@
      D cntCCSID        s             10i 0 inz(0)
      D srcCCSID        s             10i 0 dim(XMLMAXATTR) inz(0)
      D tgtCCSID        s             10i 0 dim(XMLMAXATTR) inz(0)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
       /free
        Monitor;
 
@@ -3557,7 +3557,7 @@
 
        // --------------
        // by value argument?
-       if node.xmlPrmRet = XML_IS_PARM 
+       if node.xmlPrmRet = XML_IS_PARM
        and node.xmlBy = XML_BY_VAL
        and node.xmlCallAs = XML_FUNC_SRVPGM;
          cpybytes(outPtrP:string:stringLen);
@@ -3612,7 +3612,7 @@
          // trim return area
          // trim='on|off' (1.7.1)
          if node.xmlTrim = XML_ATTR_TRIM_TRUE
-         or (node.xmlTrim = XML_ATTR_TRIM_DEFAULT 
+         or (node.xmlTrim = XML_ATTR_TRIM_DEFAULT
              and node.xmlAttr = XML_ATTR_VAL_A);
            rc9 = trimChar(outPtrP:-1
                    :pCopy:node.xmlDigits
@@ -3622,7 +3622,7 @@
                    :*OFF:*OFF:*OFF:*OFF:*OFF);
            outPtrP += trimSz;
          // Greg's problem XML_ATTR_VAL_B (@ADC 1.7.1)
-         // QSYGETPH is 00000001 96BE1590 B3114000 
+         // QSYGETPH is 00000001 96BE1590 B3114000
          // qwtsetp  is 00000001 96BE1590 B3110000 (bad trim)
          else;
            rc9 = fullChar(outPtrP:-1
@@ -3729,7 +3729,7 @@
 
 
       *****************************************************
-      * ILE pop data int 
+      * ILE pop data int
       * return
       *****************************************************
      P ilePopVal       B                   export
@@ -3867,7 +3867,7 @@
 
        return *OFF;
       /end-free
-     P                 E 
+     P                 E
 
       *****************************************************
       * ileJob
@@ -4074,22 +4074,22 @@
        endif;
        pCopy = %addr(Job7_Libl);
        for i = 1 to Job7_NbrSysL; // SYSLIBL(?)
-         jobInfo.Job0_SysL = %trim(jobInfo.Job0_SysL) 
+         jobInfo.Job0_SysL = %trim(jobInfo.Job0_SysL)
                            + ' ' + myCopy.char10;
          pCopy += 11;
        endfor;
        for i = 1 to Job7_NbrPrdL; // PRDLIBL(?)
-         jobInfo.Job0_PrdL = %trim(jobInfo.Job0_PrdL) 
+         jobInfo.Job0_PrdL = %trim(jobInfo.Job0_PrdL)
                            + ' ' + myCopy.char10;
          pCopy += 11;
        endfor;
        if Job7_OneCurL > 0;       // CURLIBL(?)
-         jobInfo.Job0_CurL = %trim(jobInfo.Job0_CurL) 
+         jobInfo.Job0_CurL = %trim(jobInfo.Job0_CurL)
                            + ' ' + myCopy.char10;
          pCopy += 11;
        endif;
        for i = 1 to Job7_NbrUsrL; // USRLIBL(?)
-         jobInfo.Job0_UsrL = %trim(jobInfo.Job0_UsrL) 
+         jobInfo.Job0_UsrL = %trim(jobInfo.Job0_UsrL)
                            + ' ' + myCopy.char10;
          pCopy += 11;
        endfor;
@@ -4102,9 +4102,9 @@
       *****************************************************
       * rc=ileRslv(...)
       * return (*ON=good, *OFF=error)
-      * Note: 
+      * Note:
       * calling ILE and call argument buffer
-      * was prepared by plugile using "ILE memory" 
+      * was prepared by plugile using "ILE memory"
       * (not pase memory)
       *
       * ptr = rslvsp(objType:pgm1:lib1:x'0000');
@@ -4164,7 +4164,7 @@
          objType = RSLOBJ_TS_SRVPGM;
        endif;
 
-       // convert 
+       // convert
        pgm1 = pgm2;
        rcb = toUpperSafe(%addr(pgm1):%size(pgm1));
        lib1 = lib2;
@@ -4265,10 +4265,10 @@
       *****************************************************
       * rc=ilePGM(...)
       * return (*ON=good, *OFF=error)
-      * Note: 
+      * Note:
       * calling ILE and call argument buffer
-      * was prepared by plugile using "ILE memory" 
-      * (not pase memory) 
+      * was prepared by plugile using "ILE memory"
+      * (not pase memory)
       *****************************************************
      P ilePGM          B                   export
      D ilePGM          PI             1N
@@ -4338,10 +4338,10 @@
       *****************************************************
       * rc=ileSRV(...)
       * return (*ON=good, *OFF=error)
-      * Note: 
+      * Note:
       * calling ILE and call argument buffer
-      * was prepared by plugile using "ILE memory" 
-      * (not pase memory) 
+      * was prepared by plugile using "ILE memory"
+      * (not pase memory)
       *****************************************************
      P ileSRV          B                   export
      D ileSRV          PI             1N
@@ -5161,19 +5161,19 @@
          pCopy = piReturn;
          select;
          when retSize = RESULT_INT8;
-           myCopy.chrx =  myCopy2.chrx; 
+           myCopy.chrx =  myCopy2.chrx;
          when retSize = RESULT_UINT8;
-           myCopy.uchrx = myCopy2.uchrx; 
+           myCopy.uchrx = myCopy2.uchrx;
          when retSize = RESULT_INT16;
-           myCopy.shortx = myCopy2.shortx; 
+           myCopy.shortx = myCopy2.shortx;
          when retSize = RESULT_UINT16;
-           myCopy.ushortx = myCopy2.ushortx; 
+           myCopy.ushortx = myCopy2.ushortx;
          when retSize = RESULT_INT32;
-           myCopy.intx = myCopy2.intx; 
+           myCopy.intx = myCopy2.intx;
          when retSize = RESULT_UINT32;
-           myCopy.uintx = myCopy2.uintx; 
+           myCopy.uintx = myCopy2.uintx;
          when retSize = RESULT_INT64;
-           myCopy.longlongx = myCopy2.longlongx; 
+           myCopy.longlongx = myCopy2.longlongx;
          when retSize = RESULT_UINT64;
            myCopy.ulonglongx = myCopy2.ulonglongx;
          when retSize = RESULT_FLOAT64;
@@ -5239,7 +5239,7 @@
               + %trim(jobNbr)
               +'.log';
 
-       // reusable ILE memory buffer 
+       // reusable ILE memory buffer
        memI = cacAddBig(SZOPM:CAC_HEAP_PGM_OPM);
        ptrMemP = cacScanBig(memI);
        myMem = memCtl.paseOrigP;

@@ -16,19 +16,19 @@ Debug technique: It’s as easy as 1–2−3–4−5–6−7–8−9 :)
     The RPG program source will appear in debug mode in your terminal, ready to step through, allowing you to inspect variables, etc.
     When done inspecting and stepping, let the RPG program complete (using function keys indicated on screen).
     ENDDBG
-    ENDSRVJOB 
+    ENDSRVJOB
 
 Other debug options …
 
-           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)  
+           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)
                              (ctl=*debugcgi)              (ctl=*debugproc)                (ctl=*debug)
-browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here) 
+browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here)
                                                        -> QSQSRVR (XMLSERVICE client) -> XTOOLKIT (XMLSERVICE ipc=/tmp/flinstone)
 
 $ctl .= " *debugcgi";  // Job 2 - debug XMLCGI to see REST/HTTP data passed by client (when using REST only)
 $ctl .= " *debugproc"; // Job 3 - debug XMLSERVICE "client" to see DB2 passed data (DB2 interface)
 $ctl .= " *debug";     // Job 4 - debug XMLSERVICE "server" to see XMLSERVICE calls (DB2 interface)
-                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server" 
+                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server"
                        //         are in QSQSRVSR job (NO XTOOLKIT job)
                        // remote: Attaching with LUW drivers changes QSQSRVR ...
                        //   CLIENT (Client Access drivers) <==> QZDAxxxx
@@ -41,10 +41,10 @@ This is a collection of debug tips and where you may find your problem data.
     Check the logs (click here) … — viewing PHP logs is often enough to solve a problem
         Check PHP log for messages (click here) …
         Check Apache logs for messages (click here) …
-        Check PHP toolkit logs for messages (click here) … 
+        Check PHP toolkit logs for messages (click here) …
     Check active XMLSERVICE job (click here) …
         WRKACTJOB — 5=work -> 10. Display job log -> F10=Display detailed messages can be very revealing
-        WRKACTJOB — 5=work -> 11. Display call stack -> F5=Refresh watch stack during stress runs 
+        WRKACTJOB — 5=work -> 11. Display call stack -> F5=Refresh watch stack during stress runs
     Check one level at a time (click here) … — run simple tests up web site food chain can be very revealing
         Download tests: 2012–05–18 - levels-1.4.zip — simple tests for each level
         Level 0 — PHP working (click here) …
@@ -52,40 +52,40 @@ This is a collection of debug tips and where you may find your problem data.
         Level 2 — db2 connection working (click here) …
         Level 3 - XMLSERVICE XML interface working (click here) …
         Level 4 — PHP New Toolkit working (click here) …
-        Level 5 — PHP CW Toolkit working (optional) (click here) … 
+        Level 5 — PHP CW Toolkit working (optional) (click here) …
     Stop XMLSERVICE for debugger attach (click here) ..
         WRKACTJOB find XMLSERVICE private mode only (click here) …
-        XMLSERVICE QSYSOPR message stop anytime (click here) … 
+        XMLSERVICE QSYSOPR message stop anytime (click here) …
     additional links common XMLSERVICE error information
         {XMLSERVICE FAQ} - have issues, try here
         {XMLSERVICE ERRORS} - errors, try here
         {XMLSERVICE Connections} - XMLSERVICE/Toolkit connections
-        {XMLSERVICE Performance} - performance XMLSERVICE 
+        {XMLSERVICE Performance} - performance XMLSERVICE
     PASE debug secrets (for a PASE geek) …
         Geek - everything about PASE from a geek
-        PASEDebug - debug secrets 
+        PASEDebug - debug secrets
     The following links are associated with my machine environment and may be helpful.
         Apache ab tool — Apache ab web site stress tests are performed from the 5250 command line (call qp2term) or ssh myibmi using PASE (see Apache ab link install instructions)
             You can run stress tests from 2-tier Linux/Windows using Apache ab tool, but i am using Apchae ab from PASE.
             Apache ab tool is not perfect, but if you use relatively “sane” number of browsers like -c 10 it will work.
             Apache ab test is designed to drive CPU to 100% (a good thing), so don’t panic about CPU
-            Apache ab sample run — see sample run my machine 
+            Apache ab sample run — see sample run my machine
         GUI System Debugger — GUI debugger always available on IBM i
         Apache FastCGI — Apache FastCGI is used for PHP on IBM i, this link may be helpful.
         PHP via iASP — My machine setup using iASP Zend Server data.
             Many of the examples below reference /MYASP2/www/zend2 because i am running all my Zend Server data in an Apache ZEND2 configuration on port 80 using iASP /MYASP2 (http://myibmi/hello.php) .
-            Your configuration is more likely Zend Server out-of-the-box-install running in /www/zendsvr on port 10088 (http://myibmi:10088/hello.php) 
+            Your configuration is more likely Zend Server out-of-the-box-install running in /www/zendsvr on port 10088 (http://myibmi:10088/hello.php)
 
 Working with service provider?
 
 Here are a few common things that can provide useful information if working with outside support people.
 
     0) easy way 1.7.1 … just send provider XMLSERVLOG/LOG and XMLSERVLOG/DUMP in SAVF
-        assuming you have a trace of the issue (see xmlservice logging instructions) 
+        assuming you have a trace of the issue (see xmlservice logging instructions)
     1) what do you see in error logs for simple tests ???
 
         call qp2term
-        > tail /usr/local/zendsvr/var/log/php.log 
+        > tail /usr/local/zendsvr/var/log/php.log
         > tail /myasp2/www/zend2/logs/error_log.Q112061800
         > tail /myasp2/www/zend2/logs/access_log.Q112061800
 
@@ -99,14 +99,14 @@ Here are a few common things that can provide useful information if working with
         More ... /myasp2/www/zend2
         -- NO symbolic links between SYSAPS and MYASP2 for true "independent"ASP.
         -- config files /myasp2/www/zend2/conf
-        attach: fastcgi.conf 
+        attach: fastcgi.conf
         attach: httpd.conf
 
     3) Around time of simple test failure … do you see job logs?
         wrkoutq
 
         If jobs are still active (php-cgi, etc.) ...
-        wrkactjob 
+        wrkactjob
          5      ZEND2        QTMHHTTP    BCI      .0  PGM-QZSRHTTP     SIGW
                 ZEND2        QTMHHTTP    BCI      .0  PGM-php-cgi.bi   THDW
          5      ZEND2        QTMHHTTP    BCI      .0  PGM-php-cgi.bi   TIMW
@@ -121,12 +121,12 @@ Here are a few common things that can provide useful information if working with
         1. Select entries from the Licensed Internal Code (LIC) log
         Specify Licensed Internal Code Log Selection Values
         -- leave as is enter ---
-              0100A890  i5/OS PASE               4700  0013  06/15/12  09:03:43      7        <--- PASE 
-              0100A891  LIC log interface        0401  0100  06/15/12  09:04:08      1        
+              0100A890  i5/OS PASE               4700  0013  06/15/12  09:03:43      7        <--- PASE
+              0100A891  LIC log interface        0401  0100  06/15/12  09:04:08      1
               0100A892  Signals management       4600  0001  06/15/12  09:04:51    255
               0100A893  Process management       1300  0001  06/18/12  21:02:06      1
 
-              maybe look for PASE, storage management, ASP, so on around "failure time" 
+              maybe look for PASE, storage management, ASP, so on around "failure time"
 
               Note: you can also dump logs to spool ...
 
@@ -141,16 +141,16 @@ STRSST/STRDST
 ... or option for dump to printer ...
 2. Licensed Internal Code (LIC) data
 14. Advanced analysis
- Option    Command                                                             
+ Option    Command
     1      processinfo
 
 In this case dumping all process dealing with keyword "ZEND" appearing in job ...
 
-                       Specify Advanced Analysis Options                       
+                       Specify Advanced Analysis Options
  Output device  . . . . . . :   Display
  Type options, press Enter.
    Command . . . . :   PROCESSINFO
-   Options . . . . .   -NAMES ZEND                                             
+   Options . . . . .   -NAMES ZEND
 
 Note:
 Information dumped printer/display is same as paseps macro.
@@ -172,7 +172,7 @@ If you are using private connections (InternalKey or $ipc=‘/tmp/packers’), t
 
 1) Use option 5=work -> 10. Display job log -> F10=Display detailed messages to examine joblog on errors …
 
-                              Display All Messages          
+                              Display All Messages
                                                              System:   LP0264D
  Job . . :   XTOOLKIT      User . . :   DB2           Number . . . :   435915
 
@@ -222,7 +222,7 @@ Check Apache logs for messages …
         call qp2term (or ssh myibmi)
         > tail /myasp2/www/zend2/logs/error_log.Q112051500
         [Tue May 15 17:10:11 2012] [error] [client 9.5.158.38] CGI PROGRAM /QSYS.LIB/XMLSERVICE.LIB/XMLCGI.PGM RETURNED EXCEPTION ID CEE9901
-        [Tue May 15 17:10:11 2012] [error] [client 9.5.158.38] SEE JOBLOG FOR JOB 428979/QTMHHTTP  /ZEND2  
+        [Tue May 15 17:10:11 2012] [error] [client 9.5.158.38] SEE JOBLOG FOR JOB 428979/QTMHHTTP  /ZEND2
 
          access logs for date in question ...
         EDTF STMF('/myasp2/www/zend2/logs/access_log.Q112051500')
@@ -244,7 +244,7 @@ Check PHP Toolkit logs for messages …
         location set in toolkit.ini ...
         EDTF STMF('/usr/local/zendsvr/share/ToolkitApi/toolkit.ini')
         [log]
-        ; warnings and errors will be written to the logfile. 
+        ; warnings and errors will be written to the logfile.
         logfile = "/usr/local/zendsvr/share/ToolkitApi/toolkit.log"
 
          toolkit.ini debugLogFile
@@ -295,12 +295,12 @@ Run the test …
 > export PATH=/usr/local/zendsvr/bin:$PATH
 > export LIBPATH=/usr/local/zendsvr/lib
 > cd /MYASP2/www/zend2/htdocs
-> php hello.php 
-Hello world> 
+> php hello.php
+Hello world>
 
 No, not working???
 
-    Check PHP log for messages (click here) … 
+    Check PHP log for messages (click here) …
 
 Level 1 — Apache/PHP working
 
@@ -320,7 +320,7 @@ echo "Hello world";
 No, not working???
 
     Check PHP log for messages (click here) …
-    Check Apache logs for messages (click here) … 
+    Check Apache logs for messages (click here) …
 
 Ok, next run stress test …
 
@@ -331,7 +331,7 @@ call qp2term
 -c 10 -- 10 concurrent browsers (simulates ten browsers)
 
     this test is designed to drive CPU to 100% (a good thing), so don’t panic about CPU
-    Apache ab sample run — see sample run my machine 
+    Apache ab sample run — see sample run my machine
 
 wrkactjob refresh (F10) - if you do not see multiple php-cgi jobs getting CPU re-run tests with more load
 
@@ -344,7 +344,7 @@ Multiply by 3 Apache ab jobs running background -- 30 concurrent browsers (simul
 
     above using “&;” to fork/exec into background/batch many jobs(s) Apache ab to really hammer your web site
     ab tool is not perfect, so if you start too many of these forked jobs (‘&;’) the tool may core dump (die) — i usually can get 3 - 6 jobs working (30–60 browsers)
-    if you still do not see a split of CPU between php-cgi jobs you may be missing HTTP PTFS see link Apache FastCGI 
+    if you still do not see a split of CPU between php-cgi jobs you may be missing HTTP PTFS see link Apache FastCGI
 
 Level 2 — db2 connection working
 
@@ -355,7 +355,7 @@ Note:
     Your machine may have document root at /www/zendsvr vs. /MYASP2/www/zend2 (out-of-box installed Zend Server).
     This same test can be run 2-tier from Linux/Windows to IBM i using DB2 Connect.
         Example: {Linux DB2 Connect} — DRDA based example below
-        Example: {Linux ODBC} — ODBC you may substitute 
+        Example: {Linux ODBC} — ODBC you may substitute
 
 Test number #2
 
@@ -389,7 +389,7 @@ for ($i=0;$i<500;$i++) {
 
 run the test Apache …
 
- 
+
 Point your browser to php program ...
 http://myibmi/xxtoolkit_connect.php
 Good connect: Resource id #2,*LOCAL,DB2,perm=1,ok=1
@@ -401,7 +401,7 @@ run the test 2-tier … I choose to run from command line on my Linux machine, b
 
 $ which php
 /usr/local/zend/bin/php
-$ php xxtoolkit_connect.php 
+$ php xxtoolkit_connect.php
 <br>Good connect:  Resource id #5,LP0264D,DB2,perm=1,ok=1
 <br>Good connect:  Resource id #6,LP0264D,DB2,perm=0,ok=1
 <br>Good connect:  Resource id #7,LP0264D,DB2,perm=1,ok=1
@@ -410,7 +410,7 @@ $ php xxtoolkit_connect.php
 No, not working???
 
     Check PHP log for messages (click here) …
-    Check Apache logs for messages (click here) … 
+    Check Apache logs for messages (click here) …
 
 Level 3 - XMLSERVICE XML interface working
 
@@ -420,7 +420,7 @@ Note:
 
     Your machine may have document root at /www/zendsvr vs. /MYASP2/www/zend2 (out-of-box installed Zend Server).
     This same test can be run 2-tier from Linux/Windows to IBM i using DB2 Connect.
-    RPG test *PGM ZENDSVR/ZZCALL is included with Zend Server installation, so test will run out-of-box 
+    RPG test *PGM ZENDSVR/ZZCALL is included with Zend Server installation, so test will run out-of-box
 
 Test number #3
 
@@ -444,7 +444,7 @@ else $conn = db2_connect($database,$user,$password);
 if (!$conn) echo "Bad connect: $conn,$database,$user,perm=$i5persistentconnect";
 
 $stmt = db2_prepare($conn, "call XMLSERVICE.iPLUG4K(?,?,?,?)");
-$ctl  = "*sbmjob"; // *here for no additional private job 
+$ctl  = "*sbmjob"; // *here for no additional private job
 $ipc='/tmp/packers';
 // $ipc  = "";     // *here no need ipc
 $clobIn = "<?xml version='1.0'?>
@@ -486,7 +486,7 @@ else echo "fail";
 
 run the test Apache …
 
- 
+
 Point your browser to php program ...
 http://myibmi/xxtoolkit_raw.php
 success
@@ -502,7 +502,7 @@ No, not working???
 
     Check PHP log for messages (click here) …
     Check Apache logs for messages (click here) …
-    Check PHP toolkit logs for messages (click here) … 
+    Check PHP toolkit logs for messages (click here) …
 
 Ok, next run stress test …
 
@@ -513,7 +513,7 @@ call qp2term
 -c 10 -- 10 concurrent browsers (simulates ten browsers)
 
     this test is designed to drive CPU to 100% (a good thing), so don’t panic about CPU
-    Apache ab sample run — see sample run my machine 
+    Apache ab sample run — see sample run my machine
 
 Level 4 — PHP New Toolkit working
 
@@ -523,7 +523,7 @@ Note:
 
     Your machine may have document root at /www/zendsvr vs. /MYASP2/www/zend2 (out-of-box installed Zend Server).
     This same test can be run 2-tier from Linux/Windows to IBM i using DB2 Connect.
-    RPG test *PGM ZENDSVR/ZZCALL is included with Zend Server installation, so test will run out-of-box 
+    RPG test *PGM ZENDSVR/ZZCALL is included with Zend Server installation, so test will run out-of-box
 
 Test number #4
 
@@ -566,7 +566,7 @@ else echo "fail";
 
 run the test Apache …
 
- 
+
 Point your browser to php program ...
 http://myibmi/xxtoolkit_new.php
 success
@@ -581,7 +581,7 @@ success
 No, not working???
 
     Check PHP log for messages (click here) …
-    Check Apache logs for messages (click here) … 
+    Check Apache logs for messages (click here) …
 
 Ok, next run stress test …
 
@@ -592,7 +592,7 @@ call qp2term
 -c 10 -- 10 concurrent browsers (simulates ten browsers)
 
     this test is designed to drive CPU to 100% (a good thing), so don’t panic about CPU
-    Apache ab sample run — see sample run my machine 
+    Apache ab sample run — see sample run my machine
 
 Level 5 — PHP CW Toolkit working (optional)
 
@@ -602,7 +602,7 @@ Note:
 
     Your machine may have document root at /www/zendsvr vs. /MYASP2/www/zend2 (out-of-box installed Zend Server).
     This same test can be run 2-tier from Linux/Windows to IBM i using DB2 Connect.
-    RPG test *PGM ZENDSVR/ZZCALL is included with Zend Server installation, so test will run out-of-box 
+    RPG test *PGM ZENDSVR/ZZCALL is included with Zend Server installation, so test will run out-of-box
 
 Test number #5
 
@@ -634,9 +634,9 @@ if (!$conn)
 }
 
 /* prepare */
-$description = 
+$description =
 array
-( 
+(
   // single parms
   array
   ( "Name"=>"INCHARA","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_CHAR,"Length"=>"1"),
@@ -646,13 +646,13 @@ array
   ( "Name"=>"INDEC1","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_PACKED,"Length"=>"7.4"),
   array
   ( "Name"=>"INDEC2","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_PACKED,"Length"=>"12.2"),
-  // structure parm 
+  // structure parm
   array
   ( "DSName"=>"INDS1",
     "Count"=>1,
     "DSParm"=>
     array
-    ( 
+    (
      array
      ( "Name"=>"DSCHARA","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_CHAR,"Length"=>"1"),
      array
@@ -673,28 +673,28 @@ if (!$pgm)
 // *** parameter list allocation
 $list=
 array
-( 
-  "DSCHARA"=>"x",  
-  "DSCHARB"=>"y", 
+(
+  "DSCHARA"=>"x",
+  "DSCHARB"=>"y",
   "DSDEC1"=>66.6666,
   "DSDEC2"=>77777.77,
 );
 // *** parameter values passed to procedure
-$in = 
+$in =
 array
-( 
-  "INCHARA"=>"a",  
-  "INCHARB"=>"b", 
+(
+  "INCHARA"=>"a",
+  "INCHARB"=>"b",
   "INDEC1"=>11.1111,
   "INDEC2"=>222.22,
   "INDS1"=>$list,
 );
 // *** name of variables created for out parameters
-$out = 
+$out =
 array
 (
-  "INCHARA"=>"INCHARA",  
-  "INCHARB"=>"INCHARB", 
+  "INCHARA"=>"INCHARA",
+  "INCHARB"=>"INCHARB",
   "INDEC1"=>"INDEC1",
   "INDEC2"=>"INDEC2",
   "INDS1"=>"INDS1",
@@ -709,7 +709,7 @@ if ($rc != false)
   if ($INDS1["DSCHARA"] != 'E'
   ||  $INDS1["DSCHARB"] != 'F'
   ||  $INDS1["DSDEC1"] != 333.333
-  ||  $INDS1["DSDEC2"] != 4444444444.44) 
+  ||  $INDS1["DSDEC2"] != 4444444444.44)
   {
     var_dump($INDS1);
     die("fail DS not correct\n");
@@ -728,7 +728,7 @@ echo "success";
 
 run the test Apache …
 
- 
+
 Point your browser to php program ...
 http://myibmi/xxtoolkit_cw.php
 success
@@ -744,7 +744,7 @@ No, not working???
 
     Check PHP log for messages (click here) …
     Check Apache logs for messages (click here) …
-    Check PHP toolkit logs for messages (click here) … 
+    Check PHP toolkit logs for messages (click here) …
 
 Ok, next run stress test …
 
@@ -755,7 +755,7 @@ call qp2term
 -c 10 -- 10 concurrent browsers (simulates ten browsers)
 
     this test is designed to drive CPU to 100% (a good thing), so don’t panic about CPU
-    Apache ab sample run — see sample run my machine 
+    Apache ab sample run — see sample run my machine
 
 Apache ab sample run
 
@@ -763,7 +763,7 @@ Apache ab tool — Apache ab web site stress tests are performed from the 5250 c
 
     You can run stress tests from 2-tier Linux/Windows using Apache ab tool, but i am using Apchae ab from PASE.
     Apache ab tool is not perfect, but if you use relatively “sane” number of browsers like -c 10 it will work.
-    Apache ab test is designed to drive CPU to 100% (a good thing), so don’t panic about CPU 
+    Apache ab test is designed to drive CPU to 100% (a good thing), so don’t panic about CPU
 
 Example run my machine …
 
@@ -794,7 +794,7 @@ Failed requests:        0
 Write errors:           0
 Total transferred:      3394275 bytes
 HTML transferred:       223575 bytes
-Requests per second:    812.83 [#/sec] (mean)    <---     800 hits/second 
+Requests per second:    812.83 [#/sec] (mean)    <---     800 hits/second
 Time per request:       12.303 [ms] (mean)
 Time per request:       1.230 [ms] (mean, across all concurrent requests)
 Transfer rate:          132.53 [Kbytes/sec] received
@@ -816,11 +816,11 @@ Percentage of the requests served within a certain time (ms)
   98%     21
   99%     23
  100%    322 (longest request)
-> 
+>
 
 wrkactjob — during Apache ab test you can use refresh on wrkactjob scree to see the php-cgi jobs working
 
-    you should expect to see multiple php-cgi jobs getting some CPU time as you refresh with F10 
+    you should expect to see multiple php-cgi jobs getting some CPU time as you refresh with F10
 
                              Work with Active Jobs                     LP0264D
                                                              05/16/12  13:37:25
@@ -877,7 +877,7 @@ else $conn = db2_connect($database,$user,$password);
 if (!$conn) echo "Bad connect: $conn,$database,$user,perm=$i5persistentconnect";
 
 $stmt = db2_prepare($conn, "call XMLSERVICE.iPLUG4K(?,?,?,?)");
-$ctl  = "*sbmjob";         // *here for no additional private job 
+$ctl  = "*sbmjob";         // *here for no additional private job
 $ctl  .= " *debug";        // THIS WILL STOP XMLSERVICE JOB MSG TO QSYSOPR (server side)
 // $ctl  .= " *debugproc"; // THIS WILL STOP XMLSERVICE/QSQSRVR JOB MSG TO QSYSOPR (client side)
                            // if running *here either *debug/*debugproc will work
@@ -980,10 +980,10 @@ It's as easy as 1-2-3-4-5-6-7-8-9-10 :)
 1. Add the following line to your PHP script before the program call to be debugged. $toolkitConn should be your toolkit connection object.
 $toolkitConn->setOptions(array('customControl'=>'*debug')).
 
-Run your script. 
+Run your script.
 
 The script will "hang" while it waits on #2 below...
-(move to green screen 5250 for steps 2-10) 
+(move to green screen 5250 for steps 2-10)
 2. A MSGW inquiry message in DSPMSG QSYSOPR will be generated by the toolkit.
 3. Note the job information (number, name, user) provided in the MSGW.
 4. STRSRVJOB using that job information as parameters.

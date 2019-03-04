@@ -11,7 +11,7 @@ if ($doPgmCallSimple) {
 
 	echo h2('Program calls');
     echo 'Program call with simple parameters<BR>';
-	
+
 $progname = "$demoLib/TESTSTP2";
 
 $desc = array (
@@ -19,7 +19,7 @@ array ("Name"=>"code", "IO"=>I5_INOUT, "Type"=>I5_TYPE_CHAR, "Length"=>"10"),
 array ("Name"=>"name", "IO"=>I5_INOUT, "Type"=>I5_TYPE_CHAR, "Length"=>"10")
 );
 $desc = Array (
-             0 => Array ( 'type' => 0, 'name' => 'code', 'length' => 10, 'io' => 3 ), 
+             0 => Array ( 'type' => 0, 'name' => 'code', 'length' => 10, 'io' => 3 ),
              1 => Array ( 'type' => 0, 'name' => 'name', 'length' => 10, 'io' => 3 ) ) ;
 echo "<b>About to call $progname with two char parameters.</b><BR>";
 

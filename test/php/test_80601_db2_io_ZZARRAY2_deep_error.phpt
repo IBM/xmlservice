@@ -43,7 +43,7 @@ echo "Success\n";
 //     D  dcMyRank                     10i 0
 //     D  dcMyPay                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzarrbad: check parameter array aggregate 
+//      * zzarrbad: check parameter array aggregate
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzarrbad        B                   export
 //     D zzarrbad        PI

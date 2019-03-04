@@ -88,16 +88,16 @@ $clob = <<<ENDPROC
    <data type='10i0' var='BATCH_ON_HELD_QUE' comment='BATCH_ON_HELD_QUE'/>
    <data type='10i0' var='UNASGN_BATCH' comment='UNASGN_BATCH'/>
    <data type='10i0' var='BATCH_WAIT_PRINT' comment='BATCH_WAIT_PRINT'/>
-  </ds> 
+  </ds>
  </parm>
  <parm comment='LEN' io='in'>
-  <data type='10i0' var='LEN' >148</data>  		  
+  <data type='10i0' var='LEN' >148</data>
  </parm>
- <parm comment='FORMAT' io='in'> 			
-  <data type='8A' var='FORMAT' >SSTS0100</data>  		  
+ <parm comment='FORMAT' io='in'>
+  <data type='8A' var='FORMAT' >SSTS0100</data>
  </parm>
- <parm comment='RESET' io='in'> 			
-  <data type='10A' var='RESET' >*YES</data>  		  
+ <parm comment='RESET' io='in'>
+  <data type='10A' var='RESET' >*YES</data>
  </parm>
  <parm io='both'>
   <ds>
@@ -106,7 +106,7 @@ $clob = <<<ENDPROC
    <data type='7A' var='Exception' comment='Exception'/>
    <data type='1A' var='reserved' comment='reserved'/>
    <data type='10A' var='data' comment='data'/>
-  </ds> 
+  </ds>
  </parm>
 </pgm>
 </script>

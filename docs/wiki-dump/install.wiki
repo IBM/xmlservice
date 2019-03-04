@@ -13,8 +13,8 @@ XMLSERVICE is Open Source RPG code that enables XML scripting calls of System i 
 # Unzip xmlservice-rpg.zip to xmlservice.savf
 # Ensure that an empty save file QGPL/XMLSERVICE exists\\
 [@
-> crtSAVF FILE(QGPL/XMLSERVICE) 
--- or -- 
+> crtSAVF FILE(QGPL/XMLSERVICE)
+-- or --
 > clrSAVF FILE(QGPL/XMLSERVICE)
 @]
 # FTP xmlservice.savf to QGPL library, into the save file referenced in 2. above
@@ -24,7 +24,7 @@ XMLSERVICE is Open Source RPG code that enables XML scripting calls of System i 
 @]
 # Create xmlservice RPG programs in XMLSERVICE library and/or alternative libraries (see alternative below).\\
 [@
-First, add XMLSERVICE to library list: 
+First, add XMLSERVICE to library list:
 Then choose library/libraries to compile into:
 > ADDLIBLE XMLSERVICE
 
@@ -35,18 +35,18 @@ XMLSERVICE: test library XMLSERVICE, good for trying new versions
 > call crtxml -- XMLSERVICE library only
 
 Please ignore following expected errors from generic drop/create CRTXML(x) CLP ...
-**** CLI ERROR *****                 
-         SQLSTATE: 42704              
-NATIVE ERROR CODE: -204               
-IPLUG4K in XMLSERVICE type *N not found. 
+**** CLI ERROR *****
+         SQLSTATE: 42704
+NATIVE ERROR CODE: -204
+IPLUG4K in XMLSERVICE type *N not found.
 @]
-      
+
 # Optional XMLSERVICE tests\\
 [@
-> CRTCLPGM PGM(XMLSERVICE/CRTTEST) SRCFILE(XMLSERVICE/QCLSRC) 
+> CRTCLPGM PGM(XMLSERVICE/CRTTEST) SRCFILE(XMLSERVICE/QCLSRC)
 > call crttest
 -- V6+ added tests --
-> CRTCLPGM PGM(XMLSERVICE/CRTTEST6) SRCFILE(XMLSERVICE/QCLSRC) 
+> CRTCLPGM PGM(XMLSERVICE/CRTTEST6) SRCFILE(XMLSERVICE/QCLSRC)
 > call crttest6
 @]
 # Grant *ALL rights over XMLSERVICE to users\\
@@ -84,7 +84,7 @@ QXMLSERV: IBM PTF use only
 > CRTCLPGM PGM(XMLSERVICE/CRTXMLQ) SRCFILE(XMLSERVICE/QCLSRC)
 > call crtxmlq -- QXMLSERV library only
 
-Optional: 
+Optional:
 Additional CLP(s) are included for user compile redistribution
 current/modern version IBM i to install on down level IBM i.
 CRTXMLV5  - library XMLSERVICE -> TGTRLS(V5R4M0)
@@ -97,7 +97,7 @@ CRTXML6V6 - library ZENDSVR6 -> TGTRLS(V6R1M0)
 # Alternative - For IBM i that only use PTFS\\
 Optional IBM XMLSERVICE PTFs for machines not downloading XMLSERVICE (PTF library QXMLSERV).\\
 [@
-group 
+group
 PTF SF99368 - level 31 for i 7.1
 PTF SF99713 - level 5 for i 7.2
 -- older info --
@@ -202,7 +202,7 @@ call crtxml3
 @]
 
 This allows better interoperability with standalone application like node, python, etc.
-If you choose to deploy a production site, recommend restricting xmlservice Apache to local only (allow from 127.0.0.1). 
+If you choose to deploy a production site, recommend restricting xmlservice Apache to local only (allow from 127.0.0.1).
 The standalone application should use 127.0.0.1 as for REST requests to xmlservice on the machine.
 
 [@
@@ -251,7 +251,7 @@ var DemoLib2 = "FLGHT400M";
 @]
 
 
-A new tool 'mama' has been created as fastcgi extension to start/stop your standalone applications. 
+A new tool 'mama' has been created as fastcgi extension to start/stop your standalone applications.
 Mama is designed to work with Apache FastCGI as additional configuration files (mama.conf).
 * [[https://bitbucket.org/litmis/mama | litmis git mama]] - mama source code, multiple Apache configurations for different machine environments (useful patterns).
 * [[FastCGI/Mama]] - mama pre-compiled version
@@ -310,15 +310,15 @@ $ctl .= " *debug";
 
 Other debug options ...
 [@
-           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)  
+           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)
                              (ctl=*debugcgi)              (ctl=*debugproc)                (ctl=*debug)
-browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here) 
+browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here)
                                                        -> QSQSRVR (XMLSERVICE client) -> XTOOLKIT (XMLSERVICE ipc=/tmp/flinstone)
 
 $ctl .= " *debugcgi";  // Job 2 - debug XMLCGI to see REST/HTTP data passed by client (when using REST only)
 $ctl .= " *debugproc"; // Job 3 - debug XMLSERVICE "client" to see DB2 passed data (DB2 interface)
 $ctl .= " *debug";     // Job 4 - debug XMLSERVICE "server" to see XMLSERVICE calls (DB2 interface)
-                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server" 
+                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server"
                        //         are in QSQSRVSR job (NO XTOOLKIT job)
                        // remote: Attaching with LUW drivers changes QSQSRVR ...
                        //   CLIENT (Client Access drivers) <==> QZDAxxxx

@@ -26,7 +26,7 @@ if (!$ret) die("Fail execute: ".db2_stmt_errormsg());
 // -----------------
 // output processing
 // -----------------
-ob_start(); 
+ob_start();
 echo "<h1>Easy Peasy XMLSERVICE</h1>\n";
 echo "<table border='1'>\n";
 // echo "<th>RPG anyone?</th>\n";
@@ -63,10 +63,10 @@ echo "</td>\n";
 echo "</tr>\n";
 echo "</table>\n";
 
-$myout = ob_get_clean(); 
+$myout = ob_get_clean();
 
 //---------------
-// check the data 
+// check the data
 if (strpos($myout,'"data":["good item 7","7.000","700.0000"]') < 1) die("Missing data \n".$myout);
 
 // good
@@ -82,7 +82,7 @@ echo "Success\n";
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * main(): Control flow
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     C     *Entry        PLIST                   
+//     C     *Entry        PLIST
 //     C                   PARM                    pcustomer_id
 //     C                   PARM                    plines
 //     C                   PARM                    pline_ds

@@ -12,7 +12,7 @@ try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $passwo
 catch (Exception $e) { die($e->getMessage()); }
 $ToolkitServiceObj->setToolkitServiceParams(
 array('InternalKey'=>$ipc, // route to same XMLSERVICE job /tmp/myjob1
-'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running)
 'plug'=>"iPLUG32K"));              // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * zzstamp: check timestamp parm

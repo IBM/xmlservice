@@ -51,7 +51,7 @@ echo "Success\n";
 
 function getxml() {
 $clob = <<<ENDPROC
-<?xml version='1.0' encoding='ISO-8859-1' ?>    
+<?xml version='1.0' encoding='ISO-8859-1' ?>
 <script>
 <cmd>addlible xmlservice</cmd>
 <bad1><cmd exec='cmd'>addlible xmlservice</cmd></bad1>

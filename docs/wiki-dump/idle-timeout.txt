@@ -13,7 +13,7 @@ Cleanliness vs. performance Causing jobs to time out quickly will give you a nic
 
 How to choose a timeout value If you have many transient users who will briefly use the site and then not return, you may want a quick timeout (30 seconds?). For users who will return over and over again, you may want a long or nonexistent timeout.
 
-    Idle timeout with the new toolkit API 
+    Idle timeout with the new toolkit API
 
 The “idle timeout” can be set or changed any time in this way:
 
@@ -22,7 +22,7 @@ $idleTimeoutSeconds = 1800; // time out job after 1800 seconds (30 minutes) of i
                             // a value of 0 means no timeout (infinite wait)
 $conn->setOptions(array('idleTimeout' => $idleTimeoutSeconds));
 
-    Idle timeout with the Compatibility Wrapper (CW) 
+    Idle timeout with the Compatibility Wrapper (CW)
 
 Just as with the old toolkit, when you connect with i5_pconnect(), you can set the timeout interval and the number of seconds to wait. As with the old toolkit, idle timeouts only work with private connections. Use the constant I5_OPTIONS_IDLE_TIMEOUT to provide the number of seconds. Use zero (0) seconds to never time out (the default).
 
@@ -33,7 +33,7 @@ $options = array(I5_OPTIONS_PRIVATE_CONNECTION => $privateNum,
                  I5_OPTIONS_IDLE_TIMEOUT       => $idleTimeoutSeconds
                  );
 
-// connect (note: the "p" for persistent is required for CW private connections) 
+// connect (note: the "p" for persistent is required for CW private connections)
 // and specify a private connection and timeout
 $conn = i5_pconnect('localhost', 'user', 'pw', $options);
 
@@ -69,7 +69,7 @@ var_dump($clobOut);
 $xmlobj = simplexml_load_string($clobOut);
 if (!$xmlobj) die("Bad XML returned");
 // good
-if (strpos($clobOut,"Pointer not set")<=0) echo "Failure\n"; 
+if (strpos($clobOut,"Pointer not set")<=0) echo "Failure\n";
 echo "Success\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -93,17 +93,17 @@ Timeout is a setting control setting with various properties allowed.
 
       *----------------------------------------------------
       * -- server time out jobs XMLSERVICE (1.6.2)
-      * *wait[(seconds[/action])]            
+      * *wait[(seconds[/action])]
       *    - client side wait for XMLSERVICE call (client side)
       *      example: $ctl="*wait(10)";
       *      - default action *wait(60/busy) (see plugconfx)
-      * *call[(seconds[/action[/duration[/job]]])] 
+      * *call[(seconds[/action[/duration[/job]]])]
       *    - client/server side XMLSERVICE call wait (PGM, SRVPGM, PASE, etc)
       *      example: $ctl="*wait(10) *call(5/busy/client)";
-      *      - default for both client/server is *call(0) 
+      *      - default for both client/server is *call(0)
       *        means wait on call forever (user code flawless),
       *        but can be overriden client/server/both
-      * *idle[(seconds[/action[/duration]])] 
+      * *idle[(seconds[/action[/duration]])]
       *    - server side XMLSERVICE idle no activity
       *      example: $ctl="*wait(10/kill) *call(30/kill) *idle(30/perm)";
       *      - default action *idle(1800/kill) (see plugconfx)

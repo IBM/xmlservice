@@ -17,7 +17,7 @@ XMLSERVICE from 1.6.2 onward contains flexible timeout features, including the a
 The PHP toolkit wrappers currently enable only one of these timeout features: the "idle timeout." When using a private connection job, also known as jobs that have an IPC or InternalKey, the job can be made to time out when a certain number of seconds of inactivity have elapsed.
 
 '''Cleanliness vs. performance'''
-Causing jobs to time out quickly will give you a nice, empty, clean-looking ZENDSVR subsystem, but will drag down performance the next time the job is started up. Try to find a balance between cleanliness and performance. If you plan to use the same jobs over and over, you may wish to NOT time out the jobs, either never ending them or ending them *IMMED at night, or some other scheme. 
+Causing jobs to time out quickly will give you a nice, empty, clean-looking ZENDSVR subsystem, but will drag down performance the next time the job is started up. Try to find a balance between cleanliness and performance. If you plan to use the same jobs over and over, you may wish to NOT time out the jobs, either never ending them or ending them *IMMED at night, or some other scheme.
 
 '''How to choose a timeout value'''
 If you have many transient users who will briefly use the site and then not return, you may want a quick timeout (30 seconds?). For users who will return over and over again, you may want a long or nonexistent timeout.
@@ -40,7 +40,7 @@ $options = array(I5_OPTIONS_PRIVATE_CONNECTION => $privateNum,
                  I5_OPTIONS_IDLE_TIMEOUT       => $idleTimeoutSeconds
                  );
 
-// connect (note: the "p" for persistent is required for CW private connections) 
+// connect (note: the "p" for persistent is required for CW private connections)
 // and specify a private connection and timeout
 $conn = i5_pconnect('localhost', 'user', 'pw', $options);
 @]
@@ -77,7 +77,7 @@ var_dump($clobOut);
 $xmlobj = simplexml_load_string($clobOut);
 if (!$xmlobj) die("Bad XML returned");
 // good
-if (strpos($clobOut,"Pointer not set")<=0) echo "Failure\n"; 
+if (strpos($clobOut,"Pointer not set")<=0) echo "Failure\n";
 echo "Success\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -99,22 +99,22 @@ return test_lib_replace($clob);
 @]
 
 
-Timeout is a setting control setting with various properties allowed. 
+Timeout is a setting control setting with various properties allowed.
 
 [@
       *----------------------------------------------------
       * -- server time out jobs XMLSERVICE (1.6.2)
-      * *wait[(seconds[/action])]            
+      * *wait[(seconds[/action])]
       *    - client side wait for XMLSERVICE call (client side)
       *      example: $ctl="*wait(10)";
       *      - default action *wait(60/busy) (see plugconfx)
-      * *call[(seconds[/action[/duration[/job]]])] 
+      * *call[(seconds[/action[/duration[/job]]])]
       *    - client/server side XMLSERVICE call wait (PGM, SRVPGM, PASE, etc)
       *      example: $ctl="*wait(10) *call(5/busy/client)";
-      *      - default for both client/server is *call(0) 
+      *      - default for both client/server is *call(0)
       *        means wait on call forever (user code flawless),
       *        but can be overriden client/server/both
-      * *idle[(seconds[/action[/duration]])] 
+      * *idle[(seconds[/action[/duration]])]
       *    - server side XMLSERVICE idle no activity
       *      example: $ctl="*wait(10/kill) *call(30/kill) *idle(30/perm)";
       *      - default action *idle(1800/kill) (see plugconfx)

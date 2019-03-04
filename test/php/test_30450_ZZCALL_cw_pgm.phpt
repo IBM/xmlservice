@@ -14,20 +14,20 @@ if (!$conn)
 { $tab = i5_error();
   die("Connect: ".$tab[2]." "."$tab[3], $tab[0]");
 }
- 
+
 //     D  INCHARA        S              1a
 //     D  INCHARB        S              1a
-//     D  INDEC1         S              7p 4        
+//     D  INDEC1         S              7p 4
 //     D  INDEC2         S             12p 2
-//     D  INDS1          DS                  
+//     D  INDS1          DS
 //     D   DSCHARA                      1a
-//     D   DSCHARB                      1a           
-//     D   DSDEC1                       7p 4      
-//     D   DSDEC2                      12p 2            
+//     D   DSCHARB                      1a
+//     D   DSDEC1                       7p 4
+//     D   DSDEC2                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * main(): Control flow
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     C     *Entry        PLIST                   
+//     C     *Entry        PLIST
 //     C                   PARM                    INCHARA
 //     C                   PARM                    INCHARB
 //     C                   PARM                    INDEC1
@@ -36,9 +36,9 @@ if (!$conn)
 
 
 /* prepare */
-$description = 
+$description =
 array
-( 
+(
   // single parms
   array
   ( "Name"=>"INCHARA","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_CHAR,"Length"=>"1"),
@@ -48,13 +48,13 @@ array
   ( "Name"=>"INDEC1","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_PACKED,"Length"=>"7.4"),
   array
   ( "Name"=>"INDEC2","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_PACKED,"Length"=>"12.2"),
-  // structure parm 
+  // structure parm
   array
   ( "DSName"=>"INDS1",
     "Count"=>1,
     "DSParm"=>
     array
-    ( 
+    (
      array
      ( "Name"=>"DSCHARA","IO"=>I5_IN|I5_OUT,"Type"=>I5_TYPE_CHAR,"Length"=>"1"),
      array
@@ -75,28 +75,28 @@ if (!$pgm)
 // *** parameter list allocation
 $list=
 array
-( 
-  "DSCHARA"=>"x",  
-  "DSCHARB"=>"y", 
+(
+  "DSCHARA"=>"x",
+  "DSCHARB"=>"y",
   "DSDEC1"=>66.6666,
   "DSDEC2"=>77777.77,
 );
 // *** parameter values passed to procedure
-$in = 
+$in =
 array
-( 
-  "INCHARA"=>"a",  
-  "INCHARB"=>"b", 
+(
+  "INCHARA"=>"a",
+  "INCHARB"=>"b",
   "INDEC1"=>11.1111,
   "INDEC2"=>222.22,
   "INDS1"=>$list,
 );
 // *** name of variables created for out parameters
-$out = 
+$out =
 array
 (
-  "INCHARA"=>"INCHARA",  
-  "INCHARB"=>"INCHARB", 
+  "INCHARA"=>"INCHARA",
+  "INCHARB"=>"INCHARB",
   "INDEC1"=>"INDEC1",
   "INDEC2"=>"INDEC2",
   "INDS1"=>"INDS1",
@@ -111,7 +111,7 @@ if ($rc != false)
   if ($INDS1["DSCHARA"] != 'E'
   ||  $INDS1["DSCHARB"] != 'F'
   ||  $INDS1["DSDEC1"] != 333.333
-  ||  $INDS1["DSDEC2"] != 4444444444.44) 
+  ||  $INDS1["DSDEC2"] != 4444444444.44)
   {
     var_dump($INDS1);
     die("bad DS not correct\n");

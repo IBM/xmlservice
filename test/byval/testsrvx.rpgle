@@ -1,10 +1,10 @@
      H AlwNull(*UsrCtl)
 
-      /copy test_h         
+      /copy test_h
 
-       // ****************************************************          
+       // ****************************************************
        // xmlservice/xmlstoredp SRVPGM
-       // ****************************************************          
+       // ****************************************************
        dcl-pr runClient ind;
          pIPCSP char(1024);
          pCtl char(1024);
@@ -15,21 +15,21 @@
        end-pr;
 
 
-       // ****************************************************          
-       // TESTPGM 
-       // ****************************************************          
+       // ****************************************************
+       // TESTPGM
+       // ****************************************************
        dcl-pr Main extpgm;
        end-pr;
 
-       // ****************************************************          
+       // ****************************************************
        // main(): Control flow
-       // ****************************************************          
+       // ****************************************************
        dcl-pi Main;
        end-pi;
 
-       // ****************************************************          
+       // ****************************************************
        // tests
-       // ****************************************************          
+       // ****************************************************
        dcl-s i int(10) inz(0);
 
        // testboom();
@@ -47,9 +47,9 @@
 
        return;
 
-       // ****************************************************          
+       // ****************************************************
        // interface to old xmlservice
-       // ****************************************************          
+       // ****************************************************
        dcl-proc xjRun;
        dcl-pi *N;
          xjIn pointer value;
@@ -68,9 +68,9 @@
 
        end-proc;
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.TESTBOOM
-       // ****************************************************          
+       // ****************************************************
        dcl-proc testboom;
        dcl-pi *N;
        end-pi;
@@ -79,7 +79,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<myscript>'
        + '<pgm name="TESTZSRV" lib="'+TEST_LIB+'" func="TESTBOOM">'
@@ -94,9 +94,9 @@
 
        end-proc;
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.TESTVAL1
-       // ****************************************************          
+       // ****************************************************
        dcl-proc testval1;
        dcl-pi *N;
        end-pi;
@@ -105,7 +105,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<myscript>'
        + '<pgm name="TESTZSRV" lib="'+TEST_LIB+'" func="TESTVAL1">'
@@ -123,9 +123,9 @@
 
        end-proc;
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.TESTVAL2
-       // ****************************************************          
+       // ****************************************************
        dcl-proc testval2;
        dcl-pi *N;
        end-pi;
@@ -134,7 +134,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<myscript>'
        + '<pgm name="TESTZSRV" lib="'+TEST_LIB+'" func="TESTVAL2">'
@@ -156,9 +156,9 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.TESTVAL4
-       // ****************************************************          
+       // ****************************************************
        dcl-proc testval4;
        dcl-pi *N;
        end-pi;
@@ -167,7 +167,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<myscript>'
        + '<pgm name="TESTZSRV" lib="'+TEST_LIB+'" func="TESTVAL4">'
@@ -195,9 +195,9 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.TESTVAL5
-       // ****************************************************          
+       // ****************************************************
        dcl-proc testval5;
        dcl-pi *N;
        end-pi;
@@ -206,7 +206,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<myscript>'
        + '<pgm name="TESTZSRV" lib="'+TEST_LIB+'" func="TESTVAL5">'
@@ -234,9 +234,9 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.TESTVAL6
-       // ****************************************************          
+       // ****************************************************
        dcl-proc testval6;
        dcl-pi *N;
        end-pi;
@@ -245,7 +245,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<myscript>'
        + '<pgm name="TESTZSRV" lib="'+TEST_LIB+'" func="TESTVAL6">'
@@ -261,7 +261,7 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.GETSMART
        // dcl-proc GetSmart export;
        // dcl-pi  *N;
@@ -279,7 +279,7 @@
        //   p0Part char(15);
        //   p0PartDesc char(30);
        // end-pi;
-       // ****************************************************          
+       // ****************************************************
        dcl-proc getsmart;
        dcl-pi *N;
        end-pi;
@@ -288,7 +288,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<xmlservice>'
        + '<cmd error="fast" exec="cmd" var="chglibl">'
@@ -330,7 +330,7 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.GETMIXED
        // dcl-proc GetMixed export;
        // dcl-pi  *N;
@@ -351,7 +351,7 @@
        //   f8 float(8) value;
        //   f8d char(30);
        // end-pi;
-       // ****************************************************          
+       // ****************************************************
        dcl-proc getmixed;
        dcl-pi *N;
        end-pi;
@@ -360,7 +360,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<xmlservice>'
        + '<cmd error="fast" exec="cmd" var="chglibl">'
@@ -417,7 +417,7 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.GETREMIXED
        // dcl-pi  *N;
        //   i2d char(30);
@@ -437,7 +437,7 @@
        //   f8d char(30);
        //   i2 int(5) value;
        // end-pi;
-       // ****************************************************          
+       // ****************************************************
        dcl-proc getremixed;
        dcl-pi *N;
        end-pi;
@@ -446,7 +446,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<xmlservice>'
        + '<cmd error="fast" exec="cmd" var="chglibl">'
@@ -511,7 +511,7 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.GETPACKED
        // dcl-pi  *N;
        // i2d char(30);
@@ -536,7 +536,7 @@
        // f8d char(30);
        // i1 int(3) value;
        // end-pi;
-       // ****************************************************          
+       // ****************************************************
        dcl-proc getpacked;
        dcl-pi *N;
        end-pi;
@@ -545,7 +545,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<xmlservice>'
        + '<cmd error="fast" exec="cmd" var="chglibl">'
@@ -625,7 +625,7 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.ZONED
        // dcl-pi  *N;
        // i2d char(30);
@@ -650,7 +650,7 @@
        // f8d char(30);
        // i1 int(3) value;
        // end-pi;
-       // ****************************************************          
+       // ****************************************************
        dcl-proc getzoned_Not_Work_MMM;
        dcl-pi *N;
        end-pi;
@@ -659,7 +659,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<xmlservice>'
        + '<cmd error="fast" exec="cmd" var="chglibl">'
@@ -739,7 +739,7 @@
        end-proc;
 
 
-       // ****************************************************          
+       // ****************************************************
        // test: TESTZSRV.GETCHARED
        // dcl-pi  *N;
        //   c1 char(8) value;
@@ -752,7 +752,7 @@
        //   c8 char(8) value;
        //   c9 char(80);
        // end-pi;
-       // ****************************************************          
+       // ****************************************************
        dcl-proc getchared;
        dcl-pi *N;
        end-pi;
@@ -761,7 +761,7 @@
        dcl-s xjIn pointer inz(%addr(xjInData));
        dcl-s xjOut pointer inz(%addr(xjOutData));
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<xmlservice>'
        + '<cmd error="fast" exec="cmd" var="chglibl">'

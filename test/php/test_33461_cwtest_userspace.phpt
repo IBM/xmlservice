@@ -30,16 +30,16 @@ array("PS1"=>"test1", "PS2"=>"test2", "PS3"=>"test3"),
 array("PS1"=>"test3", "PS2"=>"test4", "PS3"=>"test5")
 )
 ));
-	
-	
+
+
 if ($doUserSpace) {
-echo h2('User spaces');	
-	
+echo h2('User spaces');
+
 $userSpaceName = 'DEMOSPACE';
 $userSpaceLib = $demoLib;
 
 $usObj = new UserSpace($conn);
-$usObj->setUSName($userSpaceName, $userSpaceLib); 
+$usObj->setUSName($userSpaceName, $userSpaceLib);
 
 // toolkit does not have an i5_userspace_delete so delete with a command.
 $ret = i5_command("DLTUSRSPC USRSPC($userSpaceLib/$userSpaceName)");
@@ -108,10 +108,10 @@ if (!$success) {
 } else {
 	echo "Success getting data from user space. BIGDS=" . printArray($BIGDS) . "<BR><BR>";
 }
-	
+
 
 } //(user space)
-	
+
 
 
 // good

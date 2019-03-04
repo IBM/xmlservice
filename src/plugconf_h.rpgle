@@ -340,7 +340,7 @@
      D SZOPM           c                   const(16773120)
 
      DpaseRec_t        ds                  qualified based(Template)
-     D paseOrig                      10u 0
+     D paseOrig                      20u 0
      D paseResv                      12A
      D paseOrigP                       *
      D paseCallP                       *

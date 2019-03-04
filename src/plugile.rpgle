@@ -81,7 +81,7 @@
      D   myMSGID                      7a   value options(*nopass)
 
      D sOrigP          S               *   inz(*NULL)
-     D sOrig           S             10u 0 inz(0)
+     D sOrig           S             20u 0 inz(0)
 
      D sArgvP          S               *   inz(*NULL)
      D sArgvBegP       S               *   inz(*NULL)
@@ -112,7 +112,8 @@
      D search00        s             20A   inz(*BLANKS)
      D pLook00         s               *   inz(%addr(search00))
      D myLook00        ds                  likeds(over_t) based(pLook00)
-
+      * flag for 32-bit or 64-bit
+     D xBit            s             20u 0 inz(4)
       *****************************************************
       * ile converts
       *****************************************************
@@ -2943,11 +2944,19 @@
            node.pgmArgSz = %size(sArgvP);   // ILE ptr (SRVPGM)
            node.pgmPtrTyp = XML_PTR_ILE;    // write ILE ptr
          else;
-           // req 4-byte aligned for _ILECALL
-           pCopy = ileAlign(sOrigP:sArgvP:4);
-           node.pgmArgPo = pCopy - sArgvBegP;
-           node.pgmArgSz = 4;               // PASE ptr32 (PGM)
-           node.pgmPtrTyp = XML_PTR_PASE;   // write PASE ptr
+           if getXBit() = 4;   // 32-bit
+             // req 4-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:4);
+             node.pgmArgPo = pCopy - sArgvBegP;
+             node.pgmArgSz = 4;               // PASE ptr32 (PGM)
+             node.pgmPtrTyp = XML_PTR_PASE;   // write PASE ptr
+           else;  // 64-bit
+             // req 8-byte aligned for _ILECALL
+             pCopy = ileAlign(sOrigP:sArgvP:8);
+             node.pgmArgPo = pCopy - sArgvBegP;
+             node.pgmArgSz = 8;               // PASE ptr32 (PGM)
+             node.pgmPtrTyp = XML_PTR_PASE;   // write PASE ptr
+           endif;
          endif;
        // -----------
        // parm is by value
@@ -3250,10 +3259,17 @@
            pArgv += %size(sParmBegP);
            myArgv.ptrx = *NULL;              // null terminate
          else;
-           myArgv.uintx = sOrig
-                      + (sParmP - sOrigP);   // by ref (pase addr)
-           pArgv += 4;
-           myArgv.uintx = 0;                 // null terminate
+           if getXBit() = 4; // 32-bit
+             myArgv.uintx = sOrig
+                        + (sParmP - sOrigP);   // by ref (pase addr)
+             pArgv += 4;
+             myArgv.uintx = 0;                 // null terminate
+           else; // 64-bit
+             myArgv.ulonglongx = sOrig
+                        + (sParmP - sOrigP);   // by ref (pase addr)
+             pArgv += 8;
+             myArgv.ulonglongx = 0;                 // null terminate
+           endif;
          endif;
        endif;
 
@@ -5313,6 +5329,24 @@
        Endmon;
 
        return rcb;
+      /end-free
+     P                 E
+      *****************************************************
+      * set runing mode in 32-bit or 64-bit
+      * return 4 or 8
+      *****************************************************
+     P setXBit         B                   export
+     D setXBit         PI
+     D   bit                         20u 0 value
+      /free
+        xBit = bit;
+      /end-free
+     P                 E
+
+     P getXBit         B                   export
+     D getXBit         PI            20u 0
+      /free
+       return xBit;
       /end-free
      P                 E
 

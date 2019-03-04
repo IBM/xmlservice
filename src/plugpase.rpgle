@@ -116,6 +116,7 @@
      DpiRSLOBJ2Parms...
      D                 S               *
      D SZRSLOBJ2       c                   const(256)
+      * 32-bit
      Dr2Args           DS                  qualified based(piRSLOBJ2Parms)
      D r2SysPtr                      10U 0
      D r2Pad                          5U 0
@@ -127,13 +128,35 @@
      D r2LibName1                    11A
      D r2Pad1                         5U 0
      D r2Me                          10U 0
-     Dr2ArgSig         DS
+      * 64-bit
+     Dr2Args64         DS                  qualified based(piRSLOBJ2Parms)
+     D r2SysPtr                      20U 0
+     D r2Pad                          5U 0
+     D r2SubType                      2A
+     D r2ObjName                     20U 0
+     D r2LibName                     20U 0
+     D r2SysPtr1                       *
+     D r2ObjName1                    11A
+     D r2LibName1                    11A
+     D r2Pad1                         5U 0
+     D r2Me                          20U 0
+      * 32-bit
+     Dr2ArgSig         DS                  qualified
      D r2Sig1                         5i 0 inz(QP2_ARG_PTR32)
      D r2Sig2                         5i 0 inz(QP2_ARG_WORD)
      D r2Sig3                         5i 0 inz(QP2_ARG_PTR32)
      D r2Sig4                         5i 0 inz(QP2_ARG_PTR32)
      D r2SigEnd                       5i 0 inz(0)
      D r2RetSig        S             10i 0 inz(QP2_RESULT_WORD)
+      * 64-bit
+     Dr2ArgSig64       DS                  qualified
+     D r2Sig1                         5i 0 inz(QP2_ARG_PTR64)
+     D r2Sig2                         5i 0 inz(QP2_ARG_DWORD)
+     D r2Sig3                         5i 0 inz(QP2_ARG_PTR64)
+     D r2Sig4                         5i 0 inz(QP2_ARG_PTR64)
+     D r2SigEnd                       5i 0 inz(0)
+     D r2RetSig64      S             10i 0 inz(QP2_RESULT_DWORD)
+      *
      D r2Name          S             10A   inz('_RSLOBJ2')
      D r2Toc           S               *
 
@@ -147,6 +170,7 @@
      DpiPGMCALLParms...
      D                 S               *
      D SZPGMCALL       c                   const(256)
+      * 32-bit
      DpcArgs           DS                  qualified based(piPGMCALLParms)
      D pcTarget                      10U 0
      D pcArgv                        10U 0
@@ -154,12 +178,29 @@
      D pcPad                         10U 0
      D pcTarget1                       *
      D pcMe                          10U 0
-     DpcArgSig         DS
+      * 64-bit
+     DpcArgs64         DS                  qualified based(piPGMCALLParms)
+     D pcTarget                      20U 0
+     D pcArgv                        20U 0
+     D pcFlags                       20U 0
+     D pcPad                         20U 0
+     D pcTarget1                       *
+     D pcMe                          20U 0
+      * 32-bit
+     DpcArgSig         DS                  qualified
      D pcSig1                         5i 0 inz(QP2_ARG_PTR32)
      D pcSig2                         5i 0 inz(QP2_ARG_PTR32)
      D pcSig3                         5i 0 inz(QP2_ARG_WORD)
      D pcSigEnd                       5i 0 inz(0)
      D pcRetSig        S             10i 0 inz(QP2_RESULT_WORD)
+      * 64-bit
+     DpcArgSig64       DS                  qualified
+     D pcSig1                         5i 0 inz(QP2_ARG_PTR64)
+     D pcSig2                         5i 0 inz(QP2_ARG_PTR64)
+     D pcSig3                         5i 0 inz(QP2_ARG_DWORD)
+     D pcSigEnd                       5i 0 inz(0)
+     D pcRetSig64      S             10i 0 inz(QP2_RESULT_DWORD)
+      *
      D pcName          S             10A   inz('_PGMCALL')
      D pcToc           S               *
 
@@ -171,6 +212,7 @@
      DpiILELOADParms...
      D                 S               *
      D SZILELOAD       c                   const(256)
+      * 32-bit
      DloArgs           DS                  qualified based(piILELOADParms)
      D loId                          10u 0
      D loFlags                       10i 0
@@ -179,11 +221,28 @@
      D loTarget1                       *
      D loPad                          5U 0
      D loMe                          10U 0
-     DloArgSig         DS
+      * 64-bit
+     DloArgs64         DS                  qualified based(piILELOADParms)
+     D loId                          20u 0
+     D loFlags                       20i 0
+     D loPad1                        20U 0
+     D loPad2                        20U 0
+     D loTarget1                       *
+     D loPad                          5U 0
+     D loMe                          20U 0
+      * 32-bit
+     DloArgSig         DS                  qualified
      D loSig1                         5i 0 inz(QP2_ARG_PTR32)
      D loSig2                         5i 0 inz(QP2_ARG_WORD)
      D loSigEnd                       5i 0 inz(0)
      D loRetSig        S             10i 0 inz(QP2_RESULT_WORD)
+      * 64-bit
+     DloArgSig64       DS                  qualified
+     D loSig1                         5i 0 inz(QP2_ARG_PTR64)
+     D loSig2                         5i 0 inz(QP2_ARG_DWORD)
+     D loSigEnd                       5i 0 inz(0)
+     D loRetSig64      S             10i 0 inz(QP2_RESULT_DWORD)
+      *
      D loName          S             10A   inz('_ILELOAD')
      D loToc           S               *
 
@@ -193,6 +252,7 @@
      DpiILESYMParms...
      D                 S               *
      D SZILESYM        c                   const(256)
+      * 32-bit
      DsyArgs           DS                  qualified based(piILESYMParms)
      D syExport                      10U 0
      D syActMark                     10i 0
@@ -201,12 +261,29 @@
      D syExport1                       *
      D sySymb1                      128A
      D syMe                          10U 0
-     DsyArgSig         DS
+     DsyArgs64         DS                  qualified based(piILESYMParms)
+     D syExport                      20U 0
+     D syActMark                     20i 0
+     D sySymb                        20U 0
+     D syPad                         20U 0
+     D syExport1                       *
+     D sySymb1                      128A
+     D syMe                          20U 0
+      * 32-bit
+     DsyArgSig         DS                  qualified
      D sySig1                         5i 0 inz(QP2_ARG_PTR32)
      D sySig2                         5i 0 inz(QP2_ARG_WORD)
      D sySig3                         5i 0 inz(QP2_ARG_PTR32)
      D sySigEnd                       5i 0 inz(0)
      D syRetSig        S             10i 0 inz(QP2_RESULT_WORD)
+      * 64-bit
+     DsyArgSig64       DS                  qualified
+     D sySig1                         5i 0 inz(QP2_ARG_PTR64)
+     D sySig2                         5i 0 inz(QP2_ARG_DWORD)
+     D sySig3                         5i 0 inz(QP2_ARG_PTR64)
+     D sySigEnd                       5i 0 inz(0)
+     D syRetSig64      S             10i 0 inz(QP2_RESULT_DWORD)
+      *
      D syName          S             10A   inz('_ILESYM')
      D syToc           S               *
 
@@ -219,6 +296,7 @@
      DpiILECALLParms...
      D                 S               *
      D SZILECALL       c                   const(256)
+      * 32-bit
      DieArgs           DS                  qualified based(piILECALLParms)
      D ieTarget                      10U 0
      D ieBase                        10U 0
@@ -226,13 +304,31 @@
      D ieRet                         10i 0
      D ieTarget1                       *
      D ieMe                          10U 0
-     DieArgSig         DS
+      * 64-bit
+     DieArgs64         DS                  qualified based(piILECALLParms)
+     D ieTarget                      20U 0
+     D ieBase                        20U 0
+     D ieSig                         20U 0
+     D ieRet                         20i 0
+     D ieTarget1                       *
+     D ieMe                          20U 0
+      * 32-bit
+     DieArgSig         DS                  qualified
      D ieSig1                         5i 0 inz(QP2_ARG_PTR32)
      D ieSig2                         5i 0 inz(QP2_ARG_PTR32)
      D ieSig3                         5i 0 inz(QP2_ARG_PTR32)
      D ieSig4                         5i 0 inz(QP2_ARG_WORD)
      D ieSigEnd                       5i 0 inz(0)
      D ieRetSig        S             10i 0 inz(QP2_RESULT_WORD)
+      * 64-bit
+     DieArgSig64       DS                  qualified
+     D ieSig1                         5i 0 inz(QP2_ARG_PTR64)
+     D ieSig2                         5i 0 inz(QP2_ARG_PTR64)
+     D ieSig3                         5i 0 inz(QP2_ARG_PTR64)
+     D ieSig4                         5i 0 inz(QP2_ARG_DWORD)
+     D ieSigEnd                       5i 0 inz(0)
+     D ieRetSig64      S             10i 0 inz(QP2_RESULT_DWORD)
+      *
      D ieName          S             10A   inz('_ILECALL')
      D ieToc           S               *
 
@@ -240,6 +336,7 @@
      DpiPOPENParms...
      D                 S               *
      D SZPOPEN         c                   const(256)
+      * 32-bit
      DpoArgs           DS                  qualified based(piPOPENParms)
      D poCmd                         10U 0
      D poMode                        10U 0
@@ -247,11 +344,25 @@
      D poMode1                        2A
      D poRsv                          6A
      D poMe                          10U 0
-     DpoArgSig         DS
+     DpoArgSig         DS                  qualified
      D poSig1                         5i 0 inz(QP2_ARG_PTR32)
      D poSig2                         5i 0 inz(QP2_ARG_PTR32)
      D poSigEnd                       5i 0 inz(0)
      D poRetSig        S             10i 0 inz(QP2_RESULT_PTR32)
+      * 64-bit
+     DpoArgs64         DS                  qualified based(piPOPENParms)
+     D poCmd                         20U 0
+     D poMode                        20U 0
+     D poFd                          20U 0
+     D poMode1                        2A
+     D poRsv                          6A
+     D poMe                          20U 0
+     DpoArgSig64       DS                  qualified
+     D poSig1                         5i 0 inz(QP2_ARG_PTR64)
+     D poSig2                         5i 0 inz(QP2_ARG_PTR64)
+     D poSigEnd                       5i 0 inz(0)
+     D poRetSig64      S             10i 0 inz(QP2_RESULT_PTR64)
+      *
      D poName          S             10A   inz('popen')
      D poToc           S               *
 
@@ -259,17 +370,31 @@
      DpiFGETSParms...
      D                 S               *
      D SZFGETS         c                   const(256)
+      * 32-bit
      DfgArgs           DS                  qualified based(piFGETSParms)
      D fgS                           10U 0
      D fgN                           10i 0
      D fgStream                      10U 0
      D fgMe                          10U 0
-     DfgArgSig         DS
+     DfgArgSig         DS                  qualified
      D fgSig1                         5i 0 inz(QP2_ARG_PTR32)
      D fgSig2                         5i 0 inz(QP2_ARG_WORD)
      D fgSig3                         5i 0 inz(QP2_ARG_PTR32)
      D fgSigEnd                       5i 0 inz(0)
      D fgRetSig        S             10i 0 inz(QP2_RESULT_PTR32)
+      * 64-bit
+     DfgArgs64         DS                  qualified based(piFGETSParms)
+     D fgS                           20U 0
+     D fgN                           20i 0
+     D fgStream                      20U 0
+     D fgMe                          20U 0
+     DfgArgSig64       DS                  qualified
+     D fgSig1                         5i 0 inz(QP2_ARG_PTR64)
+     D fgSig2                         5i 0 inz(QP2_ARG_DWORD)
+     D fgSig3                         5i 0 inz(QP2_ARG_PTR64)
+     D fgSigEnd                       5i 0 inz(0)
+     D fgRetSig64      S             10i 0 inz(QP2_RESULT_PTR64)
+      *
      D fgName          S             10A   inz('fgets')
      D fgToc           S               *
 
@@ -277,13 +402,23 @@
      DpiPCLOSEParms...
      D                 S               *
      D SZPCLOSE        c                   const(16)
+      * 32-bit
      DclArgs           DS                  qualified based(piPCLOSEParms)
      D clStream                      10U 0
      D clMe                          10U 0
-     DclArgSig         DS
+     DclArgSig         DS                  qualified
      D clSig1                         5i 0 inz(QP2_ARG_PTR32)
      D clSigEnd                       5i 0 inz(0)
      D clRetSig        S             10i 0 inz(QP2_RESULT_WORD)
+      * 64-bit
+     DclArgs64         DS                  qualified based(piPCLOSEParms)
+     D clStream                      20U 0
+     D clMe                          20U 0
+     DclArgSig64       DS                  qualified
+     D clSig1                         5i 0 inz(QP2_ARG_PTR64)
+     D clSigEnd                       5i 0 inz(0)
+     D clRetSig64      S             10i 0 inz(QP2_RESULT_DWORD)
+      *
      D clName          S             10A   inz('pclose')
      D clToc           S               *
 
@@ -320,7 +455,6 @@
      D                 ds                  qualified based(piBase)
      D   f64_desc                      *
      D   f64_data                     8f
-
 
       *****************************************************
       * ILE c PASE enablers
@@ -401,6 +535,9 @@
 
      d Qp2jobCCSID...
      d                 pr            10I 0 extproc('Qp2jobCCSID')
+
+      * check pointer size to determine 32-bit or 64-bit
+     d Qp2ptrsize      pr            10I 0 extproc('Qp2ptrsize')
 
 
       *****************************************************
@@ -860,6 +997,8 @@
      D jvm             S              1N   inz(*OFF)
      D jvmSQLa         S              1N   inz(*OFF)
      D jvmDbga         S              1N   inz(*OFF)
+      * flag for 32-bit or 64-bit
+     D tBit            s             20u 0 inz(4)
       /free
        perfAdd(PERF_ANY_WATCH_PASESTART:*ON);
 
@@ -1087,6 +1226,15 @@
        paseCtl.paseCallP  = piCallPase;
        paseCtl.paseSigP   = piSig;
        paseCtl.paseArgvP  = piArgv;
+
+       //check running in 32-bit or 64-bit
+       Monitor;
+       tBit = Qp2ptrsize();
+       On-error;
+         // if error happens, default to 32-bit
+         tBit = 4;
+       Endmon;
+       setXBit(tBit);
 
        // ok
        perfAdd(PERF_ANY_WATCH_PASESTART:*OFF);
@@ -1395,6 +1543,7 @@
      D rcb             S              1N   inz(*OFF)
      D rc              S             10I 0 inz(0)
      D paseRc          S             10I 0 inz(0)
+     D paseRc64        S             20I 0 inz(0)
      D min             S             10U 0 inz(X'FFFFFFFF')
      D pILESym         S               *   inz(*NULL)
      D actmark         S             10I 0 inz(0)
@@ -1421,29 +1570,56 @@
 
        // rc=_PGMCALL(pILESym, (void**)arglist,
        //             PGMCALL_NOMAXARGS|PGMCALL_DIRECT_ARGS);
-       pcArgs.pcMe = paAlloc+(piPGMCALLParms-piAlloc);
-       pcArgs.pcTarget = paAlloc+(%addr(pcArgs.pcTarget1)-piAlloc);
-       pcArgs.pcArgv = paAlloc+(piArgv-piAlloc);
-       if allByValue = *ON;
-         pcArgs.pcFlags = PGMCALL_DIRECTARGS;
-       else;
-         pcArgs.pcFlags = PGMCALL_NOMAXARGS;
-       endif;
-       pcArgs.pcPad = 0;
-       pcArgs.pcTarget1 = pILESym;
-       rc = Qp2CallPase(pcToc:piPGMCALLParms:
-                      %ADDR(pcArgSig):pcRetSig:
-                      %addr(paseRc));
-       // pgmcall ok
-       if rc = QP2CALLPASE_NORMAL and paseRc > -1;
-         if piReturn <> *NULL;
-           pCopy = piReturn;
-           myCopy.intx = paseRc;
+       if getXBit() = 4;
+         pcArgs.pcMe = paAlloc+(piPGMCALLParms-piAlloc);
+         pcArgs.pcTarget = paAlloc+(%addr(pcArgs.pcTarget1)-piAlloc);
+         pcArgs.pcArgv = paAlloc+(piArgv-piAlloc);
+         if allByValue = *ON;
+           pcArgs.pcFlags = PGMCALL_DIRECTARGS;
+         else;
+           pcArgs.pcFlags = PGMCALL_NOMAXARGS;
          endif;
-         return *ON;
-       else;
-         errsSevere(QP2_ERROR_PGMCALL_FAIL:pgm1);
-         return *OFF;
+         pcArgs.pcPad = 0;
+         pcArgs.pcTarget1 = pILESym;
+         rc = Qp2CallPase(pcToc:piPGMCALLParms:
+                        %ADDR(pcArgSig):pcRetSig:
+                        %addr(paseRc));
+       // pgmcall ok
+         if rc = QP2CALLPASE_NORMAL and paseRc > -1;
+           if piReturn <> *NULL;
+             pCopy = piReturn;
+             myCopy.intx = paseRc;
+           endif;
+           return *ON;
+         else;
+           errsSevere(QP2_ERROR_PGMCALL_FAIL:pgm1);
+           return *OFF;
+         endif;
+       else; // 64-bit
+         pcArgs64.pcMe = paAlloc+(piPGMCALLParms-piAlloc);
+         pcArgs64.pcTarget = paAlloc+(%addr(pcArgs64.pcTarget1)-piAlloc);
+         pcArgs64.pcArgv = paAlloc+(piArgv-piAlloc);
+         if allByValue = *ON;
+           pcArgs64.pcFlags = PGMCALL_DIRECTARGS;
+         else;
+           pcArgs64.pcFlags = PGMCALL_NOMAXARGS;
+         endif;
+         pcArgs64.pcPad = 0;
+         pcArgs64.pcTarget1 = pILESym;
+         rc = Qp2CallPase(pcToc:piPGMCALLParms:
+                        %ADDR(pcArgSig64):pcRetSig64:
+                        %addr(paseRc64));
+       // pgmcall ok
+         if rc = QP2CALLPASE_NORMAL and paseRc64 > -1;
+           if piReturn <> *NULL;
+             pCopy = piReturn;
+             myCopy.intx = paseRc64;
+           endif;
+           return *ON;
+         else;
+           errsSevere(QP2_ERROR_PGMCALL_FAIL:pgm1);
+           return *OFF;
+         endif;
        endif;
 
        On-error;
@@ -1476,6 +1652,7 @@
      D rcb             S              1N   inz(*OFF)
      D rc              S             10I 0 inz(0)
      D paseRc          S             10I 0 inz(0)
+     D paseRc64        S             20I 0 inz(0)
      D min             S             10U 0 inz(X'FFFFFFFF')
      D pILESym         S               *   inz(*NULL)
      D pCopy           s               *
@@ -1516,32 +1693,62 @@
        myCopy.ulonglongx = 0;
        pCopy += 8;
        myCopy.ulonglongx = 0;
-       ieArgs.ieMe = paAlloc+(piILECALLParms-piAlloc);
-       ieArgs.ieTarget = paAlloc+(%addr(ieArgs.ieTarget1)-piAlloc);
-       ieArgs.ieBase = paAlloc+(piBase-piAlloc);
-       ieArgs.ieSig = paAlloc+(piSig-piAlloc);
+
+       if getXBit() = 4; // 32-bit
+         ieArgs.ieMe = paAlloc+(piILECALLParms-piAlloc);
+         ieArgs.ieTarget = paAlloc+(%addr(ieArgs.ieTarget1)-piAlloc);
+         ieArgs.ieBase = paAlloc+(piBase-piAlloc);
+         ieArgs.ieSig = paAlloc+(piSig-piAlloc);
        // return PASE API limit (data beyond will actually return)
-       if retSize > 32767;
-         ieArgs.ieRet = 32767;
-       else;
-         ieArgs.ieRet = retSize;
-       endif;
-       if retSize > 0 and piReturn <> *NULL;
-         // expect to call OPM programs (V5R4)
-         if mixOPM = *ON;
-           PaseReturnAggregate.aggr_addr
-             = ieArgs.ieBase + SZBASE + tBenArgSz;
+         if retSize > 32767;
+           ieArgs.ieRet = 32767;
          else;
-           PaseReturnAggregate.aggr_addr
-             = paAlloc + ( piReturn - piAlloc );
+           ieArgs.ieRet = retSize;
          endif;
+         if retSize > 0 and piReturn <> *NULL;
+           // expect to call OPM programs (V5R4)
+           if mixOPM = *ON;
+             PaseReturnAggregate.aggr_addr
+               = ieArgs.ieBase + SZBASE + tBenArgSz;
+           else;
+             PaseReturnAggregate.aggr_addr
+               = paAlloc + ( piReturn - piAlloc );
+           endif;
+         endif;
+         ieArgs.ieTarget1 = pILESym;
+         rc = Qp2CallPase(ieToc:piILECALLParms:
+                          %ADDR(ieArgSig):ieRetSig:
+                          %addr(paseRc));
+       else; // 64-bit
+         ieArgs64.ieMe = paAlloc+(piILECALLParms-piAlloc);
+         ieArgs64.ieTarget = paAlloc+(%addr(ieArgs64.ieTarget1)-piAlloc);
+         ieArgs64.ieBase = paAlloc+(piBase-piAlloc);
+         ieArgs64.ieSig = paAlloc+(piSig-piAlloc);
+       // return PASE API limit (data beyond will actually return)
+         if retSize > 32767;
+           ieArgs64.ieRet = 32767;
+         else;
+           ieArgs64.ieRet = retSize;
+         endif;
+         if retSize > 0 and piReturn <> *NULL;
+           // expect to call OPM programs (V5R4)
+           if mixOPM = *ON;
+             PaseReturnAggregate.aggr_addr
+               = ieArgs64.ieBase + SZBASE + tBenArgSz;
+           else;
+             PaseReturnAggregate.aggr_addr
+               = paAlloc + ( piReturn - piAlloc );
+           endif;
+         endif;
+         ieArgs64.ieTarget1 = pILESym;
+         rc = Qp2CallPase(ieToc:piILECALLParms:
+                          %ADDR(ieArgSig64):ieRetSig64:
+                          %addr(paseRc64));
        endif;
-       ieArgs.ieTarget1 = pILESym;
-       rc = Qp2CallPase(ieToc:piILECALLParms:
-                        %ADDR(ieArgSig):ieRetSig:
-                        %addr(paseRc));
        // ILECALL ok
-       if rc = QP2CALLPASE_NORMAL and paseRc = ILECALL_NOERROR;
+       if rc = QP2CALLPASE_NORMAL and
+         (getXBit() = 4 and paseRc = ILECALL_NOERROR or
+          getXBit() = 8 and paseRc64 = ILECALL_NOERROR);
          // if not an aggregate we need to copy rc
          // from PASE ILE BASE to the return area
          // xml is expecting as output
@@ -1611,8 +1818,10 @@
      D doGet           S              1N   inz(*ON)
      D rcb             S              1N   inz(*OFF)
      D rc              S             10I 0 inz(0)
-     D paseRc          S             10I 0 inz(0)
-     D paseAd          S             10U 0 inz(0)
+     D paseRc          S             10I 0 inz(0)                               32-bit
+     D paseRc64        S             20I 0 inz(0)                               64-bit
+     D paseAd          S             10U 0 inz(0)                               32-bit
+     D paseAd64        S             20U 0 inz(0)                               64-bit
      D pTmp            s               *
      D myDat           s          32766A   based(pTmp)
       /free
@@ -1629,59 +1838,117 @@
        // filePtr = popen("cmd","r")
        pTmp = piArgv;
        myDat = %str(cmd:cmdLen)  + x'00';
-       poArgs.poMe = paAlloc+(piPOPENParms-piAlloc);
-       poArgs.poCmd  = paAlloc+(piArgv-piAlloc);
-       poArgs.poMode = poArgs.poMe +
-         (%addr(poArgs.poMode1)-%addr(poArgs.poCmd));
-       poArgs.poFd   = 0;
-       poArgs.poMode1= x'72' + x'00';
-       poArgs.poRsv  = *BLANKS;
-       rc = convPASE(%addr(myDat):cmdLen:*OFF);
-       rc = Qp2CallPase(poToc:piPOPENParms:
-                        %ADDR(poArgSig):poRetSig:
-                        %addr(paseAd));
-       // popen ok
-       if rc = QP2CALLPASE_NORMAL and paseAd > 0;
-         poArgs.poFd = paseAd;
-       else;
-         errsSevere(QP2_ERROR_POPEN_FAIL:%str(cmd:cmdLen));
-         return *OFF;
-       endif;
 
-       if doGet = *ON;
-       // buffPtr = fgets(char *s, int n, FILE *stream);
-       fgArgs.fgMe = paAlloc+(piFGETSParms-piAlloc);
-       fgArgs.fgS  = paAlloc+(piArgv-piAlloc); // PASE pTmp
-       fgArgs.fgN  = 32766;
-       fgArgs.fgStream = poArgs.poFd;
-       paseAd = 1;
-       pTmp = piArgv; // current buffer ptr
-       rc = QP2CALLPASE_NORMAL;
-       dow paseAd > 0 and rc = QP2CALLPASE_NORMAL;
-         // paseAd null (0) is EOF
-         rc = Qp2CallPase(fgToc:piFGETSParms:
-                        %ADDR(fgArgSig):fgRetSig:
-                        %addr(paseAd));
-         // fgets ok
+       if getXBit() = 4; // 32-bit
+         poArgs.poMe = paAlloc+(piPOPENParms-piAlloc);
+         poArgs.poCmd  = paAlloc+(piArgv-piAlloc);
+         poArgs.poMode = poArgs.poMe +
+           (%addr(poArgs.poMode1)-%addr(poArgs.poCmd));
+         poArgs.poFd   = 0;
+         poArgs.poMode1= x'72' + x'00';
+         poArgs.poRsv  = *BLANKS;
+         rc = convPASE(%addr(myDat):cmdLen:*OFF);
+         rc = Qp2CallPase(poToc:piPOPENParms:
+                          %ADDR(poArgSig):poRetSig:
+                          %addr(paseAd));
+         // popen ok
          if rc = QP2CALLPASE_NORMAL and paseAd > 0;
-           paseRc = strlen(pTmp);
-           pTmp += paseRc;
-           fgArgs.fgS += paseRc;
+           poArgs.poFd = paseAd;
          else;
-           if rc <> QP2CALLPASE_NORMAL;
-             errsSevere(QP2_ERROR_FGETS_FAIL:%str(cmd:cmdLen));
-             return *OFF;
-           endif;
+           errsSevere(QP2_ERROR_POPEN_FAIL:%str(cmd:cmdLen));
+           return *OFF;
          endif;
-       enddo;
+
+         if doGet = *ON;
+         // buffPtr = fgets(char *s, int n, FILE *stream);
+         fgArgs.fgMe = paAlloc+(piFGETSParms-piAlloc);
+         fgArgs.fgS  = paAlloc+(piArgv-piAlloc); // PASE pTmp
+         fgArgs.fgN  = 32766;
+         fgArgs.fgStream = poArgs.poFd;
+         paseAd = 1;
+         pTmp = piArgv; // current buffer ptr
+         rc = QP2CALLPASE_NORMAL;
+           dow paseAd > 0 and rc = QP2CALLPASE_NORMAL;
+             // paseAd null (0) is EOF
+             rc = Qp2CallPase(fgToc:piFGETSParms:
+                            %ADDR(fgArgSig):fgRetSig:
+                            %addr(paseAd));
+             // fgets ok
+             if rc = QP2CALLPASE_NORMAL and paseAd > 0;
+               paseRc = strlen(pTmp);
+               pTmp += paseRc;
+               fgArgs.fgS += paseRc;
+             else;
+               if rc <> QP2CALLPASE_NORMAL;
+                 errsSevere(QP2_ERROR_FGETS_FAIL:%str(cmd:cmdLen));
+                 return *OFF;
+               endif;
+             endif;
+           enddo;
+         endif;
+
+         // rc = pclose (FILE *stream);
+         clArgs.clMe = paAlloc+(piPCLOSEParms-piAlloc);
+         clArgs.clStream  = poArgs.poFd;
+         rc = Qp2CallPase(clToc:piPCLOSEParms:
+                          %ADDR(clArgSig):clRetSig:
+                          %addr(paseRc));
+       else; // 64-bit
+         poArgs64.poMe = paAlloc+(piPOPENParms-piAlloc);
+         poArgs64.poCmd  = paAlloc+(piArgv-piAlloc);
+         poArgs64.poMode = poArgs64.poMe +
+           (%addr(poArgs64.poMode1)-%addr(poArgs64.poCmd));
+         poArgs64.poFd   = 0;
+         poArgs64.poMode1= x'72' + x'00';
+         poArgs64.poRsv  = *BLANKS;
+         rc = convPASE(%addr(myDat):cmdLen:*OFF);
+         rc = Qp2CallPase(poToc:piPOPENParms:
+                          %ADDR(poArgSig64):poRetSig64:
+                          %addr(paseAd64));
+         // popen ok
+         if rc = QP2CALLPASE_NORMAL and paseAd64 > 0;
+           poArgs64.poFd = paseAd64;
+         else;
+           errsSevere(QP2_ERROR_POPEN_FAIL:%str(cmd:cmdLen));
+           return *OFF;
+         endif;
+
+         if doGet = *ON;
+         // buffPtr = fgets(char *s, int n, FILE *stream);
+         fgArgs64.fgMe = paAlloc+(piFGETSParms-piAlloc);
+         fgArgs64.fgS  = paAlloc+(piArgv-piAlloc); // PASE pTmp
+         fgArgs64.fgN  = 32766;
+         fgArgs64.fgStream = poArgs64.poFd;
+         paseAd64 = 1;
+         pTmp = piArgv; // current buffer ptr
+         rc = QP2CALLPASE_NORMAL;
+           dow paseAd64 > 0 and rc = QP2CALLPASE_NORMAL;
+             // paseAd null (0) is EOF
+             rc = Qp2CallPase(fgToc:piFGETSParms:
+                            %ADDR(fgArgSig64):fgRetSig64:
+                            %addr(paseAd64));
+             // fgets ok
+             if rc = QP2CALLPASE_NORMAL and paseAd64 > 0;
+               paseRc64 = strlen(pTmp);
+               pTmp += paseRc64;
+               fgArgs64.fgS += paseRc64;
+             else;
+               if rc <> QP2CALLPASE_NORMAL;
+                 errsSevere(QP2_ERROR_FGETS_FAIL:%str(cmd:cmdLen));
+                 return *OFF;
+               endif;
+             endif;
+           enddo;
+         endif;
+
+         // rc = pclose (FILE *stream);
+         clArgs64.clMe = paAlloc+(piPCLOSEParms-piAlloc);
+         clArgs64.clStream  = poArgs64.poFd;
+         rc = Qp2CallPase(clToc:piPCLOSEParms:
+                          %ADDR(clArgSig64):clRetSig64:
+                          %addr(paseRc64));
        endif;
 
-       // rc = pclose (FILE *stream);
-       clArgs.clMe = paAlloc+(piPCLOSEParms-piAlloc);
-       clArgs.clStream  = poArgs.poFd;
-       rc = Qp2CallPase(clToc:piPCLOSEParms:
-                        %ADDR(clArgSig):clRetSig:
-                        %addr(paseRc));
        if rc <> QP2CALLPASE_NORMAL;
          errsSevere(QP2_ERROR_PCLOSE_FAIL:%str(cmd:cmdLen));
          return *OFF;

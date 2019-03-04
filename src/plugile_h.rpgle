@@ -164,4 +164,8 @@
      D myMem                           *
      D myLen                         10i 0
      D noGet                          1N   value options(*nopass)
+      * flag for 32-bit or 64-it
+     D setXBit         PR
+     D   bit                         20u 0 value
 
+     D getXBit         PR            20u 0

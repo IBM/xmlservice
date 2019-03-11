@@ -5,6 +5,11 @@ pipeline {
     }
   }
   stages {
+    stage('set ccsid workaround') {
+      steps {
+        sh 'find src/ -name \\*.rpglesql | xargs setccsid 819'
+      }
+    }
     stage('configure') {
       steps {
         sh 'python3 ./configure'

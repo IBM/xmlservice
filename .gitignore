@@ -8,3 +8,6 @@ docs/_build
 Makefile
 src/plugconf.rpgle
 src/xmlstoredp.sql
+/.project
+/qclsrc.srcpf
+/.gitignore

@@ -29,11 +29,11 @@ if (!$xmlobj) die("Bad XML returned\n");
 if (strlen(trim($clobOut))<1 || strpos($clobOut,"error")>0) die("Fail\n");
 echo "Success\n";
 
-//     D Main            PR                  ExtPgm('ZZNONE') 
+//     D Main            PR                  ExtPgm('ZZNONE')
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * main(): Control flow
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     D Main            PI 
+//     D Main            PI
 function getxml() {
 $clob = <<<ENDPROC
 <?xml version='1.0'?>

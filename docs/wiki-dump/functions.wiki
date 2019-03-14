@@ -22,7 +22,7 @@ XMLSERVICE features (click link below):
 
 
 !!! One sample worth 1,000 words:
-* XMLSERVICE can handle multiple requests in a single XML input document. 
+* XMLSERVICE can handle multiple requests in a single XML input document.
 * XMLSERVICE works with standard [@https://@], wherein, "secure" as any other web facility SSL encrypted (actual user profile, see xmlcgi.pgm).
 * XMLSERVICE works with Basic Auth, etc., because XMLSERVICE is just another RPG CGI (*NONE user/pwd, see crtnone.clp/xmlnone.pgm).
 * XMLSERVICE REST example is simple html/xml, but any language will do, with/without a language toolkit (Common lab):\\
@@ -70,10 +70,10 @@ XMLSERVICE features (click link below):
 [[#face]]
 !!! XMLSERVICE interfaces (with download)
 XMLSERVICE includes two basic interfaces, REST (Apache), and, database (DB2). Either interface receives XML input and returns XML output.
-The samples below show XMLSERVICE library (download/test library), but multiple language products ship XMLSERVICE in different libraries, 
+The samples below show XMLSERVICE library (download/test library), but multiple language products ship XMLSERVICE in different libraries,
 so adjust your LIB accordingly (PHP - ZENDSVR/ZENDSVR6, Ruby-POWERRUBY, etc.). XMLSERVICE uses hard coded library schemes (PLUGCONF), to
 avoid interfering with user set library lists, therefore, you can only SAV/RST XMLSERVICE to
-the original library. If you move XMLSERVICE non-originating libraries it will fail at runtime. 
+the original library. If you move XMLSERVICE non-originating libraries it will fail at runtime.
 
 [[#facerest]]
 * REST interface (xmlcgi.pgm):\\
@@ -108,38 +108,38 @@ call XMLSERVICE.iPLUG512K(ipc, ctl, xmlin [, xmlout])
     IN CTL CHAR(1024) - CTL admin control XMLSERVICE job
     IN CI CLOB(15M) - XML input document (request)
     OUT CO CLOB(15M) - XML output document (response)
-        Note: iPLUGRxxx procedures return a result set that is collected by fetch. 
+        Note: iPLUGRxxx procedures return a result set that is collected by fetch.
 
 call XMLSERVICE.iPLUG512K(ipc, ctl, xmlin xmlout)
 ---
 XMLSERVICE.iPLUG4K(IN IPC CHAR(1024), IN CTL CHAR(1024),IN CI CHAR(4064), OUT C0 CHAR(4064))
-XMLSERVICE.iPLUG32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(32000), OUT CO CLOB(32000)) 
-XMLSERVICE.iPLUG65K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(65K), OUT CO CLOB(65K)) 
-XMLSERVICE.iPLUG512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(512K), OUT CO CLOB(512K)) 
-XMLSERVICE.iPLUG1M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(1M), OUT CO CLOB(1M)) 
-XMLSERVICE.iPLUG5M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(5M), OUT CO CLOB(5M)) 
-XMLSERVICE.iPLUG10M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(10M), OUT CO CLOB(10M)) 
-XMLSERVICE.iPLUG15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M), OUT CO CLOB(15M)) 
+XMLSERVICE.iPLUG32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(32000), OUT CO CLOB(32000))
+XMLSERVICE.iPLUG65K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(65K), OUT CO CLOB(65K))
+XMLSERVICE.iPLUG512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(512K), OUT CO CLOB(512K))
+XMLSERVICE.iPLUG1M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(1M), OUT CO CLOB(1M))
+XMLSERVICE.iPLUG5M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(5M), OUT CO CLOB(5M))
+XMLSERVICE.iPLUG10M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(10M), OUT CO CLOB(10M))
+XMLSERVICE.iPLUG15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M), OUT CO CLOB(15M))
 
 stmt = call XMLSERVICE.iPLUG512K(ipc, ctl, xmlin)
 while (row = fetch(stmt)) xmlout += row[0]
 ---
-XMLSERVICE.iPLUGR4K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CHAR(4096)) 
-XMLSERVICE.iPLUGR32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CHAR(32000)) 
-XMLSERVICE.iPLUGR65K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(65K)) 
-XMLSERVICE.iPLUGR512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(512K)) 
-XMLSERVICE.iPLUGR1M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(1M)) 
-XMLSERVICE.iPLUGR5M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(5M)) 
-XMLSERVICE.iPLUGR10M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(10M)) 
-XMLSERVICE.iPLUGR15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M)) 
+XMLSERVICE.iPLUGR4K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CHAR(4096))
+XMLSERVICE.iPLUGR32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CHAR(32000))
+XMLSERVICE.iPLUGR65K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(65K))
+XMLSERVICE.iPLUGR512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(512K))
+XMLSERVICE.iPLUGR1M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(1M))
+XMLSERVICE.iPLUGR5M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(5M))
+XMLSERVICE.iPLUGR10M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(10M))
+XMLSERVICE.iPLUGR15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M))
 
 Enable DB2 drivers with no LOB support (JTOpen lite enabler - 1.9.0+):
 XMLSERVICE.iPLUGRC32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI VARCHAR(32700), IN CNT INTEGER)
 Note iPLUGRC32K:
-  XML input VARCHAR(32700) can be a limit, therefore interface allows 
+  XML input VARCHAR(32700) can be a limit, therefore interface allows
   accumulated sends of partial XML document. Any call with non-zero
-  counter (CNT > 0), XMLSERVICE assumes to be XML document partial 
-  accumulation. When counter reaches zero (CNT = 0), 
+  counter (CNT > 0), XMLSERVICE assumes to be XML document partial
+  accumulation. When counter reaches zero (CNT = 0),
   XMLSERVICE will process the request.
 @]
 
@@ -147,9 +147,9 @@ Note iPLUGRC32K:
 !!! XMLSERVICE Control words
 Control (CTL) keywords for operator control over XMLSERVICE jobs.
 * stateless connection --  xmlservice here [@($ctl="*here";)@] -- run in QSQSRVR job, db2_connect current profile control. *here overrides/ignores ipc, runs "*here" in the QSQSRVR job.
-* private connection 1 -- xmlservice spawn [@($ctl=""; $ipc="/tmp/user";)@] -- inherit parent job attributes, include QSQ job profile, and, job description. Per manual (below), xmlservice spawn server job has always been default when ipc included (internalKey), but missing *sbmjob. 
+* private connection 1 -- xmlservice spawn [@($ctl=""; $ipc="/tmp/user";)@] -- inherit parent job attributes, include QSQ job profile, and, job description. Per manual (below), xmlservice spawn server job has always been default when ipc included (internalKey), but missing *sbmjob.
 ** Change: 1.9.3 - Rod asked QSQSRVR name changed on spawn (spawn child name also QSQSRVR), therefore, new name spawn child will be XMLSERVICE (XMLSERVICE PGM-XMLSERVICE).
-* private connection 2 -- xmlservice sbmjob [@($ctl="*sbmjob"; $ipc="/tmp/user";)@] -- control sbmjob, job description, etc., compile default in plugconf(1-x) per product (crtxml, crtxml6, etc.). *sbmjob allows control of job description for xmlservice server job. 
+* private connection 2 -- xmlservice sbmjob [@($ctl="*sbmjob"; $ipc="/tmp/user";)@] -- control sbmjob, job description, etc., compile default in plugconf(1-x) per product (crtxml, crtxml6, etc.). *sbmjob allows control of job description for xmlservice server job.
 ** Alternative *sbmjob, xmlservice allows full control via [@ <sbmjob>SBMJOB CMD(CALL PGM(XMLSERVICE/XMLSERVICE) PARM('/tmp/user') ... other sbmjob parms ...)</sbmjob>  @](XTOOLKIT PGM-XMLSERVICE).
 
 [@
@@ -157,27 +157,27 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       * IPC control options:
       *----------------------------------------------------
       *--- very high peformance ignore all flag parsing (loop calls, etc.)
-      * *ignore             
+      * *ignore
       *    - do not parse flags (high performance)
       *      example: $ctl="*ignore";
       *----------------------------------------------------
       *--- kill XMLSERVICE job
       * *immed
-      *    - end server immed destroy IPC 
+      *    - end server immed destroy IPC
       *      example: $ctl="*immed";
       *----------------------------------------------------
       *--- misc functions XMLSERVICE
-      * *license 
+      * *license
       *    - return license for this code
-      * *session 
+      * *session
       *    - retrieve session key (IPC name /tmp/fred042)
-      * *clear 
-      *    - clear internal XMLSERVICE caches, 
+      * *clear
+      *    - clear internal XMLSERVICE caches,
       *                       but will not deactivate loaded PGM/SRVPGM, etc.
       *----------------------------------------------------
       * -- if you need to fix result set return drivers (iPLUGRxxx)
       *    hack for pesky DB2 drivers adding "junk" to back of records.
-      * *hack               
+      * *hack
       *    - add </hack> each record of a result set
       *      example: $ctl="*hack";
       *      - iPLUGRxxx XMLSERVICE stored procedures
@@ -186,35 +186,35 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *        to recreate output XML ... except
       *        some DB2 drivers have junk end ...
       *      - enable easy rec truncate ill behaved drivers
-      *        remove all past </hack> during concat 
+      *        remove all past </hack> during concat
       *        loop fetch records 1-n
       *        rec1: <script>....</hack> (3000 bytes)
       *        rec2: ............</hack> (3000 bytes)
       *        recn: ...</script></hack> (<3000 bytes)
       *----------------------------------------------------
       * -- pause XMLSERVICE job(s) for debugger attach (message to qsysopr)
-      * *debug              
+      * *debug
       *    - stop call server with message qsysopr (XMLSERVICE)
       *      example: $ctl="*debug";
-      * *debugproc          
+      * *debugproc
       *    - stop stored proc with message qsysopr (client QSQSRVR)
-      * *debugcgi           
+      * *debugcgi
       *    - stop CGI with message qsysopr         (XMLCGI only)
-      * *test[(n)]           
+      * *test[(n)]
       *    - test parse XML in/out and report n level information
       *----------------------------------------------------
       * -- override default XMLSERVICE client/server spawn child behaviour
-      * *sbmjob[(lib/jobd/job/asp)] 
+      * *sbmjob[(lib/jobd/job/asp)]
       *    - sbmjob job (instead of XMLSERVICE default spawn)
       *      example: $ctl="*sbmjob";
       *      example: $ctl="*sbmjob(QSYS/QSRVJOB/XTOOLKIT)";
       *      example: $ctl="*sbmjob(ZENDSVR/ZSVR_JOBD/XTOOLKIT)";
       *      - default values provided plugconf.rpgle
       *      - optional asp INLASPGRP(ASP1) (added 1.6.5)
-      *      -- Notes: 
+      *      -- Notes:
       *         - See embedded XML overrides for user full control
       *           of XMLSERVICE start behavior SBMJOB settings
-      * *here               
+      * *here
       *    - run stateless in stored proc job (client only job)
       *      example: $ctl="*here";
       *      - commonly known as running in PHP job, but in fact
@@ -223,23 +223,23 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *      - generally runs slower using "one process"
       *        because XMLSERVICE has to restart itself,
       *        wake up PASE, find/load your PGM call, etc.
-      * *nostart            
+      * *nostart
       *    - disallow spawn and sbmjob (web not start anything)
       *      example: $ctl="*nostart";
       *      - probably prestart all your XMLSERVICE jobs
-      *        SBMJOB CMD(CALL PGM(XMLSERVICE/XMLSERVICE) 
+      *        SBMJOB CMD(CALL PGM(XMLSERVICE/XMLSERVICE)
       *        PARM('/tmp/db2ipc042')) USER(DB2)
       *      - consider using a custom plugconf to disable
       *        issues with timeout defaults (*idle/*wait)
-      * *java (1.9.2)               
+      * *java (1.9.2)
       *    - start JVM allowing user classpath
-      *      <cmd>ADDENVVAR ENVVAR(CLASSPATH) VALUE('$ours') 
+      *      <cmd>ADDENVVAR ENVVAR(CLASSPATH) VALUE('$ours')
       *           REPLACE(*YES)</cmd>
       *      <pgm>... calling my RPG w/JAVA ... </pgm>
-      * *sqljava or *dbgjava (port 30000) (1.9.2)            
+      * *sqljava or *dbgjava (port 30000) (1.9.2)
       *    - start JVM allowing DB2 classpath (no user control)
       *       SQLJ.INSTALL_JAR into schema
-      *       /QIBM/UserData/OS400/SQLLib/Function/jar/(schema) 
+      *       /QIBM/UserData/OS400/SQLLib/Function/jar/(schema)
       *----------------------------------------------------
       * -- CDATA xml output
       * *cdata(on|off)
@@ -272,7 +272,7 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *        - output: *after followed by *hex
       * -- CCSID conversion XMLSERVICE (1.6.2)
       * *before(CCSIDFrom/CCSIDTo[/action])
-      *    - conversion before calling XML processing 
+      *    - conversion before calling XML processing
       *      - CCSIDFrom - XML document client CCSID
       *      - CCSIDTo   - XML document XMLSERVICE CCSID
       *      - action
@@ -302,17 +302,17 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *        PASE csid default Qp2paseCCSID (see API)
       *----------------------------------------------------
       * -- server time out jobs XMLSERVICE (1.6.2)
-      * *wait[(seconds[/action])]            
+      * *wait[(seconds[/action])]
       *    - client side wait for XMLSERVICE call (client side)
       *      example: $ctl="*wait(10)";
       *      - default action *wait(60/busy) (see plugconfx)
-      * *call[(seconds[/action[/duration[/job]]])] 
+      * *call[(seconds[/action[/duration[/job]]])]
       *    - client/server side XMLSERVICE call wait (PGM, SRVPGM, PASE, etc)
       *      example: $ctl="*wait(10) *call(5/busy/client)";
-      *      - default for both client/server is *call(0) 
+      *      - default for both client/server is *call(0)
       *        means wait on call forever (user code flawless),
       *        but can be overriden client/server/both
-      * *idle[(seconds[/action[/duration]])] 
+      * *idle[(seconds[/action[/duration]])]
       *    - server side XMLSERVICE idle no activity
       *      example: $ctl="*wait(10/kill) *call(30/kill) *idle(30/kill/perm)";
       *      - default action *idle(1800/kill) (see plugconfx)
@@ -365,7 +365,7 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *      - *get(n) retrieve of XML memory (some time later)
       *      - *batch releases XMLSERVICE client (caller), and
       *        returns batch slot number (n) assigned for work.
-      * *get[(n)]           
+      * *get[(n)]
       *    - get XML results from batch slot 1 - 16 (release slot)
       *      responses (report not available):
       *        <id status='small'>1-16</id> - buffer too small
@@ -374,7 +374,7 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *      example: $ctl="*get(3)";
       *      - use with *wait(sec/busy) to avoid hang during
       *        *batch running (do something else while waiting)
-      *      - *get without slot number will get one result 
+      *      - *get without slot number will get one result
       *        any completed batch slot
       *      - *get(3) will only get result of batch slot 3
       *----------------------------------------------------
@@ -394,19 +394,19 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *    - log records into database
       * *nolog
       *    - no log records into database (default)
-      *   Note: 
+      *   Note:
       *   - *log key is unique allowing both PHP and XMLSERVICE
       *     to record event log data and produce queries of collected
       *     reports.
       *     Log file layout:
       *     create table XMLSERVLOG/LOG (
-      *       key varchar(64) NOT NULL WITH DEFAULT, 
-      *       log TIMESTAMP NOT NULL WITH DEFAULT, 
+      *       key varchar(64) NOT NULL WITH DEFAULT,
+      *       log TIMESTAMP NOT NULL WITH DEFAULT,
       *       text varchar(64) NOT NULL WITH DEFAULT)
       *     Supplemental log dump XML data layout:
       *     create table XMLSERVLOG/DUMP (
-      *       key varchar(64) NOT NULL WITH DEFAULT, 
-      *       log TIMESTAMP NOT NULL WITH DEFAULT, 
+      *       key varchar(64) NOT NULL WITH DEFAULT,
+      *       log TIMESTAMP NOT NULL WITH DEFAULT,
       *       text clob(15M) NOT NULL WITH DEFAULT)
       *  - programers/vendors can alter xmlservice log database
       *    with plugconf1-3 (or custom)
@@ -414,7 +414,7 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       * embedded XML control overrides and function
       *****************************************************
       * sbmjob full user override of SBMJOB for XMLSERVICE start-up  -- (1.7.0+)
-      *  <sbmjob>SBMJOB CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM('/tmp/override'))</sbmjob>      
+      *  <sbmjob>SBMJOB CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM('/tmp/override'))</sbmjob>
       *  Where SBMJOB can be any user settings (cut/paste green screen command) ...
       *   ... required parameters for for XMLSERVICE to start CALL + PARM
       *   example:
@@ -422,7 +422,7 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *       -- or --
       *       CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM('/tmp/xxxxxx')) <-- Zend Server production lib
       *       -- all other sbmjob parms at your control --
-      *   Note: 
+      *   Note:
       *   - SBMJOB full control allows user to set any type of LIBL,
       *     or SBMJOB options, or even custom PGM to call XMLSERVICE
       *****************************************************
@@ -437,17 +437,17 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *       -> hybrid stateless/private call,
       *          hold IPC for life of script only and release,
       *          but limit jobs
-      *   ... user based key -- scaling come/go users, 
-      *       want benefit of private RPG call (open files, etc), 
+      *   ... user based key -- scaling come/go users,
+      *       want benefit of private RPG call (open files, etc),
       *       also want reservation transactions
-      *       -> hybrid persistent/private, 
-      *          transaction across multi-request (browser clicks), 
+      *       -> hybrid persistent/private,
+      *          transaction across multi-request (browser clicks),
       *          but limited jobs
-      *   ... task based key -- everyone uses same task/tasks 
+      *   ... task based key -- everyone uses same task/tasks
       *       limited pool jobs and all must wait a turn
       *       -> hybrid private/persistent with pre-start pool,
-      *          transaction across multi-request (browser clicks), 
-      *          load balancing design to limit machine stress 
+      *          transaction across multi-request (browser clicks),
+      *          load balancing design to limit machine stress
       *   example many requests exclusive use IPC
       *    -- no time out --
       *     $ctl .= " *idle(0)"
@@ -466,21 +466,21 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *     <?xml version="1.0"?>
       *     <script>
       *     <use>unique-user-key</use>
-      *     <pgm name='ZZCALL'> 
+      *     <pgm name='ZZCALL'>
       *      <parm>
       *       <data type='1A'>a</data>
-      *      </parm> 
+      *      </parm>
       *      <return>
       *       <data type='10i0'>0</data>
-      *      </return> 
-      *     </pgm> 
+      *      </return>
+      *     </pgm>
       *     </script>
       *    -- request n (2 hours later) --
       *     <?xml version="1.0"?>
       *     <script>
       *     <stop>unique-user-key</stop>
       *     </script>
-      *   Note: 
+      *   Note:
       *   - <start>unique-user-key</start>
       *     acquire exclusive IPC if available,
       *   - <use>unique-user-key</use>
@@ -488,7 +488,7 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *     job held forever until see <stop>
       *   - <stop>unique-user-key</stop>
       *     release IPC for any other use
-      *   - <start>no-match-key</start> 
+      *   - <start>no-match-key</start>
       *     or <use>unique-user-key</use>
       *     non-matching key results in error
       *     almost instantly (no wait)
@@ -499,7 +499,7 @@ Control (CTL) keywords for operator control over XMLSERVICE jobs.
       *         </error>
       *   - thoughtful setting server idle timeout
       *     can control unwanted reservation hangs
-      *     due to careless users or errors 
+      *     due to careless users or errors
       *     $ctl .= " *idle(60)"
       *************************************************************************
 @]
@@ -512,13 +512,13 @@ Attach:xmlcmd5250.png
 [@
       *************************************************************************
       * 1) call i CMD
-      * XMLSERVICE allows calls of *CMDS on IBM i. Typically, you cut/paste 
-      * from a 5250 QCMD line using prompt (F4). You may use choose the utility 
-      * to run your command with attribute 'exec'. However, *CMDS with 
+      * XMLSERVICE allows calls of *CMDS on IBM i. Typically, you cut/paste
+      * from a 5250 QCMD line using prompt (F4). You may use choose the utility
+      * to run your command with attribute 'exec'. However, *CMDS with
       * in/out parameters, like RTVJOBA., you must use 'exec'='rexx'.
       * ---
       * <cmd [exec='cmd|system|rexx'
-      *       hex='on' 
+      *       hex='on'
       *       before='cc1/cc2/cc3/cc4'
       *       after='cc4/cc3/cc2/cc1'
       *       error='on|off|fast'
@@ -527,7 +527,7 @@ Attach:xmlcmd5250.png
       * cmd         - command tag
       *  values     - (see IBM i *CMD IBM i- 5250 cut/paste)
       * options
-      *  exec 
+      *  exec
       *     cmd     - qcmdexe only return true/false (default)
       *     system  - system utility return CPFxxxx
       *     rexx    - rexx output parms and return CPFxxxx
@@ -538,7 +538,7 @@ Attach:xmlcmd5250.png
       *  before
       *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
       *  after
-      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4
       *  error (1.7.6)
       *     on      - script stops, full error report
       *     off     - script continues, job error log (default)
@@ -558,9 +558,9 @@ Attach:xmlcmd5250.png
       *  <cmd exec='rexx'>RTVSYSVAL SYSVAL(QDATETIME) RTNVAR(?)</cmd>
       *  </xmlservice>
       * ---
-      *   Note: 
+      *   Note:
       *   - <cmd>command</cmd> should be all on one line (no LFs)
-      *   - <cmd> run in XMLSERVICE job. 
+      *   - <cmd> run in XMLSERVICE job.
       *     cmd    - qcmdexe only return true/false       (default)
       *     system - system utility return CPFxxxx        (1.5.2)
       *              <cmd exec='system'><error>CPF2103</error></cmd>
@@ -575,10 +575,10 @@ Attach:xmlcmd5250.png
       *     by RPG module plugile (Yips download).
       *     QTEMP/OUTREXX(OUTREXX) is created for
       *     command temp data between RPG and REXX.
-      *   - Up to four conversions can take place 
+      *   - Up to four conversions can take place
       *     for the truly complex ccsid issues (1.6.8)
       *     <cmd hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>
-      *       flow: 
+      *       flow:
       *       -> PHP client bin2hex('wild_ascii_raw_chars')
       *       -> xmlservice hex2bin back to 'wild_ascii_raw_chars'
       *       -> xmlservice convert cc1->cc2->cc3->cc4 (before)
@@ -606,15 +606,15 @@ Attach:xmlpase5250.png
 [@
       *************************************************************************
       * 2) call PASE utility
-      * XMLSERVICE allows calls of PASE utilities on IBM i. Typically, you cut/paste 
-      * from a PASE command line (call qp2term). PASE shell 'sh' is used for 
+      * XMLSERVICE allows calls of PASE utilities on IBM i. Typically, you cut/paste
+      * from a PASE command line (call qp2term). PASE shell 'sh' is used for
       * execution of your utilities, which, is default behavior of PASE popen() API.
       * ---
-      * <sh [rows='on|off' 
+      * <sh [rows='on|off'
       *      hex='on'
       *      before='cc1/cc2/cc3/cc4'
-      *      after='cc4/cc3/cc2/cc1' 
-      *      error='on|off|fast'                                       
+      *      after='cc4/cc3/cc2/cc1'
+      *      error='on|off|fast'
       *      ]>values (see PASE utility)</sh>
       * ---
       * sh          - shell tag
@@ -622,13 +622,13 @@ Attach:xmlpase5250.png
       * options
       *  rows
       *     on      - return rows lines
-      *     off     - return one string (default)  
+      *     off     - return one string (default)
       *  hex (1.7.4)
       *     on      - input character hex (5147504C20202020)
       *  before
       *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
       *  after
-      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4
       * ---
       *  error (1.7.6)
       *     on      - script stops, full error report
@@ -636,7 +636,7 @@ Attach:xmlpase5250.png
       *     fast    - script continues, brief error log
       * ---
       * example run PASE shell
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <sh rows='on'>/QOpenSys/usr/bin/system 'wrkactjob' | grep -i fr</sh>
       *  </xmlservice>
@@ -646,7 +646,7 @@ Attach:xmlpase5250.png
       *     <sh>pase utility</sh> runs "slower" because a child job
       *     is created to run each PASE utility (normal Unix behavior).
       *     All other XML/ILE functions run within XMLSERVICE job.
-      *   - Using nested shells within this sh shell may 
+      *   - Using nested shells within this sh shell may
       *     produce unpredictable results.
       *   - hex='on' before='' after='' -- same as <cmd> (1.7.0)
       *       output (incompatible change hex/ccsid 1.7.4+):
@@ -670,14 +670,14 @@ Syntax can mostly be cut/paste from QSH shell (qsh).
 [@
       *************************************************************************
       * 2.5) call QSH utility (1.9.8+)
-      * XMLSERVICE allows calls of QSH utilities on IBM i. Typically, you cut/paste 
+      * XMLSERVICE allows calls of QSH utilities on IBM i. Typically, you cut/paste
       * from a QSH command line. STRQSH is used for execution of your utilities.
       * ---
-      * <qsh [rows='on|off' 
+      * <qsh [rows='on|off'
       *      hex='on'
       *      before='cc1/cc2/cc3/cc4'
-      *      after='cc4/cc3/cc2/cc1' 
-      *      error='on|off|fast'                                       
+      *      after='cc4/cc3/cc2/cc1'
+      *      error='on|off|fast'
       *      ]>values (see QSH utility)</qsh>
       * ---
       * qsh         - shell tag
@@ -685,13 +685,13 @@ Syntax can mostly be cut/paste from QSH shell (qsh).
       * options
       *  rows
       *     on      - return rows lines
-      *     off     - return one string (default)  
+      *     off     - return one string (default)
       *  hex (1.7.4)
       *     on      - input character hex (5147504C20202020)
       *  before
       *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
       *  after
-      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4
       * ---
       *  error (1.7.6)
       *     on      - script stops, full error report
@@ -699,7 +699,7 @@ Syntax can mostly be cut/paste from QSH shell (qsh).
       *     fast    - script continues, brief error log
       * ---
       * example run QSH shell
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <qsh rows='on'>/usr/bin/system 'wrkactjob' | /usr/bin/grep -i fr</qsh>
       *  </xmlservice>
@@ -710,7 +710,7 @@ Syntax can mostly be cut/paste from QSH shell (qsh).
       *   - syntax looks as if typed on console (qsh)
       *     <qsh>QSH utility</qsh> runs "slower" because a child job
       *     is created to run each QSH utility (normal Unix behavior).
-      *   - Using nested shells within this qsh shell may 
+      *   - Using nested shells within this qsh shell may
       *     produce unpredictable results.
       *   - hex='on' before='' after='' -- same as <cmd> (1.7.0)
       *   - error='on,off,fast' (1.7.6)
@@ -730,14 +730,14 @@ Attach:xmlcall1.png
 [@
       *************************************************************************
       * 3) call PGM/SRVPGM
-      * XMLSERVICE allows calls of *PGM and *SRVPGM on IBM i. Typically, you match 
+      * XMLSERVICE allows calls of *PGM and *SRVPGM on IBM i. Typically, you match
       * call parameters, including data structures, and/or simple data elements.
       * ---
       * pgm name (*PGM or *SRVPGM)
-      * <pgm name='' 
-      *      [lib='' 
-      *       func='' 
-      *       mode='opm|ile' 
+      * <pgm name=''
+      *      [lib=''
+      *       func=''
+      *       mode='opm|ile'
       *       error='on|off|fast'
       *       ]>values (see <parm> and <return>) </pgm>
       * ---
@@ -747,7 +747,7 @@ Attach:xmlcall1.png
       *  lib
       *     library - IBM i library name
       *  func
-      *     function- IBM i *SRVPGM function name 
+      *     function- IBM i *SRVPGM function name
       *  mode
       *     ile     - ILE and PASE memory (default)
       *     opm     - ILE only memory (PASE can not view)
@@ -796,7 +796,7 @@ Attach:xmlcall1.png
       *  dim
       *   n         - array dimension value (default dim1)
       *  dou
-      *   label     - match array dou terminate parm label (see data) 
+      *   label     - match array dou terminate parm label (see data)
       *  len (1.5.4)
       *   label     - match calculate length of ds parm lable (see data)
       *  data (1.7.5)
@@ -804,10 +804,10 @@ Attach:xmlcall1.png
       *
       * ---
       * pgm data elements
-      * <data type='data types' 
-      *       [dim='n' 
-      *       varying='on|off|2|4' 
-      *       enddo='label' 
+      * <data type='data types'
+      *       [dim='n'
+      *       varying='on|off|2|4'
+      *       enddo='label'
       *       setlen='label'
       *       offset='label'
       *       hex='on|off' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'
@@ -844,28 +844,28 @@ Attach:xmlcall1.png
       *     2       - character varying data
       *     4       - character varying data
       *  enddou
-      *     label   - match array dou terminate parm label (see ds) 
+      *     label   - match array dou terminate parm label (see ds)
       *  setlen (1.5.4)
       *     label   - match calculate length of ds parm lable (see ds)
       *  offset
-      *     label   - match offset label (see overlay) 
+      *     label   - match offset label (see overlay)
       *  hex (1.6.8)
       *     on      - input character hex (5147504C20202020)
       *  before
       *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
       *  after
-      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4
       *  trim (1.7.1)
       *     on      - trim character (default)
       *     off     - no trim character
       *  next (1.9.2)
-      *     label   - match next offset label (see overlay) 
+      *     label   - match next offset label (see overlay)
       *
       * ---
       * pgm parameters/return overlay
-      * <overlay 
-      *       [io='in|out|both' 
-      *        offset='n|label' 
+      * <overlay
+      *       [io='in|out|both'
+      *        offset='n|label'
       *        top='on|off|n'
       *        setnext='nextoff'
       *        ]>(see <ds> and <data>)</overlay>
@@ -888,7 +888,7 @@ Attach:xmlcall1.png
       *     off     - overlay parm last seen (see parm)
       * ---
       * example run a PGM
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <cmd>CHGLIBL LIBL(XMLSERVICE) CURLIB(XMLSERVICE)</cmd>
       *  <pgm name='ZZCALL' lib=''>
@@ -919,7 +919,7 @@ Attach:xmlcall1.png
       *  </xmlservice>
       * ---
       * example run a SRVPGM
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <pgm name='ZZSRV' lib='XMLSERVICE' func='ZZARRAY'>
       *   <parm comment='search this name'>
@@ -943,7 +943,7 @@ Attach:xmlcall1.png
       *  </xmlservice>
       * ---
       * example optional ccsid convert name/lib format (1.6.8)
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <pgm>
       *   <name hex='on' before='cc1/cc2/cc3/cc4'>bin2hex('&fredflin')</name>
@@ -953,13 +953,13 @@ Attach:xmlcall1.png
       *    <ds dim='3'>
       *      <data type='1A'>a</data>
       *    </ds>
-      *   </parm> 
+      *   </parm>
       *   <return>
       *    <ds dim='999'>
       *      <data type='10i0'>0</data>
       *    </ds>
-      *    </return> 
-      *  </pgm> 
+      *    </return>
+      *  </pgm>
       *  </xmlservice>
       * ---
       * Note:
@@ -1012,22 +1012,22 @@ Attach:xmlcall1.png
       *       <data type='2b'>0F0F</data>
       *       - HEX upper case ('1FBC' not '1fbc')
       *       - high/low bits (HEX='0F0F' not HEX='F0F')
-      *     type='nh' - 'hole' zero in, nothing out (4096h) (1.2.3) 
+      *     type='nh' - 'hole' zero in, nothing out (4096h) (1.2.3)
       *       <data type='400h'/>
       *   - PGM/SRVPGM calls (<pgm>,<parm>,<data>,<return>) use syntax
-      *     that looks like RPG to describe the data parameters 
-      *     (type='4b', type='32a', type='4f', type='10i0', type='12p2', 
+      *     that looks like RPG to describe the data parameters
+      *     (type='4b', type='32a', type='4f', type='10i0', type='12p2',
       *     etc.).
-      *   - <data dim='n'> - dim='n' is new to 1.2 version and beyond, 
+      *   - <data dim='n'> - dim='n' is new to 1.2 version and beyond,
       *     older versions did not include this feature.
-      *   - Parameters using dou='label', enddo='label', 
+      *   - Parameters using dou='label', enddo='label',
       *     label must match for this to work,
       *     then processing will only return records up to enddo limits.
-      *   - Type 'h' for 'hole' is used to input x'00' fill 'hole' 
-      *     in the parameter geometry. It can be used to skip over 
-      *     a chunk of complex data that you really did not want to 
-      *     deal with or see in output XML. It is also very handy to 
-      *     use with overlay when output data is variable 
+      *   - Type 'h' for 'hole' is used to input x'00' fill 'hole'
+      *     in the parameter geometry. It can be used to skip over
+      *     a chunk of complex data that you really did not want to
+      *     deal with or see in output XML. It is also very handy to
+      *     use with overlay when output data is variable
       *     or unpredictable (1.2.3)
       *     input:
       *      <ds>
@@ -1041,8 +1041,8 @@ Attach:xmlcall1.png
       *        <data type='400h'> </data>             <--- ignored output
       *        <data type='32a'>stuff back</data>     <--- offset 440
       *      </ds>
-      *   - Added parm='omit' for RPG OPTIONS(*OMIT) parameter. A 
-      *     *NULL will be passed in this location. 
+      *   - Added parm='omit' for RPG OPTIONS(*OMIT) parameter. A
+      *     *NULL will be passed in this location.
       *     All parm io='omit' will be excluded from XML
       *     output returned because *NULL parameter has no data (1.2.3).
       *       <parm comment='my name' io='omit'>
@@ -1066,10 +1066,10 @@ Attach:xmlcall1.png
       *         <data type='1A' comment='Reserved'> </data>
       *        </ds>
       *       </parm>
-      *   - Up to four conversions can take place 
+      *   - Up to four conversions can take place
       *     for the truly complex ccsid issues (1.6.8)
       *      <data type='A' hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>
-      *      flow: 
+      *      flow:
       *      -> PHP client bin2hex('wild_ascii_raw_chars')
       *      -> xmlservice hex2bin back to 'wild_ascii_raw_chars'
       *      -> xmlservice convert cc1->cc2->cc3->cc4 (before)
@@ -1086,11 +1086,11 @@ Attach:xmlcall1.png
       *      - trim='on'  -- right trim  (default character type='na')
       *      - trim='off' -- include all (default binary type='nb')
       *   - see <overlay> for offset='label'
-      *      <data offset='label'>            <-- memory location to pop off a 
-      *                                           variable/changing offset value 
+      *      <data offset='label'>            <-- memory location to pop off a
+      *                                           variable/changing offset value
       *                                           for use in overlay()
-      *      <overlay top='n' offset='label'> <-- top='n' overlay parameter 'n', 
-      *                                           then add offset='label' pop value 
+      *      <overlay top='n' offset='label'> <-- top='n' overlay parameter 'n',
+      *                                           then add offset='label' pop value
       *      - offset='label' allows label location to pop off a <data> offset value
       *        at this data location to add position offset <overlay offset='label'>
       *      - 'label' is NOT a position location for <overlay>, it only holds
@@ -1137,7 +1137,7 @@ Attach:xmlcall1.png
       *       off - script continues, job error log
       *      fast - script continues, brief error log
       *   - pgm parameters/return overlay (custom offset='bytes', input/output):
-      *     <overlay> works "relative" to "previous" <parm> in 
+      *     <overlay> works "relative" to "previous" <parm> in
       *               "order of appearance XML"
       *               or absolute position to (top='n')
       *     <pgm>
@@ -1158,20 +1158,20 @@ Attach:xmlcall1.png
       *   - top='on|n' allow overlay position to parameter n
       *      ... top='on' absolute parm='1' (1.2.1)
       *      ... top='n' absolute parm='n' (1.2.2)
-      *      ... offset='n' bytes offset relative 
+      *      ... offset='n' bytes offset relative
       *          to top='n' position (parm 1,2,3, etc)
       *   - Once the top='n' parm location is etablished, offset='n'
       *     will move overlay to offset within the parameter.
-      *     <data offset='label'>            <-- memory location to pop off a 
-      *                                          variable/changing offset value 
+      *     <data offset='label'>            <-- memory location to pop off a
+      *                                          variable/changing offset value
       *                                          for use in overlay()
-      *     <overlay top='n' offset='label'> <-- top='n' overlay parameter 'n', 
-      *                                          then add offset='label' pop value 
+      *     <overlay top='n' offset='label'> <-- top='n' overlay parameter 'n',
+      *                                          then add offset='label' pop value
       *     - offset='label' allows label location to pop off a <data> offset value
       *       at this data location to add position offset <overlay offset='label'>
       *     - 'label' is NOT a position location for <overlay>, it only holds
       *       a offset value in this <data> memory location for things like
-      *       system APIs with offset-2-next. 
+      *       system APIs with offset-2-next.
       *   - setnext='nextoff' / next='nextoff'  (1.9.2)
       *      <pgm name='QSZRTVPR'>
       *       <parm io='both'>
@@ -1179,18 +1179,18 @@ Attach:xmlcall1.png
       *         :
       *         <data type='10i0' offset='myOffset'></data>
       *         :
-      *       </ds>   
+      *       </ds>
       *      </parm>
-      *       : 
-      *      <overlay io='out' top='1' offset='myOffset'>  
+      *       :
+      *      <overlay io='out' top='1' offset='myOffset'>
       *       <ds>
       *        <data type='10A'></data>
       *        <data type='2A'></data>
       *        <data type='10i0' enddo='prim'></data>
       *        <data type='10i0' offset='myOffset2'></data>
       *       </ds>
-      *       </overlay>  
-      *       <overlay io='out' top='1' offset='myOffset2' 
+      *       </overlay>
+      *       <overlay io='out' top='1' offset='myOffset2'
       *                dim='10' dou='prim' setnext='nextoff'>
       *       <ds>
       *        <data type='10i0' next='nextoff'></data>
@@ -1203,11 +1203,11 @@ Attach:xmlcall1.png
       *        <data type='10i0'></data>
       *        <data type='10A'></data>
       *       </ds>
-      *      </overlay> 
+      *      </overlay>
       *************************************************************************
 @]
 
-Note: Additional XML attributes added for comments, var names, and documentation will simply be returned untouched, so you may build your own label conventions for XML parsing in client code. 
+Note: Additional XML attributes added for comments, var names, and documentation will simply be returned untouched, so you may build your own label conventions for XML parsing in client code.
 
 ''Hint: use your own labels and comments XML attributes for easy client XML parsing work (var='MYVAR').''
 
@@ -1216,7 +1216,7 @@ Note: Additional XML attributes added for comments, var names, and documentation
 
 Using default PHP toolkit DB2 clob interface (iPLUGxxx/iPLUGRxxx), ccsid conversion occurs naturally as DB2 client/server and you will not have to code before/after, but method is available if you have a specific concern or you have scripts returning many different languages.
 
-Theory follows that most of XML document “intent” will remain immutable across db2 clob conversion (keywords, numbers, etc.), but for character data on some occasion there will be mixed/competing client/server ccsid conversion intention (client running 819, but data 1208), or there may be multiple language ccsid in the same XML document request (German, English, French), therefore using a combination of transfer in hex (hex=‘on’) and IBM i server ccsid translation before/after should allow complete control over transforms at user need. 
+Theory follows that most of XML document “intent” will remain immutable across db2 clob conversion (keywords, numbers, etc.), but for character data on some occasion there will be mixed/competing client/server ccsid conversion intention (client running 819, but data 1208), or there may be multiple language ccsid in the same XML document request (German, English, French), therefore using a combination of transfer in hex (hex=‘on’) and IBM i server ccsid translation before/after should allow complete control over transforms at user need.
 [@
 Example:
   <data type='200A' hex='on' before='819/424' after='424/819'>bin2hex('Hebrew_ascii_raw_chars')</data>
@@ -1231,11 +1231,11 @@ where:
   before    - XMLSERVICE convert CCSID before ILE program call
   after     - XMLSERVICE convert CCSID after ILE program call for client return
   bin2hex() - script hex string unaltered ascii image (also returned hex string avoid any conversion)
-  pack()    - script uses pack('H*',"xml_hex_back") function in PHP program for ascii characters 
+  pack()    - script uses pack('H*',"xml_hex_back") function in PHP program for ascii characters
 Note:
   Up to four conversions can take place for the truly complex ccsid conversion issues
   <data type='A' hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>bin2hex('wild_ascii_raw_chars')</data>
-  flow: 
+  flow:
   -> PHP client bin2hex('wild_ascii_raw_chars')
   -> xmlservice hex2bin back to 'wild_ascii_raw_chars'
   -> xmlservice convert cc1->cc2->cc3->cc4 (before)
@@ -1246,10 +1246,10 @@ Note:
 @]
 
 [[#db2]]
-!!! XMLSERVICE DB2 SQL 
+!!! XMLSERVICE DB2 SQL
 DB2 queries using only XML with syntax cut/paste STRSQL (cool, cool, cool version 1.5+).
 
-Note: DB2 SQL XML does not work in-line stateless ($ctl='*here'), but works fine with normal private connections (ipc='/tmp/fred', $ctl='*sbmjob').  
+Note: DB2 SQL XML does not work in-line stateless ($ctl='*here'), but works fine with normal private connections (ipc='/tmp/fred', $ctl='*sbmjob').
 
 Attach:xmldb2.png
 
@@ -1270,8 +1270,8 @@ Attach:xmldb2.png
       *   </script>
       *   Note: You only need chglibl once for all scripts because
       *         XMLSERVICE jobs remain active until killed (*immed).
-      *         XMLSERVICE default is system naming (not sql naming), 
-      *         so library list is significant for unqualified 
+      *         XMLSERVICE default is system naming (not sql naming),
+      *         so library list is significant for unqualified
       *         statements (see options below).
       *  Output:
       *   <?xml version='1.0'?>
@@ -1297,7 +1297,7 @@ Attach:xmldb2.png
       *
       * Connect to DB2 (optional):
       * <connect [conn='label' db='x' uid='x' pwd='x' options='label']/>
-      * 
+      *
       * Options template (optional):
       * <options [options='label' error='on|off|fast'
       *  Environment level (SQLSetEnvAttr) ...
@@ -1335,7 +1335,7 @@ Attach:xmldb2.png
       *  - repeatable   - read stability   (*RS, *ALL)
       *  - serializable - repeatable read  (*RR, *ALL)
       *
-      * Commit or rollback transaction (optional): 
+      * Commit or rollback transaction (optional):
       * <commit [conn='label' action='rollback' error='on|off|fast']/>
       * These alternate db2 features available ...
       *       error='on,off,fast' (1.7.6)
@@ -1358,7 +1358,7 @@ Attach:xmldb2.png
       *              fast - script continues, brief error log
       * Note:
       * - options='label' (version 1.5.1+)
-      * 
+      *
       * Prepare a statement (SQLPrepare/SQLExecute):
       * <prepare [conn='label' stmt='label' options='label' error='on|off|fast']>
       *  call storedproc(?,?)
@@ -1405,7 +1405,7 @@ Attach:xmldb2.png
       *    <row><data desc='NAME'>Bee</data><data desc='ID'>3</data></row>
       *   </fetch>
       * Note:
-      * - result set column types and descriptions are 
+      * - result set column types and descriptions are
       *   decided internally in XMLSERVICE (SQLNumResultCols/SQLDescribeCol)
       *   and bound at call time (SQLBindCol)
       * - rec='n' (version 1.5.1+)
@@ -1450,10 +1450,10 @@ Attach:xmldb2.png
       *   </count>
       *
       * Free resources:
-      * <free [conn='all|label' 
-      *        cstmt='label' 
-      *        stmt='all|label' 
-      *        options='all|label' 
+      * <free [conn='all|label'
+      *        cstmt='label'
+      *        stmt='all|label'
+      *        options='all|label'
       *        error='on|off|fast']/>
       * These alternate db2 features available ...
       *       error='on,off,fast' (1.7.6)
@@ -1702,7 +1702,7 @@ Attach:xmldb2.png
       *     allowed for the XMLSERVICE job. This is a DB2 rule of
       *     one activation equals one active connection/transaction,
       *     so you must free/commit a connection/transaction before
-      *     attempting to create a new connection/transaction 
+      *     attempting to create a new connection/transaction
       *     (or connect another profile). This is the correct
       *     mode for sharing QTEMP with XMLSERVICE called
       *     PGMs/SRVPGMs, so it is also the XMLSERVICE default.
@@ -1717,12 +1717,12 @@ Attach:xmldb2.png
       * > Commit rules (see options):
       *   - default is autocommit='on', where all create, insert,
       *     delete actions will be committed at operation time.
-      *   - if autocommit='off', commit action may be delayed 
+      *   - if autocommit='off', commit action may be delayed
       *     across multiple requests to XMLSERVICE and you
       *     may also rollback the transaction.
       * > Statement rules:
       *   - if stmt='label' is omitted (normal), the first active
-      *     statement available will be used for a sql operation 
+      *     statement available will be used for a sql operation
       *     such as fetch or describe. Therefore it is not wise
       *     to mix stmt='label' and omitted in the same XMLSERVICE
       *     task.
@@ -1736,17 +1736,17 @@ Attach:xmldb2.png
       *     wrong result set.
       * > Options rules:
       *   -Using servermode='on' universally executes statements
-      *    in child process (QSQSRVR jobs), not XMLSERVICE job. 
+      *    in child process (QSQSRVR jobs), not XMLSERVICE job.
       *    Once servermode='on', it stays 'on' for all connections
       *    for the life of the XMLSERVICE job, therefore you cannot
-      *    expect to share QTEMP between PGM calls/DB2 SQL, etc. 
+      *    expect to share QTEMP between PGM calls/DB2 SQL, etc.
       *    (ie. think very careful before you use this option)
       *   -Default mode is servermode='na' (off), or 'normal mode',
       *    which means a single connect/transaction is allowed
       *    active at any given time. Therefore, you must end
       *    any transation with <commit> and <free conn='all'>,
       *    before attempting to switch between connection profiles.
-      *    (normal CLI rules transaction/connect in a single process)  
+      *    (normal CLI rules transaction/connect in a single process)
       *   -System vs. SQL naming libl, where:
       *    - naming='system' with libl='curlib1 mylib2' (list)
       *      example: select * from mylib3/table (specific library)
@@ -1764,7 +1764,7 @@ Attach:xmldb2.png
       *   options='label' - unique name options template (optional)
       *   - a label is ten characters or less
       *   - a unique 'label' is used as XMLSERVICE/DB2 routing 'key'
-      *     thereby allowing multiple XML <sql> calls to XMLSERVICE 
+      *     thereby allowing multiple XML <sql> calls to XMLSERVICE
       *     routing back to open/active DB2 connection(s)/statement(s)
       *   - If optional conn/stmt 'label' is omitted, XMLSERVICE
       *     will return a unique 'label' attribute in output XML
@@ -1774,7 +1774,7 @@ Attach:xmldb2.png
       *     works just fine with less XML, but you need to be very careful
       *     that other scripts do not introduce additional conn/stmt
       *     'label(s)' that spoil your generic XML DB2 statements.
-      * > Connection/statements/options free rules (optional free): 
+      * > Connection/statements/options free rules (optional free):
       *   - Connections/statements remain active/open until released:
       *     <free/>                 - release all
       *     <free options='label'/> - release options template
@@ -1784,11 +1784,11 @@ Attach:xmldb2.png
       *     <free cstmt='label'/>   - release all statements 'label' connection
       *     <free stmt='label'/>    - release this statement
       *     <free stmt='all'/>      - release all statements
-      *   - conn='all'   : free all connections, 
+      *   - conn='all'   : free all connections,
       *                    also frees all statements
-      *   - cstmt='label': free all statements under 'label' connection, 
+      *   - cstmt='label': free all statements under 'label' connection,
       *                    other connections/statements remain active
-      *   - stmt='all'   : free all statements, 
+      *   - stmt='all'   : free all statements,
       *                    connections remain active
       * > These alternate db2 features available ...
       *       error='on,off,fast' (1.7.6)
@@ -1807,19 +1807,19 @@ Job log info has been added to all XMLSERVICE returned fatal errors. An additona
       *   example run
       *     <?xml version="1.0"?>
       *     <diag info='joblog'/>
-      *     Note: 
-      *       The current XMLSERVICE job log is assumed if optional 
+      *     Note:
+      *       The current XMLSERVICE job log is assumed if optional
       *       attributes job='job' user='uid' nbr='nbr' missing.
       *       if you wish to provide custom diagnostics,
       *       info='conf' calls optional hook in plugconfx (1-3).
 @]
 
 !!! One sample by value (xmlservice 1.9.9.3+):
-This is only about RPG parameters marked 'const' or 'value'. If you do not understand these 'by value' RPG parameter types, this will only confuse (ignore). 
+This is only about RPG parameters marked 'const' or 'value'. If you do not understand these 'by value' RPG parameter types, this will only confuse (ignore).
 
-A fix was added for by value in xmlservice 1.9.9.3. All data types test work except zoned decimal by value (although may work). This will be handled later in next base version of xjservice. Please note by="val" is an attribute of <parm>, not <data> (see below). 
+A fix was added for by value in xmlservice 1.9.9.3. All data types test work except zoned decimal by value (although may work). This will be handled later in next base version of xjservice. Please note by="val" is an attribute of <parm>, not <data> (see below).
 
-BTW -- Attribute of <parm by='val'> is not an error (no debate). That is, by='ref,val' is indeed attribute of <parm>, same as io='in,out,both', and other exotic parameter attributes like *omit and *nopass. Unfortunately RPG syntax obfuscates spoken words 'passing parameters' into minds eye of 'passing data(s) and structures and arrays of data' (which make no sense). Aka, <parm by='val' io='in'> is correct.   
+BTW -- Attribute of <parm by='val'> is not an error (no debate). That is, by='ref,val' is indeed attribute of <parm>, same as io='in,out,both', and other exotic parameter attributes like *omit and *nopass. Unfortunately RPG syntax obfuscates spoken words 'passing parameters' into minds eye of 'passing data(s) and structures and arrays of data' (which make no sense). Aka, <parm by='val' io='in'> is correct.
 
 [@
        dcl-proc GetPacked export;
@@ -1869,7 +1869,7 @@ BTW -- Attribute of <parm by='val'> is not an error (no debate). That is, by='re
          f8d = 'double man';
        end-proc;
 
-       xjInData = 
+       xjInData =
          '<?xml version="1.0"?>'
        + '<xmlservice>'
        + '<cmd error="fast" exec="cmd" var="chglibl">'
@@ -1944,7 +1944,7 @@ BTW -- Attribute of <parm by='val'> is not an error (no debate). That is, by='re
        + '</xmlservice>'
        + x'00';
 
-@]  
+@]
 
 
 

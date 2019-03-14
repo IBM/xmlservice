@@ -9,8 +9,8 @@ Installation
     Unzip xmlservice-rpg.zip to xmlservice.savf
     Ensure that an empty save file QGPL/XMLSERVICE exists
 
-    > crtSAVF FILE(QGPL/XMLSERVICE) 
-    -- or -- 
+    > crtSAVF FILE(QGPL/XMLSERVICE)
+    -- or --
     > clrSAVF FILE(QGPL/XMLSERVICE)
 
     FTP xmlservice.savf to QGPL library, into the save file referenced in 2. above
@@ -20,7 +20,7 @@ Installation
 
     Create xmlservice RPG programs in XMLSERVICE library and/or alternative libraries (see alternative below).
 
-    First, add XMLSERVICE to library list: 
+    First, add XMLSERVICE to library list:
     Then choose library/libraries to compile into:
     > ADDLIBLE XMLSERVICE
 
@@ -31,17 +31,17 @@ Installation
     > call crtxml -- XMLSERVICE library only
 
     Please ignore following expected errors from generic drop/create CRTXML(x) CLP ...
-    **** CLI ERROR *****                 
-             SQLSTATE: 42704              
-    NATIVE ERROR CODE: -204               
-    IPLUG4K in XMLSERVICE type *N not found. 
+    **** CLI ERROR *****
+             SQLSTATE: 42704
+    NATIVE ERROR CODE: -204
+    IPLUG4K in XMLSERVICE type *N not found.
 
     Optional XMLSERVICE tests
 
-    > CRTCLPGM PGM(XMLSERVICE/CRTTEST) SRCFILE(XMLSERVICE/QCLSRC) 
+    > CRTCLPGM PGM(XMLSERVICE/CRTTEST) SRCFILE(XMLSERVICE/QCLSRC)
     > call crttest
     -- V6+ added tests --
-    > CRTCLPGM PGM(XMLSERVICE/CRTTEST6) SRCFILE(XMLSERVICE/QCLSRC) 
+    > CRTCLPGM PGM(XMLSERVICE/CRTTEST6) SRCFILE(XMLSERVICE/QCLSRC)
     > call crttest6
 
     Grant *ALL rights over XMLSERVICE to users
@@ -49,7 +49,7 @@ Installation
     > CHGAUT OBJ('/qsys.lib/XMLSERVICE.lib') USER(QTMHHTTP) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
     > CHGAUT OBJ('/qsys.lib/XMLSERVICE.lib') USER(QTMHHTP1) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 
-    End any and all XTOOLKIT jobs with option *IMMED, before restarting your web servers to assure XMLSERVICE running new install. 
+    End any and all XTOOLKIT jobs with option *IMMED, before restarting your web servers to assure XMLSERVICE running new install.
 
 Alternative compiles (step 5 alternatives)
 
@@ -79,7 +79,7 @@ Alternative compiles (step 5 alternatives)
     > CRTCLPGM PGM(XMLSERVICE/CRTXMLQ) SRCFILE(XMLSERVICE/QCLSRC)
     > call crtxmlq -- QXMLSERV library only
 
-    Optional: 
+    Optional:
     Additional CLP(s) are included for user compile redistribution
     current/modern version IBM i to install on down level IBM i.
     CRTXMLV5  - library XMLSERVICE -> TGTRLS(V5R4M0)
@@ -92,7 +92,7 @@ Alternative compiles (step 5 alternatives)
     Alternative - For IBM i that only use PTFS
     Optional IBM XMLSERVICE PTFs for machines not downloading XMLSERVICE (PTF library QXMLSERV).
 
-    group 
+    group
     PTF SF99368 - level 31 for i 7.1
     PTF SF99713 - level 5 for i 7.2
     -- older info --
@@ -245,13 +245,13 @@ var DemoLib2 = "FLGHT400M";
 A new tool ‘mama’ has been created as fastcgi extension to start/stop your standalone applications. Mama is designed to work with Apache FastCGI as additional configuration files (mama.conf).
 
     litmis git mama - mama source code, multiple Apache configurations for different machine environments (useful patterns).
-    Mama - mama pre-compiled version 
+    Mama - mama pre-compiled version
 
 Notes (redistribution and PTFs)
 
     SAV/RST
         ONLY redistribute RSTOBJ to same library as SAVOBJ or break your toolkit (hang/busy) as various PLUGCONF(x) are hard coded to each library (crtxml, crtxml2, crtxmlq, crtxmlr)
-        XMLSERVICE stored procedures iPLUGxxx, iPLUGRxxx are automatically updated on SAVOBJ/RSTOBJ via IBM i PGM/SRVPGM object Program Associated Space (PAS), so you will NOT not need crtsql, crtsql2, etc., when using simple SAV/RST operations (PAS works on V5, V6, V7+). Key objects SAV/RST are XMLSERVICE, XMLSTOREDP, XMLCGI, XMLMAIN 
+        XMLSERVICE stored procedures iPLUGxxx, iPLUGRxxx are automatically updated on SAVOBJ/RSTOBJ via IBM i PGM/SRVPGM object Program Associated Space (PAS), so you will NOT not need crtsql, crtsql2, etc., when using simple SAV/RST operations (PAS works on V5, V6, V7+). Key objects SAV/RST are XMLSERVICE, XMLSTOREDP, XMLCGI, XMLMAIN
     PTFs WARNING
         PTF processing Zend PTFs prior IBM i V7 TR5 may fail to create/recreate XMLSERVICE stored procedures iPLUGxxx, iPLUGRxxx in various Zend libraries ZENDSVR(6). IBM PTFs for QXMLSERV no action needed, only Zend PTF issue today. Manually create missing stored procedures in target Zend libraries using the following steps.
 
@@ -297,19 +297,19 @@ Debug technique: It’s as easy as 1–2−3–4−5–6−7–8−9 :)
     The RPG program source will appear in debug mode in your terminal, ready to step through, allowing you to inspect variables, etc.
     When done inspecting and stepping, let the RPG program complete (using function keys indicated on screen).
     ENDDBG
-    ENDSRVJOB 
+    ENDSRVJOB
 
 Other debug options …
 
-           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)  
+           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)
                              (ctl=*debugcgi)              (ctl=*debugproc)                (ctl=*debug)
-browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here) 
+browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here)
                                                        -> QSQSRVR (XMLSERVICE client) -> XTOOLKIT (XMLSERVICE ipc=/tmp/flinstone)
 
 $ctl .= " *debugcgi";  // Job 2 - debug XMLCGI to see REST/HTTP data passed by client (when using REST only)
 $ctl .= " *debugproc"; // Job 3 - debug XMLSERVICE "client" to see DB2 passed data (DB2 interface)
 $ctl .= " *debug";     // Job 4 - debug XMLSERVICE "server" to see XMLSERVICE calls (DB2 interface)
-                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server" 
+                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server"
                        //         are in QSQSRVSR job (NO XTOOLKIT job)
                        // remote: Attaching with LUW drivers changes QSQSRVR ...
                        //   CLIENT (Client Access drivers) <==> QZDAxxxx
@@ -317,4 +317,4 @@ $ctl .= " *debug";     // Job 4 - debug XMLSERVICE "server" to see XMLSERVICE ca
 
 Alternative QSQSRVR stop/debug
 
-        {Debug DB2 stored procedures} - find/stop QSQSRVR jobs scripting (*LOCAL-*DEBUG) 
+        {Debug DB2 stored procedures} - find/stop QSQSRVR jobs scripting (*LOCAL-*DEBUG)

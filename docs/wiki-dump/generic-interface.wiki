@@ -20,7 +20,7 @@ Instructions designed for IBM i developer exploring XMLSERVICE ...
      |---------------------------------------|
 (1)->| Download RPG (1) | Download PHP (2)   |
      | 1) XMLSERVICE    | a) PHP CW Toolkit  |<-(4) cw-tk-php-x.x.x.zip
-     |    HTML/XML/REST | b) New PHP Toolkit |<-(3) cw-tk-php-x.x.x.zip 
+     |    HTML/XML/REST | b) New PHP Toolkit |<-(3) cw-tk-php-x.x.x.zip
      |    no PHP        |--------------------|
      |    (xmlcgi.pgm)  | c) PHP “Raw XML”   |<-(2) Zend Server for IBM i or Linux or Windows
      |    (optional)    |   (ibm_db2, odbc)  |
@@ -56,7 +56,7 @@ Why is XMLSERVICE Open Source?
 * IBM has many nice folks that believe in Open Source for IBM i, sharing common utilities in IBM i community
 * Business friendly BSD license makes it easy to include in any Open Source project (Zend PHP, your applications, etc.)
 * XML documents over transport neutral design lends itself to "easy" inclusion is your proprietary/custom applications (XML is just a big string, you can use it anywhere)
-* Pure RPG source because many IBM i folks know the language, but not the tricks like using PASE for functions 
+* Pure RPG source because many IBM i folks know the language, but not the tricks like using PASE for functions
 
 XMLSERVICE highlights:
 * 100% RPG code BSD licensed to be completely free to use (XMLSERVICE library download)
@@ -69,7 +69,7 @@ XMLSERVICE highlights:
 * arrays of data structures are allowed both as paramters and return, including nested data structurers and/or arrays of data structures (try it to believe it)
 * Many limits of other toolkit PGM/SRVPGM callers are not an issue with XMLSERVICE (up to 15MB to date), therefore "old school" RPG using occurs can often pass back all data records in one call.
 
-We have been experimenting with the following configurations. 
+We have been experimenting with the following configurations.
 [@
 1-tier (running on IBM i):
   1) HTML REST   : |PC|browser<----------------->|IBM i|<-ApacheCGI--|
@@ -86,12 +86,12 @@ We have been experimenting with the following configurations.
   4) PHP odbc    : |PC|Apache/PHP<-CA ODBC------>|IBM i|<-QRWTSRVR---|
   5) Zend Toolkit: (using one of above transport interfaces)
 
-Notes: 
+Notes:
 - PHP was used to test, but any DB2/REST capable scripting language will work
 - REST interface used for test does not require PHP on IBM i (not fast)
 - ibm_db2 has been the best interface for production use (fast)
 - 2-tier does not require PHP on IBM i
-- odbc and pdo_ibm had trouble with large contiguous data (PDF) 
+- odbc and pdo_ibm had trouble with large contiguous data (PDF)
 @]
 
 !!! XMLSERVICE syntax (XML in, XML out)
@@ -113,7 +113,7 @@ Notes:
      |    (PGM, SRVPGM, PASE, DB2, etc.)     |
      ------------------------------------------
 @]
-(1) XMLSERVICE parses and executes XML input for IBM i commands (CMD), programs (PGM/SRVPGM), and PASE utilites (ls, system, etc.), data results are then returned in XML output. XMLSERVICE processes XML scripts in "order of appearance". Every effort is made to make one pass through the XML to keep performance, therefore XML input "order of appearance" is important and left up to the XML script writer (see below). 
+(1) XMLSERVICE parses and executes XML input for IBM i commands (CMD), programs (PGM/SRVPGM), and PASE utilites (ls, system, etc.), data results are then returned in XML output. XMLSERVICE processes XML scripts in "order of appearance". Every effort is made to make one pass through the XML to keep performance, therefore XML input "order of appearance" is important and left up to the XML script writer (see below).
 [@
 Order is important:
 * <parm> followed by <return>
@@ -143,7 +143,7 @@ Example:
 
 '''XMLSERVICE setting parameter data'''
 
-Setting parameter data is a simple task that looks much the same as any language, using XML in this case. As you can see below you must send the entire XML document/script each time, because XMLSERVICE will not remember "everything" about each program (<pgm></pgm>), command (<cmd></cmd>) or PASE utility called (<sh></sh>). 
+Setting parameter data is a simple task that looks much the same as any language, using XML in this case. As you can see below you must send the entire XML document/script each time, because XMLSERVICE will not remember "everything" about each program (<pgm></pgm>), command (<cmd></cmd>) or PASE utility called (<sh></sh>).
 [@
 1st XMLSERVICE call ...
 <script>
@@ -166,13 +166,13 @@ Setting parameter data is a simple task that looks much the same as any language
 
 Why send a full XML document description each time you call program/script?
 
-Because XMLSERVICE is simply an script interpreter like BASIC or PHP, not a true compiler like RPG where "binary program" lasts forever, therefore you cannot just "pass XML data" without also describing what the data means (type='12p2'). 
+Because XMLSERVICE is simply an script interpreter like BASIC or PHP, not a true compiler like RPG where "binary program" lasts forever, therefore you cannot just "pass XML data" without also describing what the data means (type='12p2').
 
 If you are writing a language wrapper around this support (like Zend PHPToolkit), you can easily "hide" the XML document specifics of passing a full XML document (the whole idea). However, if you are using the RAW XML interface (this document), you will have to bite your tongue and send the whole document.
 
-Note: However we are working short-cuts like overlay for some XML parameter "customization", but we intend stopping short of complete "programming by XML" because we do not want to reinvent PHP (or the like). 
+Note: However we are working short-cuts like overlay for some XML parameter "customization", but we intend stopping short of complete "programming by XML" because we do not want to reinvent PHP (or the like).
 
-Full example (2 complete calls): 
+Full example (2 complete calls):
 
 1) XMLSERVICE call number 1 complete call with data XMLSERVICE will work:
 [@
@@ -289,7 +289,7 @@ Example (html interface xmlcgi.pgm):
 <input type="hidden" name="pwd" value="*NONE">
 <input type="hidden" name="ipc" value="/tmp/rangerhtml">
 <input type="hidden" name="ctl" value="*none">
-<input type="hidden" name="xmlin" 
+<input type="hidden" name="xmlin"
 value="<?xml version='1.0'?>
 <pgm name='ZZCALL' lib='XMLSERVICE'>
  <parm><data type='1A'>a</data></parm>
@@ -314,20 +314,20 @@ value="<?xml version='1.0'?>
 
 Output:
 <?xml version='1.0'?>
-<pgm name='ZZCALL' lib='XMLSERVICE'> 
- <parm><data>C</data></parm> 
- <parm><data>D</data></parm> 
- <parm><data>321.1234</data></parm> 
- <parm><data>1234567890.12</data></parm> 
- <parm> 
-  <ds> 
-   <data>E</data> 
-   <data>F</data> 
-   <data>333.3330</data> 
-   <data>4444444444.44</data> 
-  </ds> 
- </parm> 
- <return><data>0</data></return> 
+<pgm name='ZZCALL' lib='XMLSERVICE'>
+ <parm><data>C</data></parm>
+ <parm><data>D</data></parm>
+ <parm><data>321.1234</data></parm>
+ <parm><data>1234567890.12</data></parm>
+ <parm>
+  <ds>
+   <data>E</data>
+   <data>F</data>
+   <data>333.3330</data>
+   <data>4444444444.44</data>
+  </ds>
+ </parm>
+ <return><data>0</data></return>
 </pgm>
 
 Note: uid / pwd *NONE available XMLSERVICE version 1.5+.
@@ -373,13 +373,13 @@ crtxml2 - creates stored procedurs into ZENDSVR library (production)
 DB2 in/out parameters (connections supporting in/out parameters):
 ... sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M up to 15M  (see crtsql in download) ...
 iPLUG4K(IN IPC CHAR(1024), IN CTL CHAR(1024),IN CI CHAR(4064), OUT C0 CHAR(4064))
-iPLUG32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(32000), OUT CO CLOB(32000)) 
-iPLUG65K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(65K), OUT CO CLOB(65K)) 
-iPLUG512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(512K), OUT CO CLOB(512K)) 
-iPLUG1M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(1M), OUT CO CLOB(1M)) 
-iPLUG5M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(5M), OUT CO CLOB(5M)) 
-iPLUG10M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(10M), OUT CO CLOB(10M)) 
-iPLUG15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M), OUT CO CLOB(15M)) 
+iPLUG32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(32000), OUT CO CLOB(32000))
+iPLUG65K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(65K), OUT CO CLOB(65K))
+iPLUG512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(512K), OUT CO CLOB(512K))
+iPLUG1M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(1M), OUT CO CLOB(1M))
+iPLUG5M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(5M), OUT CO CLOB(5M))
+iPLUG10M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(10M), OUT CO CLOB(10M))
+iPLUG15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M), OUT CO CLOB(15M))
 
   $stmt = db2_prepare($conn, "call XMLSERVICE.iPLUG4K(?,?,?,?)");
   $ret=db2_bind_param($stmt, 1, "ipc", DB2_PARAM_IN);
@@ -391,14 +391,14 @@ iPLUG15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M), OUT CO CLOB(15M)
 
 DB2 Result set returned (connections not supporting in/out parameters):
 ... sizes: 4K, 32K, 65K, 512K, 1M, 5M, 10M up to 15M (see crtsql in download) ...
-CREATE PROCEDURE XMLSERVICE.iPLUGR4K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CHAR(4096)) 
-iPLUGR32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CHAR(32000)) 
-iPLUGR65K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(65K)) 
-iPLUGR512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(512K)) 
-iPLUGR1M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(1M)) 
-iPLUGR5M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(5M)) 
-iPLUGR10M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(10M)) 
-iPLUGR15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M)) 
+CREATE PROCEDURE XMLSERVICE.iPLUGR4K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CHAR(4096))
+iPLUGR32K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CHAR(32000))
+iPLUGR65K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(65K))
+iPLUGR512K(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(512K))
+iPLUGR1M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(1M))
+iPLUGR5M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(5M))
+iPLUGR10M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(10M))
+iPLUGR15M(IN IPC CHAR(1024), IN CTL CHAR(1024), IN CI CLOB(15M))
 
   $stmt = db2_prepare($conn, "call $libxmlservice.iPLUGR4K(?,?,?)");
   $ret=db2_execute($stmt,array($ipc,$ctl,$clobIn));
@@ -421,8 +421,8 @@ so you don't transport a whole bunch of blanks between you scripting/IBM i appli
 ** Note: iPLUGRxxx procedures return a result set that is collected by fetch.
 
 ''1) IN IPC CHAR(1024) - IPC key (InternalKey) ''
- 
-The IPC/InternalKey is used to route XML input/output documents to the correct XMLSERVICE job. The IPC is fully qualified path commonly in the /tmp directory where each unique path is the target of given XMLSERVICE job being used by a given user/password profile (normal profile authority applies). 
+
+The IPC/InternalKey is used to route XML input/output documents to the correct XMLSERVICE job. The IPC is fully qualified path commonly in the /tmp directory where each unique path is the target of given XMLSERVICE job being used by a given user/password profile (normal profile authority applies).
 # InternalKey must be a fully IFS qualified path, if not exist then XMLSERVICE will attempt to create on first use.
 # InternalKey object authorization is standard IBM i profile mechanism.
 # XMLSERVICE provides a sync IPC lock (/tmp/$anything), so only one user/request is active at a time (like 5250).
@@ -432,15 +432,15 @@ Example call PGM ZZCALL, run in Zend subsystem, *debug wait before call (qsysopr
   $ctl = '*sbmjob(ZENDSVR/ZSVR_JOBD) *debug';
   $clobIn =
   "<?xml version="1.0"?>
-   <script>  
+   <script>
     <cmd>ADDLIBLE LIB(XMLSERVICE) POSITION(*FIRST)</cmd>
-    <pgm name='ZZCALL'> 
+    <pgm name='ZZCALL'>
      <parm>
       <data type='1A'>a</data>
-     </parm> 
+     </parm>
      <return>
       <data type='10i0'>0</data>
-     </return> 
+     </return>
     </pgm>
    </script>";
   $clobOut = "";
@@ -454,7 +454,7 @@ Example call PGM ZZCALL, run in Zend subsystem, *debug wait before call (qsysopr
 
 ''2) IN CTL CHAR(1024) - CTL admin''
 
-These control options are used to control the XMLSERVICE jobs. There a ton of control options at 
+These control options are used to control the XMLSERVICE jobs. There a ton of control options at
 ([[XMLService/XMLSERVICEQuick | {Goto Reserved Words}]]).
 [@
 // *immed              - end server immed destroy ipc
@@ -559,7 +559,7 @@ The output XML document will be produced in the same order that the XML input sc
 '''Workaround for "bad" drivers leaving junk back of output clob'''
 
 Alas, the world is not perfect 1-2 tier DB2 drivers IBM i, Windows, Linux, etc., so occasionally a "hack" is handy.
- 
+
 I always "scope" my XML input requests with <script>...</script>, so anything past tailing </script> is 'junk' (errors return as <report>...</report>).
 
 The new XMLSERVICE keyword *hack adds </hack> back of every record return result set can be very useful for drivers that do not support stored procedure in/out parameters like PHP odbc ([[XMLService/XMLSERVICEQuick | Goto Reserved Words]]).
@@ -606,7 +606,7 @@ global $fast, $db, $user, $pass, $ipc, $ctl, $conn, $lib, $plug, $plugR;
     else $conn = db2_connect($db, $user, $pass);          // full open/close connection
   }
   if (!$conn) die("Bad connect: $db, $user");
-  $stmt = db2_prepare($conn, "call $lib.$plug(?,?,?,?)"); // Call XMLSERVICE 
+  $stmt = db2_prepare($conn, "call $lib.$plug(?,?,?,?)"); // Call XMLSERVICE
                                                           // stored procedure interface
                                                           // in/out parameter (xmlOut)
                                                           // sizes: iPLUG4K - iPLUG15M
@@ -630,7 +630,7 @@ global $fast, $db, $user, $pass, $ipc, $ctl, $conn, $lib, $plug, $plugR;
     if ($fast) $conn = odbc_pconnect($db, $user, $pass);  // persistent/pooled connection
     else $conn = odbc_connect($db, $user, $pass);         // full open/close connection
   }
-  $stmt = odbc_prepare($conn, "call $lib.$plugR(?,?,?)"); // Call XMLSERVICE 
+  $stmt = odbc_prepare($conn, "call $lib.$plugR(?,?,?)"); // Call XMLSERVICE
                                                           // stored procedure interface
                                                           // result set return (fetch)
                                                           // sizes: iPLUGR4K - iPLUGR15M
@@ -638,17 +638,17 @@ global $fast, $db, $user, $pass, $ipc, $ctl, $conn, $lib, $plug, $plugR;
   $options = array($ipc,                                  // ? - /tmp/raw_$user (*sbmjob)
                    $ctl,                                  // ?- *here or *sbmjob
                    $xmlIn);                               // ?- XML input script
-  // bad behavior odbc extension 
+  // bad behavior odbc extension
   // ... IBM i result set warning???
   error_reporting(~E_ALL);                                // bad behavior odbc extension
-                                                          // ... IBM i result set warning??? 
+                                                          // ... IBM i result set warning???
   $ret=odbc_execute($stmt,$options);
   if (!$ret) die("Bad execute: ".odbc_errormsg());
-  error_reporting(E_ALL); 
+  error_reporting(E_ALL);
   while(odbc_fetch_row($stmt)) {
     $xmlOut .= driverJunkAway(odbc_result($stmt, 1));     // bad behavior odbc extension
                                                           // ... possible junk end record,
-                                                          // xmlservice provided $ctl='*hack' 
+                                                          // xmlservice provided $ctl='*hack'
                                                           // record</hack>junk
   }
   return $xmlOut;
@@ -665,17 +665,17 @@ global $fast, $db, $user, $pass, $ipc, $ctl, $conn, $lib, $plug, $plugR;
       else $opt = array(PDO::ATTR_AUTOCOMMIT=>true);                                    // full open/close connection
       $conn = new PDO($database, strtoupper($user), strtoupper($pass), $opt);
       if (!$conn) throw new Exception("Bad");
-    } catch( Exception $e ) { 
-      die("Bad connect: $database, $user"); 
+    } catch( Exception $e ) {
+      die("Bad connect: $database, $user");
     }
   }
   try {
-    $stmt = $conn->prepare("call $lib.$plug(?,?,?,?)");   // Call XMLSERVICE 
+    $stmt = $conn->prepare("call $lib.$plug(?,?,?,?)");   // Call XMLSERVICE
                                                           // stored procedure interface
                                                           // in/out parameter (xmlOut)
                                                           // sizes: iPLUG4K - iPLUG15M
     if (!$stmt) throw new Exception('Bad');
-  } catch( Exception $e ) { 
+  } catch( Exception $e ) {
     $err = $conn->errorInfo();
     $cod = $conn->errorCode();
     die("Bad prepare: ".$cod." ".$err[0]." ".$err[1]." ".$err[2]);
@@ -695,7 +695,7 @@ global $fast, $db, $user, $pass, $ipc, $ctl, $conn, $lib, $plug, $plugR;
   return driverJunkAway($xmlOut);                         // just in case driver odd
                                                           // ... possible junk end record,
                                                           // record</script>junk
-} 
+}
 @]
 
 '''XMLSERVICE advanced CCSID'''
@@ -715,11 +715,11 @@ where:
   before    - XMLSERVICE convert CCSID before ILE program call
   after     - XMLSERVICE convert CCSID after ILE program call for client return
   bin2hex() - script hex string unaltered ascii image (also returned hex string avoid any conversion)
-  pack()    - script uses pack('H*',"xml_hex_back") function in PHP program for ascii characters 
+  pack()    - script uses pack('H*',"xml_hex_back") function in PHP program for ascii characters
 Note:
   Up to four conversions can take place for the truly diabolical ccsid issues
   <data type='A' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>bin2hex('wild_ascii_raw_chars')</data>
-  flow: 
+  flow:
   -> PHP client bin2hex('wild_ascii_raw_chars')
   -> xmlservice hex2bin back to 'wild_ascii_raw_chars'
   -> xmlservice convert cc1->cc2->cc3->cc4 (before)

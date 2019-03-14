@@ -1,39 +1,39 @@
      H NOMAIN
      H AlwNull(*UsrCtl)
      H BNDDIR('QC2LE')
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -75,40 +75,40 @@
      D trimConv        PR             1N
      D  pTgt                           *   Value
      D  trimSz                       10i 0
-     D  nMax                         10i 0 Value 
-     D  pad                          10i 0 Value 
-     D  cntCCSID                     10i 0 Value 
+     D  nMax                         10i 0 Value
+     D  pad                          10i 0 Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
 
      D padConv         PR             1N
      D  pTgt                           *   Value
      D  trimSz                       10i 0 Value
-     D  nMax                         10i 0 Value 
-     D  pad                          10i 0 Value 
-     D  cntCCSID                     10i 0 Value 
+     D  nMax                         10i 0 Value
+     D  pad                          10i 0 Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
 
-      * reserved unicode chars 
+      * reserved unicode chars
      D wlt             S              1C   inz(%UCS2('<'))                      &lt;
      D wgt             S              1C   inz(%UCS2('>'))                      &gt;
      D wamp            S              1C   inz(%UCS2('&'))                      &amp;
      D wquot           S              1C   inz(%UCS2('"'))                      &quot;
      D wapos           S              1C   inz(%UCS2(''''))                     &apos;
-      * reserved job ccsid chars 
+      * reserved job ccsid chars
      D clt             S              1A   inz(*blank)                          &lt;
      D cgt             S              1A   inz(*blank)                          &gt;
      D camp            S              1A   inz(*blank)                          &amp;
      D cquot           S              1A   inz(*blank)                          &quot;
      D capos           S              1A   inz(*blank)                          &apos;
-      * reserved unicode  
+      * reserved unicode
      D welt            S              4C   inz(%UCS2('&lt;'))                   &lt;
      D wegt            S              4C   inz(%UCS2('&gt;'))                   &gt;
      D weamp           S              5C   inz(%UCS2('&amp;'))                  &amp;
      D wequot          S              6C   inz(%UCS2('&quot;'))                 &quot;
      D weapos          S              6C   inz(%UCS2('&apos;'))                 &apos
-      * reserved job ccsid chars 
+      * reserved job ccsid chars
      D celt            S              4A                                        &lt;
      D cegt            S              4A   inz(*blank)                          &gt;
      D ceamp           S              5A   inz(*blank)                          &amp;
@@ -234,8 +234,8 @@
        // qtqRsv      0 - na     0 - na
        cacNulCnv(conv);
 
-       // If unsuccessful, QtqIconvOpen() returns -1 
-       // and in the return value of the conversion 
+       // If unsuccessful, QtqIconvOpen() returns -1
+       // and in the return value of the conversion
        // descriptor and sets errno to indicate the error.
        conv.fromcode.qtqCCSID = fromCCSID;
        conv.tocode.qtqCCSID = toCCSID;
@@ -325,7 +325,7 @@
        // size_t iconv (cd, inbuf, inbytesleft, outbuf, outbytesleft)
        // inbytesleft  - number of bytes not converted input buffer
        // outbytesleft - available bytes to end output buffer
-       // If an error occurs, iconv() returns -1 
+       // If an error occurs, iconv() returns -1
        // in the return value, and sets errno to indicate the error.
        maxBytes   = buffLen;
        rcb = convAlloc2(buffPtr:maxBytes);
@@ -422,7 +422,7 @@
        if fromCCSID = 0 and toCCSID = 0;
          return 0;
        endif;
-       
+
        cacNulCnv(conv);
        rcb = cacScanCnv(fromCCSID:toCCSID:conv);
        if rcb = *OFF;
@@ -494,7 +494,7 @@
        sCCSIDile = myccsid;
       /end-free
      P                 E
-     
+
      P getccsidPASE...
      P                 B                   export
      D getccsidPASE...
@@ -683,8 +683,8 @@
       *****************************************************
      P convX2B         B                   export
      D convX2B         PI             1N
-     D  pTarget                        *   Value 
-     D  nLength                      10i 0 Value 
+     D  pTarget                        *   Value
+     D  nLength                      10i 0 Value
       * vars
      D aConvPtrP       s               *   inz(*NULL)
      D trimSz          s             10i 0 inz(0)
@@ -727,9 +727,9 @@
       *****************************************************
      P cpyX2Bin        B                   export
      D cpyX2Bin        PI            10i 0
-     D  pTarget                        *   Value 
-     D  pSource                        *   Value 
-     D  nLength                      10U 0 Value 
+     D  pTarget                        *   Value
+     D  pSource                        *   Value
+     D  nLength                      10U 0 Value
       * vars
      D inbr            s             10U 0 inz(0)
      D hnbr            s             10U 0 inz(0)
@@ -832,8 +832,8 @@
       *****************************************************
      P convB2X         B                   export
      D convB2X         PI             1N
-     D  pTarget                        *   Value 
-     D  nLength                      10i 0 Value 
+     D  pTarget                        *   Value
+     D  nLength                      10i 0 Value
       * vars
      D aConvPtrP       s               *   inz(*NULL)
      D trimSz          s             10i 0 inz(0)
@@ -864,9 +864,9 @@
       *****************************************************
      P cpyB2Hex        B                   export
      D cpyB2Hex        PI            10i 0
-     D  pTarget                        *   Value 
-     D  pSource                        *   Value 
-     D  nLength                      10U 0 Value 
+     D  pTarget                        *   Value
+     D  pSource                        *   Value
+     D  nLength                      10U 0 Value
       * vars
      D itrim           s             10U 0 inz(0)
      D inbr            s             10U 0 inz(0)
@@ -1000,8 +1000,8 @@
       *****************************************************
      P isDigit         B                   export
      D isDigit         PI             1N
-     D  pSource                        *   Value 
-     D  nLength                      10i 0 Value 
+     D  pSource                        *   Value
+     D  nLength                      10i 0 Value
       * vars
      D psCopy          s               *   inz(*NULL)
      D sCopy           ds                  likeds(over_t) based(psCopy)
@@ -1036,8 +1036,8 @@
      P                 B                   export
      D toUpperSafe...
      D                 PI             1N
-     D  pSource                        *   Value 
-     D  nLength                      10i 0 Value 
+     D  pSource                        *   Value
+     D  nLength                      10i 0 Value
       * vars
      D psCopy          s               *   inz(*NULL)
      D sCopy           ds                  likeds(over_t) based(psCopy)
@@ -1078,9 +1078,9 @@
      D trimConv        PI             1N
      D  pTgt                           *   Value
      D  trimSz                       10i 0
-     D  nMax                         10i 0 Value 
-     D  pad                          10i 0 Value 
-     D  cntCCSID                     10i 0 Value 
+     D  nMax                         10i 0 Value
+     D  pad                          10i 0 Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
       * vars
@@ -1099,7 +1099,7 @@
        // ccsid conversions
        if cntCCSID > 0;
          for i = 1 to cntCCSID;
-           convRc = 
+           convRc =
              convCCSID2(srcCCSID(i):tgtCCSID(i)
                        :pTgt:nMax);
            if convRc < 0;
@@ -1127,9 +1127,9 @@
      D padConv         PI             1N
      D  pTgt                           *   Value
      D  trimSz                       10i 0 Value
-     D  nMax                         10i 0 Value 
-     D  pad                          10i 0 Value 
-     D  cntCCSID                     10i 0 Value 
+     D  nMax                         10i 0 Value
+     D  pad                          10i 0 Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
       * vars
@@ -1144,7 +1144,7 @@
        // ccsid conversions
        if cntCCSID > 0;
          for i = 1 to cntCCSID;
-           convRc = 
+           convRc =
              convCCSID2(srcCCSID(i):tgtCCSID(i)
                        :pTgt:nMax);
            if convRc < 0;
@@ -1164,14 +1164,14 @@
      P fillChar        B                   export
      D fillChar        PI             1N
      D  pTgt                           *   Value
-     D  tgtMax                       10i 0 Value 
-     D  pSrc                           *   Value 
-     D  nLength                      10i 0 Value 
+     D  tgtMax                       10i 0 Value
+     D  pSrc                           *   Value
+     D  nLength                      10i 0 Value
      D  trimSz                       10i 0
-     D  pad                          10i 0 Value 
-     D  isVary                        1A   Value 
-     D  isHex                         1N   Value 
-     D  cntCCSID                     10i 0 Value 
+     D  pad                          10i 0 Value
+     D  isVary                        1A   Value
+     D  isHex                         1N   Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
      D  rmCDATA                       1N   value
@@ -1186,7 +1186,7 @@
      D myCopy          ds                  likeds(over_t) based(pCopy)
       /free
        trimSz = 0;
-       
+
        // varying length field
        pCopy = pTgt;
        if isVary = XML_VARY_ON;
@@ -1252,7 +1252,7 @@
          myCopy.intx = trimSz;
          pCopy += 4;
        endif;
-       
+
 
        return rc;
       /end-free
@@ -1266,13 +1266,13 @@
      D trimChar        PI             1N
      D  pTgt                           *   Value
      D  tgtMax                       10i 0 Value
-     D  pSrc                           *   Value 
-     D  srcMax                       10i 0 Value 
+     D  pSrc                           *   Value
+     D  srcMax                       10i 0 Value
      D  trimSz                       10i 0
-     D  pad                          10i 0 Value 
-     D  isVary                        1A   Value 
-     D  toHex                         1N   Value 
-     D  cntCCSID                     10i 0 Value 
+     D  pad                          10i 0 Value
+     D  isVary                        1A   Value
+     D  toHex                         1N   Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
      D  rmCDATA                       1N   value
@@ -1290,12 +1290,12 @@
      D aPadSz          s             10i 0 inz(0)
      d szHex           s             10i 0 inz(0)
      d szCDATA         s             10i 0 inz(0)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
       /free
-       
+
        trimSz = 0;
-       
+
        // <hex> ... </hex>
        // ooooo
        if addHex = *ON;
@@ -1311,7 +1311,7 @@
            return *OFF;
          endif;
        endif;
-       
+
        // <![CDATA[...]]>
        // ooooooooo
        if addCDATA = *ON;
@@ -1341,14 +1341,14 @@
        else;
          nLength = srcMax;
        endif;
-       
+
        // target maximum output
        if tgtMax > 0;
          nMax = tgtMax;
        else;
          nMax = nLength;
        endif;
-       
+
        if nLength > nMax;
          sHint = 'padAlloc ' + %char(nLength) + ' GT ' + %char(nMax);
          errsWarning(CALL_ERROR_CONV_FAIL:sHint);
@@ -1373,7 +1373,7 @@
        // convert and pad
        rc = trimConv(aPadPtrP:nLength:nMax:pad
                    :cntCCSID:srcCCSID:tgtCCSID);
-       
+
        // any work to do?
        if nLength > 0;
          // copy out min size
@@ -1391,7 +1391,7 @@
            trimSz = nLength;
          endif;
        endif;
-       
+
        // take out junk (@ADC 1.7.4)
        if trimSz > 0 and (rmCDATA = *ON or rmLF = *ON or rmQuote = *ON);
          bigJunkOut(pTgt:pTgt+trimSz:rmCDATA:rmLF:rmQuote);
@@ -1408,7 +1408,7 @@
          trimSz += (%size(cCDATA1) + %size(cCDATA2));
          pCopy += %size(cCDATA2);
        endif;
-       
+
        // <hex> ... </hex>
        //           oooooo
        if addHex = *ON;
@@ -1420,8 +1420,8 @@
        return rc;
       /end-free
      P                 E
-     
-     
+
+
 
       *****************************************************
       * convert full character
@@ -1431,13 +1431,13 @@
      D fullChar        PI             1N
      D  pTgt                           *   Value
      D  tgtMax                       10i 0 Value
-     D  pSrc                           *   Value 
-     D  srcMax                       10i 0 Value 
+     D  pSrc                           *   Value
+     D  srcMax                       10i 0 Value
      D  trimSz                       10i 0
-     D  pad                          10i 0 Value 
-     D  isVary                        1A   Value 
-     D  toHex                         1N   Value 
-     D  cntCCSID                     10i 0 Value 
+     D  pad                          10i 0 Value
+     D  isVary                        1A   Value
+     D  toHex                         1N   Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
      D  rmCDATA                       1N   value
@@ -1455,12 +1455,12 @@
      D aPadSz          s             10i 0 inz(0)
      d szHex           s             10i 0 inz(0)
      d szCDATA         s             10i 0 inz(0)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
       /free
-       
+
        trimSz = 0;
-       
+
        // <hex> ... </hex>
        // ooooo
        if addHex = *ON;
@@ -1476,7 +1476,7 @@
            return *OFF;
          endif;
        endif;
-       
+
        // <![CDATA[...]]>
        // ooooooooo
        if addCDATA = *ON;
@@ -1506,14 +1506,14 @@
        else;
          nLength = srcMax;
        endif;
-       
+
        // target maximum output
        if tgtMax > 0;
          nMax = tgtMax;
        else;
          nMax = nLength;
        endif;
-       
+
        if nLength > nMax;
          sHint = 'padAlloc ' + %char(nLength) + ' GT ' + %char(nMax);
          errsWarning(CALL_ERROR_CONV_FAIL:sHint);
@@ -1538,7 +1538,7 @@
        // convert and pad
        rc = padConv(aPadPtrP:nLength:nLength:pad
                    :cntCCSID:srcCCSID:tgtCCSID);
-       
+
        // any work to do?
        if nLength > 0;
          // copy out min size
@@ -1548,7 +1548,7 @@
            endif;
            trimSz = cpyB2Hex(pTgt:aPadPtrP:nLength);
          else;
-           IF xmlGetESCP() = *ON; 
+           IF xmlGetESCP() = *ON;
              escape(pTgt:aPadPtrP:nLength);
            ELSE;
              cpybytes(pTgt:aPadPtrP:nLength);
@@ -1572,7 +1572,7 @@
          trimSz += (%size(cCDATA1) + %size(cCDATA2));
          pCopy += %size(cCDATA2);
        endif;
-       
+
        // <hex> ... </hex>
        //           oooooo
        if addHex = *ON;
@@ -1620,7 +1620,7 @@
        hhSize = %div(hhSize:2);
        xxSize = cpyB2Hex(pxParm:piParm:hhSize);
        // --------------------
-       // store character xlate in pcParm 
+       // store character xlate in pcParm
        pxCopy = pxParm;
        pcCopy = pcParm;
        dow pxCopy < pxParm + xxSize

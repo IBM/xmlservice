@@ -315,7 +315,7 @@
       *****************************************************
       * DebugMe
       * Send message to qsysopr and wait for response
-      * to allow for debug. 
+      * to allow for debug.
       * return NA
       *****************************************************
      P DebugMe         B                   export
@@ -385,7 +385,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzarray: check return array aggregate 
+      * zzarray: check return array aggregate
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzarray         B                   export
      D zzarray         PI                  likeds(dcRec_t) dim(ARRAYMAX)
@@ -417,7 +417,7 @@
 
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzarray2: check parameter array aggregate 
+      * zzarray2: check parameter array aggregate
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzarray2        B                   export
      D zzarray2        PI
@@ -450,7 +450,7 @@
 
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzarrbad: check parameter array aggregate 
+      * zzarrbad: check parameter array aggregate
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzarrbad        B                   export
      D zzarrbad        PI
@@ -483,7 +483,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzbig: check big 
+      * zzbig: check big
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzbig           B                   export
      D zzbig           PI            10I 0
@@ -513,7 +513,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzvary: check return varying 
+      * zzvary: check return varying
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzvary          B                   export
      D zzvary          PI            20A   varying
@@ -528,7 +528,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzomit: check omit 
+      * zzomit: check omit
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzomit          B                   export
      D zzomit          PI            50A   varying
@@ -570,7 +570,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzbinary: check return binary 
+      * zzbinary: check return binary
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzbinary        B                   export
      D zzbinary        PI            20A
@@ -584,7 +584,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzpdf: check binary 
+      * zzpdf: check binary
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzpdf           B                   export
      D zzpdf           PI            10i 0
@@ -606,7 +606,7 @@
      P                 E
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zznada: check no parms 
+      * zznada: check no parms
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zznada          B                   export
      D zznada          PI
@@ -720,7 +720,7 @@
 
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zz200: check NLS 
+      * zz200: check NLS
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zz200           B                   export
      D zz200           PI
@@ -734,7 +734,7 @@
 
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzbigi: check ints 
+      * zzbigi: check ints
       * int8  -128                  +127
       * int16 -32768                +32767
       * int32 -2147483648           +2147483647
@@ -796,7 +796,7 @@
 
 
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      * zzton: check parm array aggregate 
+      * zzton: check parm array aggregate
       *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      P zzton           B                   export
      D zzton           PI

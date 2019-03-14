@@ -12,21 +12,21 @@ try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $passwo
 catch (Exception $e) { die($e->getMessage()); }
 $ToolkitServiceObj->setToolkitServiceParams(
 array('InternalKey'=>$ipc, // route to same XMLSERVICE job /tmp/myjob1
-'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running)
 'plug'=>"iPLUG32K"));              // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
 //     D  INCHARA        S              1a
 //     D  INCHARB        S              1a
-//     D  INDEC1         S              7p 4        
+//     D  INDEC1         S              7p 4
 //     D  INDEC2         S             12p 2
-//     D  INDS1          DS                  
+//     D  INDS1          DS
 //     D   DSCHARA                      1a
-//     D   DSCHARB                      1a           
-//     D   DSDEC1                       7p 4      
-//     D   DSDEC2                      12p 2            
+//     D   DSCHARB                      1a
+//     D   DSDEC1                       7p 4
+//     D   DSDEC2                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * main(): Control flow
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     C     *Entry        PLIST                   
+//     C     *Entry        PLIST
 //     C                   PARM                    INCHARA
 //     C                   PARM                    INCHARB
 //     C                   PARM                    INDEC1

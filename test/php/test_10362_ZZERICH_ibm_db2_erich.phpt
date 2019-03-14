@@ -70,9 +70,9 @@ if (count($dsall) != 200) {
 }
 // expect ds1
 $ds1=array($vsukz,$vpos,$vtxt);
-for ($j=0;$j<15;$j++) $ds1[]=$vkalw; 
-for ($j=0;$j<15;$j++) $ds1[]=$vvsw; 
-for ($j=0;$j<15;$j++) $ds1[]=$vvsk; 
+for ($j=0;$j<15;$j++) $ds1[]=$vkalw;
+for ($j=0;$j<15;$j++) $ds1[]=$vvsw;
+for ($j=0;$j<15;$j++) $ds1[]=$vvsk;
 // actual ds2
 $i=1;
 foreach ($dsall as $ds) {

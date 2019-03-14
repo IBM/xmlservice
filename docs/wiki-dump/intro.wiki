@@ -15,7 +15,7 @@ Goal of Open Source XMLSERVICE RPG library is flexibility, enabling ANY sort of 
 
 Note: Click link 'Quick Page Table of Contents' to navigate directly to a topic.
 
-Warning: This is an active IBM i education machine, occasionally examples may not work, try back later. 
+Warning: This is an active IBM i education machine, occasionally examples may not work, try back later.
 
 
 \\\
@@ -71,7 +71,7 @@ Warning: This is an active IBM i education machine, occasionally examples may no
 \\\
 \\\
 
-!!XML Service - XML everything 
+!!XML Service - XML everything
 
 %lfloat width=600 height=400%{$Imagehard}xmlservice.png
 [[<<]]
@@ -113,10 +113,10 @@ Warning: This is an active IBM i education machine, occasionally examples may no
 \\\
 \\\
 
-!!XML Service - Moving Parts 
+!!XML Service - Moving Parts
 
 %lfloat width=600 height=300%{$Imagehard}MovingParts.png
-[[<<]] 
+[[<<]]
 * [++Any language++]
 ** [++Browser HTML/XML++]
 ** [++Script PHP, Ruby, JavaScript, etc.++]
@@ -139,7 +139,7 @@ Warning: This is an active IBM i education machine, occasionally examples may no
 !!XML Service public "stateless" (*here)
 
 %lfloat width=600 height=400%{$Imagehard}redbook_stateless.png
-[[<<]] 
+[[<<]]
 * [++XMLSERVICE public "stateless" (CTL='*here', IPC='*NA')++]
 ** profile FRED (any public QSQ)
 ** profile SALLY (any public QSQ)
@@ -163,7 +163,7 @@ Warning: This is an active IBM i education machine, occasionally examples may no
 !!XML Service private "state full" (*sbmjob)
 
 %lfloat width=600 height=400%{$Imagehard}redbook_statefull.png
-[[<<]] 
+[[<<]]
 * [++XMLSERVICE private "state full" (CTL='*sbmjob', IPC='/tmp/xxxx')++]
 ** profile FRED XTOOLKIT myjob1,myjob2 (private)
 ** profile SALLY XTOOLKIT sallyjob1 (private)
@@ -190,7 +190,7 @@ Warning: This is an active IBM i education machine, occasionally examples may no
 !!XML Service Configuration
 
 %lfloat width=600 height=300%{$Imagehard}ConfigAny.png
-[[<<]] 
+[[<<]]
 * [++Apache REST (xmlcgi.pgm)++]
 ** [[XMLSERVICE/XMLSERVICE123NoPHP | HTML to IBM i]]
 * [++DB2 stored procedures (xmlstoredp.srvpgm iPLUGxx)++]
@@ -217,7 +217,7 @@ Warning: This is an active IBM i education machine, occasionally examples may no
 %block lframe%{$Imagehard}browsertoo5.png
 [[<<]]
 
-*[++XML Service HTTP browser direct (xmlcgi.pgm)++] 
+*[++XML Service HTTP browser direct (xmlcgi.pgm)++]
 ** [[{$Samplehard}/Toolkit_HTML/index.html | try it (click me)]] --or-- [[{$Samplehard}/Yips_util/dspfoil.php?afile={$Sampledir}/Toolkit_HTML/index.html | view it (click me)]] --or-- [[ Attach:Toolkit_HTML-1.6.6.zip | download it (click me)]]
 ** [@ web enable via httpd.conf:
 # <form method='POST' action='/cgi-bin/xmlcgi.pgm'>
@@ -241,13 +241,13 @@ ScriptAlias /cgi-bin/ /QSYS.LIB/XMLSERVICE.LIB/
 
 !!XML Service - Example RPG (no PHP)
 
-%block lframe%{$Imagehard}rpgtoo5.png 
+%block lframe%{$Imagehard}rpgtoo5.png
 [[<<]]
 
 *[++XML Service stored procedure interface++]
-**[++(1) RPG DB2 using Exec Sql (iPLUGxxx)++] 
+**[++(1) RPG DB2 using Exec Sql (iPLUGxxx)++]
 *** [[{$SampleRPG}/demo/loopcall.pgm | try it (click me)]] --or-- [[{$Samplehard}/Yips_util/dspfoil.php?afile={$Sampledir}/Toolkit_intro/loopcall.rpgle | view it (click me)]] --or-- [[ Attach:Toolkit_RAW-1.6.6.zip | download it (click me)]]
-**[++(2) RPG DB2 using CLI (iPLUGxxx)++] 
+**[++(2) RPG DB2 using CLI (iPLUGxxx)++]
 *** [[{$SampleRPG}/demo/loopcli.pgm | try it (click me)]] --or-- [[{$Samplehard}/Yips_util/dspfoil.php?afile={$Sampledir}/Toolkit_intro/loopcli.rpgle | view it (click me)]] --or-- [[ Attach:Toolkit_RAW-1.6.6.zip | download it (click me)]]
 ** [@ web enable via httpd.conf:
 # demo callpase
@@ -258,9 +258,9 @@ ScriptAlias /demo/ /QSYS.LIB/CALLPASE.LIB/
   SetHandler cgi-script
   Options +ExecCGI
 </Directory>
-Note: Exec Sql RPG CGI uses profile QTMHHTP1, however PHP is usually running QTMHHTTP, 
-      so you may fail authorisation sharing same XMLSERVICE job (1). Therefore, 
-      i recommend use RPG CLI technique to run any profile, 
+Note: Exec Sql RPG CGI uses profile QTMHHTP1, however PHP is usually running QTMHHTTP,
+      so you may fail authorisation sharing same XMLSERVICE job (1). Therefore,
+      i recommend use RPG CLI technique to run any profile,
       where XMLSERVICE job(s) PHP/RPG is no problem (2).
 @]
 
@@ -426,7 +426,7 @@ Note: Exec Sql RPG CGI uses profile QTMHHTP1, however PHP is usually running QTM
 ** [[{$Samplehard}/Toolkit_intro/loopcall_raw.php | try it (click me)]] --or-- [[{$Samplehard}/Toolkit_intro/loopcall_raw.src.php | view it (click me)]]
 * [++30,000 records around 2 seconds++]
 ** [[{$Samplehard}/Toolkit_intro/zzbigboy.php | try it (click me) ]]  --or-- [[{$Samplehard}/Toolkit_intro/zzbigboy.src.php | view it (click me) ]]
-(:cell:)[++PHP OO Toolkit++] 
+(:cell:)[++PHP OO Toolkit++]
 * [++Avg PHP OO Toolkit 100-300 calls/sec++]
 ** [[{$Samplehard}/Toolkit_intro/loopcall.php | try it (click me)]] --or-- [[{$Samplehard}/Toolkit_intro/loopcall.src.php | view it (click me)]]
 (:cellnr colspan=4:) Next performance improvement focus areas:
@@ -452,7 +452,7 @@ o XMLSERVICE faster large node XML documents (large/nested structures)
 [[<<]]
 
 *[++Active YiPs download support++]- [[XMLSERVICE/XMLSERVICE | XML Service downloads ]], [[XMLSERVICE/XMLSERVICEChangeLog | XML Service Change log ]], [[XMLSERVICE/CWChangeLog | PHP Toolkit Change log]]
-*[++Active IBM i community support++] - [[http://forums.zend.com/viewforum.php?f=67 | Zend Server IBM i forums]], [[http://forums.zend.com/viewforum.php?f=113 | PHP Toolkit forum]] 
+*[++Active IBM i community support++] - [[http://forums.zend.com/viewforum.php?f=67 | Zend Server IBM i forums]], [[http://forums.zend.com/viewforum.php?f=113 | PHP Toolkit forum]]
 *[++Active documentation++] - [[XMLSERVICE/XMLSERVICEDocument | YiPS Documents]], [[http://files.zend.com/help/Zend-Server-IBMi/zend-server.htm#php_toolkit_xml_service_functions.htm | Zend Manuals]]
 *[++Active PHP++] - [[http://www.hotscripts.com | hotscripts]], [[http://www.phpjunkyard.com/ | phpjunkyard]], [[http://www.phpfreaks.com/ | phpfreaks]]
 
@@ -480,15 +480,15 @@ $ctl .= " *debug";
 # ENDSRVJOB
 
 Other debug options ...[@
-           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)  
+           Job1 (threaded)   Job 2                        Job 3 (DB2 userid/password)    Job 4 (optional XTOOLKIT job)
                              (ctl=*debugcgi)              (ctl=*debugproc)                (ctl=*debug)
-browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here) 
+browser -> Apache          ->XMLCGI (Apache CGI child) -> QSQSRVR (XMLSERVICE *here)
                                                        -> QSQSRVR (XMLSERVICE client) -> XTOOLKIT (XMLSERVICE ipc=/tmp/flinstone)
 
 $ctl .= " *debugcgi";  // Job 2 - debug XMLCGI to see REST/HTTP data passed by client (when using REST only)
 $ctl .= " *debugproc"; // Job 3 - debug XMLSERVICE "client" to see DB2 passed data (DB2 interface)
 $ctl .= " *debug";     // Job 4 - debug XMLSERVICE "server" to see XMLSERVICE calls (DB2 interface)
-                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server" 
+                       // Note:   when ctl='*here', both XMLSERVICE "client"/"server"
                        //         are in QSQSRVSR job (NO XTOOLKIT job)
                        // remote: Attaching with LUW drivers changes QSQSRVR ...
                        //   CLIENT (Client Access drivers) <==> QZDAxxxx

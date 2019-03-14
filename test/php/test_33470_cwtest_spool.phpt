@@ -32,8 +32,8 @@ if (!$list) {
 	        } else {
 	        	echo "<PRE>$data</PRE><BR>";
 	        } //(if data)
-	        
-	    }    	
+
+	    }
 }
 i5_spool_list_close($list);
 
@@ -48,7 +48,7 @@ if (!$list) {
 
         $spoolCount = 0;
 	    while (($listItem = i5_spool_list_read($list)) && (++$spoolCount <= 5)) {
-	
+
 	        echo "<BR>list item: " . printArray($listItem) . "<BR>";
 	        echo '<BR>Output data for this spool file: <BR>';
 	        $data = i5_spool_get_data($listItem['SPLFNAME'],
@@ -61,8 +61,8 @@ if (!$list) {
 	        } else {
 	        	echo "<PRE>$data</PRE><BR>";
 	        } //(if data)
-	        
-	    } //(while spool files) 	
+
+	    } //(while spool files)
 }
 i5_spool_list_close($list);
 

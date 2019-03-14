@@ -4,9 +4,9 @@
 
 
 !!! Toolkit internalKey, IPC, toolkit persistent connection ...
-With exception of old CW layer, DB2 connection persistent/full makes NO difference, internalKey (IPC) applies ONLY to XMLSERVICE layer to route back to same xmlservice job every time. This routing technique is referred to as a "state full" XMLSERVICE connection. 
+With exception of old CW layer, DB2 connection persistent/full makes NO difference, internalKey (IPC) applies ONLY to XMLSERVICE layer to route back to same xmlservice job every time. This routing technique is referred to as a "state full" XMLSERVICE connection.
 
-The naming of the internalKey (IPC) varies across layers PHP Toolkit, but it means the same thing. 
+The naming of the internalKey (IPC) varies across layers PHP Toolkit, but it means the same thing.
 * New PHP Toolkit - refers to internalKey ('InternalKey'=>"/tmp/packers")
 ** Note: works with both persistent and non-persistent connections (db2_pconnect or db2_connect, odbc_pconnect or odbc_connect)
 * XMLSERVICE RAW - refers to IPC ($ipc="/tmp/packers")

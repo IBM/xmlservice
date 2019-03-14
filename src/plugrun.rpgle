@@ -1,39 +1,39 @@
      H NOMAIN
      H AlwNull(*UsrCtl)
      H BNDDIR('QC2LE')
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -162,7 +162,7 @@
      d aIn             ds                  occurs(5001)
      d   ai151                     3000A
      D pIn             S               *   inz(%addr(aIn))
-     
+
      d aOut            ds                  occurs(5001)
      d   ao151                     3000A
      D pOut            S               *   inz(%addr(aOut))
@@ -232,7 +232,7 @@
       /free
        return runClient2(pIPCSP:pCtlSP:pIClob:szIClob:pOClob:szOClob);
       /end-free
-     P                 E     
+     P                 E
 
       *****************************************************
       * rc = runClient2()
@@ -265,7 +265,7 @@
      D logOk           s              1N   inz(*OFF)
 
      D status          S             10i 0 inz(RUN_CLIENT_NADA)
- 
+
      D rcb             S              1N   inz(*OFF)
      D rcb2            S              1N   inz(*OFF)
      D rc              S             10i 0 inz(0)
@@ -356,7 +356,7 @@
        logOk = ipcCtl.ipcFlags.doLog;
        if logOk = *ON;
          perfLogAdd(PERF_LOG_CLIENT_START);
-         perfLogId(); 
+         perfLogId();
          perfLogAdd('L_CTL ' + pCtlSP);
          perfAdd(PERF_RUN_CLIENT_LOG_JOBINFO);
        endif;
@@ -371,7 +371,7 @@
          // client set timer seconds (Luca IDLE_TIMEOUT)
          doTimerOn = *ON;
          if ipcCtl.ipcFlags.doDebugProc = *ON
-         or status = RUN_CLIENT_ERROR 
+         or status = RUN_CLIENT_ERROR
          or status = RUN_CLIENT_FINISH
          or status = RUN_CLIENT_DETACH
          or status = RUN_CLIENT_DESTROY
@@ -409,7 +409,7 @@
            status = RUN_CLIENT_ERROR;
            // --------------
            // hex requested
-           if ipcCtl.ipcFlags.doHex = *ON 
+           if ipcCtl.ipcFlags.doHex = *ON
            and (ipcCtl.ipcFlags.doHexAct = CONV_HEX_ACTION_INPUT
                 or ipcCtl.ipcFlags.doHexAct = CONV_HEX_ACTION_BOTH);
              rcb = convX2B(pIClob:szIClob);
@@ -529,7 +529,7 @@
 
          // -------------
          // wait to use
-         // racing other clients, 
+         // racing other clients,
          // is it my turn yet?
          when status = RUN_CLIENT_WAIT_USE;
            status = RUN_CLIENT_ERROR;
@@ -625,7 +625,7 @@
            endif;
 
          // --------------
-         // full performance report 
+         // full performance report
          when status = RUN_CLIENT_REPORT_OUTPUT;
            status = RUN_CLIENT_ERROR;
            xmlOutReset();
@@ -658,14 +658,14 @@
            endif;
 
          // --------------
-         // license report 
+         // license report
          when status = RUN_CLIENT_LICENSE;
            status = RUN_CLIENT_ERROR;
            rcb = xmlLic();
            status = RUN_CLIENT_FINISH;
 
          // --------------
-         // session report 
+         // session report
          when status = RUN_CLIENT_SESSION;
            status = RUN_CLIENT_ERROR;
            rcb = xmlSess();
@@ -705,12 +705,12 @@
            // hex requested
            rcb = *ON;
            if (rc > -1 or runConv = *ON)
-           and ipcCtl.ipcFlags.doHex = *ON 
+           and ipcCtl.ipcFlags.doHex = *ON
            and (ipcCtl.ipcFlags.doHexAct = CONV_HEX_ACTION_OUTPUT
                 or ipcCtl.ipcFlags.doHexAct = CONV_HEX_ACTION_BOTH);
              rcb = convB2X(pOClob:szOClob);
            endif;
-           if  runConv = *ON 
+           if  runConv = *ON
            or  (rc > -1 and rcb = *ON);
              status = RUN_CLIENT_DETACH;
            endif;
@@ -724,8 +724,8 @@
                     :pOClob:szOClob
                     :pOClob2:szOClob2);
              endif;
-             // clear used portions 
-             // convert temp buffers 
+             // clear used portions
+             // convert temp buffers
              // for clean use next call
              szOClob = strlen(pOClob);
              memset(pOClob:0:szOClob);
@@ -824,7 +824,7 @@
 
        // --------------
        // init
-       // *OFF 
+       // *OFF
        // - if *here then good memory/flags (from client)
        // - if *sbmjob then fake memory/flags (from start)
        runMemP = ipcStatic(*OFF:pIPCSP:*BLANKS
@@ -965,7 +965,7 @@
              runMemP = ipcRunMem();
              xmlStatic(runMemP);
              perfInit(ipcCtl.ipcFlags.doFly:ipcCtl.ipcFlags.doLog);
-             perfLogId(); 
+             perfLogId();
              // PASE CCSID conversion @ADC (1.7.6)
              if ipcCtl.ipcFlags.doPase = *ON;
                ccsidPASE(ipcCtl.ipcFlags.doPasePASE);
@@ -1022,7 +1022,7 @@
            endif;
 
          // --------------
-         // xml set batch 
+         // xml set batch
          when status = RUN_SERVER_XML_SET_BATCH;
            status = RUN_SERVER_ERROR;
            // find a batch XML input slot
@@ -1034,7 +1034,7 @@
            perfAdd(PERF_RUN_SERVER_SET_BATCH);
 
          // --------------
-         // xml run batch 
+         // xml run batch
          when status = RUN_SERVER_XML_RUN_BATCH;
            status = RUN_SERVER_ERROR;
            // set the io buffers to batch area (not IPC)
@@ -1052,7 +1052,7 @@
            perfAdd(PERF_RUN_SERVER_RUN_BATCH);
 
          // --------------
-         // xml parse me in 
+         // xml parse me in
          when status = RUN_SERVER_XML_PARSE;
            status = RUN_SERVER_ERROR;
            // server set timer seconds (Luca IDLE_TIMEOUT)
@@ -1167,7 +1167,7 @@
 
          // -------------
          // complete
-         // recoverable, 
+         // recoverable,
          // but PASE maybe dies
          when status = RUN_SERVER_FINISH;
            if ipcCtl.ipcFlags.doHere = *ON;

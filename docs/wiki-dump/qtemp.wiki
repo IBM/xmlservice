@@ -56,8 +56,8 @@ DECLARE GLOBAL TEMPORARY TABLE animalq(
  ON COMMIT PRESERVE ROWS
 </query>
 <prepare>
-insert into 
-animalq (id, breed, name, weight, height) 
+insert into
+animalq (id, breed, name, weight, height)
 values (?,?,?,?,?)
 </prepare>
 <execute>

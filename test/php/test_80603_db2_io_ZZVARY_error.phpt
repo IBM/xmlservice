@@ -33,7 +33,7 @@ $xmlobj = simplexml_load_string($clobOut);
 echo "Success\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzvary: check return varying 
+//      * zzvary: check return varying
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzvary          B                   export
 //     D zzvary          PI            20A   varying

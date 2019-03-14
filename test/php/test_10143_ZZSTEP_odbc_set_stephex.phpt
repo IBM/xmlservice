@@ -17,10 +17,10 @@ for ($i=0; $i<5; $i++) {
   $clobIn = getxml();
   $clobOut = "";
   // bad behavior odbc extension (IBM i result set warn???)
-  error_reporting(~E_ALL); 
+  error_reporting(~E_ALL);
   $ret=odbc_execute($stmt,array($ipc,$ctl,$clobIn));
   if (!$ret) die("Bad execute: ".odbc_errormsg());
-  error_reporting(E_ALL); 
+  error_reporting(E_ALL);
   while(odbc_fetch_row($stmt)) {
     $clobOut .= driverJunkAway(odbc_result($stmt, 1));
   }

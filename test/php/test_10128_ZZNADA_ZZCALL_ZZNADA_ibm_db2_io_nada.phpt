@@ -48,7 +48,7 @@ for ($i=0; $i<3; $i++) {
 }
 echo "Success\n";
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zznada: check no parms 
+//      * zznada: check no parms
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zznada          B                   export
 //     D zznada          PI
@@ -61,7 +61,7 @@ ENDPROC;
 return test_lib_replace($clob);
 }
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zznada: check no parms 
+//      * zznada: check no parms
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zznada          B                   export
 //     D zznada          PI

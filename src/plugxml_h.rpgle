@@ -2,50 +2,50 @@
       /eof
       /endif
       /define PLUGXML_H
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
       *************************************************************************
       * 1) call i CMD
-      * XMLSERVICE allows calls of *CMDS on IBM i. Typically, you cut/paste 
-      * from a 5250 QCMD line using prompt (F4). You may use choose the utility 
-      * to run your command with attribute 'exec'. However, *CMDS with 
+      * XMLSERVICE allows calls of *CMDS on IBM i. Typically, you cut/paste
+      * from a 5250 QCMD line using prompt (F4). You may use choose the utility
+      * to run your command with attribute 'exec'. However, *CMDS with
       * in/out parameters, like RTVJOBA., you must use 'exec'='rexx'.
       * ---
       * <cmd [exec='cmd|system|rexx'
-      *       hex='on' 
+      *       hex='on'
       *       before='cc1/cc2/cc3/cc4'
       *       after='cc4/cc3/cc2/cc1'
       *       error='on|off|fast'
@@ -54,7 +54,7 @@
       * cmd         - command tag
       *  values     - (see IBM i *CMD IBM i- 5250 cut/paste)
       * options
-      *  exec 
+      *  exec
       *     cmd     - qcmdexe only return true/false (default)
       *     system  - system utility return CPFxxxx
       *     rexx    - rexx output parms and return CPFxxxx
@@ -65,7 +65,7 @@
       *  before
       *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
       *  after
-      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4
       *  error (1.7.6)
       *     on      - script stops, full error report
       *     off     - script continues, job error log (default)
@@ -85,9 +85,9 @@
       *  <cmd exec='rexx'>RTVSYSVAL SYSVAL(QDATETIME) RTNVAR(?)</cmd>
       *  </xmlservice>
       * ---
-      *   Note: 
+      *   Note:
       *   - <cmd>command</cmd> should be all on one line (no LFs)
-      *   - <cmd> run in XMLSERVICE job. 
+      *   - <cmd> run in XMLSERVICE job.
       *     cmd    - qcmdexe only return true/false       (default)
       *     system - system utility return CPFxxxx        (1.5.2)
       *              <cmd exec='system'><error>CPF2103</error></cmd>
@@ -102,10 +102,10 @@
       *     by RPG module plugile (Yips download).
       *     QTEMP/OUTREXX(OUTREXX) is created for
       *     command temp data between RPG and REXX.
-      *   - Up to four conversions can take place 
+      *   - Up to four conversions can take place
       *     for the truly complex ccsid issues (1.6.8)
       *     <cmd hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>
-      *       flow: 
+      *       flow:
       *       -> PHP client bin2hex('wild_ascii_raw_chars')
       *       -> xmlservice hex2bin back to 'wild_ascii_raw_chars'
       *       -> xmlservice convert cc1->cc2->cc3->cc4 (before)
@@ -125,15 +125,15 @@
       *       fast - script continues, brief error log
       *************************************************************************
       * 2) call PASE utility
-      * XMLSERVICE allows calls of PASE utilities on IBM i. Typically, you cut/paste 
-      * from a PASE command line (call qp2term). PASE shell 'sh' is used for 
+      * XMLSERVICE allows calls of PASE utilities on IBM i. Typically, you cut/paste
+      * from a PASE command line (call qp2term). PASE shell 'sh' is used for
       * execution of your utilities, which, is default behavior of PASE popen() API.
       * ---
-      * <sh [rows='on|off' 
+      * <sh [rows='on|off'
       *      hex='on'
       *      before='cc1/cc2/cc3/cc4'
-      *      after='cc4/cc3/cc2/cc1' 
-      *      error='on|off|fast'                                       
+      *      after='cc4/cc3/cc2/cc1'
+      *      error='on|off|fast'
       *      ]>values (see PASE utility)</sh>
       * ---
       * sh          - shell tag
@@ -141,13 +141,13 @@
       * options
       *  rows
       *     on      - return rows lines
-      *     off     - return one string (default)  
+      *     off     - return one string (default)
       *  hex (1.7.4)
       *     on      - input character hex (5147504C20202020)
       *  before
       *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
       *  after
-      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4
       * ---
       *  error (1.7.6)
       *     on      - script stops, full error report
@@ -155,7 +155,7 @@
       *     fast    - script continues, brief error log
       * ---
       * example run PASE shell
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <sh rows='on'>/QOpenSys/usr/bin/system 'wrkactjob' | grep -i fr</sh>
       *  </xmlservice>
@@ -165,7 +165,7 @@
       *     <sh>pase utility</sh> runs "slower" because a child job
       *     is created to run each PASE utility (normal Unix behavior).
       *     All other XML/ILE functions run within XMLSERVICE job.
-      *   - Using nested shells within this sh shell may 
+      *   - Using nested shells within this sh shell may
       *     produce unpredictable results.
       *   - hex='on' before='' after='' -- same as <cmd> (1.7.0)
       *       output (incompatible change hex/ccsid 1.7.4+):
@@ -182,14 +182,14 @@
       *       fast - script continues, brief error log
       *************************************************************************
       * 2.5) call QSH utility (1.9.8+)
-      * XMLSERVICE allows calls of QSH utilities on IBM i. Typically, you cut/paste 
+      * XMLSERVICE allows calls of QSH utilities on IBM i. Typically, you cut/paste
       * from a QSH command line. STRQSH is used for execution of your utilities.
       * ---
-      * <qsh [rows='on|off' 
+      * <qsh [rows='on|off'
       *      hex='on'
       *      before='cc1/cc2/cc3/cc4'
-      *      after='cc4/cc3/cc2/cc1' 
-      *      error='on|off|fast'                                       
+      *      after='cc4/cc3/cc2/cc1'
+      *      error='on|off|fast'
       *      ]>values (see QSH utility)</qsh>
       * ---
       * qsh         - shell tag
@@ -197,13 +197,13 @@
       * options
       *  rows
       *     on      - return rows lines
-      *     off     - return one string (default)  
+      *     off     - return one string (default)
       *  hex (1.7.4)
       *     on      - input character hex (5147504C20202020)
       *  before
       *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
       *  after
-      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4
       * ---
       *  error (1.7.6)
       *     on      - script stops, full error report
@@ -211,7 +211,7 @@
       *     fast    - script continues, brief error log
       * ---
       * example run QSH shell
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <qsh rows='on'>/usr/bin/system 'wrkactjob' | /usr/bin/grep -i fr</qsh>
       *  </xmlservice>
@@ -222,7 +222,7 @@
       *   - syntax looks as if typed on console (qsh)
       *     <qsh>QSH utility</qsh> runs "slower" because a child job
       *     is created to run each QSH utility (normal Unix behavior).
-      *   - Using nested shells within this qsh shell may 
+      *   - Using nested shells within this qsh shell may
       *     produce unpredictable results.
       *   - hex='on' before='' after='' -- same as <cmd> (1.7.0)
       *   - error='on,off,fast' (1.7.6)
@@ -231,14 +231,14 @@
       *       fast - script continues, brief error log
       *************************************************************************
       * 3) call PGM/SRVPGM
-      * XMLSERVICE allows calls of *PGM and *SRVPGM on IBM i. Typically, you match 
+      * XMLSERVICE allows calls of *PGM and *SRVPGM on IBM i. Typically, you match
       * call parameters, including data structures, and/or simple data elements.
       * ---
       * pgm name (*PGM or *SRVPGM)
-      * <pgm name='' 
-      *      [lib='' 
-      *       func='' 
-      *       mode='opm|ile' 
+      * <pgm name=''
+      *      [lib=''
+      *       func=''
+      *       mode='opm|ile'
       *       error='on|off|fast'
       *       ]>values (see <parm> and <return>) </pgm>
       * ---
@@ -248,7 +248,7 @@
       *  lib
       *     library - IBM i library name
       *  func
-      *     function- IBM i *SRVPGM function name 
+      *     function- IBM i *SRVPGM function name
       *  mode
       *     ile     - ILE and PASE memory (default)
       *     opm     - ILE only memory (PASE can not view)
@@ -297,7 +297,7 @@
       *  dim
       *   n         - array dimension value (default dim1)
       *  dou
-      *   label     - match array dou terminate parm label (see data) 
+      *   label     - match array dou terminate parm label (see data)
       *  len (1.5.4)
       *   label     - match calculate length of ds parm lable (see data)
       *  data (1.7.5)
@@ -305,10 +305,10 @@
       *
       * ---
       * pgm data elements
-      * <data type='data types' 
-      *       [dim='n' 
-      *       varying='on|off|2|4' 
-      *       enddo='label' 
+      * <data type='data types'
+      *       [dim='n'
+      *       varying='on|off|2|4'
+      *       enddo='label'
       *       setlen='label'
       *       offset='label'
       *       hex='on|off' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'
@@ -345,28 +345,28 @@
       *     2       - character varying data
       *     4       - character varying data
       *  enddou
-      *     label   - match array dou terminate parm label (see ds) 
+      *     label   - match array dou terminate parm label (see ds)
       *  setlen (1.5.4)
       *     label   - match calculate length of ds parm lable (see ds)
       *  offset
-      *     label   - match offset label (see overlay) 
+      *     label   - match offset label (see overlay)
       *  hex (1.6.8)
       *     on      - input character hex (5147504C20202020)
       *  before
       *     cc(n)   - input ccsid1->ccsid2->ccsid3->ccsid4
       *  after
-      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4 
+      *     cc(n)   - output ccsid1->ccsid2->ccsid3->ccsid4
       *  trim (1.7.1)
       *     on      - trim character (default)
       *     off     - no trim character
       *  next (1.9.2)
-      *     label   - match next offset label (see overlay) 
+      *     label   - match next offset label (see overlay)
       *
       * ---
       * pgm parameters/return overlay
-      * <overlay 
-      *       [io='in|out|both' 
-      *        offset='n|label' 
+      * <overlay
+      *       [io='in|out|both'
+      *        offset='n|label'
       *        top='on|off|n'
       *        setnext='nextoff'
       *        ]>(see <ds> and <data>)</overlay>
@@ -389,7 +389,7 @@
       *     off     - overlay parm last seen (see parm)
       * ---
       * example run a PGM
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <cmd>CHGLIBL LIBL(XMLSERVICE) CURLIB(XMLSERVICE)</cmd>
       *  <pgm name='ZZCALL' lib=''>
@@ -420,7 +420,7 @@
       *  </xmlservice>
       * ---
       * example run a SRVPGM
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <pgm name='ZZSRV' lib='XMLSERVICE' func='ZZARRAY'>
       *   <parm comment='search this name'>
@@ -444,7 +444,7 @@
       *  </xmlservice>
       * ---
       * example optional ccsid convert name/lib format (1.6.8)
-      *  <?xml version="1.0"?> 
+      *  <?xml version="1.0"?>
       *  <xmlservice>
       *  <pgm>
       *   <name hex='on' before='cc1/cc2/cc3/cc4'>bin2hex('&fredflin')</name>
@@ -454,13 +454,13 @@
       *    <ds dim='3'>
       *      <data type='1A'>a</data>
       *    </ds>
-      *   </parm> 
+      *   </parm>
       *   <return>
       *    <ds dim='999'>
       *      <data type='10i0'>0</data>
       *    </ds>
-      *    </return> 
-      *  </pgm> 
+      *    </return>
+      *  </pgm>
       *  </xmlservice>
       * ---
       * Note:
@@ -513,22 +513,22 @@
       *       <data type='2b'>0F0F</data>
       *       - HEX upper case ('1FBC' not '1fbc')
       *       - high/low bits (HEX='0F0F' not HEX='F0F')
-      *     type='nh' - 'hole' zero in, nothing out (4096h) (1.2.3) 
+      *     type='nh' - 'hole' zero in, nothing out (4096h) (1.2.3)
       *       <data type='400h'/>
       *   - PGM/SRVPGM calls (<pgm>,<parm>,<data>,<return>) use syntax
-      *     that looks like RPG to describe the data parameters 
-      *     (type='4b', type='32a', type='4f', type='10i0', type='12p2', 
+      *     that looks like RPG to describe the data parameters
+      *     (type='4b', type='32a', type='4f', type='10i0', type='12p2',
       *     etc.).
-      *   - <data dim='n'> - dim='n' is new to 1.2 version and beyond, 
+      *   - <data dim='n'> - dim='n' is new to 1.2 version and beyond,
       *     older versions did not include this feature.
-      *   - Parameters using dou='label', enddo='label', 
+      *   - Parameters using dou='label', enddo='label',
       *     label must match for this to work,
       *     then processing will only return records up to enddo limits.
-      *   - Type 'h' for 'hole' is used to input x'00' fill 'hole' 
-      *     in the parameter geometry. It can be used to skip over 
-      *     a chunk of complex data that you really did not want to 
-      *     deal with or see in output XML. It is also very handy to 
-      *     use with overlay when output data is variable 
+      *   - Type 'h' for 'hole' is used to input x'00' fill 'hole'
+      *     in the parameter geometry. It can be used to skip over
+      *     a chunk of complex data that you really did not want to
+      *     deal with or see in output XML. It is also very handy to
+      *     use with overlay when output data is variable
       *     or unpredictable (1.2.3)
       *     input:
       *      <ds>
@@ -542,8 +542,8 @@
       *        <data type='400h'> </data>             <--- ignored output
       *        <data type='32a'>stuff back</data>     <--- offset 440
       *      </ds>
-      *   - Added parm='omit' for RPG OPTIONS(*OMIT) parameter. A 
-      *     *NULL will be passed in this location. 
+      *   - Added parm='omit' for RPG OPTIONS(*OMIT) parameter. A
+      *     *NULL will be passed in this location.
       *     All parm io='omit' will be excluded from XML
       *     output returned because *NULL parameter has no data (1.2.3).
       *       <parm comment='my name' io='omit'>
@@ -567,10 +567,10 @@
       *         <data type='1A' comment='Reserved'> </data>
       *        </ds>
       *       </parm>
-      *   - Up to four conversions can take place 
+      *   - Up to four conversions can take place
       *     for the truly complex ccsid issues (1.6.8)
       *      <data type='A' hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>
-      *      flow: 
+      *      flow:
       *      -> PHP client bin2hex('wild_ascii_raw_chars')
       *      -> xmlservice hex2bin back to 'wild_ascii_raw_chars'
       *      -> xmlservice convert cc1->cc2->cc3->cc4 (before)
@@ -587,11 +587,11 @@
       *      - trim='on'  -- right trim  (default character type='na')
       *      - trim='off' -- include all (default binary type='nb')
       *   - see <overlay> for offset='label'
-      *      <data offset='label'>            <-- memory location to pop off a 
-      *                                           variable/changing offset value 
+      *      <data offset='label'>            <-- memory location to pop off a
+      *                                           variable/changing offset value
       *                                           for use in overlay()
-      *      <overlay top='n' offset='label'> <-- top='n' overlay parameter 'n', 
-      *                                           then add offset='label' pop value 
+      *      <overlay top='n' offset='label'> <-- top='n' overlay parameter 'n',
+      *                                           then add offset='label' pop value
       *      - offset='label' allows label location to pop off a <data> offset value
       *        at this data location to add position offset <overlay offset='label'>
       *      - 'label' is NOT a position location for <overlay>, it only holds
@@ -638,7 +638,7 @@
       *       off - script continues, job error log
       *      fast - script continues, brief error log
       *   - pgm parameters/return overlay (custom offset='bytes', input/output):
-      *     <overlay> works "relative" to "previous" <parm> in 
+      *     <overlay> works "relative" to "previous" <parm> in
       *               "order of appearance XML"
       *               or absolute position to (top='n')
       *     <pgm>
@@ -659,20 +659,20 @@
       *   - top='on|n' allow overlay position to parameter n
       *      ... top='on' absolute parm='1' (1.2.1)
       *      ... top='n' absolute parm='n' (1.2.2)
-      *      ... offset='n' bytes offset relative 
+      *      ... offset='n' bytes offset relative
       *          to top='n' position (parm 1,2,3, etc)
       *   - Once the top='n' parm location is etablished, offset='n'
       *     will move overlay to offset within the parameter.
-      *     <data offset='label'>            <-- memory location to pop off a 
-      *                                          variable/changing offset value 
+      *     <data offset='label'>            <-- memory location to pop off a
+      *                                          variable/changing offset value
       *                                          for use in overlay()
-      *     <overlay top='n' offset='label'> <-- top='n' overlay parameter 'n', 
-      *                                          then add offset='label' pop value 
+      *     <overlay top='n' offset='label'> <-- top='n' overlay parameter 'n',
+      *                                          then add offset='label' pop value
       *     - offset='label' allows label location to pop off a <data> offset value
       *       at this data location to add position offset <overlay offset='label'>
       *     - 'label' is NOT a position location for <overlay>, it only holds
       *       a offset value in this <data> memory location for things like
-      *       system APIs with offset-2-next. 
+      *       system APIs with offset-2-next.
       *   - setnext='nextoff' / next='nextoff'  (1.9.2)
       *      <pgm name='QSZRTVPR'>
       *       <parm io='both'>
@@ -680,18 +680,18 @@
       *         :
       *         <data type='10i0' offset='myOffset'></data>
       *         :
-      *       </ds>   
+      *       </ds>
       *      </parm>
-      *       : 
-      *      <overlay io='out' top='1' offset='myOffset'>  
+      *       :
+      *      <overlay io='out' top='1' offset='myOffset'>
       *       <ds>
       *        <data type='10A'></data>
       *        <data type='2A'></data>
       *        <data type='10i0' enddo='prim'></data>
       *        <data type='10i0' offset='myOffset2'></data>
       *       </ds>
-      *       </overlay>  
-      *       <overlay io='out' top='1' offset='myOffset2' 
+      *       </overlay>
+      *       <overlay io='out' top='1' offset='myOffset2'
       *                dim='10' dou='prim' setnext='nextoff'>
       *       <ds>
       *        <data type='10i0' next='nextoff'></data>
@@ -704,7 +704,7 @@
       *        <data type='10i0'></data>
       *        <data type='10A'></data>
       *       </ds>
-      *      </overlay> 
+      *      </overlay>
       *************************************************************************
 
       *****************************************************
@@ -851,19 +851,19 @@
      D xmlcCDATA1      PR             9A
      D xmlcCDATA2      PR             3A
 
-     D xmlGetESCP      PR             1N                                        
+     D xmlGetESCP      PR             1N
      D xmlSidCDATA     PR
      D  toCCSID                      10i 0 value
-  
+
      D xmlResetCDATA...
      D                 PR
 
      D xmlCTOR         PR
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlCOPY         PR
-     D   node                              likeds(xmlNode_t) 
-     D   node2                             likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
+     D   node2                             likeds(xmlNode_t)
 
      D xmlSetHead      PR
      D   data                          *   value
@@ -872,7 +872,7 @@
      D xmlGetHead      PR          2048A
 
      D xmlPreSbm       PR             1N
-     
+
      D xmlPreRun       PR             1N
 
      D xmlRun          PR             1N

@@ -2,39 +2,39 @@
       /eof
       /endif
       /define PLUGIPC_H
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -42,27 +42,27 @@
       * IPC control options:
       *----------------------------------------------------
       *--- very high peformance ignore all flag parsing (loop calls, etc.)
-      * *ignore             
+      * *ignore
       *    - do not parse flags (high performance)
       *      example: $ctl="*ignore";
       *----------------------------------------------------
       *--- kill XMLSERVICE job
       * *immed
-      *    - end server immed destroy IPC 
+      *    - end server immed destroy IPC
       *      example: $ctl="*immed";
       *----------------------------------------------------
       *--- misc functions XMLSERVICE
-      * *license 
+      * *license
       *    - return license for this code
-      * *session 
+      * *session
       *    - retrieve session key (IPC name /tmp/fred042)
-      * *clear 
-      *    - clear internal XMLSERVICE caches, 
+      * *clear
+      *    - clear internal XMLSERVICE caches,
       *                       but will not deactivate loaded PGM/SRVPGM, etc.
       *----------------------------------------------------
       * -- if you need to fix result set return drivers (iPLUGRxxx)
       *    hack for pesky DB2 drivers adding "junk" to back of records.
-      * *hack               
+      * *hack
       *    - add </hack> each record of a result set
       *      example: $ctl="*hack";
       *      - iPLUGRxxx XMLSERVICE stored procedures
@@ -71,35 +71,35 @@
       *        to recreate output XML ... except
       *        some DB2 drivers have junk end ...
       *      - enable easy rec truncate ill behaved drivers
-      *        remove all past </hack> during concat 
+      *        remove all past </hack> during concat
       *        loop fetch records 1-n
       *        rec1: <script>....</hack> (3000 bytes)
       *        rec2: ............</hack> (3000 bytes)
       *        recn: ...</script></hack> (<3000 bytes)
       *----------------------------------------------------
       * -- pause XMLSERVICE job(s) for debugger attach (message to qsysopr)
-      * *debug              
+      * *debug
       *    - stop call server with message qsysopr (XMLSERVICE)
       *      example: $ctl="*debug";
-      * *debugproc          
+      * *debugproc
       *    - stop stored proc with message qsysopr (client QSQSRVR)
-      * *debugcgi           
+      * *debugcgi
       *    - stop CGI with message qsysopr         (XMLCGI only)
-      * *test[(n)]           
+      * *test[(n)]
       *    - test parse XML in/out and report n level information
       *----------------------------------------------------
       * -- override default XMLSERVICE client/server spawn child behaviour
-      * *sbmjob[(lib/jobd/job/asp)] 
+      * *sbmjob[(lib/jobd/job/asp)]
       *    - sbmjob job (instead of XMLSERVICE default spawn)
       *      example: $ctl="*sbmjob";
       *      example: $ctl="*sbmjob(QSYS/QSRVJOB/XTOOLKIT)";
       *      example: $ctl="*sbmjob(ZENDSVR/ZSVR_JOBD/XTOOLKIT)";
       *      - default values provided plugconf.rpgle
       *      - optional asp INLASPGRP(ASP1) (added 1.6.5)
-      *      -- Notes: 
+      *      -- Notes:
       *         - See embedded XML overrides for user full control
       *           of XMLSERVICE start behavior SBMJOB settings
-      * *here               
+      * *here
       *    - run stateless in stored proc job (client only job)
       *      example: $ctl="*here";
       *      - commonly known as running in PHP job, but in fact
@@ -108,23 +108,23 @@
       *      - generally runs slower using "one process"
       *        because XMLSERVICE has to restart itself,
       *        wake up PASE, find/load your PGM call, etc.
-      * *nostart            
+      * *nostart
       *    - disallow spawn and sbmjob (web not start anything)
       *      example: $ctl="*nostart";
       *      - probably prestart all your XMLSERVICE jobs
-      *        SBMJOB CMD(CALL PGM(XMLSERVICE/XMLSERVICE) 
+      *        SBMJOB CMD(CALL PGM(XMLSERVICE/XMLSERVICE)
       *        PARM('/tmp/db2ipc042')) USER(DB2)
       *      - consider using a custom plugconf to disable
       *        issues with timeout defaults (*idle/*wait)
-      * *java (1.9.2)               
+      * *java (1.9.2)
       *    - start JVM allowing user classpath
-      *      <cmd>ADDENVVAR ENVVAR(CLASSPATH) VALUE('$ours') 
+      *      <cmd>ADDENVVAR ENVVAR(CLASSPATH) VALUE('$ours')
       *           REPLACE(*YES)</cmd>
       *      <pgm>... calling my RPG w/JAVA ... </pgm>
-      * *sqljava or *dbgjava (port 30000) (1.9.2)            
+      * *sqljava or *dbgjava (port 30000) (1.9.2)
       *    - start JVM allowing DB2 classpath (no user control)
       *       SQLJ.INSTALL_JAR into schema
-      *       /QIBM/UserData/OS400/SQLLib/Function/jar/(schema) 
+      *       /QIBM/UserData/OS400/SQLLib/Function/jar/(schema)
       *----------------------------------------------------
       * -- CDATA xml output
       * *cdata(on|off)
@@ -157,7 +157,7 @@
       *        - output: *after followed by *hex
       * -- CCSID conversion XMLSERVICE (1.6.2)
       * *before(CCSIDFrom/CCSIDTo[/action])
-      *    - conversion before calling XML processing 
+      *    - conversion before calling XML processing
       *      - CCSIDFrom - XML document client CCSID
       *      - CCSIDTo   - XML document XMLSERVICE CCSID
       *      - action
@@ -187,17 +187,17 @@
       *        PASE csid default Qp2paseCCSID (see API)
       *----------------------------------------------------
       * -- server time out jobs XMLSERVICE (1.6.2)
-      * *wait[(seconds[/action])]            
+      * *wait[(seconds[/action])]
       *    - client side wait for XMLSERVICE call (client side)
       *      example: $ctl="*wait(10)";
       *      - default action *wait(60/busy) (see plugconfx)
-      * *call[(seconds[/action[/duration[/job]]])] 
+      * *call[(seconds[/action[/duration[/job]]])]
       *    - client/server side XMLSERVICE call wait (PGM, SRVPGM, PASE, etc)
       *      example: $ctl="*wait(10) *call(5/busy/client)";
-      *      - default for both client/server is *call(0) 
+      *      - default for both client/server is *call(0)
       *        means wait on call forever (user code flawless),
       *        but can be overriden client/server/both
-      * *idle[(seconds[/action[/duration]])] 
+      * *idle[(seconds[/action[/duration]])]
       *    - server side XMLSERVICE idle no activity
       *      example: $ctl="*wait(10/kill) *call(30/kill) *idle(30/kill/perm)";
       *      - default action *idle(1800/kill) (see plugconfx)
@@ -250,7 +250,7 @@
       *      - *get(n) retrieve of XML memory (some time later)
       *      - *batch releases XMLSERVICE client (caller), and
       *        returns batch slot number (n) assigned for work.
-      * *get[(n)]           
+      * *get[(n)]
       *    - get XML results from batch slot 1 - 16 (release slot)
       *      responses (report not available):
       *        <id status='small'>1-16</id> - buffer too small
@@ -259,7 +259,7 @@
       *      example: $ctl="*get(3)";
       *      - use with *wait(sec/busy) to avoid hang during
       *        *batch running (do something else while waiting)
-      *      - *get without slot number will get one result 
+      *      - *get without slot number will get one result
       *        any completed batch slot
       *      - *get(3) will only get result of batch slot 3
       *----------------------------------------------------
@@ -280,19 +280,19 @@
       *    - log records into database
       * *nolog
       *    - no log records into database (default)
-      *   Note: 
+      *   Note:
       *   - *log key is unique allowing both PHP and XMLSERVICE
       *     to record event log data and produce queries of collected
       *     reports.
       *     Log file layout:
       *     create table XMLSERVLOG/LOG (
-      *       key varchar(64) NOT NULL WITH DEFAULT, 
-      *       log TIMESTAMP NOT NULL WITH DEFAULT, 
+      *       key varchar(64) NOT NULL WITH DEFAULT,
+      *       log TIMESTAMP NOT NULL WITH DEFAULT,
       *       text varchar(64) NOT NULL WITH DEFAULT)
       *     Supplemental log dump XML data layout:
       *     create table XMLSERVLOG/DUMP (
-      *       key varchar(64) NOT NULL WITH DEFAULT, 
-      *       log TIMESTAMP NOT NULL WITH DEFAULT, 
+      *       key varchar(64) NOT NULL WITH DEFAULT,
+      *       log TIMESTAMP NOT NULL WITH DEFAULT,
       *       text clob(15M) NOT NULL WITH DEFAULT)
       *  - programers/vendors can alter xmlservice log database
       *    with plugconf1-3 (or custom)
@@ -300,7 +300,7 @@
       * embedded XML control overrides and function
       *****************************************************
       * sbmjob full user override of SBMJOB for XMLSERVICE start-up  -- (1.6.12+)
-      *  <sbmjob>SBMJOB CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM('/tmp/override'))</sbmjob>      
+      *  <sbmjob>SBMJOB CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM('/tmp/override'))</sbmjob>
       *  Where SBMJOB can be any user settings (cut/paste green screen command) ...
       *   ... required parameters for for XMLSERVICE to start CALL + PARM
       *   example:
@@ -308,7 +308,7 @@
       *       -- or --
       *       CMD(CALL PGM(ZENDSVR/XMLSERVICE) PARM('/tmp/xxxxxx')) <-- Zend Server production lib
       *       -- all other sbmjob parms at your control --
-      *   Note: 
+      *   Note:
       *   - SBMJOB full control allows user to set any type of LIBL,
       *     or SBMJOB options, or even custom PGM to call XMLSERVICE
       *****************************************************
@@ -323,17 +323,17 @@
       *       -> hybrid stateless/private call,
       *          hold IPC for life of script only and release,
       *          but limit jobs
-      *   ... user based key -- scaling come/go users, 
-      *       want benefit of private RPG call (open files, etc), 
+      *   ... user based key -- scaling come/go users,
+      *       want benefit of private RPG call (open files, etc),
       *       also want reservation transactions
-      *       -> hybrid persistent/private, 
-      *          transaction across multi-request (browser clicks), 
+      *       -> hybrid persistent/private,
+      *          transaction across multi-request (browser clicks),
       *          but limited jobs
-      *   ... task based key -- everyone uses same task/tasks 
+      *   ... task based key -- everyone uses same task/tasks
       *       limited pool jobs and all must wait a turn
       *       -> hybrid private/persistent with pre-start pool,
-      *          transaction across multi-request (browser clicks), 
-      *          load balancing design to limit machine stress 
+      *          transaction across multi-request (browser clicks),
+      *          load balancing design to limit machine stress
       *   example many requests exclusive use IPC
       *    -- no time out --
       *     $ctl .= " *idle(0)"
@@ -352,21 +352,21 @@
       *     <?xml version="1.0"?>
       *     <script>
       *     <use>unique-user-key</use>
-      *     <pgm name='ZZCALL'> 
+      *     <pgm name='ZZCALL'>
       *      <parm>
       *       <data type='1A'>a</data>
-      *      </parm> 
+      *      </parm>
       *      <return>
       *       <data type='10i0'>0</data>
-      *      </return> 
-      *     </pgm> 
+      *      </return>
+      *     </pgm>
       *     </script>
       *    -- request n (2 hours later) --
       *     <?xml version="1.0"?>
       *     <script>
       *     <stop>unique-user-key</stop>
       *     </script>
-      *   Note: 
+      *   Note:
       *   - <start>unique-user-key</start>
       *     acquire exclusive IPC if available,
       *   - <use>unique-user-key</use>
@@ -374,7 +374,7 @@
       *     job held forever until see <stop>
       *   - <stop>unique-user-key</stop>
       *     release IPC for any other use
-      *   - <start>no-match-key</start> 
+      *   - <start>no-match-key</start>
       *     or <use>unique-user-key</use>
       *     non-matching key results in error
       *     almost instantly (no wait)
@@ -385,7 +385,7 @@
       *         </error>
       *   - thoughtful setting server idle timeout
       *     can control unwanted reservation hangs
-      *     due to careless users or errors 
+      *     due to careless users or errors
       *     $ctl .= " *idle(60)"
       *************************************************************************
      DXFLAGS           ds
@@ -422,14 +422,14 @@
      D xJVM                          10    inz('*java')
      D xSQLJVM                       10    inz('*sqljava')
      D xDBGJVM                       10    inz('*dbgjava')
-     D xESCP                         10    inz('*escp')                         
+     D xESCP                         10    inz('*escp')
       *
-     D XFLAGMAX        c                   %div(%size(XFLAGS):%size(xNONE)) 
+     D XFLAGMAX        c                   %div(%size(XFLAGS):%size(xNONE))
      D pXFLAGS         s               *   inz(%addr(XFLAGS))
      D XFLAGARRAY      s             10    dim(XFLAGMAX) based(pXFLAGS)
 
       *****************************************************
-      * IPC flag methods 
+      * IPC flag methods
       *****************************************************
      D ipcDoTest       PR            10i 0
      D ipcDoCDATA      PR             1N
@@ -440,7 +440,7 @@
 
       *****************************************************
       * IPC locking
-      * sequence of ipc client/server communication 
+      * sequence of ipc client/server communication
       *****************************************************
       * 0 ipcServerWaitUse - ipc wait server use (never waits)
       * 0 ipcClientWaitUse - ipc wait race other clients for turn
@@ -455,7 +455,7 @@
       * 9 ipcClientDoneRelease - ipc go   server released for work
       *   > xxxCltxxx - client side
       *   > xxxSvrxxx - server side
-     D ipcClientWaitUse...       
+     D ipcClientWaitUse...
      D                 PR             1N
      D ipcClientWaitCopyIn...
      D                 PR             1N
@@ -537,7 +537,7 @@
 
      D ipcOwnEnd       PR             1N
      D   jobKey                     128A   value
-     
+
      D ipcOwnSbm       PR             1N
      D   mySbm                     4096A   value
 

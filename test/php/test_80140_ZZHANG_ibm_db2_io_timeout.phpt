@@ -51,7 +51,7 @@ $ret=db2_execute($stmt);
 if (!$ret) echo("Bad execute (1): ".db2_stmt_errormsg());
 echo driverTime()." $job1 timeout back from calling hang program\n";
 var_dump($clobOut);
-if (strpos($clobOut,'busy')<1) die("busy error message missing\n"); 
+if (strpos($clobOut,'busy')<1) die("busy error message missing\n");
 
 // -------------------
 // how doing?

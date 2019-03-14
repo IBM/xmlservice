@@ -13,7 +13,7 @@ try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $passwo
 catch (Exception $e) { echo  $e->getMessage(), "\n"; exit();}
 $ToolkitServiceObj->setToolkitServiceParams(
 array('InternalKey'=>$ipc, // route to same XMLSERVICE job /tmp/myjob1
-'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running)
 'plug'=>"iPLUG5M"));               // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
 //     D $vevsfi         s              1
 //     D $vevsrj         s              2
@@ -47,11 +47,11 @@ for ($h=0;$h<200;$h++) {
   $vevsods[] =  $ToolkitServiceObj->AddParameterChar   ('both', 1, "vsukz{$h}",    "ds1{$h}",    'A');
   $vevsods[] =  $ToolkitServiceObj->AddParameterChar   ('both', 8, "vpos{$h}",     "ds2{$h}",    'B');
   $vevsods[] =  $ToolkitServiceObj->AddParameterChar   ('both', 30,"vtxt{$h}",     "ds3{$h}",    'C');
-  for ($i=0;$i<15;$i++) 
+  for ($i=0;$i<15;$i++)
     $vevsods[] =  $ToolkitServiceObj->AddParameterZoned('both',9,2,"vkalw{$h}{$i}","ds4{$h}{$i}",'9.2' );
-  for ($i=0;$i<15;$i++) 
+  for ($i=0;$i<15;$i++)
     $vevsods[] =  $ToolkitServiceObj->AddParameterZoned('both',9,2,"vvsw{$h}{$i}", "ds5{$h}{$i}",'9.2' );
-  for ($i=0;$i<15;$i++) 
+  for ($i=0;$i<15;$i++)
     $vevsods[] =  $ToolkitServiceObj->AddParameterZoned('both',1,0,"vvsk{$h}{$i}", "ds6{$h}{$i}",'1.0' );
 }
 $param[] = $ToolkitServiceObj->AddDataStruct($vevsods);

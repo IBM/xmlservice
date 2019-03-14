@@ -1,6 +1,6 @@
 <?php
 // **** authorization ***
-$database   = '*LOCAL';     // i5 only side 
+$database   = '*LOCAL';     // i5 only side
 // $database   = 'LP0364D';    // i5 or LINUX side
 $user       = 'DB2';        // tests profile
 $password   = 'PWD';
@@ -42,7 +42,7 @@ $clobOut    = "";               // *** XML output returned
 $pase_ccsid = 819;              // *** pecl ccsid pase
 $ebcdic_ccsid = 37;             // *** pecl ccsid ebcidic
 // *** pear tests ***
-// *** php.ini and etc/config.d/*.ini 
+// *** php.ini and etc/config.d/*.ini
 // *** enable ibm_db2, odbc, pdo_ibm, xml, and pcntl
 $testLib       = 'XMLSERVICE';  // XMLSERVICE - testing call programs, etc.
 $schematest    = 'XMLSERVTST';  // XMLSERVTST - testing DB2 by XML

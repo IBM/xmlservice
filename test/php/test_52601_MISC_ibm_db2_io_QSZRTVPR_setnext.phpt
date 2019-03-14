@@ -30,7 +30,7 @@ $xmlobj = simplexml_load_string($clobOut);
 
 if (strpos($clobOut, "QSYSNLS")<1) dies ("Failed missing QSYSNLS\n");
 
-echo "\nSuccess\n"; 
+echo "\nSuccess\n";
 
 function getxml() {
 $clob = <<<ENDPROC
@@ -61,8 +61,8 @@ $clob = <<<ENDPROC
    <data type='1A' comment='Requirements met between base'> </data>
    <data type='3A' comment='Level'> </data>
    <data type='2048h' comment='leave some space for PRDR0200'/>
- </ds>   
-</parm>   
+ </ds>
+</parm>
  <parm  comment='Length of receiver variable'>
    <data type='10i0' setlen='rec1'>0</data>
  </parm>
@@ -80,15 +80,15 @@ $clob = <<<ENDPROC
    <data type='1A' comment='Reserved'> </data>
   </ds>
  </parm>
- 
- <overlay io="out" top="1" offset='myOffset'>  
+
+ <overlay io="out" top="1" offset='myOffset'>
  <ds>
   <data type='10A' comment='Second language library'></data>
   <data type='2A' comment='Reserved'></data>
   <data type='10i0' enddo='prim' comment='Number of Primary languages'></data>
   <data type='10i0' offset="myOffset2" comment='Offset to library records'></data>
  </ds>
- </overlay>  
+ </overlay>
 
  <overlay io="out" top="1" offset="myOffset2" dim='10' dou='prim' setnext='nextoff'>
  <ds>
@@ -102,8 +102,8 @@ $clob = <<<ENDPROC
   <data type='10i0' comment='Number of preoperation exit program names'></data>
   <data type='10A' comment='Preoperation exit program names'></data>
  </ds>
- </overlay> 
-  
+ </overlay>
+
 </pgm>
 </script>
 ENDPROC;

@@ -7,7 +7,7 @@
 \\
 [[XMLSERVICEDocument | Goto Documents]]
 
-%lfloat text-align=center width=400 height=200 newwin%[[XMLSERVICE | {$Imagedir}xmlover.png]]%% 
+%lfloat text-align=center width=400 height=200 newwin%[[XMLSERVICE | {$Imagedir}xmlover.png]]%%
 This page is for RPG developers that want to customize XMLSERVICE.
 [[<<]]
 
@@ -38,7 +38,7 @@ XMLSERVICE
 
 QCLSRC:
 crtxml  - cl make file for all programs and procedures in XMLSERVICE library (test)
-   Note redistribution: 
+   Note redistribution:
    - ONLY redistribute SAVOBJ/RSTOBJ to XMLSERVICE library
      will NOT work to RSTOBJ into ZENDSVR library
      will break your production toolkit (hang/busy)
@@ -46,17 +46,17 @@ crtxml  - cl make file for all programs and procedures in XMLSERVICE library (te
      on SAVOBJ/RSTOBJ XMLSERVICE library via
      Program Associated Space (not need crtsql)
    - XMLSERVICE lib objects: XMLSERVICE, XMLSTOREDP, XMLCGI, XMLMAIN
-     (again do NOT RSTOBJ into ZENDSVR library)     
+     (again do NOT RSTOBJ into ZENDSVR library)
 crtxml2 - cl make file for all programs and procedures in ZENDSVR library (production)
-   Note redistribution: 
+   Note redistribution:
    - ONLY redistribute SAVOBJ/RSTOBJ to ZENDSVR library
      will NOT work to RSTOBJ into XMLSERVICE library
      will break your test toolkit (hang/busy)
    - stored procedures are automatically updated
      on SAVOBJ/RSTOBJ ZENDSVR library via
      Program Associated Space (not need crtsql2)
-   - ZENDSVR lib objects: XMLSERVICE, XMLSTOREDP, XMLCGI, XMLMAIN     
-     (again do NOT RSTOBJ into XMLSERVICE library)     
+   - ZENDSVR lib objects: XMLSERVICE, XMLSTOREDP, XMLCGI, XMLMAIN
+     (again do NOT RSTOBJ into XMLSERVICE library)
 crtxml3 - cl make file yips demo (*NONE ok)
 crttest - optional cl make file for RPG pear tests XMLSERVICE library only
 crtdemo - optional cl make file for RPG demo tests XMLSERVICE library only
@@ -179,7 +179,7 @@ Probably the best way to understand these is to simply look into plugconf3 used 
 
 
 !!! Running with *NONE from XMLCGI
-XMLSERVICE via XMLCGI may be too powerful using only HTML/XML with no user/password (*NONE), so it is turned OFF by default always. However, if your machine is behind a firewall and you trust your team you can enable *NONE ... 
+XMLSERVICE via XMLCGI may be too powerful using only HTML/XML with no user/password (*NONE), so it is turned OFF by default always. However, if your machine is behind a firewall and you trust your team you can enable *NONE ...
 # change plugconf1 or plugconf2 or plugconf3 or make your own plugconf
 # D PLUGNONEOK      S              1N   inz(*ON)
 # recompile and your machine will be wide open ...
@@ -244,12 +244,12 @@ Note: The other setting PLUGDEMOOK is not used is future consideration for demos
 
 
 !!! XMLSERVICE XMLCGI (RPG CGI)
-A sample XMLCGI interface was included to allow REST calls to XMLSERVICE. This was very handy to check out XML to/from XMLSERVICE before ever committing pen to paper on an actual script like PHP. It also seems to very handy fro one off HTML/XML applications that can reside on your laptop (or other device) and use the built in browser to run IBM i. 
+A sample XMLCGI interface was included to allow REST calls to XMLSERVICE. This was very handy to check out XML to/from XMLSERVICE before ever committing pen to paper on an actual script like PHP. It also seems to very handy fro one off HTML/XML applications that can reside on your laptop (or other device) and use the built in browser to run IBM i.
 
 
 ''BIG DESIGN HINT:''
 
-Although common practice in IBM i circles, I choose not to use Basic Authentication and/or "switch profile" in RPG CGI programs on the web (httpd.conf ServerId). I much prefer to leave all Apache/CGI related jobs as neutral "low authority" like QTMHHTTP (IBM i) or NOBODY (Linux) for clearly understood security. Also, I prefer keeping any security "switch profile" activity in the database connection (DB2) for portability of design and multiple client support (1-tier/2-tier). An example of this "database security" style of CGI is Apache module XMLCGI included in XMLSERVICE download (main page). XMLCGI implements all "security" preferences and "switch profile" using the DB2 CLI interface in RPG. 
+Although common practice in IBM i circles, I choose not to use Basic Authentication and/or "switch profile" in RPG CGI programs on the web (httpd.conf ServerId). I much prefer to leave all Apache/CGI related jobs as neutral "low authority" like QTMHHTTP (IBM i) or NOBODY (Linux) for clearly understood security. Also, I prefer keeping any security "switch profile" activity in the database connection (DB2) for portability of design and multiple client support (1-tier/2-tier). An example of this "database security" style of CGI is Apache module XMLCGI included in XMLSERVICE download (main page). XMLCGI implements all "security" preferences and "switch profile" using the DB2 CLI interface in RPG.
 
 Briefly, reasons i like keep the "profile security" in the database ...
 * portable design idea in tradition of millions of PHP/MySql web sites (idea of profile is in database)
@@ -261,7 +261,7 @@ Briefly, reasons i like keep the "profile security" in the database ...
 
 * ''If you are a do it yourself RPG programmer, you may want to download and study XMLCGI RPG source file included as this would allow you to write any RPG front-end (just steal the DB2 CLI stuff in XMLCGI if you want a server with profiles).''
 ** RPG program XMLCGI is a traditional "Apache/Unix" style CGI server (ala PHP/MySql), therefore you do not need "switch profile" in the XMLCGI job. All/any "switch profile" is occurring at the DB2 database layer via DB2 CLI server mode not the Apache level (without using profiles in httpd.conf)
-** WARNING: Unless https, XMLCGI sends unencrypted password around web and/or leaves them in files (unless using *NONE), which is a bad idea of course, but this is a demonstration module for testing (without PHP, etc.), you as the RPG programmer are intended to customize to your production world (Open Source RPG code). 
+** WARNING: Unless https, XMLCGI sends unencrypted password around web and/or leaves them in files (unless using *NONE), which is a bad idea of course, but this is a demonstration module for testing (without PHP, etc.), you as the RPG programmer are intended to customize to your production world (Open Source RPG code).
 
 '''Warning XMLCGI - prior 1.6.8'''
 
@@ -271,7 +271,7 @@ prior 1.6.8 - For this feature to work between releases you have to download sou
 
 !!! XMLSERVICE XMLMAIN (unused)
 Also included, is a simple RPG program XMLMAIN that calls client interface XMLSERVICE in processes inside or outside web context, has not been extensively tested (very little in fact), but should be general idea for a IBM i RPG centric interface (if such a thing is even relevant these Internet days).
-** If you wish to build a traditional web IBM i "switch profile" CGI web service (httpd.conf ServerId), you would need to combine parts of XMLMAIN (direct call XMLSERVICE) and XMLCGI (excluding DB2 CLI). 
+** If you wish to build a traditional web IBM i "switch profile" CGI web service (httpd.conf ServerId), you would need to combine parts of XMLMAIN (direct call XMLSERVICE) and XMLCGI (excluding DB2 CLI).
 
 
 

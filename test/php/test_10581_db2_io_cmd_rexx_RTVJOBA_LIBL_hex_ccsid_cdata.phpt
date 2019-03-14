@@ -44,10 +44,10 @@ if (!$sh) die("Missing XML cmd info");
 $hexrows = $xmlobj->xpath('/script/cmd/row');
 $data = "";
 foreach($hexrows as $row) {
-  $hexdata = $row->xpath('data/hex'); 
+  $hexdata = $row->xpath('data/hex');
   foreach($hexdata as $hex) {
     $data .= " \n-> ".pack("H*", $hex);
-  } 
+  }
 }
 echo "$data\n";
 if (strpos($data,"QSYS")<1) die("Missing QSYS\n");

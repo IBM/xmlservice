@@ -34,7 +34,7 @@ else echo "Failed with this error: " . print_r(i5_error(), true) . "\n";
 
 $dtaara = "$testLib/BETTYBOOP";
 
-$ret = i5_data_area_delete($dtaara); 
+$ret = i5_data_area_delete($dtaara);
 if ($ret) {
 	echo "Deleted data area $dtaara successfully.\n";
 } else {
@@ -42,7 +42,7 @@ if ($ret) {
 }
 
 
-$ret = i5_data_area_create($dtaara, 100); 
+$ret = i5_data_area_create($dtaara, 100);
 if ($ret) {
 	echo "Created data area $dtaara successfully.\n";
 } else {
@@ -52,7 +52,7 @@ if ($ret) {
 // Ä Ö Ü ä ö ü
 $dtaara = "$testLib/BETTYBOOP";
 $stringToWrite = 'Ä Ö Ü ä ö ü';
-$ret = i5_data_area_write($dtaara, $stringToWrite, 5, 20); 
+$ret = i5_data_area_write($dtaara, $stringToWrite, 5, 20);
 if ($ret) {
 	echo "Wrote '$stringToWrite' ".bin2hex($stringToWrite)." to data area $dtaara successfully.\n";
 	// try to read now.
@@ -71,7 +71,7 @@ if ($ret) {
 	echo "Could not write to data area $dtaara. Reason: " . i5_errormsg() . "\n";
     die();
 }
-	
+
 
 // good
 echo "I have ... \n";

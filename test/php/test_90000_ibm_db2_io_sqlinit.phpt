@@ -233,7 +233,7 @@ foreach ($actions as $action=>$sql) {
     // dump raw XML (easy test debug)
     // var_dump($clobIn);
     var_dump($clobOut);
-    // if (strlen($clobOut)==0) die("Bad return\n");	
+    // if (strlen($clobOut)==0) die("Bad return\n");
 }
 
 $ret=db2_free_stmt($stmt);

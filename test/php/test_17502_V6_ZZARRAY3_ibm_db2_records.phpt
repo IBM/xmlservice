@@ -67,7 +67,7 @@ echo "Success ($lib/$name.$func)\n";
 //     D  dcMyName1                    10A
 //     D  dcRec1                             likeds(dcRec2_t)
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzarray2: check parameter array aggregate 
+//      * zzarray2: check parameter array aggregate
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     D zzarray3        PR
 //     D  myName                       10A

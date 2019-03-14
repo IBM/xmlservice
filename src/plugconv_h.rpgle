@@ -2,39 +2,39 @@
       /eof
       /endif
       /define PLUGCONV_H
-   
+
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved.
       *
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
       *****************************************************
@@ -84,22 +84,22 @@
      D                 C                   const('B')
 
      D convX2B         PR             1N
-     D  pTarget                        *   Value 
-     D  nLength                      10i 0 Value 
+     D  pTarget                        *   Value
+     D  nLength                      10i 0 Value
 
      D convB2X         PR             1N
-     D  pTarget                        *   Value 
-     D  nLength                      10i 0 Value 
+     D  pTarget                        *   Value
+     D  nLength                      10i 0 Value
 
      D cpyX2Bin        PR            10I 0
-     D  pTarget                        *   Value 
-     D  pSource                        *   Value 
-     D  nLength                      10U 0 Value 
+     D  pTarget                        *   Value
+     D  pSource                        *   Value
+     D  nLength                      10U 0 Value
 
      D cpyB2Hex        PR            10I 0
-     D  pTarget                        *   Value 
-     D  pSource                        *   Value 
-     D  nLength                      10U 0 Value 
+     D  pTarget                        *   Value
+     D  pSource                        *   Value
+     D  nLength                      10U 0 Value
 
 
       *****************************************************
@@ -107,14 +107,14 @@
       *****************************************************
      D fillChar        PR             1N
      D  pTgt                           *   Value
-     D  tgtMax                       10i 0 Value 
-     D  pSrc                           *   Value 
-     D  nLength                      10i 0 Value 
+     D  tgtMax                       10i 0 Value
+     D  pSrc                           *   Value
+     D  nLength                      10i 0 Value
      D  trimSz                       10i 0
-     D  pad                          10i 0 Value 
-     D  isVary                        1A   Value 
-     D  isHex                         1N   Value 
-     D  cntCCSID                     10i 0 Value 
+     D  pad                          10i 0 Value
+     D  isVary                        1A   Value
+     D  isHex                         1N   Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
      D  rmCDATA                       1N   value
@@ -124,13 +124,13 @@
      D trimChar        PR             1N
      D  pTgt                           *   Value
      D  tgtMax                       10i 0 Value
-     D  pSrc                           *   Value 
-     D  srcMax                       10i 0 Value 
+     D  pSrc                           *   Value
+     D  srcMax                       10i 0 Value
      D  trimSz                       10i 0
-     D  pad                          10i 0 Value 
-     D  isVary                        1A   Value 
-     D  toHex                         1N   Value 
-     D  cntCCSID                     10i 0 Value 
+     D  pad                          10i 0 Value
+     D  isVary                        1A   Value
+     D  toHex                         1N   Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
      D  rmCDATA                       1N   value
@@ -142,13 +142,13 @@
      D fullChar        PR             1N
      D  pTgt                           *   Value
      D  tgtMax                       10i 0 Value
-     D  pSrc                           *   Value 
-     D  srcMax                       10i 0 Value 
+     D  pSrc                           *   Value
+     D  srcMax                       10i 0 Value
      D  trimSz                       10i 0
-     D  pad                          10i 0 Value 
-     D  isVary                        1A   Value 
-     D  toHex                         1N   Value 
-     D  cntCCSID                     10i 0 Value 
+     D  pad                          10i 0 Value
+     D  isVary                        1A   Value
+     D  toHex                         1N   Value
+     D  cntCCSID                     10i 0 Value
      D  srcCCSID                     10i 0 dim(XMLMAXATTR)
      D  tgtCCSID                     10i 0 dim(XMLMAXATTR)
      D  rmCDATA                       1N   value
@@ -156,7 +156,7 @@
      D  rmQuote                       1N   value
      D  addHex                        1N   value
      D  addCDATA                      1N   value
-     
+
      D hexDump         PR
      D   piParm                        *   value
      D   piSize                      10i 0 value

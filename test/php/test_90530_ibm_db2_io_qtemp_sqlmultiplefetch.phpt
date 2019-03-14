@@ -32,7 +32,7 @@ if (strpos($clobOut,"error")) {
     var_dump($clobOut);
     die("missing steps\n");
   }
-} 
+}
 // -----------------
 // output processing
 // -----------------

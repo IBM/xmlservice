@@ -12,7 +12,7 @@ try { $ToolkitServiceObj = ToolkitService::getInstance($database, $user, $passwo
 catch (Exception $e) { echo  $e->getMessage(), "\n"; exit();}
 $ToolkitServiceObj->setToolkitServiceParams(
 array('InternalKey'=>$ipc, // route to same XMLSERVICE job /tmp/myjob1
-'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running) 
+'subsystem'=>"QGPL/QDFTJOBD",      // subsystem/jobd to start XMLSERVICE (if not running)
 'plug'=>"iPLUG5M"));               // max size data i/o (iPLUG4K,32K,65K.512K,1M,5M,10M,15M)
 //     D ARRAYMAX        c                   const(999)
 //     D dcRec_t         ds                  qualified based(Template)
@@ -21,7 +21,7 @@ array('InternalKey'=>$ipc, // route to same XMLSERVICE job /tmp/myjob1
 //     D  dcMyRank                     10i 0
 //     D  dcMyPay                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzarray: check return array aggregate 
+//      * zzarray: check return array aggregate
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzarray         B                   export
 //     D zzarray         PI                  likeds(dcRec_t) dim(ARRAYMAX)

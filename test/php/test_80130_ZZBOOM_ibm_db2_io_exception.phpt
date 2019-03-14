@@ -30,7 +30,7 @@ var_dump($clobOut);
 $xmlobj = simplexml_load_string($clobOut);
 if (!$xmlobj) die("Bad XML returned");
 // good
-if (strpos($clobOut,"Pointer not set")<=0) echo "Failure\n"; 
+if (strpos($clobOut,"Pointer not set")<=0) echo "Failure\n";
 echo "Success\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

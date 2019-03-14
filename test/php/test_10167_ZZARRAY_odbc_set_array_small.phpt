@@ -15,12 +15,12 @@ if (!$stmt) die("Bad prepare: ".odbc_errormsg());
 $ctl .= " *hack";
 $clobIn = getxml();
 $clobOut = "";
-// bad behavior odbc extension ... 
+// bad behavior odbc extension ...
 // why IBM i result set warning???
-error_reporting(~E_ALL); 
+error_reporting(~E_ALL);
 $ret=odbc_execute($stmt,array($ipc,$ctl,$clobIn));
 if (!$ret) die("Bad execute: ".odbc_errormsg());
-error_reporting(E_ALL); 
+error_reporting(E_ALL);
 while(odbc_fetch_row($stmt)) {
   $clobOut .= driverJunkAway(odbc_result($stmt, 1));
 }
@@ -99,7 +99,7 @@ echo "Success ($lib/$name.$func)\n";
 //     D  dcMyRank                     10i 0
 //     D  dcMyPay                      12p 2
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzarray: check return array aggregate 
+//      * zzarray: check return array aggregate
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzarray         B                   export
 //     D zzarray         PI                  likeds(dcRec_t) dim(ARRAYMAX)

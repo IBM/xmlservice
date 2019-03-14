@@ -21,7 +21,7 @@
 //   Options +ExecCGI
 // </Directory>
 function xmlservice($xml) {
-global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn, $procLib, $procPlug, $procPlugR, 
+global $i5persistentconnect, $database, $user, $password, $ipc, $ctl, $procConn, $procLib, $procPlug, $procPlugR,
        $i5resturl, $i5restdb, $i5restuser, $i5restpass, $i5restsz;
   $was = array('"');
   $now = array("'");

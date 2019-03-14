@@ -22,12 +22,12 @@ if (!$stmt) die("Bad prepare: ".odbc_errormsg());
 $ctl .= " *hack";
 $clobIn = getxml($hexpdf);
 $clobOut = "";
-// bad behavior odbc extension ... 
+// bad behavior odbc extension ...
 // why IBM i result set warning???
-error_reporting(~E_ALL); 
+error_reporting(~E_ALL);
 $ret=odbc_execute($stmt,array($ipc,$ctl,$clobIn));
 if (!$ret) die("Bad execute: ".odbc_errormsg());
-error_reporting(E_ALL); 
+error_reporting(E_ALL);
 while(odbc_fetch_row($stmt)) {
   $clobOut .= driverJunkAway(odbc_result($stmt, 1));
 }
@@ -55,7 +55,7 @@ if (!$parm) die("Missing XML pgm parms ($lib/$name.$func)\n");
 $var    = $parm[0]->data->attributes()->var;
 $hexret = (string)$parm[0]->data;
 $size = 32;
-$max  = strlen($hexpdf); 
+$max  = strlen($hexpdf);
 for ($i=0;$i<$max;$i+=$size) {
   if ($i + $size > $max) $size = $max - $i;
   $a = substr($hexpdf,$i,$size);
@@ -80,7 +80,7 @@ echo substr($hexret,0,400)."\n";
 echo "Success ($lib/$name.$func)\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzpdf: check binary 
+//      * zzpdf: check binary
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzpdf           B                   export
 //     D zzpdf           PI            10i 0

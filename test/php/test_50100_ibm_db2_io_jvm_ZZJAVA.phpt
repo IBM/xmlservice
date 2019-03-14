@@ -11,7 +11,7 @@ require_once("ToolkitService.php");
 $conn = db2_connect($database,$user,$password);
 if (!$conn) die("Bad connect: $database,$user");
 
-// normal RPG java: 'customControl'=>'*java' -- set your own classpath 
+// normal RPG java: 'customControl'=>'*java' -- set your own classpath
 // SP SQL java: 'customControl'=>'*sqljava' or 'customControl'=>'*dbgjava' -- your classpath ignored
 try { $ToolkitServiceObj = ToolkitService::getInstance($conn); } catch (Exception $e) { die($e->getMessage()); }
 $options = array('plugSize'=>'4K','customControl'=>'*sqljava','stateless'=>true);

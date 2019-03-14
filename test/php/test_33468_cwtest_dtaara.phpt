@@ -9,7 +9,7 @@ require_once('xxcw_test_setup.php');
 
 echo h2('Data areas');
 $dtaara = "$demoLib/ALLEYOOP";
-$ret = i5_data_area_create($dtaara, 72); 
+$ret = i5_data_area_create($dtaara, 72);
 if ($ret) {
 	echo "Created data area $dtaara successfully.<BR>";
 } else {
@@ -17,7 +17,7 @@ if ($ret) {
     die();
 }
 
-$ret = i5_data_area_delete($dtaara); 
+$ret = i5_data_area_delete($dtaara);
 if ($ret) {
 	echo "Deleted data area $dtaara successfully.<BR>";
 } else {
@@ -26,7 +26,7 @@ if ($ret) {
 }
 
 $dtaara = 'BETTYBOOP';
-$ret = i5_data_area_create($dtaara, 100); 
+$ret = i5_data_area_create($dtaara, 100);
 if ($ret) {
 	echo "Created data area $dtaara successfully.<BR>";
 } else {
@@ -35,10 +35,10 @@ if ($ret) {
 
 $dtaara = 'BETTYBOOP';
 $stringToWrite = 'Very nice';
-$ret = i5_data_area_write($dtaara, $stringToWrite, 5, 20); 
+$ret = i5_data_area_write($dtaara, $stringToWrite, 5, 20);
 if ($ret) {
 	echo "Wrote '$stringToWrite' to data area $dtaara successfully.<BR>";
-	
+
 	// try to read now.
 	$start = microtime(true);
 	$readData = i5_data_area_read($dtaara, 3, 40);
@@ -50,8 +50,8 @@ if ($ret) {
     } else {
     	echo "Could not read from data area $dtaara. Reason: " . i5_errormsg() . "<BR>";
         die();
-    }	
-	
+    }
+
 	// try to read now.
 	$start = microtime(true);
 	$readData = i5_data_area_read($dtaara); // the whole thing
@@ -63,9 +63,9 @@ if ($ret) {
     } else {
     	echo "Could not read from data area $dtaara. Reason: " . i5_errormsg() . "<BR>";
         die();
-    }	
-	
-    
+    }
+
+
 
 } else {
 	echo "Could not write to data area $dtaara. Reason: " . i5_errormsg() . "<BR>";

@@ -53,7 +53,7 @@ if (!$parm) die("Missing XML pgm parms ($lib/$name.$func)\n");
 $var    = $parm[0]->data->attributes()->var;
 $hexret = (string)$parm[0]->data;
 $size = 32;
-$max  = strlen($hexpdf); 
+$max  = strlen($hexpdf);
 for ($i=0;$i<$max;$i+=$size) {
   if ($i + $size > $max) $size = $max - $i;
   $a = substr($hexpdf,$i,$size);
@@ -78,7 +78,7 @@ echo substr($hexret,0,400)."\n";
 echo "Success ($lib/$name.$func)\n";
 
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      * zzpdf: check binary 
+//      * zzpdf: check binary
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //     P zzpdf           B                   export
 //     D zzpdf           PI            10i 0

@@ -5,34 +5,34 @@
       *****************************************************
       * Copyright (c) 2010, IBM Corporation
       * All rights reserved
-      * Redistribution and use in source and binary forms, 
-      * with or without modification, are permitted provided 
+      * Redistribution and use in source and binary forms,
+      * with or without modification, are permitted provided
       * that the following conditions are met:
-      * - Redistributions of source code must retain 
-      *   the above copyright notice, this list of conditions 
-      *   and the following disclaimer. 
-      * - Redistributions in binary form must reproduce the 
-      *   above copyright notice, this list of conditions 
-      *   and the following disclaimer in the documentation 
+      * - Redistributions of source code must retain
+      *   the above copyright notice, this list of conditions
+      *   and the following disclaimer.
+      * - Redistributions in binary form must reproduce the
+      *   above copyright notice, this list of conditions
+      *   and the following disclaimer in the documentation
       *   and/or other materials provided with the distribution.
-      * - Neither the name of the IBM Corporation nor the names 
-      *   of its contributors may be used to endorse or promote 
-      *   products derived from this software without specific 
-      *   prior written permission. 
+      * - Neither the name of the IBM Corporation nor the names
+      *   of its contributors may be used to endorse or promote
+      *   products derived from this software without specific
+      *   prior written permission.
       *
-      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
-      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+      * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+      * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+      * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+      * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+      * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+      * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
       * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+      * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+      * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
       * POSSIBILITY OF SUCH DAMAGE.
       *****************************************************
 
@@ -71,21 +71,21 @@
      D scacElemKey     s             10i 0 inz(0)
 
       *****************************************************
-      * global scan vars 
+      * global scan vars
       *****************************************************
       * '<![CDATA[' and ends with ']]>'
-     D wCDATA1         S              9C   Inz(%UCS2('<![CDATA[')) 
-     D wCDATA2         S              3C   Inz(%UCS2(']]>')) 
-     D s1CDATA37       S              9A   inz('<![CDATA[') 
-     D s2CDATA37       S              3A   inz(']]>') 
+     D wCDATA1         S              9C   Inz(%UCS2('<![CDATA['))
+     D wCDATA2         S              3C   Inz(%UCS2(']]>'))
+     D s1CDATA37       S              9A   inz('<![CDATA[')
+     D s2CDATA37       S              3A   inz(']]>')
 
      D sAllCDATA       s              1N   inz(*ON)
      D sOneCDATA       s              1N   inz(*ON)
 
-     D sUCDATA1        S              9A   inz(*BLANKS) 
-     D sUCDATA2        S              3A   inz(*BLANKS) 
+     D sUCDATA1        S              9A   inz(*BLANKS)
+     D sUCDATA2        S              3A   inz(*BLANKS)
 
-     D sESCP           S              1N   inz(*OFF)                            
+     D sESCP           S              1N   inz(*OFF)
 
       *****************************************************
       * xml misc
@@ -112,7 +112,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D  node                               likeds(xmlNode_t) 
+     D  node                               likeds(xmlNode_t)
 
      D xmlJobLog       PR             1N
      D   jobName                     10A   value
@@ -148,7 +148,7 @@
       * xml node parsing
       *****************************************************
      D xmlRESET        PR
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
 
       *****************************************************
@@ -187,7 +187,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlWrkDS        PR             1N
      D   op                           1A   value
@@ -201,7 +201,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlWrkParm      PR             1N
      D   op                           1A   value
@@ -215,7 +215,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlWrkOver      PR             1N
      D   op                           1A   value
@@ -229,7 +229,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
 
      D xmlWrkRec       PR             1N
@@ -244,7 +244,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlPooPRec      PR             1N
      D   string1                       *
@@ -266,7 +266,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlWrkRet       PR             1N
      D   op                           1A   value
@@ -280,7 +280,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlDoPgm        PR             1N
      D  isNada                        1N   value
@@ -382,7 +382,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
      D   stmt                        10A
      D   sqlCode                     10I 0
      D   colNbr                      10i 0
@@ -398,7 +398,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlConn      PR             1N
      D  isNada                        1N   value
@@ -410,7 +410,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlQry       PR             1N
      D  isNada                        1N   value
@@ -422,7 +422,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlFtch      PR             1N
      D  isNada                        1N   value
@@ -434,7 +434,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlRCnt      PR             1N
      D  isNada                        1N   value
@@ -446,7 +446,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlLsId      PR             1N
      D  isNada                        1N   value
@@ -458,7 +458,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlDesc      PR             1N
      D  isNada                        1N   value
@@ -470,7 +470,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlCDesc     PR             1N
      D  isNada                        1N   value
@@ -482,7 +482,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlPrep      PR             1N
      D  isNada                        1N   value
@@ -494,7 +494,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlExec      PR             1N
      D  isNada                        1N   value
@@ -506,7 +506,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlComm      PR             1N
      D  isNada                        1N   value
@@ -518,7 +518,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlFree      PR             1N
      D  isNada                        1N   value
@@ -530,7 +530,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlTabl      PR             1N
      D  isNada                        1N   value
@@ -542,7 +542,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlTabP      PR             1N
      D  isNada                        1N   value
@@ -554,7 +554,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlCols      PR             1N
      D  isNada                        1N   value
@@ -566,7 +566,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlColP      PR             1N
      D  isNada                        1N   value
@@ -578,7 +578,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlSpec      PR             1N
      D  isNada                        1N   value
@@ -590,7 +590,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlProc      PR             1N
      D  isNada                        1N   value
@@ -602,7 +602,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlPCol      PR             1N
      D  isNada                        1N   value
@@ -614,7 +614,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlPKey      PR             1N
      D  isNada                        1N   value
@@ -626,7 +626,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlFKey      PR             1N
      D  isNada                        1N   value
@@ -638,7 +638,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlSqlStat      PR             1N
      D  isNada                        1N   value
@@ -650,7 +650,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
 
      D xmlDoSql        PR             1N
      D  isNada                        1N   value
@@ -690,7 +690,7 @@
        sAllCDATA = bCtl.ipcFlags.doCDATA;
        sOneCDATA = *OFF;
 
-       sESCP     = bCtl.ipcFlags.doESCP;   
+       sESCP     = bCtl.ipcFlags.doESCP;
        // --------------
        // start output
        sOutPtr = sOutOrgP;
@@ -1035,12 +1035,12 @@
      D retLen          s             10i 0 inz(0)
      D myClrErr        s              1N   inz(*ON)
      D myJobLog        s              1N   inz(*ON)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
       /free
-      
+
        // stop will give full error list
-       // HUGE mistake change to isOk =*OFF 
+       // HUGE mistake change to isOk =*OFF
        // not rc = *off (1.7.6)
        if isOk = *OFF and isStop = *ON;
          return;
@@ -1120,7 +1120,7 @@
        endif;
 
        // Alan request always get diag joblog on <error> (1.6.2)
-       // ... not sure this is a good idea dude (ADC) 
+       // ... not sure this is a good idea dude (ADC)
        if isOk = *OFF;
          // compatibility (1.6.7)
          // <error>n</error>
@@ -1139,7 +1139,7 @@
          // oooooooooooooooo
          myMSGID2 = ileMsgId2();
          if myMSGID2 <> *BLANKS;
-           report = myBad1 
+           report = myBad1
                   + %trim(myMSGID2)
                   + myBad2;
            string = %addr(report);
@@ -1182,7 +1182,7 @@
          ooOff = oOff;
        endif;
        // element to copy
-       if aElemTop1 <> *NULL 
+       if aElemTop1 <> *NULL
        and aElemEnd2 <> *NULL
        and aElemTop1 < aElemEnd2;
          poHint = %addr(ooHint);
@@ -1197,13 +1197,13 @@
          endif;
          // dim
          if oo > 0 and ooMax > 1;
-           ooHint = 'd('+ %char(oo) 
-                  + '-' + %char(ooMax) + ') ' 
+           ooHint = 'd('+ %char(oo)
+                  + '-' + %char(ooMax) + ') '
                   + ooHint;
          endif;
          // offset
          if ooOff > -1;
-           ooHint = 'p(' + %char(ooOff) + ') ' 
+           ooHint = 'p(' + %char(ooOff) + ') '
                   + ooHint;
          endif;
          // save hint
@@ -1235,7 +1235,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D  node                               likeds(xmlNode_t) 
+     D  node                               likeds(xmlNode_t)
       * vars
      D ooHint          s             60A   inz(*BLANKS)
      D ooOff           s             10i 0 inz(0)
@@ -1247,11 +1247,11 @@
          rc = *OFF;
 
          Monitor;
-           if aVeryTop <> *NULL 
+           if aVeryTop <> *NULL
            and aElemTop1 <> *NULL
            and aVeryTop < aElemTop1;
              ooOff = aElemTop1 - aVeryTop;
-           endif; 
+           endif;
          On-error;
          Endmon;
 
@@ -1262,14 +1262,14 @@
 
          if op = 'I';
 
-           if aElemTop1 <> *NULL 
+           if aElemTop1 <> *NULL
            and aElemTop2 <> *NULL
            and aElemTop2 > aElemTop1 + 1;
              xmlSetHint(aElemTop1:aElemTop2:ooHint:o:ooMax:ooOff);
            endif;
            errsSevere(XML_ERROR_COPYIN_EXCEPTION:ooHint);
 
-           if aDataVal1 <> *NULL 
+           if aDataVal1 <> *NULL
            and aDataVal2 <> *NULL
            and aDataVal2 > aDataVal1 + 1;
              xmlSetHint(aDataVal1:aDataVal2+1:ooHint:o:ooMax:ooOff);
@@ -1283,7 +1283,7 @@
 
          elseif op = 'O';
 
-           if aElemTop1 <> *NULL 
+           if aElemTop1 <> *NULL
            and aElemTop2 <> *NULL
            and aElemTop2 > aElemTop1 + 1;
              xmlSetHint(aElemTop1:aElemTop2:ooHint:o:ooMax:ooOff);
@@ -1298,7 +1298,7 @@
 
          elseif op = 'Z';
 
-           if aElemTop1 <> *NULL 
+           if aElemTop1 <> *NULL
            and aElemTop2 <> *NULL
            and aElemTop2 > aElemTop1 + 1;
              xmlSetHint(aElemTop1:aElemTop2:ooHint:o:ooMax:ooOff);
@@ -1320,7 +1320,7 @@
       *****************************************************
      P xmlCTOR         B                   export
      D xmlCTOR         PI
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       /free
 
        // value attributes
@@ -1397,7 +1397,7 @@
        node.xmlOffNbr       = 0;
        node.cacNxtOvr       = 0;
        node.cacNxtOff       = 0;
-       
+
        // <records>
        node.cacIsRec        = XML_IS_RECORDS_FALSE;
        node.cacIsRecT       = XML_IS_RECORDS_FALSE;
@@ -1412,8 +1412,8 @@
       *****************************************************
      P xmlCOPY         B                   export
      D xmlCOPY         PI
-     D   node                              likeds(xmlNode_t) 
-     D   node2                             likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
+     D   node2                             likeds(xmlNode_t)
       /free
 
        // value attributes
@@ -1494,7 +1494,7 @@
        node.xmlOffNbr       = node2.xmlOffNbr;
        node.cacNxtOvr       = node2.cacNxtOvr;
        node.cacNxtOff       = node2.cacNxtOff;
-       
+
        // <records>
        node.cacIsRec        = node2.cacIsRec;
        node.cacIsRecT       = node2.cacIsRecT;
@@ -1509,7 +1509,7 @@
       *****************************************************
      P xmlRESET        B
      D xmlRESET        PI
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       /free
        // value attributes
        node.xmlAttr         = *BLANKS;
@@ -1609,14 +1609,14 @@
      D myCopy          ds                  likeds(over_t) based(pCopy)
      d string          s               *   inz(*NULL)
      d stringLen       s             10i 0 inz(0)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
       /free
-       if pTop = *NULL 
+       if pTop = *NULL
        or pBot = *NULL
        or pTop >= pBot;
          return;
-       endif; 
+       endif;
 
        cCDATA1 = xmlcCDATA1(); // USC2 convert job ccsid (1.6.7)
        cCDATA2 = xmlcCDATA2(); // USC2 convert job ccsid (1.6.7)
@@ -1686,7 +1686,7 @@
      d  srcLen                       10i 0
      d  outLen                       10i 0
       * vars
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D ooHint          s             60A   inz(*BLANKS)
      D rc1             s             10i 0 inz(0)
      D rc              s              1N   inz(*OFF)
@@ -1757,13 +1757,13 @@
      D apE2            s               *   inz(*NULL)
      D apNxt           s               *   inz(*NULL)
       /free
-      
+
        // default answer
        srcLen     = 0;
        modeHexFnd = *OFF;
        ccsidFndB  = *OFF;
        ccsidFndA  = *OFF;
-      
+
        // node CTOR
        xmlCTOR(myNode);
        if xmlGetCDATA() = *ON or isCDATA = *ON;
@@ -1837,7 +1837,7 @@
          rc = *ON;
          return rc;
        endif;
-       
+
        // find hex convert parse?
        if myNode.xmlIsHex = XML_ATTR_HEX_TRUE;
          modeHexFnd = *ON;
@@ -1888,7 +1888,7 @@
          endif;
        other;
        endsl;
-       
+
        // output <row>...</row>??? @ADC (1.7.4)
        trimSz = 0;
        rc = *ON;
@@ -1899,7 +1899,7 @@
          pNxt = aDataVal1;
          pLst = aDataVal2;
          elem(1) = 'row';
-         dou pNxt = *NULL 
+         dou pNxt = *NULL
          or rc = *OFF
          or rc9 = *OFF
          or pNxt >= pLst;
@@ -1916,7 +1916,7 @@
           // <row ...> ... </row>
           // B        1    2    E
           when findElem = 1;
-            if pD1 <> *NULL 
+            if pD1 <> *NULL
             and pD2 <> *NULL
             and pD2 > pD1;
               if addCDATA = *OFF and doCDATA;
@@ -1955,7 +1955,7 @@
               leave;
             endif;
             if outLen-trimSz-tmpLen2 > tmpLen2 + 8
-            and pD1 <> *NULL 
+            and pD1 <> *NULL
             and pD2 <> *NULL
             and pD2 > pD1;
               string = pD1;
@@ -1991,7 +1991,7 @@
           endsl;
          enddo;
        endif;
-       
+
        // convert/copy
        if trimSz = 0 and rc9 = *ON;
          addCDATA = bigCDATA(aDataVal1:aDataVal2:pD1:pD2);
@@ -2029,7 +2029,7 @@
          other;
          endsl;
        endif;
-       
+
        // error conversion?
        if rc9 = *OFF or myNode.pgmValErr = XML_PGM_ERROR_TRUE;
          myNode.pgmValErr = XML_PGM_ERROR_TRUE;
@@ -2059,10 +2059,10 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooHint          s             60A   inz(*BLANKS)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D ooEndData       s             10A   inz('</data>')
      D rc              s              1N   inz(*ON)
      d string          s               *   inz(*NULL)
@@ -2096,7 +2096,7 @@
          xmlRESET(myNode);
          myNode.cacElemTop1 = aElemTop1- aVeryTop;
 
-         // <data type="data types" [varying="on|off|2|4" enddo="z" dim="n" 
+         // <data type="data types" [varying="on|off|2|4" enddo="z" dim="n"
          //       1                  2                    3         4
          //       setlen="label" offset="label"
          //       5              6
@@ -2205,7 +2205,7 @@
        if myNode.xmlOccurs < 1; // @ADC 1.6.9 Always one
          myNode.xmlOccurs = 1;
        endif;
-       
+
        // -------
        // <records>
        if myNode.cacIsRec = XML_IS_RECORDS_TRUE;
@@ -2216,7 +2216,7 @@
          endif;
          cacAddARec(myNode);
        endif;
-       
+
        for o = 1 to myNode.xmlOccurs;
 
        if op = 'I';
@@ -2266,7 +2266,7 @@
 
        // push or pop data
        if op = 'I';
-         rc = ilePushData(myNode);        // copy in 
+         rc = ilePushData(myNode);        // copy in
        elseif op = 'O';
          // <data> ... </data>
          //       xxxxx
@@ -2350,9 +2350,9 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D ooEndDS         s             10A   inz('</ds>')
      D ooHint          s             60A   inz(*BLANKS)
      D rc              s              1N   inz(*ON)
@@ -2512,7 +2512,7 @@
        elem(1) = 'data';
        elem(2) = 'ds';
        doNest(2) = *ON;
-       dou pNxt = *NULL 
+       dou pNxt = *NULL
         or rc = *OFF
         or pNxt >= pLst;
          pTop = pNxt;
@@ -2631,9 +2631,9 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D ooEndParm       s             10A   inz('</parm>')
      D rc              s              1N   inz(*ON)
      D reTop           s              1N   inz(*ON)
@@ -2721,7 +2721,7 @@
        else;
         // <records>
         cacClrARec();
-         
+
         // <parm [io='in|out|both' by='val|ref']>...
         // oooooooooooooooooooooooooooooooooooooo
         if op = 'O' and myNode.xmlIO <> XML_IO_INPUT;
@@ -2850,9 +2850,9 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D ooEndRet        s             10A   inz('</return>')
      D rc              s              1N   inz(*ON)
      d string          s               *   inz(*NULL)
@@ -3014,9 +3014,9 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D ooEndOver       s             10A   inz('</overlay>')
      D rc              s              1N   inz(*ON)
      d string          s               *   inz(*NULL)
@@ -3061,10 +3061,10 @@
          xmlRESET(myNode);
          myNode.cacElemTop1 = aElemTop1- aVeryTop;
 
-         // <overlay [io='in|out|both' offset='n' top='on|off|n' 
+         // <overlay [io='in|out|both' offset='n' top='on|off|n'
          //           dou='z' dim='n' setnext='x']>
          // -- or --
-         // <overlay [io="in|out|both" offset="n" top="on|off|n" 
+         // <overlay [io="in|out|both" offset="n" top="on|off|n"
          //           1                2          3
          //           dou="z" dim="n" setnext="x"]>
          //           4       5       6
@@ -3085,9 +3085,9 @@
            endif;
            if valueLen(2) <> 0; // offset='n'
              memP = pValue(2);
-             if memchar = '0' or memchar = '1' 
+             if memchar = '0' or memchar = '1'
              or memchar = '2' or memchar = '3'
-             or memchar = '4' or memchar = '5' 
+             or memchar = '4' or memchar = '5'
              or memchar = '6' or memchar = '7'
              or memchar = '8' or memchar = '9';
                tmpNbr = %str(pValue(2):valueLen(2));
@@ -3312,10 +3312,10 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
-     D myNode          ds                  likeds(xmlNode_t) 
-     D zzNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
+     D zzNode          ds                  likeds(xmlNode_t)
      D rc              s              1N   inz(*ON)
      D o1              s             10i 0 inz(0)
      D o2              s             10i 0 inz(0)
@@ -3363,14 +3363,14 @@
          myNode.pgmArgTop = node.pgmArgTop;  // ADC 1.6.8
          myNode.xmlBy     = node.xmlBy;      // ADC 1.6.8
          myNode.cacIsRecD = node.cacIsRecD;
-         
+
          // loop through my child nodes
          dow index > 0;
            select;
            // my child node is another DS (recusive nest)
            when zzNode.cacIsRecT = XML_IS_RECORDS_DS;
              if myNode.cacElemTop1 <> zzNode.cacElemTop1;
-             
+
                // reset selective parent directives
                zzNode.pgmArgTop = myNode.pgmArgTop;  // ADC 1.6.8
                zzNode.xmlBy     = myNode.xmlBy;      // ADC 1.6.8
@@ -3400,7 +3400,7 @@
                zzNode.xmlOccurs = 1;
              endif;
              for o2 = 1 to zzNode.xmlOccurs;
-           
+
                // reset selective parent directives
                zzNode.pgmArgTop = myNode.pgmArgTop;  // ADC 1.6.8
                zzNode.xmlBy     = myNode.xmlBy;      // ADC 1.6.8
@@ -3429,7 +3429,7 @@
                   endif;
                  endfor;
                  k = h;
-                 if string1 = *NULL or string2 = *NULL 
+                 if string1 = *NULL or string2 = *NULL
                  or string2 <= string1; // no data
                    zzNode.xmlStrP = string1;
                    zzNode.xmlStrSz = 0;
@@ -3447,7 +3447,7 @@
                  // : ... :
                  //  ooooo
                  rc = ilePopData(sOutPtr:zzNode); // copy out
-               endif; 
+               endif;
                if zzNode.pgmValErr = XML_PGM_ERROR_TRUE or rc = *OFF;
                  xmlCpyErr(rc:o2:op:isNada:isCDATA:aVeryTop:
                        aElemTop1:aElemTop2:
@@ -3456,7 +3456,7 @@
                        aElemNext:zzNode);
                  rc = *OFF;
                endif;
-               
+
                // ------
                // reset selective parent directives
                myNode.pgmArgTop = XML_PGM_TOP_FALSE; // ADC 1.6.8
@@ -3510,9 +3510,9 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D ooEndRecs       s             10A   inz('</records>')
      D rc              s              1N   inz(*ON)
      d string          s               *   inz(*NULL)
@@ -3587,10 +3587,10 @@
        if op = 'O' and myNode.xmlIO <> XML_IO_INPUT;
          xmlOutput(aElemTop1:aElemTop2 - aElemTop1 + 1:*OFF:isNada);
        endif;
-     
+
        // --------------
        // copy in/out
-       // index node (index) 
+       // index node (index)
        // and data position (pCopy)
        // should be matching locations
        // as push/pop exactly same counts
@@ -3613,7 +3613,7 @@
         if op = 'O' and myNode.xmlIO <> XML_IO_INPUT;
           xmlOutput(%addr(myNode.cacIsRecD):1:*OFF);
         endif;
-       
+
 
        // </records>...
        // oooooooooo
@@ -3657,7 +3657,7 @@
      D mylib           S             10A   inz(*BLANKS)
      D myfunc          S            128A   inz(*BLANKS)
      D mycache         S             30A   inz(*BLANKS)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D piReturn        s               *   inz(*NULL)
      d retSize         s             10i 0 inz(0)
      D piParm          s               *   inz(*NULL)
@@ -3753,7 +3753,7 @@
         endif;
 
         // -- or --
- 
+
         // <pgm mode='opm|ile'>
         // <name hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>
         // <lib hex='on' before='cc1/cc2/cc3/cc4' after='cc4/cc3/cc2/cc1'>
@@ -3798,8 +3798,8 @@
           when findElem = -1;
             rc = *OFF;
           other;
-            // once <name> found, 
-            // then all else is junk 
+            // once <name> found,
+            // then all else is junk
             if mypgm <> *BLANKS;
               pNxt = *NULL;
             endif;
@@ -3825,11 +3825,11 @@
           rc = *OFF;
         endif;
        endif;
-       
+
        // --------------
        // log if enabled (1.7.1)
        perfLogAdd(PERF_LOG_L_PGM
-                  + ' ' + %trim(mylib) 
+                  + ' ' + %trim(mylib)
                   + ' ' + %trim(mypgm)
                   + ' ' + %trim(myfunc));
 
@@ -3846,7 +3846,7 @@
        endif;
        myNode.pgmOPMMem = myOPM;
        aVeryTop = aElemTop1;
-       if rc = *ON;       
+       if rc = *ON;
         // -------------
         // locate/add attribute cache
         if mycache <> *BLANKS;
@@ -4694,14 +4694,14 @@
            //               ooooooooooooo
            result = ' conn=''' + %trim(myConn) + '''';
            xmlOutput(%addr(result):%len(%trim(result))+1:*OFF:*OFF);
-         endif; 
+         endif;
          if isStmt = *OFF and myStmt<>*BLANKS
          and (op = XML_ELEMENT_STMT or op = XML_ELEMENT_BOTH);
            // <operation ... stmt='label'>...
            //               ooooooooooooo
            result = ' stmt=''' + %trim(myStmt) + '''';
            xmlOutput(%addr(result):%len(%trim(result))+1:*OFF:*OFF);
-         endif; 
+         endif;
        when op = XML_ELEMENT_CLOSE;
           // <operation ...>...
           //               o
@@ -4733,11 +4733,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndOpts       s             10A   inz('</options>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
       * attribute search
      D search          s             20A   dim(XMLMAXATTR) inz(*BLANKS)
      D pName           s               *   dim(XMLMAXATTR) inz(*NULL)
@@ -4839,11 +4839,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndConn       s             10A   inz('</connect>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -4906,9 +4906,9 @@
        // SQL call
        rc = sql_connect(myConn:myOpt:myDB:myUid:myPWd:sqlCode);
        perfLogAdd(PERF_LOG_L_CONNECT
-                 + ' ' + %trim(myConn) 
-                 + ' ' + %trim(myDB) 
-                 + ' ' + %trim(myUid) 
+                 + ' ' + %trim(myConn)
+                 + ' ' + %trim(myDB)
+                 + ' ' + %trim(myUid)
                  + ' ' + %char(sqlCode));
 
        // <connect ... conn='label'>...
@@ -4951,7 +4951,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndQry        s             10A   inz('</query>')
      D rc              s              1N   inz(*OFF)
@@ -5029,9 +5029,9 @@
        stmt_len  = aDataVal2 - aDataVal1 + 1;
        rc = sql_query(myConn:stmt_str:stmt_len:myStmt:myOpt:sqlCode);
        perfLogAdd(PERF_LOG_L_QUERY
-                 + ' ' + %trim(myConn) 
-                 + ' ' + %trim(myStmt) 
-                 + ' ' + %char(sqlCode) 
+                 + ' ' + %trim(myConn)
+                 + ' ' + %trim(myStmt)
+                 + ' ' + %char(sqlCode)
                  + ' ' + %str(stmt_str:stmt_len));
        // <query ... conn='label' stmt='label'>...
        //           oooooooooooooooooooooooooo
@@ -5081,11 +5081,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndPrep       s             10A   inz('</prepare>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -5158,10 +5158,10 @@
        stmt_str  = aDataVal1;
        stmt_len  = aDataVal2 - aDataVal1 + 1;
        rc = sql_prepare(myConn:stmt_str:stmt_len:myStmt:myOpt:sqlCode);
-       perfLogAdd(PERF_LOG_L_PREPARE 
-                 + ' ' + %trim(myConn) 
-                 + ' ' + %trim(myStmt) 
-                 + ' ' + %char(sqlCode) 
+       perfLogAdd(PERF_LOG_L_PREPARE
+                 + ' ' + %trim(myConn)
+                 + ' ' + %trim(myStmt)
+                 + ' ' + %char(sqlCode)
                  + ' ' + %str(stmt_str:stmt_len));
        // <prepare ... conn='label' stmt='label'>...
        //             oooooooooooooooooooooooooo
@@ -5212,7 +5212,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
      D   stmt                        10A
      D   sqlCode                     10I 0
      D   colNbr                      10i 0
@@ -5220,7 +5220,7 @@
       * vars
      D ooEndParm       s             10A   inz('</parm>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
       * attribute search
      D search          s             20A   dim(XMLMAXATTR) inz(*BLANKS)
      D pName           s               *   dim(XMLMAXATTR) inz(*NULL)
@@ -5260,11 +5260,11 @@
        // -----------
        // SQL call
        if op = 'I';
-         if isNada = *OFF; 
+         if isNada = *OFF;
            sqlParm.rawP = aDataVal1;
            sqlParm.rawlen = aDataVal2 - aDataVal1 + 1;
            sqlParm.rawIO = myIO;
-         endif; 
+         endif;
          rc = *ON;
        elseif op = 'O';
          // <parm>...</parm>
@@ -5297,7 +5297,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D i               s             10i 0 inz(0)
      D ooEndExec       s             10A   inz('</execute>')
@@ -5326,7 +5326,7 @@
      D  sqlParm        ds                  likeds(hBind_t)
      D                                     dim(SQLMAXPARM)
      D  sqlParm1       s               *   inz(%addr(sqlParm))
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
       * search elements
      D findElem        s             10i 0 inz(-1)
      D pTop            s               *   inz(*NULL)
@@ -5425,8 +5425,8 @@
        // -----------
        // SQL call
        rc = sql_execute(myStmt:sqlCode:sqlParm1);
-       perfLogAdd(PERF_LOG_L_EXECUTE 
-                 + ' ' + %trim(myStmt) 
+       perfLogAdd(PERF_LOG_L_EXECUTE
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
        // <execute ... stmt='label'>...
        //             ooooooooooooo
@@ -5514,11 +5514,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndComm       s             10A   inz('</commit>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -5632,11 +5632,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndFtch       s             10A   inz('</fetch>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -5732,8 +5732,8 @@
        // <row><data desc='NAME'>Rip</data><data desc='ID'>9</data></row>
        // ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
        rc = sql_fetch(myStmt:myBlock:myRec:myDesc:sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_FETCH 
-                 + ' ' + %trim(myStmt) 
+       perfLogAdd(PERF_LOG_L_FETCH
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
 
        // <fetch>success-or-fail ...</fetch>
@@ -5770,11 +5770,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndRCnt       s             15A   inz('</rowcount>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -5839,8 +5839,8 @@
        // -----------
        // SQL call
        rc = sql_row_count(myStmt:count:sqlCode);
-       perfLogAdd(PERF_LOG_L_COUNT 
-                 + ' ' + %trim(myStmt) 
+       perfLogAdd(PERF_LOG_L_COUNT
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(count));
 
        // <rowcount>num</rowcount>
@@ -5879,11 +5879,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndLsId       s             15A   inz('</identity>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -5950,8 +5950,8 @@
        // <identity ...>2345</identity>...
        //               oooo
        rc = sql_last_insert_id(myConn:sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_LASTID 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_LASTID
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode));
 
        // </identity>...
@@ -5982,7 +5982,7 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndCDesc      s             15A   inz('</count>')
      D ooColBDesc      s             15A   inz('<colcount>')
@@ -5990,7 +5990,7 @@
      D ooParmBDesc     s             15A   inz('<parmcount>')
      D ooParmEDesc     s             15A   inz('</parmcount>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -6062,8 +6062,8 @@
        // SQL call
        if myDesc = 'col';
          rc = sql_col_desc_nbr(myStmt:nCols:sqlCode);
-         perfLogAdd(PERF_LOG_L_COL_DESC 
-                 + ' ' + %trim(myStmt) 
+         perfLogAdd(PERF_LOG_L_COL_DESC
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
          // <colcount>...
          // oooooooooo
@@ -6079,8 +6079,8 @@
          xmlOutput(%addr(ooColEDesc):11:*ON);
        elseif myDesc = 'parm';
          rc = sql_parm_desc_nbr(myStmt:nParms:sqlCode);
-         perfLogAdd(PERF_LOG_L_PARM_DESC 
-                 + ' ' + %trim(myStmt) 
+         perfLogAdd(PERF_LOG_L_PARM_DESC
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
          // <parmcount>...
          // ooooooooooo
@@ -6096,12 +6096,12 @@
          xmlOutput(%addr(ooParmEDesc):12:*ON);
        else;
          rc = sql_parm_desc_nbr(myStmt:nCols:sqlCode);
-         perfLogAdd(PERF_LOG_L_PARM_DESC 
-                 + ' ' + %trim(myStmt) 
+         perfLogAdd(PERF_LOG_L_PARM_DESC
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
          rc = sql_col_desc_nbr(myStmt:nParms:sqlCode);
-         perfLogAdd(PERF_LOG_L_COL_DESC 
-                 + ' ' + %trim(myStmt) 
+         perfLogAdd(PERF_LOG_L_COL_DESC
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
          // <colcount>...
          // oooooooooo
@@ -6157,11 +6157,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</describe>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -6232,22 +6232,22 @@
        // SQL call
        if myDesc = 'col';
          rc = sql_fetch_col_desc(myStmt:sOutPtr:sqlCode);
-         perfLogAdd(PERF_LOG_L_COL_DESC 
-                 + ' ' + %trim(myStmt) 
+         perfLogAdd(PERF_LOG_L_COL_DESC
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
        elseif myDesc = 'parm';
          rc = sql_fetch_parm_desc(myStmt:sOutPtr:sqlCode);
-         perfLogAdd(PERF_LOG_L_PARM_DESC 
-                 + ' ' + %trim(myStmt) 
+         perfLogAdd(PERF_LOG_L_PARM_DESC
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
        else;
          rc = sql_fetch_parm_desc(myStmt:sOutPtr:sqlCode);
-         perfLogAdd(PERF_LOG_L_PARM_DESC 
-                 + ' ' + %trim(myStmt) 
+         perfLogAdd(PERF_LOG_L_PARM_DESC
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
          rc = sql_fetch_col_desc(myStmt:sOutPtr:sqlCode);
-         perfLogAdd(PERF_LOG_L_COL_DESC 
-                 + ' ' + %trim(myStmt) 
+         perfLogAdd(PERF_LOG_L_COL_DESC
+                 + ' ' + %trim(myStmt)
                  + ' ' + %char(sqlCode));
        endif;
 
@@ -6279,14 +6279,14 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndFree       s             10A   inz('</free>')
      D rc              s              1N   inz(*OFF)
      D rc1             s              1N   inz(*OFF)
      D rc2             s              1N   inz(*OFF)
      D rc3             s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
       * attribute search
      D search          s             20A   dim(XMLMAXATTR) inz(*BLANKS)
      D pName           s               *   dim(XMLMAXATTR) inz(*NULL)
@@ -6430,11 +6430,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</tables>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -6583,13 +6583,13 @@
        rc = sql_tables(myConn
               :iqual:ischema:itable:itype
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_TABLES 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_TABLES
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
-                 + ' ' + %trim(ischema) 
-                 + ' ' + %trim(itable) 
+                 + ' ' + %trim(ischema)
+                 + ' ' + %trim(itable)
                  + ' ' + %trim(itype));
-                 
+
        // <tables>success-or-fail ...</tables>
        //         ooooooooooooooooooo
        string = %addr(myConn);
@@ -6624,11 +6624,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</tablepriv>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -6774,12 +6774,12 @@
        rc = sql_table_privileges(myConn
               :iqual:ischema:itable
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_TABLE_PRIV 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_TABLE_PRIV
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
-                 + ' ' + %trim(ischema) 
+                 + ' ' + %trim(ischema)
                  + ' ' + %trim(itable));
-                 
+
        // <tablepriv>success-or-fail ...</tablepriv>
        //            ooooooooooooooooooo
        string = %addr(myConn);
@@ -6815,11 +6815,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</columns>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -6968,10 +6968,10 @@
        rc = sql_columns(myConn
               :iqual:ischema:itable:icol
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_COLUMNS 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_COLUMNS
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
-                 + ' ' + %trim(ischema) 
+                 + ' ' + %trim(ischema)
                  + ' ' + %trim(itable)
                  + ' ' + %trim(icol));
 
@@ -7010,11 +7010,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</columnpriv>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -7163,13 +7163,13 @@
        rc = sql_column_privileges(myConn
               :iqual:ischema:itable:icol
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_COLUMN_PRIV 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_COLUMN_PRIV
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
-                 + ' ' + %trim(ischema) 
+                 + ' ' + %trim(ischema)
                  + ' ' + %trim(itable)
                  + ' ' + %trim(icol));
-                 
+
        // <columnpriv>success-or-fail ...</columnpriv>
        //             ooooooooooooooooooo
        string = %addr(myConn);
@@ -7205,11 +7205,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</special>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -7384,10 +7384,10 @@
        rc = sql_special_columns(myConn
               :iqual:ischema:itable:iscope:inull
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_COLUMN_SPEC 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_COLUMN_SPEC
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
-                 + ' ' + %trim(ischema) 
+                 + ' ' + %trim(ischema)
                  + ' ' + %trim(itable)
                  + ' ' + %char(iscope));
 
@@ -7425,11 +7425,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</procedures>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -7575,8 +7575,8 @@
        rc = sql_procedures(myConn
               :iqual:ischema:iproc
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_PROCS 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_PROCS
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
                  + ' ' + %trim(ischema)
                  + ' ' + %trim(iproc));
@@ -7615,11 +7615,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</pcolumns>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -7768,8 +7768,8 @@
        rc = sql_procedure_columns(myConn
               :iqual:ischema:iproc:icol
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_PROC_COL 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_PROC_COL
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
                  + ' ' + %trim(ischema)
                  + ' ' + %trim(iproc)
@@ -7809,11 +7809,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</primarykeys>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -7959,8 +7959,8 @@
        rc = sql_primary_keys(myConn
               :iqual:ischema:itable
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_PRIMARY 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_PRIMARY
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
                  + ' ' + %trim(ischema)
                  + ' ' + %trim(itable));
@@ -7999,11 +7999,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</foreignkeys>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -8159,8 +8159,8 @@
               :iqual:ischema:itable
               :fqual:fschema:ftable
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_FOREIGN 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_FOREIGN
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
                  + ' ' + %trim(ischema)
                  + ' ' + %trim(itable)
@@ -8201,11 +8201,11 @@
      D  aElemEnd1                      *   value
      D  aElemEnd2                      *   value
      D  aElemNext                      *   value
-     D   node                              likeds(xmlNode_t) 
+     D   node                              likeds(xmlNode_t)
       * vars
      D ooEndDesc       s             15A   inz('</statistics>')
      D rc              s              1N   inz(*OFF)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      D isConn          s              1N   inz(*OFF)
      D isStmt          s              1N   inz(*OFF)
       * attribute search
@@ -8364,8 +8364,8 @@
        rc = sql_statistics(myConn
               :iqual:ischema:itable:iall
               :sOutPtr:sqlCode);
-       perfLogAdd(PERF_LOG_L_STATS 
-                 + ' ' + %trim(myConn) 
+       perfLogAdd(PERF_LOG_L_STATS
+                 + ' ' + %trim(myConn)
                  + ' ' + %char(sqlCode)
                  + ' ' + %trim(ischema)
                  + ' ' + %trim(itable)
@@ -8411,7 +8411,7 @@
      d rc1             s              1N   inz(*OFF)
      d string          s               *   inz(*NULL)
      d stringLen       s             10i 0 inz(0)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
      d origCDATA       s              1N   inz(*OFF)
       * attribute search
      D search          s             20A   dim(XMLMAXATTR) inz(*BLANKS)
@@ -8801,7 +8801,7 @@
          rc = confDiag(jobName:jobUserID:jobNbr:anyData);
          if rc = *ON;
            retLen = %len(%trim(anyData));
-           if retLen > 0;             
+           if retLen > 0;
              string = %addr(anyData);
              stringLen = retLen;
              xmlOutput(string:stringLen:*OFF);
@@ -8815,7 +8815,7 @@
        string = %addr(report);
        stringLen = %len(%trim(report));
        xmlOutput(string:stringLen:*ON);
-       
+
        if rc=*ON and myStopOn = *ON;
          return *OFF;
        endif;
@@ -8880,7 +8880,7 @@
          i = %scan(search:header:i+1);
          if i > 0;
            pos = i;
-         endif; 
+         endif;
        enddo;
        // header
        if pos > 7;
@@ -8916,7 +8916,7 @@
        if pos < 1;
          sHeader = confHeader();
        endif;
- 
+
        return sHeader;
       /end-free
      P                 E
@@ -8973,7 +8973,7 @@
            if h = outHackLp;
              stringLen = strlen(%addr(dROver.hData));
              if stringLen > 1;
-               eROver.hData = %str(%addr(dROver.hData):stringLen) 
+               eROver.hData = %str(%addr(dROver.hData):stringLen)
                             + '</hack>';
              else;
                eROver.hData = '</hack>';
@@ -9037,7 +9037,7 @@
       *****************************************************
       * rc=xmlExec32(...)
       * return (*ON=good, *OFF=error)
-      * Note: 
+      * Note:
       * calling PASE popen(cmd), therefore using
       * PASE memory, that needs
       * copyout back into ILE memory used by
@@ -9068,8 +9068,8 @@
      D endRow          s              6A   inz('</row>')
      D paseMem         s               *   inz(*NULL)
      D paseLen         S             10i 0 inz(0)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
       /free
        Monitor;
 
@@ -9121,7 +9121,7 @@
          else;
            retLen = convPASE(pCur:paseLen:*ON:pOut:outLen);
          endif;
-         if retLen > 0 
+         if retLen > 0
          and isRows = *OFF and isCDATA = *ON;
            // <![CDATA[data]]>
            //              ooo
@@ -9384,7 +9384,7 @@
                    endif;
                  endfor;
                endif;
-               // cut out time date of log entry 
+               // cut out time date of log entry
                // 09/05/12  10:49:58,812952
                // xxxxxxxxxxxxxxxxxxxxxxxxx<--myTime
                pHint = pCopy + 40;
@@ -9419,7 +9419,7 @@
                    endif;
                    if pHint < pCopy;
                       myHint(cntCPF) = %trim(myHint(cntCPF))
-                        + ' ' 
+                        + ' '
                         + %trim(%str(pHint:pCopy - pHint));
                    endif;
                  endif;
@@ -9480,8 +9480,8 @@
      D jobNbr          s              6A   inz(*BLANKS)
      D jobInfo         ds                  likeds(myJob_t)
      D paseCCSID       S             10i 0 inz(0)
-     D cCDATA1         S              9A   inz(*BLANKS) 
-     D cCDATA2         S              3A   inz(*BLANKS) 
+     D cCDATA1         S              9A   inz(*BLANKS)
+     D cCDATA2         S              3A   inz(*BLANKS)
      D haveCPF         s              1N   inz(*OFF)
      D haveBusy        s              1N   inz(*OFF)
      D cntCPF          s             10i 0 inz(0)
@@ -9530,7 +9530,7 @@
              bighint = %str(sOutPtr-lillen:lillen);
            endif;
          endif;
-         // reset output to start 
+         // reset output to start
          xmlOutReset();
          // new header
          report = %trim(xmlGetHead());
@@ -9545,11 +9545,11 @@
        endif;
 
        // version
-       report = %trim(report) 
+       report = %trim(report)
               + '<version>' + PLUGVER + '</version>'+x'25';
 
        // -------------------
-       // PART 2 -- list errors 
+       // PART 2 -- list errors
        // output accumulated errors
        if isfast = *OFF; // fast (1.9.2)
        for i=ERRSPRV to ERRSMAX;
@@ -9564,15 +9564,15 @@
           endif;
           report = %trim(report) + '<error>'+x'25';
           if erCache.erErrNo <> 0;
-           report = %trim(report) 
-                  + '<errnoile>' 
+           report = %trim(report)
+                  + '<errnoile>'
                   + %trim(%char(erCache.erErrNo))
                   + '</errnoile>'+x'25';
            msgOut = errsIleTxt(erCache.erErrNo);
            bigJunkOut(%addr(msgOut):%addr(msgOut) + %size(msgOut):*OFF);
            if msgOut <> *BLANKS;
-             report = %trim(report) 
-                  + '<errnoilemsg>' 
+             report = %trim(report)
+                  + '<errnoilemsg>'
                   + cCDATA1
                   + %trim(msgOut)
                   + cCDATA2
@@ -9580,14 +9580,14 @@
            endif;
           endif;
           if erCache.erErrNoPs <> 0;
-           report = %trim(report) 
-                  + '<errnopase>' 
+           report = %trim(report)
+                  + '<errnopase>'
                   + %trim(%char(erCache.erErrNoPs))
                   + '</errnopase>'+x'25';
           endif;
           if erCache.erErrCPF <> *BLANKS;
-           report = %trim(report) 
-                  + '<cpf>' 
+           report = %trim(report)
+                  + '<cpf>'
                   + %trim(erCache.erErrCPF)
                   + '</cpf>'+x'25';
            haveCPF = *ON;
@@ -9595,40 +9595,40 @@
            lastHint = XML_MSG_GENERIC_CPF_UNAVAILABLE;
           endif;
           if erCache.erErrSYS <> 0;
-           report = %trim(report) 
-                  + '<status>' 
+           report = %trim(report)
+                  + '<status>'
                   + %trim(%char(erCache.erErrSYS))
                   + '</status>'+x'25';
           endif;
           if erCache.erErrCODE <> 0;
-           report = %trim(report) 
-                  + '<sqlcode>' 
+           report = %trim(report)
+                  + '<sqlcode>'
                   + %trim(%char(erCache.erErrCODE))
                   + '</sqlcode>'+x'25';
-           report = %trim(report) 
-                  + '<sqlstate>' 
+           report = %trim(report)
+                  + '<sqlstate>'
                   + %trim(erCache.erErrSTAT)
                   + '</sqlstate>'+x'25';
           endif;
-          report = %trim(report) 
-                  + '<errnoxml>' 
+          report = %trim(report)
+                  + '<errnoxml>'
                   + %trim(%char(erCache.erErrXml))
                   + '</errnoxml>'+x'25';
-          report = %trim(report) 
-                  + '<xmlerrmsg>' 
+          report = %trim(report)
+                  + '<xmlerrmsg>'
                   + cCDATA1
                   + %trim(errsMsgTxt(erCache.erErrXml))
                   + cCDATA2
                   + '</xmlerrmsg>'+x'25';
-          report = %trim(report) 
+          report = %trim(report)
                   + '<xmlhint>'
-                  + cCDATA1 
+                  + cCDATA1
                   + %trim(erCache.erHelp);
           if erCache.erHelp = *BLANKS;
            report = %trim(report) + XML_MSG_GENERIC_ERROR;
           endif;
           report = %trim(report)
-                  + cCDATA2 
+                  + cCDATA2
                   + '</xmlhint>'+x'25';
           report = %trim(report) + '</error>'+x'25';
         endif;
@@ -9642,8 +9642,8 @@
        lillen = %len(%trim(bighint));
        if lillen > 0 and curLen + lillen < maxLen;
           bigJunkOut(%addr(bighint):%addr(bighint) + %size(bighint):*ON);
-          report = %trim(report) 
-                  + '<xmloutput>' 
+          report = %trim(report)
+                  + '<xmloutput>'
                   + cCDATA1
                   + %trim(bighint)
                   + cCDATA2
@@ -9652,7 +9652,7 @@
        endif; // fast (1.9.2)
 
        // -------------------
-       // PART 3 -- job information 
+       // PART 3 -- job information
        rc = ileJob(jobName:jobUserID:jobNbr:jobInfo);
        curLen = %len(%trim(report));
        if curLen + 1024 < maxLen;
@@ -9660,57 +9660,57 @@
          if ipcIPC() = *BLANKS;
            report = %trim(report) + '<jobipc/>'+x'25';
          else;
-           report = %trim(report) + '<jobipc>' 
+           report = %trim(report) + '<jobipc>'
                                + %trim(ipcIPC())
                                +'</jobipc>'+x'25';
          endif;
-         report = %trim(report) + '<jobipcskey>' 
+         report = %trim(report) + '<jobipcskey>'
                                + %trim(ipcFtok())
                                +'</jobipcskey>'+x'25';
-         report = %trim(report) + '<jobname>' 
+         report = %trim(report) + '<jobname>'
                                + %trim(jobInfo.Job0_JobName)
                                +'</jobname>'+x'25';
-         report = %trim(report) + '<jobuser>' 
+         report = %trim(report) + '<jobuser>'
                                + %trim(jobInfo.Job0_UserID)
                                +'</jobuser>'+x'25';
-         report = %trim(report) + '<jobnbr>' 
+         report = %trim(report) + '<jobnbr>'
                                + %trim(jobInfo.Job0_JobNbr)
                                +'</jobnbr>'+x'25';
-         report = %trim(report) + '<jobsts>' 
+         report = %trim(report) + '<jobsts>'
                                + %trim(jobInfo.Job0_Status)
                                +'</jobsts>'+x'25';
-         report = %trim(report) + '<curuser>' 
+         report = %trim(report) + '<curuser>'
                                + %trim(jobInfo.Job0_CurUser)
                                +'</curuser>'+x'25';
-         report = %trim(report) + '<ccsid>' 
+         report = %trim(report) + '<ccsid>'
                                + %char(jobInfo.Job0_CCSID)
                                +'</ccsid>'+x'25';
-         report = %trim(report) + '<dftccsid>' 
+         report = %trim(report) + '<dftccsid>'
                                + %char(jobInfo.Job0_DfCCSID)
                                +'</dftccsid>'+x'25';
          paseCCSID = PaseLstCCSID();
-         report = %trim(report) + '<paseccsid>' 
+         report = %trim(report) + '<paseccsid>'
                                + %char(paseCCSID)
                                +'</paseccsid>'+x'25';
-         report = %trim(report) + '<langid>' 
+         report = %trim(report) + '<langid>'
                                + %trim(jobInfo.Job0_LangId)
                                +'</langid>'+x'25';
-         report = %trim(report) + '<cntryid>' 
+         report = %trim(report) + '<cntryid>'
                                + %trim(jobInfo.Job0_CntryId)
                                +'</cntryid>'+x'25';
-         report = %trim(report) + '<sbsname>' 
+         report = %trim(report) + '<sbsname>'
                                + %trim(jobInfo.Job0_SbsName)
                                +'</sbsname>'+x'25';
-         report = %trim(report) + '<sbslib>' 
+         report = %trim(report) + '<sbslib>'
                                + %trim(jobInfo.Job0_SbsLib)
                                +'</sbslib>'+x'25';
-         report = %trim(report) + '<curlib>' 
+         report = %trim(report) + '<curlib>'
                                + %trim(jobInfo.Job0_CurL)
                                +'</curlib>'+x'25';
-         report = %trim(report) + '<syslibl>' 
+         report = %trim(report) + '<syslibl>'
                                + %trim(jobInfo.Job0_SysL)
                                +'</syslibl>'+x'25';
-         report = %trim(report) + '<usrlibl>' 
+         report = %trim(report) + '<usrlibl>'
                                + %trim(jobInfo.Job0_UsrL)
                                +'</usrlibl>'+x'25';
          if haveCPF = *ON;
@@ -9744,46 +9744,46 @@
           retLen = %len(%trim(myData));
 
           // -------------------
-          // PART 4 -- job log scan CPF list 
+          // PART 4 -- job log scan CPF list
           // new job log scan cpf
           curLen = %len(%trim(report));
           if cntCPF > 0 and curLen + 256 < maxLen;
-            report = %trim(report) 
+            report = %trim(report)
                  + '<joblogscan>'+x'25';
             for i=1 to cntCPF;
               curLen = %len(%trim(report));
               if curLen + 256 < maxLen;
-                 report = %trim(report) 
+                 report = %trim(report)
                   + '<joblogrec>'+x'25';
-                 report = %trim(report) 
-                  + '<jobcpf>' 
+                 report = %trim(report)
+                  + '<jobcpf>'
                   + %trim(myCPF(i))
                   +'</jobcpf>'
                   +x'25';
-                 report = %trim(report) 
+                 report = %trim(report)
                   + '<jobtime>'
                   + cCDATA1
                   + %trim(myTime(cntCPF))
                   + cCDATA2
                   +'</jobtime>'
                   +x'25';
-                 report = %trim(report) 
+                 report = %trim(report)
                   + '<jobtext>'
                   + cCDATA1
                   + %trim(myHint(i))
                   + cCDATA2
                   +'</jobtext>'
                   +x'25';
-                 report = %trim(report) 
+                 report = %trim(report)
                   + '</joblogrec>'+x'25';
               endif;
             endfor;
-            report = %trim(report) 
+            report = %trim(report)
                  + '</joblogscan>'+x'25';
           endif; // PART 4 -- job log scan CPF list
 
           // -------------------
-          // PART 6 -- job log details 
+          // PART 6 -- job log details
           curLen = %len(%trim(report));
           if isjoblog = *ON and curLen + 512 < maxLen;
             // size job log to display
@@ -9806,7 +9806,7 @@
                  + ' nbr='''+%trim(jobNbr)+''''
                  + '>'+x'25';
             report = %trim(report)
-                 + cCDATA1 
+                 + cCDATA1
                  + %trim(myData)
                  + cCDATA2+x'25';
             report = %trim(report)
@@ -9832,7 +9832,7 @@
        if ooLen > 1;
          bigJunkOut(%addr(report):%addr(report) + %size(report):*OFF);
        endif;
-       
+
        // -------------------
        // log error dump (1.7.1)
        perfDumpAdd(report);
@@ -9975,7 +9975,7 @@
 
        sHint = 'xml batch report';
 
-       // forget about all output 
+       // forget about all output
        xmlOutReset();
        // collect errors
        // pass along
@@ -9988,16 +9988,16 @@
        report = %trim(report) + '<batch>'+x'25';
        select;
        when op = XML_BAT_SET;
-         report = %trim(report) 
+         report = %trim(report)
                 + '<id status=''set''>'+%char(nbr)+'</id>'+x'25';
        when op = XML_BAT_SMALL;
-         report = %trim(report) 
+         report = %trim(report)
                 + '<id status=''small''>'+%char(nbr)+'</id>'+x'25';
        when op = XML_BAT_DEAD;
-         report = %trim(report) 
+         report = %trim(report)
                 + '<id status=''done''>'+%char(nbr)+'</id>'+x'25';
        when op = XML_BAT_FULL;
-         report = %trim(report) 
+         report = %trim(report)
                 + '<id status=''full''>'+%char(nbr)+'</id>'+x'25';
        // other?
        other;
@@ -10039,12 +10039,12 @@
            leave;
          endif;
          report = %trim(report) + '<record>'+x'25';
-         report = %trim(report) 
-                  + '<label>' 
+         report = %trim(report)
+                  + '<label>'
                   + %trim(perfMsgTxt(pfCache.pfCode))
                   + '</label>'+x'25';
-         report = %trim(report) 
-                  + '<ticks>' 
+         report = %trim(report)
+                  + '<ticks>'
                   + %trim(%char(pfCache.pfTicks))
                   + '</ticks>'+x'25';
          report = %trim(report) + '</record>'+x'25';
@@ -10320,7 +10320,7 @@
      d string          s               *   inz(*NULL)
      d stringLen       s             10i 0 inz(0)
      D aVeryTop        S               *   inz(*NULL)
-     D myNode          ds                  likeds(xmlNode_t) 
+     D myNode          ds                  likeds(xmlNode_t)
       * search elements
      D do1st           s              1N   inz(*ON)
      D findElem        s             10i 0 inz(-1)
@@ -10352,7 +10352,7 @@
        // rc = xmlPreSbm();
 
        // all elements
-       xmlCTOR(myNode);       
+       xmlCTOR(myNode);
        rc = *ON;
        aVeryTop = sInOrgP;
        pTop = sInOrgP;

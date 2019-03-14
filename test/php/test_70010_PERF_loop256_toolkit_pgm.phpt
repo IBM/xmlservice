@@ -53,8 +53,8 @@ $end_time = microtime();
 $wire_time= control_microtime_used($start_time,$end_time)*1000000;
 
 $opt = str_replace("\n","",var_export($options,true));
-echo 
-  sprintf("$opt -- Time (loop=$count) total=%1.2f sec (%1.2f ms per call)\n", 
+echo
+  sprintf("$opt -- Time (loop=$count) total=%1.2f sec (%1.2f ms per call)\n",
   round($wire_time/1000000,2),
   round(($wire_time/$count)/1000,2));
 

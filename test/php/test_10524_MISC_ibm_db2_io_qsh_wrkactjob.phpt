@@ -40,7 +40,7 @@ foreach ($qsh[0]->row as $row) {
   if (strpos($data,$expect)>0) {
     $missing = false;
     break;
-  } 
+  }
 }
 if ($missing) die("XML qsh data missing ($expect)");
 

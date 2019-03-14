@@ -49,7 +49,7 @@ echo "Success ($lib/$name)\n";
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      * main(): Control flow
 //      *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//     C     *Entry        PLIST                   
+//     C     *Entry        PLIST
 //     C                   PARM                    ErrorParm
 function getxml() {
 $clob = <<<ENDPROC

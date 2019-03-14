@@ -10,7 +10,7 @@ require_once('xxcw_test_setup.php');
 if ($doPcml) {
 
 echo h2('PCML program calls');
-	
+
 	$pcml = '<pcml version="4.0">
    <program name="YYPLUS" entrypoint="YYPLUS"  path="/QSYS.LIB/' . $demoLib . '.LIB/YYSRVNORES.SRVPGM" >
       <data name="START" type="int" length="4" precision="31" usage="inputoutput" />
@@ -24,47 +24,47 @@ echo h2('PCML program calls');
 	if (!$pgmHandle) {
 		die('Error preparing simple PCML program: ' . printArray(i5_error()) . '<BR><BR>');
 	} else {
-		
+
 		$input = array('START' => '25', 'RESULT' => '0');
 		$output = array('START' => 'START', 'RESULT' => 'RESULT');
 		echo 'About to do simple PCML program call.<BR>';
 		$success = i5_program_call($pgmHandle, $input, $output);
-	
+
 		if ($success) {
 			echo "Success. Output variables: START: $START. RESULT: $RESULT.";
 		} else {
 			die("Problem calling PCML-described program. Error: " . print_r(i5_error(), true));
 		}
-		
+
 	} //(if !$pgmHandle)
-	
+
 
 echo '<BR><BR>';
 
-$pcml = "<pcml version=\"4.0\">                                                                
-   <struct name=\"S2\">                                                               
-      <data name=\"ZOND2\" type=\"zoned\" length=\"10\" precision=\"5\" usage=\"inherit\" />  
+$pcml = "<pcml version=\"4.0\">
+   <struct name=\"S2\">
+      <data name=\"ZOND2\" type=\"zoned\" length=\"10\" precision=\"5\" usage=\"inherit\" />
       <data name=\"PACK2\" type=\"packed\" length=\"19\" precision=\"5\" usage=\"inherit\" />
       <data name=\"PACK3\" type=\"packed\" length=\"19\" precision=\"5\" usage=\"inherit\" />
-      <data name=\"ALPH2\" type=\"char\" length=\"20\" usage=\"inherit\" />                 
-   </struct>                                                                        
-   <struct name=\"S1\">                                                               
-      <data name=\"ZOND\" type=\"zoned\" length=\"10\" precision=\"5\" usage=\"inherit\" />   
+      <data name=\"ALPH2\" type=\"char\" length=\"20\" usage=\"inherit\" />
+   </struct>
+   <struct name=\"S1\">
+      <data name=\"ZOND\" type=\"zoned\" length=\"10\" precision=\"5\" usage=\"inherit\" />
       <data name=\"PACK1\" type=\"packed\" length=\"19\" precision=\"5\" usage=\"inherit\" />
-      <data name=\"ALPH1\" type=\"char\" length=\"10\" usage=\"inherit\" />                 
-   </struct>                                                                        
-   <program name=\"TESTSTRUC\" path=\"/QSYS.LIB/{$demoLib}.LIB/TESTSTRUC.PGM\">   
-      <data name=\"CODE\" type=\"char\" length=\"10\" usage=\"output\" />                  
-      <data name=\"S1\" type=\"struct\" struct=\"S1\" usage=\"inputoutput\" />                  
-      <data name=\"S2\" type=\"struct\" struct=\"S2\" usage=\"inputoutput\" />                  
-      <data name=\"PACK\" type=\"packed\" length=\"1\" precision=\"1\" usage=\"output\" />   
-      <data name=\"CH10\" type=\"char\" length=\"19\" usage=\"output\" />                  
-      <data name=\"CH11\" type=\"char\" length=\"20\" usage=\"output\" />                  
-      <data name=\"CH12\" type=\"char\" length=\"29\" usage=\"output\" />                  
-      <data name=\"CH13\" type=\"char\" length=\"33\" usage=\"output\" />                  
-   </program>                                                                           
-</pcml>";                                                                                 
-	
+      <data name=\"ALPH1\" type=\"char\" length=\"10\" usage=\"inherit\" />
+   </struct>
+   <program name=\"TESTSTRUC\" path=\"/QSYS.LIB/{$demoLib}.LIB/TESTSTRUC.PGM\">
+      <data name=\"CODE\" type=\"char\" length=\"10\" usage=\"output\" />
+      <data name=\"S1\" type=\"struct\" struct=\"S1\" usage=\"inputoutput\" />
+      <data name=\"S2\" type=\"struct\" struct=\"S2\" usage=\"inputoutput\" />
+      <data name=\"PACK\" type=\"packed\" length=\"1\" precision=\"1\" usage=\"output\" />
+      <data name=\"CH10\" type=\"char\" length=\"19\" usage=\"output\" />
+      <data name=\"CH11\" type=\"char\" length=\"20\" usage=\"output\" />
+      <data name=\"CH12\" type=\"char\" length=\"29\" usage=\"output\" />
+      <data name=\"CH13\" type=\"char\" length=\"33\" usage=\"output\" />
+   </program>
+</pcml>";
+
 	echo 'About to do a complex PCML program prepare.<BR>';
 	$pgmHandle = i5_program_prepare_PCML($pcml);
 
@@ -103,11 +103,11 @@ $paramOut = array(
 		echo "<BR>CH13: " . var_export($CH13_Value, true);
 		echo "<BR>Code: " . var_export($Code_Value, true);
 		echo "<BR>Pack: " . var_export($Pack, true);
-		
+
 	} else {
 		die("Problem calling PCML-described program. Error: " . printArray(i5_error()));
 	}
-	
+
 } //(doPcml)
 
 

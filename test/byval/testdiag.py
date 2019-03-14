@@ -9,6 +9,6 @@ itool.add(iXml(myxml))
 itool.call(itransport)
 # print(itool.xml_out())
 diag = itool.dict_out()
-if 'version' in diag: 
+if 'version' in diag:
   print ("version   : "+diag['version'])
 

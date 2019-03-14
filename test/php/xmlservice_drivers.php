@@ -11,7 +11,7 @@ case 'post':
   require_once 'xmlservice_post.php';    // $xmlOut = xmlservice($xmlIn)
   break;
 case 'odbc':
-  $ctl .= " *hack";                      // quirky odbc drivers (result set) 
+  $ctl .= " *hack";                      // quirky odbc drivers (result set)
   require_once 'xmlservice_odbc.php';    // $xmlOut = xmlservice($xmlIn)
   break;
 case 'pdo_ibm':

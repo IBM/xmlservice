@@ -54,14 +54,14 @@ echo "Success ($expect)\n";
 
 function getxml() {
 $clob = <<<ENDPROC
-<?xml version='1.0' encoding='ISO-8859-1' ?>    
+<?xml version='1.0' encoding='ISO-8859-1' ?>
 <script>
 <pgm name='TEST_100' lib='ZENDSVR'>
 <parm comment='p1' io='both'>
- <data type='500A' var='p1' ><![CDATA[AAA \<TABLE\>]]></data>           
+ <data type='500A' var='p1' ><![CDATA[AAA \<TABLE\>]]></data>
 </parm>
 <parm comment='p2' io='both'>
- <data type='500A' var='p2' ><![CDATA[ ]]></data>           
+ <data type='500A' var='p2' ><![CDATA[ ]]></data>
 </parm>
 </pgm>
 </script>

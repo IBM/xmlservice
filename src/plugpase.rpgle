@@ -998,7 +998,7 @@
      D jvmSQLa         S              1N   inz(*OFF)
      D jvmDbga         S              1N   inz(*OFF)
       * flag for 32-bit or 64-bit
-     D tBit            s             20u 0 inz(4)
+     D tmpPtrBits      s             20u 0 inz(32)
       /free
        perfAdd(PERF_ANY_WATCH_PASESTART:*ON);
 
@@ -1229,12 +1229,12 @@
 
        //check running in 32-bit or 64-bit
        Monitor;
-       tBit = Qp2ptrsize();
+       tmpPtrBits = Qp2ptrsize() * 8;
        On-error;
          // if error happens, default to 32-bit
-         tBit = 4;
+         tmpPtrBits = 32;
        Endmon;
-       setXBit(tBit);
+       setPtrBits(tmpPtrBits);
 
        // ok
        perfAdd(PERF_ANY_WATCH_PASESTART:*OFF);
@@ -1570,7 +1570,7 @@
 
        // rc=_PGMCALL(pILESym, (void**)arglist,
        //             PGMCALL_NOMAXARGS|PGMCALL_DIRECT_ARGS);
-       if getXBit() = 4;
+       if getPtrBits() = 32;
          pcArgs.pcMe = paAlloc+(piPGMCALLParms-piAlloc);
          pcArgs.pcTarget = paAlloc+(%addr(pcArgs.pcTarget1)-piAlloc);
          pcArgs.pcArgv = paAlloc+(piArgv-piAlloc);
@@ -1694,7 +1694,7 @@
        pCopy += 8;
        myCopy.ulonglongx = 0;
 
-       if getXBit() = 4; // 32-bit
+       if getPtrBits() = 32;// 32-bit
          ieArgs.ieMe = paAlloc+(piILECALLParms-piAlloc);
          ieArgs.ieTarget = paAlloc+(%addr(ieArgs.ieTarget1)-piAlloc);
          ieArgs.ieBase = paAlloc+(piBase-piAlloc);
@@ -1747,8 +1747,8 @@
        endif;
        // ILECALL ok
        if rc = QP2CALLPASE_NORMAL and
-         (getXBit() = 4 and paseRc = ILECALL_NOERROR or
-          getXBit() = 8 and paseRc64 = ILECALL_NOERROR);
+         (getPtrBits() =32 and paseRc = ILECALL_NOERROR or
+          getPtrBits() =64 and paseRc64 = ILECALL_NOERROR);
          // if not an aggregate we need to copy rc
          // from PASE ILE BASE to the return area
          // xml is expecting as output
@@ -1839,7 +1839,7 @@
        pTmp = piArgv;
        myDat = %str(cmd:cmdLen)  + x'00';
 
-       if getXBit() = 4; // 32-bit
+       if getPtrBits() = 32;// 32-bit
          poArgs.poMe = paAlloc+(piPOPENParms-piAlloc);
          poArgs.poCmd  = paAlloc+(piArgv-piAlloc);
          poArgs.poMode = poArgs.poMe +

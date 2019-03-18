@@ -113,7 +113,7 @@
      D pLook00         s               *   inz(%addr(search00))
      D myLook00        ds                  likeds(over_t) based(pLook00)
       * flag for 32-bit or 64-bit
-     D xBit            s             20u 0 inz(4)
+     D ptrBits         s             20u 0 inz(32)
       *****************************************************
       * ile converts
       *****************************************************
@@ -2944,7 +2944,7 @@
            node.pgmArgSz = %size(sArgvP);   // ILE ptr (SRVPGM)
            node.pgmPtrTyp = XML_PTR_ILE;    // write ILE ptr
          else;
-           if getXBit() = 4;   // 32-bit
+           if getPtrBits() = 32;  // 32-bit
              // req 4-byte aligned for _ILECALL
              pCopy = ileAlign(sOrigP:sArgvP:4);
              node.pgmArgPo = pCopy - sArgvBegP;
@@ -3259,7 +3259,7 @@
            pArgv += %size(sParmBegP);
            myArgv.ptrx = *NULL;              // null terminate
          else;
-           if getXBit() = 4; // 32-bit
+           if getPtrBits() = 32;// 32-bit
              myArgv.uintx = sOrig
                         + (sParmP - sOrigP);   // by ref (pase addr)
              pArgv += 4;
@@ -5333,20 +5333,19 @@
      P                 E
       *****************************************************
       * set runing mode in 32-bit or 64-bit
-      * return 4 or 8
       *****************************************************
-     P setXBit         B                   export
-     D setXBit         PI
-     D   bit                         20u 0 value
+     P setPtrBits      B                   export
+     D setPtrBits      PI
+     D   bits                        20u 0 value
       /free
-        xBit = bit;
+        ptrBits = bits;
       /end-free
      P                 E
 
-     P getXBit         B                   export
-     D getXBit         PI            20u 0
+     P getPtrBits      B                   export
+     D getPtrBits      PI            20u 0
       /free
-       return xBit;
+       return ptrBits;
       /end-free
      P                 E
 

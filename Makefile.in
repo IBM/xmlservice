@@ -71,7 +71,6 @@ xmlcgi.pgm: xmlcgi.module $(COMMON)
 	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) BNDSRVPGM(QHTTPSVR/QZSRCORE)" && touch $@
 
 xmlstoredp.srvpgm: xmlstoredp.module $(COMMON)
-	(system -q 'CHKOBJ $(LIBRARY)/QSRVSRC *FILE' || system -q 'CRTSRCPF $(LIBRARY)/QSRVSRC') && touch $@
 	system -q "CPYFRMSTMF FROMSTMF('src/$(@:%.srvpgm=%).bnd') TOMBR('/qsys.lib/$(LIBRARY).lib/qsrvsrc.file/$(@:%.srvpgm=%).mbr') MBROPT(*REPLACE)"
 	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) EXPORT(*SRCFILE) SRCFILE($(LIBRARY)/QSRVSRC) ACTGRP(*CALLER)" && touch $@
 
@@ -89,14 +88,14 @@ xmlstoredp.srvpgm: xmlstoredp.module $(COMMON)
 %.sqlinst: src/%.sql
 	system -q "RUNSQLSTM SRCSTMF('$<')" && touch $@
 
-%.module: src/%.rpgle
+%.module: src/%.rpgle qsrvsrc.srcpf
 	system "CRTRPGMOD MODULE($(LIBRARY)/$*) SRCSTMF('$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES) TGTCCSID(37)" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
 	test ! -e $*.msg || cat $*.msg
 	test ! -e $*.log || ./parse.sh $*.log
 	if [ -e $*.failed ]; then rm $*.failed; exit 1; fi
 	touch $@
 
-%.module: src/%.rpglesql
+%.module: src/%.rpglesql qsrvsrc.srcpf
 	system "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES) RPGPPOPT(*LVL2) COMPILEOPT('INCDIR(''src/'') TGTCCSID(37)')" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
 	test ! -e $*.msg || cat $*.msg
 	test ! -e $*.log || ./parse.sh $*.log

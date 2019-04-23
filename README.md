@@ -22,12 +22,12 @@ TODO ...
 
 ## Language Toolkits
 
-- [PHP](https://github.com/zendtech/IbmiToolkit)
-- [Ruby](https://bitbucket.org/litmis/ruby-itoolkit)
-- [Node.js](https://bitbucket.org/litmis/nodejs-itoolkit)
-- [Python](https://bitbucket.org/litmis/python-itoolkit)
-- [Swift](https://bitbucket.org/litmis/swift-itoolkit)
 - [.NET](https://github.com/richardschoen/IbmiXmlserviceStd)
+- [Node.js](https://github.com/IBM/nodejs-itoolkit)
+- [PHP](https://github.com/zendtech/IbmiToolkit)
+- [Python](https://github.com/IBM/python-itoolkit)
+- [Ruby](https://bitbucket.org/litmis/ruby-itoolkit)
+- [Swift](https://bitbucket.org/litmis/swift-itoolkit)
 
 ## Contributing
 

@@ -2,7 +2,7 @@
 
 XMLSERVICE is a set of procedures written in ILE RPG that allow you to interact with IBM i resources such as programs and commands using a plain XML protocol. XMLSERVICE can be called directly or via high-level language toolkit.
 
-![XMLSERVICE visualization](https://raw.githubusercontent.com/kadler/xmlservice/master/xmlservice.png)
+![XMLSERVICE visualization](https://raw.githubusercontent.com/IBM/xmlservice/master/xmlservice.png)
 
 ## Example
 

@@ -12,9 +12,34 @@ TODO ...
 
 Documentation is at https://xmlservice.readthedocs.io/
 
-## Installation
+## Building from Source
 
-TODO ...
+### Build requirements
+
+Building requires Python 3 and GNU make. These can be installed with `yum`: `yum install python3 make-gnu`
+
+You will also need the ILE RPG compiler installed (5770-WDS option 31).
+
+### Building
+
+```sh
+PATH=/QOpenSys/pkgs/bin:$PATH
+
+git clone https://github.com/IBM/xmlservice.git
+
+cd xmlservice
+
+python3 ./configure
+
+make
+```
+
+### Customizing the Build
+
+You can customize the build by passing options to `configure`:
+
+- `--library`: set the build library
+- `--debug`: set the debug level (DBGVIEW CL parameter)
 
 ## Running the Tests
 

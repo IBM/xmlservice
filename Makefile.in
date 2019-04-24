@@ -38,6 +38,8 @@ TEST_SRVPGMS=\
 	zzsrv.srvpgm \
 	zzsrv6.srvpgm
 
+XMLSTOREDP_MODULES=xmlstoredp.module $(COMMON)
+
 # Ensure that intermediate files created by rules chains don't get
 # automatically deleted
 .PRECIOUS: %.module %.srcpf %.lib
@@ -70,8 +72,9 @@ xmlver.pgm: xmlver.module
 xmlcgi.pgm: xmlcgi.module $(COMMON)
 	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) BNDSRVPGM(QHTTPSVR/QZSRCORE)" && touch $@
 
-xmlstoredp.srvpgm: xmlstoredp.module $(COMMON)
-	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) EXPORT(*ALL) ACTGRP(*CALLER)" && touch $@
+xmlstoredp.srvpgm: qsrvsrc.srcpf $(XMLSTOREDP_MODULES)
+	system -q "CPYFRMSTMF FROMSTMF('src/$(@:%.srvpgm=%).bnd') TOMBR('/qsys.lib/$(LIBRARY).lib/qsrvsrc.file/$(@:%.srvpgm=%).mbr') MBROPT(*REPLACE)"
+	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(XMLSTOREDP_MODULES:%.module=$(LIBRARY)/%)) EXPORT(*SRCFILE) SRCFILE($(LIBRARY)/QSRVSRC) ACTGRP(*CALLER)" && touch $@
 
 %.pgm: src/%.clp qclsrc.srcpf
 	system -q "CPYFRMSTMF FROMSTMF('$<') TOMBR('/qsys.lib/$(LIBRARY).lib/qclsrc.file/$*.mbr') MBROPT(*REPLACE)"

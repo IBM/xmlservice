@@ -18,7 +18,11 @@ Documentation is at https://xmlservice.readthedocs.io/
 
 Building requires Python 3 and GNU make. These can be installed with `yum`: `yum install python3 make-gnu`
 
-You will also need the ILE RPG compiler installed (5770-WDS option 31).
+You will also need the ILE RPG compiler installed (5770-WDS option 31) along with the following PTFs:
+
+- 7.3: SI62605
+- 7.2: SI62604
+- 7.1: SI62580
 
 ### Building
 

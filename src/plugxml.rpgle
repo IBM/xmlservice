@@ -74,10 +74,15 @@
       * global scan vars
       *****************************************************
       * '<![CDATA[' and ends with ']]>'
-     D wCDATA1         S              9C   Inz(%UCS2('<![CDATA['))
-     D wCDATA2         S              3C   Inz(%UCS2(']]>'))
-     D s1CDATA37       S              9A   inz('<![CDATA[')
-     D s2CDATA37       S              3A   inz(']]>')
+      ** <![CDATA[ - unicode inz to be source ccsid independent
+     D wCDATA1         S              9C   Inz(U'003C0021005B004300440041-
+     D                                     00540041005B')
+      ** ]]> - unicode inz to be source ccsid independent
+     D wCDATA2         S              3C   Inz(U'005D005D003E')
+      ** <![CDATA[ - ccsid 37 inz to be source ccsid independent
+     D s1CDATA37       S              9A   inz(x'4C5ABAC3C4C1E3C1BA')
+      ** ]]> - ccsid 37 inz to be source ccsid independent
+     D s2CDATA37       S              3A   inz(x'BBBB6E')
 
      D sAllCDATA       s              1N   inz(*ON)
      D sOneCDATA       s              1N   inz(*ON)

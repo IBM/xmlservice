@@ -24,9 +24,9 @@ copyright = '2018, IBM Corporation'
 author = 'IBM Corporation'
 
 # The short X.Y version
-version = '2.0.1'
+version = '2.0.2-dev'
 # The full version, including alpha/beta/rc tags
-release = '2.0.1'
+release = '2.0.2-dev'
 
 
 # -- General configuration ---------------------------------------------------

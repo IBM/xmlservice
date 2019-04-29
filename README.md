@@ -62,6 +62,25 @@ TODO ...
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
+## Releasing a New Version
+
+This project uses [bumpversion](https://github.com/peritus/bumpversion) to manage its version numbers. To update official releases, run the following commands:
+
+```
+# checkout and pull the latest code from master
+git checkout master
+git pull
+
+# bump to a release version (a tag and commit are made)
+bumpversion release
+
+# bump to the new dev version (a commit is made)
+bumpversion --no-tag patch
+
+# push the new tag and commits
+git push origin master --tags
+```
+
 ## License
 
 [BSD](LICENSE)

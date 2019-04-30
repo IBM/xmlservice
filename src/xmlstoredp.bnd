@@ -16,4 +16,5 @@
                 export     symbol('iPLUGR10M')
                 export     symbol('iPLUGR15M')
                 export     symbol('iPLUGRC32K')
+                export     symbol('RUNASCII')
              endpgmexp

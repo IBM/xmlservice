@@ -49,11 +49,9 @@
       /copy plugperf_h
 
       *****************************************************
-      *   PLUGDEMOOK - *ON/*OFF yips demo
       *   PLUGNONEOK - *ON/*OFF allow *NONE (REST XMLCGI)
       *****************************************************
      D PLUGNONEOK      S              1N   inz(*OFF)
-     D PLUGDEMOOK      S              1N   inz(*OFF)
 
       *****************************************************
       * ---change if alternate library---
@@ -163,19 +161,12 @@
      P                 E
 
       *****************************************************
-      * RPG demo and auth (xmlcgi)
+      * RPG auth (xmlcgi)
       *****************************************************
      P confNoneOk      B                   export
      D confNoneOk      PI             1N
       /free
        return PLUGNONEOK;
-      /end-free
-     P                 E
-
-     P confDemoOk      B                   export
-     D confDemoOk      PI             1N
-      /free
-       return PLUGDEMOOK;
       /end-free
      P                 E
 

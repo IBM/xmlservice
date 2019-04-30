@@ -60,7 +60,6 @@
       *****************************************************
       * custom setup
      D confHeader      PR          2048A
-     D confDemoOk      PR             1N
      D confNoneOk      PR             1N
      D confCALLSP      PR           128A
      D confSPNDIR      PR           128A

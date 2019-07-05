@@ -58,7 +58,7 @@
      D perdb2          S             10i 0 inz(0)
      d perkey          s             10A   dim(PERMAX)
      d peruid          s             10A   dim(PERMAX)
-     d perpwd          s             10A   dim(PERMAX)
+     d perpwd          s            128A   dim(PERMAX)
      d percon          s             10i 0 dim(PERMAX)
      d perstm          s             10i 0 dim(PERMAX)
 
@@ -153,7 +153,7 @@
 
      D xDB2            s             10A   inz(*BLANKS)
      D xUID            s             10A   inz(*BLANKS)
-     D xPWD            s             10A   inz(*BLANKS)
+     D xPWD            s            128A   inz(*BLANKS)
      D xIPC            s           1024A   inz(*BLANKS)
      D xCtl            s           1024A   inz(*BLANKS)
      D xSize           s           1024A   inz(*BLANKS)
@@ -225,7 +225,7 @@
      D runXMLServ      PR             1N
      D  mDB2                         10A   value
      D  mUID                         10A   value
-     D  mPWD                         10A   value
+     D  mPWD                        128A   value
      D  mIPC                       1024A   value
      D  mCtl                       1024A   value
      D  mIClob                         *   value
@@ -1014,7 +1014,7 @@
      D runXMLServ      PI             1N
      D  mDB2                         10A   value
      D  mUID                         10A   value
-     D  mPWD                         10A   value
+     D  mPWD                        128A   value
      D  mIPC                       1024A   value
      D  mCtl                       1024A   value
      D  mIClob                         *   value
@@ -1037,7 +1037,7 @@
      DDBNameP          S               *   INZ(%ADDR(DBName))
      DDBUser           S             10A   inz(*BLANKS)
      DDBUserP          S               *   INZ(%ADDR(DBUser))
-     DDBPwd            S             10A   inz(*BLANKS)
+     DDBPwd            S            128A   inz(*BLANKS)
      DDBPwdP           S               *   INZ(%ADDR(DBPwd))
 
      DConnOpt          S              5I 0 inz(0)

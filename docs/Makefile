@@ -5,8 +5,8 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = XMLSERVICE
-SOURCEDIR     = .
-BUILDDIR      = _build
+SOURCEDIR     = ./srcdir
+BUILDDIR      = ./blddir
 
 # Put it first so that "make" without argument is like "make help".
 help:

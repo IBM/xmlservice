@@ -54,6 +54,10 @@
       *****************************************************
       * global vars
       *****************************************************
+      * make '|' to be source ccsid indepenent
+     D wBar            S              1C   Inz(U'007C')
+     D sBar            S              1A   inz(*BLANK)
+      *
      D sBDefault       s              2A   inz('00')
      D sADefault       s              1A   inz(' ')
      D sIDefault       s              1A   inz('0')
@@ -977,7 +981,8 @@
              '/* STRREXPRC SRCMBR(HOW)                       */'+x'25'
            + '/* SRCFILE(QTEMP/XMLREXX)                      */'+x'25'
            + '/* PARM(''RTVJOBA USRLIBL(?)                   */'+x'25'
-           + '/* :CDD0:*ON|*OFF                              */'+x'25'
+           + '/* :CDD0:*ON' + getJobBar() +
+                          '*OFF                              */'+x'25'
            + '/* :CDD1:CDATAbeg                              */'+x'25'
            + '/* :CDD2:CDATAend                              */'+x'25'
            + '/* :CFIN:junk'')                               */'+x'25'
@@ -1005,7 +1010,9 @@
            + 'line'+x'25'
            + 'if RC <> 0'+x'25'
            + 'then do'+x'25'
-           + '  say "             </chop><error>"||RC||"</error>"'+x'25'
+           + '  say "             </chop><error>"' +
+             getJobBar() + getJobBar() +'RC' +
+             getJobBar() + getJobBar() +'"</error>"'+x'25'
            + '  exit'+x'25'
            + 'end'+x'25'
            + '/* output to QTEMP/OUTREXX */'+x'25'
@@ -1022,7 +1029,7 @@
            + 'keyparm:'+x'25'
            + '  parse arg line,idx,data'+x'25'
            + '  /* "&V" */'+x'25'
-           + '  vname = "(&V."||idx'+x'25'
+           + '  vname = "(&V."' + getJobBar() + getJobBar() +'idx'+x'25'
            + '  name = "nada"'+x'25'
            + '  /* icmd parm1(&V.1) parm2(&V.2) */'+x'25'
            + '  /*                        x     */'+x'25'
@@ -1045,26 +1052,29 @@
            + '  then do'+x'25'
            + '    pe = 40'+x'25'
            + '    goop = "            </chop>"'+x'25'
-           + '    say goop||"<row></lf>"'+x'25'
-           + '    say goop||"<data desc=''"||name||"''>"'+x'25'
+           + '    say goop' + getJobBar() + getJobBar() +'"<row></lf>"'+x'25'
+           + '    say goop' + getJobBar() + getJobBar() +'"<data desc=''"' +
+               getJobBar() + getJobBar() +'name' +
+               getJobBar() + getJobBar() +'"''>"'+x'25'
            + '    if cdata <> "*OFF"'+x'25'
            + '    then do'+x'25'
-           + '      say goop||cdata1'+x'25'
+           + '      say goop' + getJobBar() + getJobBar() +'cdata1'+x'25'
            + '    end'+x'25'
            + '    mydata = strip(data)'+x'25'
            + '    len = length(mydata)'+x'25'
            + '    do while (len > 0)'+x'25'
-           + '      out = goop||left(mydata,pe)'+x'25'
+           + '      out = goop' + getJobBar() + getJobBar() +
+               'left(mydata,pe)'+x'25'
            + '      say out'+x'25'
            + '      mydata = substr(mydata,pe+1)'+x'25'
            + '      len = length(mydata)'+x'25'
            + '    end'+x'25'
            + '    if cdata <> "*OFF"'+x'25'
            + '    then do'+x'25'
-           + '      say goop||cdata2'+x'25'
+           + '      say goop' + getJobBar() + getJobBar() +'cdata2'+x'25'
            + '    end'+x'25'
-           + '    say goop||"</data></lf>"'+x'25'
-           + '    say goop||"</row></lf>"'+x'25'
+           + '    say goop' + getJobBar() + getJobBar() +'"</data></lf>"'+x'25'
+           + '    say goop' + getJobBar() + getJobBar() +'"</row></lf>"'+x'25'
            + '  end'+x'25'
            + 'return 0'+x'25'
            + 'keysub:'+x'25'
@@ -1088,12 +1098,14 @@
            + '    end'+x'25'
            + '    else do'+x'25'
            + '      do h = 1 to 4096'+x'25'
-           + '        V.i = V.i||" "'+x'25'
+           + '        V.i = V.i' + getJobBar() + getJobBar() +'" "'+x'25'
            + '      end'+x'25'
            + '    end'+x'25'
-           + '    out=out||prepart||new||i'+x'25'
+           + '    out=out' + getJobBar() + getJobBar() +'prepart' +
+               getJobBar() + getJobBar() +'new' +
+               getJobBar() + getJobBar() +'i'+x'25'
            + '  END'+x'25'
-           + '  V.dat = out||string'+x'25'
+           + '  V.dat = out' + getJobBar() + getJobBar() +'string'+x'25'
            + 'return V'+x'25';
          pData = %addr(myData);
          pSize = %len(%trim(myData));
@@ -5348,5 +5360,19 @@
        return ptrBits;
       /end-free
      P                 E
+      *****************************************************
+      * return job ccsid char for '|'
+      *****************************************************
+     P getJobBar       B
+     D getJobBar       PI             1A
+      /free
+       if sBar = *BLANK;
+         sBar = %char(wBar);
+       endif;
+       return sBar;
+      /end-free
+     P                 E
+
+
 
 

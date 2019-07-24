@@ -75,7 +75,7 @@
      D confCGI         PR             1N
      D  mDB2                         10A   value
      D  mUID                         10A   value
-     D  mPWD                         10A   value
+     D  mPWD                        128A   value
      D  mIPC                       1024A   value
      D  mCtl                       1024A   value
      D  mIClob                         *   value

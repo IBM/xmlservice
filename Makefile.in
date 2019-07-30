@@ -59,7 +59,7 @@ build-cgi: $(LIBRARY).lib xmlcgi.pgm
 build-test: $(TEST_PGMS) $(TEST_SRVPGMS)
 
 prod-clean:
-	rm -f *.lib *.pgm *.srvpgm *.module *.sqlinst *.srcpf
+	rm -f *.module *.srcpf
 	rm -rf /qsys.lib/$(LIBRARY).lib/*.FILE
 	rm -rf /qsys.lib/$(LIBRARY).lib/*.MODULE
 

@@ -98,7 +98,7 @@ xmlstoredp.srvpgm: qsrvsrc.srcpf $(XMLSTOREDP_MODULES)
 	touch $@
 
 %.module: src/%.sqlrpgle
-	system "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES) RPGPPOPT(*LVL2) COMPILEOPT('INCDIR(''src/'') TGTCCSID(37)')" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
+	system "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES) RPGPPOPT(*LVL2) DBGVIEW($(DBGVIEW)) COMPILEOPT('INCDIR(''src/'') TGTCCSID(37)')" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
 	test ! -e $*.msg || cat $*.msg
 	test ! -e $*.log || ./parse.sh $*.log
 	if [ -e $*.failed ]; then rm $*.failed; exit 1; fi

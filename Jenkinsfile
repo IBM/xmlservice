@@ -17,7 +17,7 @@ pipeline {
     }
     stage('deploy') {
       environment {
-        GITHUB_API_TOKEN = credentials('5bba0f79-a3ad-4f3a-af8e-2d5e561dbebc')
+        GITHUB_API_TOKEN = credentials('gh-token')
       }
       steps {
         sh 'make savf'

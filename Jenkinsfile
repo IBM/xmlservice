@@ -16,8 +16,12 @@ pipeline {
       }
     }
     stage('deploy') {
+      environment {
+        GITHUB_API_TOKEN = credentials('5bba0f79-a3ad-4f3a-af8e-2d5e561dbebc')
+      }
       steps {
         sh 'make savf'
+        sh 'python3 scripts/gh-release.py'
       }
     }
   }

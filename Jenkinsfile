@@ -15,5 +15,10 @@ pipeline {
         sh 'make -j4'
       }
     }
+    stage('deploy') {
+      steps {
+        sh 'make savf'
+      }
+    }
   }
 }

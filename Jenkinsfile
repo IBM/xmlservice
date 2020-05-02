@@ -21,7 +21,7 @@ pipeline {
       }
       steps {
         sh 'make savf'
-        sh 'python3 scripts/gh-release.py'
+        sh 'python3 -u scripts/gh-release.py'
       }
     }
   }

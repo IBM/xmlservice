@@ -30,7 +30,13 @@ url = 'https://api.github.com/repos/IBM/xmlservice/tags'
 headers = base_headers
 r = requests.get(url)
 r.raise_for_status()
-prior_tag = r.json()[0]
+tags = r.json()
+for i, tag in enumerate(tags):
+    if tag['name'] == tag:
+        prior_tag = tags[i+1]
+        break
+
+prior_tag = tags[1]
 commit = prior_tag['commit']['sha']
 
 # r = subprocess.run(['git', 'describe', '--abbrev=0', '--tags', 'HEAD^'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)

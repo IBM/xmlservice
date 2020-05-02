@@ -15,5 +15,15 @@ pipeline {
         sh 'make -j4'
       }
     }
+    stage('deploy') {
+      when { buildingTag() }
+      environment {
+        GITHUB_API_TOKEN = credentials('gh-token')
+      }
+      steps {
+        sh 'make savf'
+        sh 'python3 -u scripts/gh-release.py'
+      }
+    }
   }
 }

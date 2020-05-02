@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-import glob
 import os
 import sys
 import requests
 import subprocess
+
+from glob import glob
 
 token = os.getenv('GITHUB_API_TOKEN')
 if not token:

@@ -12,8 +12,8 @@ if not token:
     print("No API token found in environment", file=sys.stderr)
     exit(1)
 
-tag = os.getenv('TAG_NAME')
-if not tag:
+release_tag = os.getenv('TAG_NAME')
+if not release_tag:
     print("No tag found in environment", file=sys.stderr)
     exit(1)
 
@@ -74,14 +74,14 @@ body = f"""# XMLSERVICE {tag}
 url = 'https://api.github.com/repos/IBM/xmlservice/releases'
 
 payload = {
-    'tag_name': '2.0.1', #tag,
-    'name': tag,
+    'tag_name': '2.0.1', #release_tag,
+    'name': release_tag,
     'body': body,
     'draft': True
 }
 
 headers = base_headers
-print(f"# Creating release for {tag}")
+print(f"# Creating release for {release_tag}")
 r = requests.post(url, headers=headers, json=payload)
 r.raise_for_status()
 

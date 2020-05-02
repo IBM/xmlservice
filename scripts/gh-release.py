@@ -12,13 +12,30 @@ if not token:
     print("No API token found in environment", file=sys.stderr)
     exit(1)
 
-r = subprocess.run(['git', 'describe', '--abbrev=0', '--tags', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-tag = r.stdout.decode('utf-8').rstrip()
+tag = os.getenv('TAG_NAME')
+if not tag:
+    print("No tag found in environment", file=sys.stderr)
+    exit(1)
+
+base_headers = {
+    'Accept': 'application/vnd.github.v3+json',
+    'Authorization': f"token {token}",
+}
+
+# r = subprocess.run(['git', 'describe', '--abbrev=0', '--tags', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+# tag = r.stdout.decode('utf-8').rstrip()
 print(f"# Current tag is {tag}")
 
-r = subprocess.run(['git', 'describe', '--abbrev=0', '--tags', 'HEAD^'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-prior_tag = r.stdout.decode('utf-8').rstrip()
-print(f"# Prior tag is {prior_tag}")
+url = 'https://api.github.com/repos/IBM/xmlservice/tags'
+headers = base_headers
+r = requests.get(url)
+r.raise_for_status()
+prior_tag = r.json()[0]
+commit = prior_tag['commit']['sha']
+
+# r = subprocess.run(['git', 'describe', '--abbrev=0', '--tags', 'HEAD^'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+# prior_tag = r.stdout.decode('utf-8').rstrip()
+print(f"# Prior tag is {prior_tag['name']}")
 
 args = [
   'git',
@@ -28,7 +45,7 @@ args = [
   '--no-merges',
   '--no-decorate',
   '--pretty=format:- %s',
-  f'{prior_tag}..{tag}'
+  f"{commit}.."
 ]
 
 print("# Generating changelog")
@@ -47,10 +64,6 @@ body = f"""# XMLSERVICE {tag}
 # print(body)
 # exit()
 
-base_headers = {
-    'Accept': 'application/vnd.github.v3+json',
-    'Authorization': f"token {token}",
-}
 
 url = 'https://api.github.com/repos/IBM/xmlservice/releases'
 

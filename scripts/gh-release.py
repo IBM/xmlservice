@@ -91,4 +91,6 @@ payload = { 'draft': False }
 headers = base_headers
 r = requests.patch(url, headers=headers, json=payload)
 r.raise_for_status()
+release = r.json()
+print(f"# Release published at {release['html_url']}")
 # print(r)

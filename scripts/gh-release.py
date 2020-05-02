@@ -24,7 +24,7 @@ base_headers = {
 
 # r = subprocess.run(['git', 'describe', '--abbrev=0', '--tags', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 # tag = r.stdout.decode('utf-8').rstrip()
-print(f"# Current tag is {tag}")
+print(f"# Current tag is {release_tag}")
 
 url = 'https://api.github.com/repos/IBM/xmlservice/tags'
 headers = base_headers
@@ -36,7 +36,7 @@ for i, tag in enumerate(tags):
         prior_tag = tags[i+1]
         break
 
-prior_tag = tags[1]
+# prior_tag = tags[1]
 commit = prior_tag['commit']['sha']
 
 # r = subprocess.run(['git', 'describe', '--abbrev=0', '--tags', 'HEAD^'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)

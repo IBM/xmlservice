@@ -41,15 +41,25 @@ TEST_SRVPGMS=\
 
 XMLSTOREDP_MODULES=xmlstoredp.module $(COMMON)
 
+XMLSERVICE_OBJECTS=\
+	xmlmain.pgm \
+	xmlservice.pgm \
+	xmlver.pgm \
+	xmlstoredp.srvpgm \
+	xmlstoredp.sqlinst \
+	xmlcgi.pgm
+
 # Ensure that intermediate files created by rules chains don't get
 # automatically deleted
 .PRECIOUS: %.module %.srcpf %.lib
 
-all: build
+all: build-all
 
 prod: build-main build-procedure build-cgi prod-clean
 
-build: build-main build-procedure build-cgi build-test
+build-all: build-xmlservice build-test
+
+build-xmlservice: build-main build-procedure build-cgi
 
 build-main: $(LIBRARY).lib xmlmain.pgm xmlservice.pgm xmlver.pgm
 
@@ -64,8 +74,10 @@ prod-clean:
 	rm -rf /qsys.lib/$(LIBRARY).lib/*.FILE
 	rm -rf /qsys.lib/$(LIBRARY).lib/*.MODULE
 
+savf: xmlservice-full.savf.xz xmlservice.savf.xz xmlservice-tests.savf.xz
+
 clean:
-	rm -f *.lib *.pgm *.srvpgm *.module *.sqlinst *.srcpf
+	rm -f *.lib *.pgm *.srvpgm *.module *.sqlinst *.srcpf *.savf.xz
 	system -q 'DLTLIB $(LIBRARY)' || :
 
 xmlmain.pgm: xmlmain.module $(COMMON)
@@ -124,4 +136,19 @@ xmlstoredp.srvpgm: qsrvsrc.srcpf $(XMLSTOREDP_MODULES)
 
 %.srcpf: $(LIBRARY).lib
 	(system -q 'CHKOBJ $(LIBRARY)/$* *FILE' || system -q 'CRTSRCPF $(LIBRARY)/$*') && touch $@
+
+xmlservice-full.savf.xz: $(XMLSERVICE_OBJECTS) $(TEST_PGMS) $(TEST_SRVPGMS)
+	system -q 'CRTSAVF $(LIBRARY)/XMLSRVFULL' || :
+	system -q "SAVLIB LIB($(LIBRARY)) DEV(*SAVF) SAVF($(LIBRARY)/XMLSRVFULL) TGTRLS($(TGTRLS)) CLEAR(*ALL) OMITOBJ((*ALL *MODULE) (*ALL *FILE))"
+	xz < /qsys.lib/$(LIBRARY).lib/XMLSRVFULL.file > $@
+
+xmlservice.savf.xz: $(XMLSERVICE_OBJECTS)
+	system -q 'CRTSAVF $(LIBRARY)/XMLSRVONLY' || :
+	system -q "SAVLIB LIB($(LIBRARY)) DEV(*SAVF) SAVF($(LIBRARY)/XMLSRVONLY) TGTRLS($(TGTRLS)) CLEAR(*ALL) OMITOBJ((*ALL *MODULE) (*ALL *FILE) (ZZ*))"
+	xz < /qsys.lib/$(LIBRARY).lib/XMLSRVONLY.file > $@
+
+xmlservice-tests.savf.xz: $(TEST_PGMS) $(TEST_SRVPGMS)
+	system -q 'CRTSAVF $(LIBRARY)/XMLSRVTEST' || :
+	system -q "SAVLIB LIB($(LIBRARY)) DEV(*SAVF) SAVF($(LIBRARY)/XMLSRVTEST) TGTRLS($(TGTRLS)) CLEAR(*ALL) OMITOBJ((*ALL *MODULE) (*ALL *FILE)) SELECT((*INCLUDE ZZ*))"
+	xz < /qsys.lib/$(LIBRARY).lib/XMLSRVTEST.file > $@
 

@@ -20,7 +20,7 @@ pipeline {
         GITHUB_API_TOKEN = credentials('gh-token')
       }
       steps {
-        sh 'make savf'
+        // sh 'make savf'
         sh 'python3 -u scripts/gh-release.py'
       }
     }

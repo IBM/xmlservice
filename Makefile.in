@@ -67,7 +67,7 @@ build-cgi: $(LIBRARY).lib xmlcgi.pgm
 
 build-test: $(TEST_PGMS) $(TEST_SRVPGMS)
 
-savf: xmlservice-full.savf.xz xmlservice-only.savf.xz xmlservice-tests.savf.xz
+savf: xmlservice-full.savf.xz xmlservice.savf.xz xmlservice-tests.savf.xz
 
 clean:
 	rm -f *.lib *.pgm *.srvpgm *.module *.sqlinst *.srcpf

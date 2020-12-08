@@ -111,6 +111,13 @@ xmlstoredp.srvpgm: qsrvsrc.srcpf $(XMLSTOREDP_MODULES)
 	if [ -e $*.failed ]; then rm $*.failed; exit 1; fi
 	touch $@
 
+%.module: src/%.c
+	system "CRTCMOD MODULE($(LIBRARY)/$*) SRCSTMF('$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES) TGTCCSID(37)" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
+	test ! -e $*.msg || cat $*.msg
+	test ! -e $*.log || cat $*.log
+	if [ -e $*.failed ]; then rm $*.failed; exit 1; fi
+	touch $@
+
 %.lib:
 	(system -q 'CHKOBJ $* *LIB' || system -q 'CRTLIB $*') && touch $@
 

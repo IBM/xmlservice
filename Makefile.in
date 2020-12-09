@@ -46,6 +46,8 @@ XMLSTOREDP_MODULES=xmlstoredp.module $(COMMON)
 
 all: build
 
+prod: build-main build-procedure build-cgi prod-clean
+
 build: build-main build-procedure build-cgi build-test
 
 build-main: $(LIBRARY).lib xmlmain.pgm xmlservice.pgm xmlver.pgm
@@ -55,6 +57,11 @@ build-procedure: $(LIBRARY).lib xmlstoredp.srvpgm xmlstoredp.sqlinst
 build-cgi: $(LIBRARY).lib xmlcgi.pgm
 
 build-test: $(TEST_PGMS) $(TEST_SRVPGMS)
+
+prod-clean:
+	rm -f *.module *.srcpf
+	rm -rf /qsys.lib/$(LIBRARY).lib/*.FILE
+	rm -rf /qsys.lib/$(LIBRARY).lib/*.MODULE
 
 clean:
 	rm -f *.lib *.pgm *.srvpgm *.module *.sqlinst *.srcpf

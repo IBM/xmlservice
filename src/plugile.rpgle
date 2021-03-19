@@ -892,9 +892,9 @@
       /free
        myFile = %trim(pTmpFile)+x'00';
        fd = openIFS(myFile
-              :O_WRONLY + O_CREAT + O_TRUNC + O_TEXTDATA + O_CODEPAGE
+              :O_WRONLY + O_CREAT + O_TRUNC + O_TEXTDATA + O_CCSID 
               :S_IRUSR + S_IWUSR
-              :37);
+              :0);  //Use O_CCSID(32) & job ccsid(0)  
        if fd > -1;
          rc = writeIFS(fd:pData:pSize);
          rc1 = closeIFS(fd);
@@ -964,9 +964,9 @@
        // -------------
        // write rexx program (once)
        if sRexxRdy = *OFF;
-         // create src files
+         // create src files. Use Job CCSID 
          cmdstr = 'CRTSRCPF FILE(QTEMP/XMLREXX)'
-                +  '  RCDLEN(92) CCSID(37) MBR(HOW)';
+                +  '  RCDLEN(92) CCSID(*JOB) MBR(HOW)';
          cmdlen = %len(%trim(cmdstr));
          rcb = ileCmdExc(cmdp:cmdlen);
 

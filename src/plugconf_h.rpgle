@@ -594,6 +594,7 @@
      D O_RDWR          C                   4
      D O_CREAT         C                   8
      D O_EXCL          C                   16
+     D O_CCSID         C                   32
      D O_TRUNC         C                   64
      D O_APPEND        C                   256
      D O_CODEPAGE      C                   8388608

@@ -9,6 +9,7 @@ class UppercaseAction(Action):
 parser = ArgumentParser(description='Configure script')
 parser.add_argument('--library', default='XMLSERVICE', action=UppercaseAction, help='Output library')
 parser.add_argument('--debug', default='*ALL', help='Debug option (DBGVIEW)')
+parser.add_argument('--target-release', default='*CURRENT', help='Target release (TGTRLS)')
 args = parser.parse_args()
 
 # Map command line arguments to replacement variables

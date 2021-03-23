@@ -1,5 +1,6 @@
 LIBRARY=@LIBRARY@
 DBGVIEW=@DEBUG@
+TGTRLS=@TARGET_RELEASE@
 
 COMMON=\
 	plugconf.module \
@@ -68,51 +69,51 @@ clean:
 	system -q 'DLTLIB $(LIBRARY)' || :
 
 xmlmain.pgm: xmlmain.module $(COMMON)
-	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
+	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) TGTRLS($(TGTRLS))" && touch $@
 
 xmlservice.pgm: xmlservice.module $(COMMON)
-	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
+	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) TGTRLS($(TGTRLS))" && touch $@
 
 xmlver.pgm: xmlver.module
-	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
+	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) TGTRLS($(TGTRLS))" && touch $@
 
 xmlcgi.pgm: xmlcgi.module $(COMMON)
-	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) BNDSRVPGM(QHTTPSVR/QZSRCORE)" && touch $@
+	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) BNDSRVPGM(QHTTPSVR/QZSRCORE) TGTRLS($(TGTRLS))" && touch $@
 
 xmlstoredp.srvpgm: qsrvsrc.srcpf $(XMLSTOREDP_MODULES)
 	system -q "CPYFRMSTMF FROMSTMF('src/$(@:%.srvpgm=%).bnd') TOMBR('/qsys.lib/$(LIBRARY).lib/qsrvsrc.file/$(@:%.srvpgm=%).mbr') MBROPT(*REPLACE)"
-	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(XMLSTOREDP_MODULES:%.module=$(LIBRARY)/%)) EXPORT(*SRCFILE) SRCFILE($(LIBRARY)/QSRVSRC) ACTGRP(*CALLER)" && touch $@
+	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(XMLSTOREDP_MODULES:%.module=$(LIBRARY)/%)) EXPORT(*SRCFILE) SRCFILE($(LIBRARY)/QSRVSRC) ACTGRP(*CALLER) TGTRLS($(TGTRLS))" && touch $@
 
 %.pgm: src/%.clp qclsrc.srcpf
 	system -q "CPYFRMSTMF FROMSTMF('$<') TOMBR('/qsys.lib/$(LIBRARY).lib/qclsrc.file/$*.mbr') MBROPT(*REPLACE)"
-	system -q "CRTCLPGM PGM($(LIBRARY)/$*) SRCFILE($(LIBRARY)/QCLSRC)"
+	system -q "CRTCLPGM PGM($(LIBRARY)/$*) SRCFILE($(LIBRARY)/QCLSRC) TGTRLS($(TGTRLS))"
 	touch $@
 
 %.pgm: %.module
-	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%))" && touch $@
+	system -q "CRTPGM PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) TGTRLS($(TGTRLS))" && touch $@
 
 %.srvpgm: %.module
-	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) EXPORT(*ALL) ACTGRP(*CALLER)" && touch $@
+	system -q "CRTSRVPGM SRVPGM($(LIBRARY)/$(@:%.srvpgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) EXPORT(*ALL) ACTGRP(*CALLER) TGTRLS($(TGTRLS))" && touch $@
 
 %.sqlinst: src/%.sql
 	system -q "RUNSQLSTM SRCSTMF('$<')" && touch $@
 
 %.module: src/%.rpgle
-	system "CRTRPGMOD MODULE($(LIBRARY)/$*) SRCSTMF('$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES) TGTCCSID(37)" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
+	system "CRTRPGMOD MODULE($(LIBRARY)/$*) SRCSTMF('$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES) TGTCCSID(37) TGTRLS($(TGTRLS))" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
 	test ! -e $*.msg || cat $*.msg
 	test ! -e $*.log || ./parse.sh $*.log
 	if [ -e $*.failed ]; then rm $*.failed; exit 1; fi
 	touch $@
 
 %.module: src/%.sqlrpgle
-	system "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES) RPGPPOPT(*LVL2) COMPILEOPT('INCDIR(''src/'') TGTCCSID(37)')" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
+	system "CRTSQLRPGI OBJ($(LIBRARY)/$*) SRCSTMF('$<') OBJTYPE(*MODULE) REPLACE(*YES) RPGPPOPT(*LVL2) COMPILEOPT('INCDIR(''src/'') TGTCCSID(37)') TGTRLS($(TGTRLS))" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
 	test ! -e $*.msg || cat $*.msg
 	test ! -e $*.log || ./parse.sh $*.log
 	if [ -e $*.failed ]; then rm $*.failed; exit 1; fi
 	touch $@
 
 %.module: src/%.c
-	system "CRTCMOD MODULE($(LIBRARY)/$*) SRCSTMF('$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES) TGTCCSID(37)" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
+	system "CRTCMOD MODULE($(LIBRARY)/$*) SRCSTMF('$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES) TGTCCSID(37) TGTRLS($(TGTRLS))" > $*.log 2> $*.msg && rm $*.log $*.msg || touch $*.failed
 	test ! -e $*.msg || cat $*.msg
 	test ! -e $*.log || cat $*.log
 	if [ -e $*.failed ]; then rm $*.failed; exit 1; fi

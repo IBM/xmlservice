@@ -30,6 +30,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <as400_protos.h>
 
@@ -38,19 +39,46 @@
 #endif
 // To build
 // gcc -maix32 -o xmlservice
-int main()
+int main(int argc, char **argv)
 {
     ILEpointer xmlstoredp __attribute__ ((aligned (16)));
+
+    char *ctl = NULL, *ipc = NULL;
+
+    int opt;
+    while ((opt = getopt(argc, argv, "c:i:")) != -1) {
+        switch (opt) {
+        case 'c': /* ctl */
+            ctl = optarg;
+            break;
+        case 'i':
+            ipc = optarg;
+            break;
+        default:
+            fprintf(stderr, "usage: %s [-c ctl] [-i ipc]\n", argv[0]);
+            return 1;
+        }
+    }
+
+    if (ctl == NULL) {
+        ctl = ""; //"*here *cdata";
+    }
+    int ctl_len = strlen(ctl);
+
+    if (ipc == NULL) {
+        ipc = ""; //"*na";
+    }
+    int ipc_len = strlen(ipc);
 
     unsigned long long actmark = _ILELOADX("QXMLSERV/XMLSTOREDP", ILELOAD_LIBOBJ);
 
     if (actmark == (unsigned long long)-1) {
-        // TODO: generate error xml
+        perror("failed to load XMLSERVICE stored procedure");
         return 1;
     }
 
     if(_ILESYMX(&xmlstoredp, actmark, "RUNASCII") < 0) {
-        // TODO: generate error xml
+        perror("failed to load XMLSERVICE symbol");
         return 1;
     }
 
@@ -68,7 +96,7 @@ int main()
             remain = xmlin_size - xmlin_len;
             xmlin = (char*) realloc(xmlin, xmlin_size);
             if(!xmlin) {
-                // TODO: better error handling
+                perror("error expanding XML input buffer");
                 return 1;
             }
         }
@@ -78,7 +106,7 @@ int main()
 
         if(count < remain) {
             if(ferror(stdin)) {
-                // TODO: better error handling
+                perror("error reading input");
                 return 1;
             }
             break;
@@ -89,15 +117,9 @@ int main()
     char* xmlout = (char*) malloc(xmlout_len);
 
     if(!xmlout) {
-        // TODO: better error handling
+        perror("error allocating XML output buffer");
         return 1;
     }
-
-    char* ctl = ""; //"*here *cdata";
-    int ctl_len = strlen(ctl);
-
-    char* ipc = ""; //"*na";
-    int ipc_len = strlen(ipc);
 
     int rc;
 
@@ -158,10 +180,13 @@ int main()
 
     rc = _ILECALL(&xmlstoredp, &arglist.base, signature, RESULT_UINT8);
 
+    /* perror likely not useful w/ _ILECALL */
     if (rc != ILECALL_NOERROR) {
+        dprintf(olderr, "%s: _ILECALL error\n", argv[0]);
         return 1;
     }
     if (arglist.base.result.s_uint8.r_uint8 == 0xF0) {
+        dprintf(olderr, "%s: XMLSTOREDP error\n", argv[0]);
         return 1;
     }
 

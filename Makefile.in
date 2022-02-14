@@ -124,3 +124,9 @@ xmlstoredp.srvpgm: qsrvsrc.srcpf $(XMLSTOREDP_MODULES)
 %.srcpf: $(LIBRARY).lib
 	(system -q 'CHKOBJ $(LIBRARY)/$* *FILE' || system -q 'CRTSRCPF $(LIBRARY)/$*') && touch $@
 
+dist.savf: build
+	system "CRTSAVF ${LIBRARY}/dist"
+	system "SAVLIB LIB(${LIBRARY}) DEV(*SAVF) SAVF(${LIBRARY}/DIST)"
+	cp /qsys.lib/${LIBRARY}.lib/dist.file ./dist.savf
+
+dist: dist.savf

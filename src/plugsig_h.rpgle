@@ -189,7 +189,7 @@
       * Qp0sDisableSignals(): Disable signals
       *++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      D Qp0sDisableSignals...
-     D                 PR            10I 0 extproc('Qp0sEnableSignals')
+     D                 PR            10I 0 extproc('Qp0sDisableSignals')
 
       *++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       * default signal handlers

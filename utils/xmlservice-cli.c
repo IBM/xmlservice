@@ -43,7 +43,8 @@ int main(int argc, char **argv)
 {
     ILEpointer xmlstoredp __attribute__ ((aligned (16)));
 
-    char *ctl = NULL, *ipc = NULL;
+    char *ctl = NULL;
+    char *ipc = NULL;
 
     int opt;
     while ((opt = getopt(argc, argv, "c:i:")) != -1) {

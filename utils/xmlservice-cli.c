@@ -36,18 +36,12 @@
 
 #define VERSION "1.1.0"
 
-#ifdef __64BIT__
-#error MUST COMPILE IN 32 BIT MODE USE -maix32
-#endif
-
 __attribute__((__noreturn__))
 void exit_with_usage(FILE* f, const char* argv0, int rc) {
     fprintf(f, "usage: %s [-h] [-v] [-c ctl] [-i ipc]\n", argv0);
     exit(rc);
 }
 
-// To build
-// gcc -maix32 -o xmlservice
 int main(int argc, char **argv)
 {
     ILEpointer xmlstoredp __attribute__ ((aligned (16)));

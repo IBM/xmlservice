@@ -34,13 +34,15 @@
 
 #include <as400_protos.h>
 
+#define VERSION "1.1.0"
+
 #ifdef __64BIT__
 #error MUST COMPILE IN 32 BIT MODE USE -maix32
 #endif
 
 __attribute__((__noreturn__))
 void exit_with_usage(FILE* f, const char* argv0, int rc) {
-    fprintf(f, "usage: %s [-h] [-c ctl] [-i ipc]\n", argv0);
+    fprintf(f, "usage: %s [-h] [-v] [-c ctl] [-i ipc]\n", argv0);
     exit(rc);
 }
 
@@ -54,7 +56,7 @@ int main(int argc, char **argv)
     const char *ipc = NULL;
 
     int opt;
-    while ((opt = getopt(argc, argv, "hc:i:")) != -1) {
+    while ((opt = getopt(argc, argv, "hvc:i:")) != -1) {
         switch (opt) {
         case 'c': /* ctl */
             ctl = optarg;
@@ -62,6 +64,9 @@ int main(int argc, char **argv)
         case 'i':
             ipc = optarg;
             break;
+        case 'v':
+            printf("xmlservice-cli " VERSION "\n");
+            return 0;
         case 'h':
             exit_with_usage(stdout, argv[0], 0);
         default:

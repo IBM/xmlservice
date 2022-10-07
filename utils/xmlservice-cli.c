@@ -37,6 +37,13 @@
 #ifdef __64BIT__
 #error MUST COMPILE IN 32 BIT MODE USE -maix32
 #endif
+
+__attribute__((__noreturn__))
+void exit_with_usage(FILE* f, const char* argv0, int rc) {
+    fprintf(f, "usage: %s [-h] [-c ctl] [-i ipc]\n", argv0);
+    exit(rc);
+}
+
 // To build
 // gcc -maix32 -o xmlservice
 int main(int argc, char **argv)
@@ -47,7 +54,7 @@ int main(int argc, char **argv)
     const char *ipc = NULL;
 
     int opt;
-    while ((opt = getopt(argc, argv, "c:i:")) != -1) {
+    while ((opt = getopt(argc, argv, "hc:i:")) != -1) {
         switch (opt) {
         case 'c': /* ctl */
             ctl = optarg;
@@ -55,9 +62,10 @@ int main(int argc, char **argv)
         case 'i':
             ipc = optarg;
             break;
+        case 'h':
+            exit_with_usage(stdout, argv[0], 0);
         default:
-            fprintf(stderr, "usage: %s [-c ctl] [-i ipc]\n", argv[0]);
-            return 1;
+            exit_with_usage(stderr, argv[0], 1);
         }
     }
 

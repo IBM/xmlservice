@@ -892,9 +892,9 @@
       /free
        myFile = %trim(pTmpFile)+x'00';
        fd = openIFS(myFile
-              :O_WRONLY + O_CREAT + O_TRUNC + O_TEXTDATA + O_CCSID 
+              :O_WRONLY + O_CREAT + O_TRUNC + O_TEXTDATA + O_CCSID
               :S_IRUSR + S_IWUSR
-              :0);  //Use O_CCSID(32) & job ccsid(0)  
+              :0);  //Use O_CCSID(32) & job ccsid(0)
        if fd > -1;
          rc = writeIFS(fd:pData:pSize);
          rc1 = closeIFS(fd);
@@ -964,7 +964,7 @@
        // -------------
        // write rexx program (once)
        if sRexxRdy = *OFF;
-         // create src files. Use Job CCSID 
+         // create src files. Use Job CCSID
          cmdstr = 'CRTSRCPF FILE(QTEMP/XMLREXX)'
                 +  '  RCDLEN(92) CCSID(*JOB) MBR(HOW)';
          cmdlen = %len(%trim(cmdstr));
@@ -4325,6 +4325,10 @@
      D pargv           S               *   inz(*NULL)
      D argc            S             10I 0 inz(0)
      d argv            s               *   dim(256) based(pargv)
+
+     d pArgvCurr       s               *
+     d pArgvEnd        s               *
+
       /free
        Monitor;
 
@@ -4339,11 +4343,27 @@
 
        // _CALLPGMV(&object_pointer, (void **)&argv[2], argc-2);
        pargv = sArgvBegP;
-       for argc = 0 to 256;
-          if argv(argc+1) = *NULL;
+
+       // calculate argv memory space end address
+       pArgvEnd = pargv + sArgvSz - 1;
+
+       // find the last parameter given - allows *OMIT parameters in the middle
+       argc = %elem(argv);
+       dow 1 = 1;
+         if argc = 0;
            leave;
          endif;
-       endfor;
+
+         // make sure we only look at pointers within the
+         // memory space allocated and in use for them
+         pArgvCurr = %addr(argv(argc));
+         if pArgvCurr < pArgvEnd and argv(argc) <> *NULL;
+           leave;
+         endif;
+
+         argc -= 1;
+       enddo;
+
        if piReturn <> *NULL;
          pCopy = piReturn;
          myCopy.intx = -1;
@@ -4401,6 +4421,10 @@
      D pargv           S               *   inz(*NULL)
      D argc            S             10I 0 inz(0)
      d argv            s               *   dim(256) based(pargv)
+
+     d pArgvCurr       s               *
+     d pArgvEnd        s               *
+
      d div16           s             10i 0 inz(16)
      D AnyDS           ds                  qualified based(Template)
      D   AnyProc                       *   Procptr
@@ -4981,12 +5005,29 @@
          return *OFF;
        endif;
 
+       // set the argv pointer
        pargv = sArgvBegP;
-       for argc = 0 to 256;
-          if argv(argc+1) = *NULL;
+
+       // calculate argv memory space end address
+       pArgvEnd = pargv + sArgvSz - 1;
+
+       // find the last parameter given - allows *OMIT parameters in the middle
+       argc = %elem(argv);
+       dow 1 = 1;
+         if argc = 0;
            leave;
          endif;
-       endfor;
+
+         // make sure we only look at pointers within the
+         // memory space allocated and in use for them
+         pArgvCurr = %addr(argv(argc));
+         if pArgvCurr < pArgvEnd and argv(argc) <> *NULL;
+           leave;
+         endif;
+
+         argc -= 1;
+       enddo;
+
        if piReturn <> *NULL;
          pCopy = piReturn;
          myCopy.intx = -1;

@@ -4326,7 +4326,7 @@
      D argc            S             10I 0 inz(0)
      d argv            s               *   dim(256) based(pargv)
 
-     d pArgvCurr       s               *
+     d pArgvCurrEnd    s               *
      d pArgvEnd        s               *
 
       /free
@@ -4356,8 +4356,8 @@
 
          // make sure we only look at pointers within the
          // memory space allocated and in use for them
-         pArgvCurr = %addr(argv(argc));
-         if pArgvCurr < pArgvEnd and argv(argc) <> *NULL;
+         pArgvCurrEnd = %addr(argv(argc)) + %size(argv(argc)) - 1;
+         if pArgvCurrEnd <= pArgvEnd and argv(argc) <> *NULL;
            leave;
          endif;
 
@@ -4422,7 +4422,7 @@
      D argc            S             10I 0 inz(0)
      d argv            s               *   dim(256) based(pargv)
 
-     d pArgvCurr       s               *
+     d pArgvCurrEnd    s               *
      d pArgvEnd        s               *
 
      d div16           s             10i 0 inz(16)
@@ -5020,8 +5020,8 @@
 
          // make sure we only look at pointers within the
          // memory space allocated and in use for them
-         pArgvCurr = %addr(argv(argc));
-         if pArgvCurr < pArgvEnd and argv(argc) <> *NULL;
+         pArgvCurrEnd = %addr(argv(argc)) + %size(argv(argc)) - 1;
+         if pArgvCurrEnd <= pArgvEnd and argv(argc) <> *NULL;
            leave;
          endif;
 

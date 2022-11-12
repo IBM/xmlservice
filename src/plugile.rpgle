@@ -892,9 +892,9 @@
       /free
        myFile = %trim(pTmpFile)+x'00';
        fd = openIFS(myFile
-              :O_WRONLY + O_CREAT + O_TRUNC + O_TEXTDATA + O_CCSID 
+              :O_WRONLY + O_CREAT + O_TRUNC + O_TEXTDATA + O_CCSID
               :S_IRUSR + S_IWUSR
-              :0);  //Use O_CCSID(32) & job ccsid(0)  
+              :0);  //Use O_CCSID(32) & job ccsid(0)
        if fd > -1;
          rc = writeIFS(fd:pData:pSize);
          rc1 = closeIFS(fd);
@@ -964,7 +964,7 @@
        // -------------
        // write rexx program (once)
        if sRexxRdy = *OFF;
-         // create src files. Use Job CCSID 
+         // create src files. Use Job CCSID
          cmdstr = 'CRTSRCPF FILE(QTEMP/XMLREXX)'
                 +  '  RCDLEN(92) CCSID(*JOB) MBR(HOW)';
          cmdlen = %len(%trim(cmdstr));
@@ -2478,6 +2478,8 @@
            tmpAttr = XML_ATTR_VAL_B;
          when memchar = 'a' or memchar = 'A';       // char
            tmpAttr = XML_ATTR_VAL_A;
+         when memchar = 'c' or memchar = 'C';       // char (null terminated)
+           tmpAttr = XML_ATTR_VAL_C;
          when memchar = 'i' or memchar = 'I';       // signed
            tmpAttr = XML_ATTR_VAL_I;
          when memchar = 'u' or memchar = 'U';       // unsigned
@@ -2806,7 +2808,8 @@
            node.xmlStrP = %addr(sBDefault);
            node.xmlStrSz = 2;
          // character
-         when node.xmlAttr = XML_ATTR_VAL_A;
+         when node.xmlAttr = XML_ATTR_VAL_A
+              or node.xmlAttr = XML_ATTR_VAL_C;
            node.xmlStrP = %addr(sADefault);
            node.xmlStrSz = 1;
          // signed int
@@ -2861,6 +2864,11 @@
          elseif node.xmlVary = XML_VARY_4;
            node.pgmValSz += 4;
          endif;
+         node.pgmRetSz = node.pgmValSz;
+
+       // character (null terminated string style)
+       when node.xmlAttr = XML_ATTR_VAL_C;
+         node.pgmValSz = node.xmlDigits;
          node.pgmRetSz = node.pgmValSz;
 
        // signed int
@@ -3303,7 +3311,8 @@
        // - padded with x'40', stringLen < node.xmlDigits
        // - truncated,         stringLen > node.xmlDigits
        when node.xmlAttr = XML_ATTR_VAL_B
-       or   node.xmlAttr = XML_ATTR_VAL_A;
+       or   node.xmlAttr = XML_ATTR_VAL_A
+       or   node.xmlAttr = XML_ATTR_VAL_C;
          // pad *BLANKS or Zero
          if node.xmlAttr = XML_ATTR_VAL_A;
            convPad = x'40'; // *BLANKS
@@ -3609,7 +3618,8 @@
        // simple character (string char)
        // string = 'charlie'   is type='nA', node.xmlDigits = n
        when node.xmlAttr = XML_ATTR_VAL_B
-       or   node.xmlAttr = XML_ATTR_VAL_A;
+       or   node.xmlAttr = XML_ATTR_VAL_A
+       or   node.xmlAttr = XML_ATTR_VAL_C;
          // pad *BLANKS or Zero
          if node.xmlAttr = XML_ATTR_VAL_A;
            convPad = x'40'; // *BLANKS
@@ -3641,7 +3651,9 @@
          // trim='on|off' (1.7.1)
          if node.xmlTrim = XML_ATTR_TRIM_TRUE
          or (node.xmlTrim = XML_ATTR_TRIM_DEFAULT
-             and node.xmlAttr = XML_ATTR_VAL_A);
+             and node.xmlAttr = XML_ATTR_VAL_A)
+         or (node.xmlTrim = XML_ATTR_TRIM_DEFAULT
+             and node.xmlAttr = XML_ATTR_VAL_C);
            rc9 = trimChar(outPtrP:-1
                    :pCopy:node.xmlDigits
                    :trimSz

@@ -4349,11 +4349,7 @@
 
        // find the last parameter given - allows *OMIT parameters in the middle
        argc = %elem(argv);
-       dow 1 = 1;
-         if argc = 0;
-           leave;
-         endif;
-
+       dow argc > 0;
          // make sure we only look at pointers within the
          // memory space allocated and in use for them
          pArgvCurrEnd = %addr(argv(argc)) + %size(argv(argc)) - 1;

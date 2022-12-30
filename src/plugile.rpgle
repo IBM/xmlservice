@@ -4408,8 +4408,8 @@
      D pCopy           s               *
      D myCopy          ds                  likeds(over_t) based(pCopy)
      D myBuf           S          65000A   inz(*BLANKS)
-     D myPtr           S               *   inz(*NULL)
-     D myCopy2         ds                  likeds(over_t) based(pCopy)
+     D pCopy2          S               *   inz(*NULL)
+     D myCopy2         ds                  likeds(over_t) based(pCopy2)
       * debug
      D tBenArgSz       s             10i 0 inz(0)
      D tBenArgP        S               *   inz(*NULL)
@@ -5013,11 +5013,7 @@
 
        // find the last parameter given - allows *OMIT parameters in the middle
        argc = %elem(argv);
-       dow 1 = 1;
-         if argc = 0;
-           leave;
-         endif;
-
+       dow argc > 0;
          // make sure we only look at pointers within the
          // memory space allocated and in use for them
          pArgvCurrEnd = %addr(argv(argc)) + %size(argv(argc)) - 1;
@@ -5226,7 +5222,7 @@
        // from PASE ILE BASE to the return area
        // xml is expecting as output
        if piReturn <> *NULL;
-         myPtr = %addr(myBuf);
+         pCopy2 = %addr(myBuf);
          pCopy = piReturn;
          select;
          when retSize = RESULT_INT8;
@@ -5249,7 +5245,7 @@
            myCopy.doublex = myCopy2.doublex;
          other;
            if retSize > 0;
-             cpybytes(piReturn:myPtr:retSize);
+             cpybytes(piReturn:pCopy2:retSize);
            endif;
          endsl;
        endif;

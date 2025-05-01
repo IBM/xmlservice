@@ -121,7 +121,7 @@ int main(int argc, char **argv)
         }
     }
 
-    size_t xmlout_len = (16 * 1024 * 1024);
+    int xmlout_len = (16 * 1024 * 1024);
     char* xmlout = (char*) malloc(xmlout_len);
 
     if(!xmlout) {
